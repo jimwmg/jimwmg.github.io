@@ -135,6 +135,42 @@
 
     <div class="post-header index">
         <h1 class="title">
+            <a href="/2016/05/01/13-HTML5 web存储：/">
+                HTML5 web存储
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2016-05-01</span>
+            
+            
+            
+                <span class="category">
+                    <a href="/categories/HTML5/">HTML5</a>
+                </span>
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <p>HTML5 web存储：</p>
+<p>1 window.localStorage.setItem(key[string],data[string]);  可以将数据存储在用户端；</p>
+<p>2 window.localStorage.getItem(key[string]);可以将setItem存储的数据取出来；</p>
+<p>3 window.localStorage.clear(),会将客户端存储的数据全部清空；</p>
+<p>4 window.localStorage.removeItem(key) ; 可以删除客户端指定的已经存储起来的数据；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>请输入你的名字<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">姓名<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"1"</span>/&gt;</span></div><div class="line">年龄<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"2"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"保存"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">//    用户第一次进来点击保存，将用户输入的内容保存在客户端</span></div><div class="line"><span class="comment">//    获取点击保存按钮，将内容保存在客户端</span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"input[type=button]"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//        获取输入的内容</span></div><div class="line">        <span class="keyword">var</span> inputValue = <span class="built_in">document</span>.querySelector(<span class="string">"input[type=text]"</span>).value ;</div><div class="line">        <span class="built_in">console</span>.log(inputValue);</div><div class="line"><span class="comment">//        如何创建一个HTMl5的WEB存储,将inoutValue 存储在userName中</span></div><div class="line"><span class="comment">//        window.localStorage.setItem(key[string],data[string]);</span></div><div class="line">        <span class="built_in">window</span>.localStorage.setItem(<span class="string">'userName'</span>,inputValue);</div><div class="line">    &#125;</div><div class="line"><span class="comment">//    用户第二次进入的时候，页面加载完毕之后，将第一次输入的内容保存</span></div><div class="line">    <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">window</span>.localStorage.clear()</div><div class="line">        <span class="comment">//可以将所有存储在客户端的数据清除;</span></div><div class="line">        <span class="comment">//window.localStorage.key(2);</span></div><div class="line">        <span class="comment">//将之前web存储的内容取出来</span></div><div class="line"><span class="comment">//        var userName = window.localStorage.getItem(key[string])</span></div><div class="line">        <span class="keyword">var</span> userName = <span class="built_in">window</span>.localStorage.getItem(<span class="string">'userName'</span>);</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"取出来的userName值为"</span>+userName);</div><div class="line">        <span class="keyword">if</span>(userName == <span class="literal">undefined</span> &amp;&amp; userName !== <span class="string">""</span>)&#123;</div><div class="line">            <span class="built_in">document</span>.querySelector(<span class="string">"h1"</span>).innerHTML = <span class="string">'请输入您的名字'</span>;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">          <span class="comment">//        将取出来的内容添加到欢迎行</span></div><div class="line">            <span class="built_in">document</span>.querySelector(<span class="string">"h1"</span>).innerHTML = userName +<span class="string">"欢迎您"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
             <a href="/2016/04/17/01jquery  height()  innerHeight ()  outerHeight( )/">
                 jquery height()  innerHeight() outerHeight
             </a>
