@@ -257,6 +257,187 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/02/131NodeJsFS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/02/131NodeJsFS/" itemprop="url">
+                  NodeJsFileSystem WriteFileAndReadFile
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-02T12:36:00+08:00">
+                2016-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="FileSystem"><a href="#FileSystem" class="headerlink" title="FileSystem"></a>FileSystem</h3><p>文件 I/O 是由简单封装的标准 POSIX 函数提供的。 通过 require(‘fs’)使用该模块。 <strong>所有的方法都有异步和同步的形式。</strong></p>
+<ul>
+<li><p>异步形式始终以完成回调作为它最后一个参数。 传给完成回调的参数取决于具体方法，但第一个参数总是留给异常。 如果操作成功完成，则第一个参数会是 null或 undefined，如果操作失败，则第一个参数将是一个错误对象；</p>
+<p>需要注意一点，异步操作无法通过try-catch来捕获异常</p>
+</li>
+<li><p>当使用同步形式时，任何异常都会被立即抛出。 可以使用 try/catch 来处理异常，或让它们往上冒泡。</p>
+</li>
+</ul>
+<h3 id="nodejs-fs"><a href="#nodejs-fs" class="headerlink" title="nodejs fs"></a>nodejs fs</h3><p>1 读取文件操作readFile(file,options,callback)</p>
+<ul>
+<li>file是要读取的文件的路径</li>
+<li>options<ul>
+<li>encoding  <string> | null     //默认值是null,所以如果不指定编码方式，读取文件的结果<strong>默认返回的值是二进制数据</strong>,返回的结果会作为参数传递给callback回调函数</string></li>
+<li>flag  <string>  默认是  ‘r’</string></li>
+</ul>
+</li>
+<li>callback 回调函数又有两个参数，第一个参数是error对象，第二个参数是读取到的数据<ul>
+<li>如果读取文件成功，err返回null  data返回读取到的文件数据;(如果字符编码未指定，则返回原始的buffer数据)</li>
+<li>如果读取文件失败，err返回一个错误对象，data返回undefined;</li>
+</ul>
+</li>
+<li>注意读取文件的内容返回的结果要么是<strong>Buffer类型</strong>的数据，要么是<strong>字符串类型</strong>的数据</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建文件读取对象</span></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">fs.readFile(<span class="string">'input.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123; <span class="comment">//假如input.txt里面的内容是  hello world</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);<span class="comment">//我们可以打印出来回调函数的参数进行查看，即使文件读取失败，回调函数也会执行</span></div><div class="line">  <span class="built_in">console</span>.log(err);</div><div class="line">  <span class="built_in">console</span>.log(data);<span class="comment">//readFile返回的data数据是buffer类型的数据</span></div><div class="line">  <span class="keyword">if</span>(err)&#123;</div><div class="line">    <span class="built_in">console</span>.log(err.stack);</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(data.toString());<span class="comment">//需要调用toString方法转化为字符串</span></div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"program is done"</span>);</div><div class="line"><span class="comment">//program is done</span></div><div class="line"><span class="comment">//hello world </span></div><div class="line"><span class="comment">//程序无阻塞运行</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//readFile语法</span></div><div class="line">fs.readFile(<span class="string">'etc/passwd'</span>,(err,data)=&gt;&#123;</div><div class="line">  <span class="keyword">if</span>(err) <span class="keyword">throw</span> err;  <span class="comment">//使用箭头函数可以使代码更加简洁</span></div><div class="line">  <span class="built_in">console</span>.log(data);</div><div class="line">&#125;);</div><div class="line"><span class="comment">//readFile用于异步读取文件内容，</span></div></pre></td></tr></table></figure>
+<p>2 写入文件的操作writeFile(file,data,[option],callback)</p>
+<ul>
+<li>file可以是文件名或者文件描述</li>
+<li>data是异步地写入的数据内容，可以是一个string或者buffer</li>
+<li>option 编码格式，如果data是一个buffer,则默认encoding是utf-8</li>
+<li>callback 回调函数,该回调函数里面只有一个参数就是err错误处理对象，如果写入成功err返回null</li>
+</ul>
+<p>看下面这个简单的例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">fs.writeFile(<span class="string">'../write.txtf'</span>,<span class="string">'hello nodejs'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (err)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"写入文件失败"</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"写入文件成功"</span>);</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"pro is done"</span>);</div></pre></td></tr></table></figure>
+<p>需要注意的是，我们只能写入字符串或者Buffer类型的数据，如果写入复杂数据类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">fs.writeFileSync(<span class="string">'./text'</span>,<span class="string">' sync write'</span>); <span class="comment">// 写入文件的内容是    sync write  </span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,&#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>&#125;);<span class="comment">//写入文件的内容是[object Object]</span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;);<span class="comment">//写入文件的内容是  function()&#123;&#125; </span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]); <span class="comment">//写入文件的内容是  1,2,3</span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,<span class="number">1</span>);<span class="comment">//写入文件的内容是 1</span></div></pre></td></tr></table></figure>
+<p>3 以上文件的读写都是异步进行的，不会阻塞程序的执行，同时我们在日常工作中通过服务器端的数据的读写也会经常用到这两个API </p>
+<p>4 对于异步 的任务，很多时候，每个任务的执行先后顺序是无法控制的，那么如何去解决这个问题？</p>
+<p><strong>此时，如果需要异步任务按照我们的意愿顺序进行，那么则需要将形成异步嵌套，形成一个回调链</strong></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/02/145CritialRenderingPath/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -413,187 +594,6 @@
 <p><strong>总结</strong></p>
 <p>我们可以利用Chrome开发者工具下的Timeline去观察整个关键路径渲染的过程。</p>
 </script></p>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/02/131NodeJsFS/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/02/131NodeJsFS/" itemprop="url">
-                  NodeJsFileSystem WriteFileAndReadFile
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-02T12:36:00+08:00">
-                2016-11-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index">
-                    <span itemprop="name">nodejs</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="FileSystem"><a href="#FileSystem" class="headerlink" title="FileSystem"></a>FileSystem</h3><p>文件 I/O 是由简单封装的标准 POSIX 函数提供的。 通过 require(‘fs’)使用该模块。 <strong>所有的方法都有异步和同步的形式。</strong></p>
-<ul>
-<li><p>异步形式始终以完成回调作为它最后一个参数。 传给完成回调的参数取决于具体方法，但第一个参数总是留给异常。 如果操作成功完成，则第一个参数会是 null或 undefined，如果操作失败，则第一个参数将是一个错误对象；</p>
-<p>需要注意一点，异步操作无法通过try-catch来捕获异常</p>
-</li>
-<li><p>当使用同步形式时，任何异常都会被立即抛出。 可以使用 try/catch 来处理异常，或让它们往上冒泡。</p>
-</li>
-</ul>
-<h3 id="nodejs-fs"><a href="#nodejs-fs" class="headerlink" title="nodejs fs"></a>nodejs fs</h3><p>1 读取文件操作readFile(file,options,callback)</p>
-<ul>
-<li>file是要读取的文件的路径</li>
-<li>options<ul>
-<li>encoding  <string> | null     //默认值是null,所以如果不指定编码方式，读取文件的结果<strong>默认返回的值是二进制数据</strong>,返回的结果会作为参数传递给callback回调函数</string></li>
-<li>flag  <string>  默认是  ‘r’</string></li>
-</ul>
-</li>
-<li>callback 回调函数又有两个参数，第一个参数是error对象，第二个参数是读取到的数据<ul>
-<li>如果读取文件成功，err返回null  data返回读取到的文件数据;(如果字符编码未指定，则返回原始的buffer数据)</li>
-<li>如果读取文件失败，err返回一个错误对象，data返回undefined;</li>
-</ul>
-</li>
-<li>注意读取文件的内容返回的结果要么是<strong>Buffer类型</strong>的数据，要么是<strong>字符串类型</strong>的数据</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建文件读取对象</span></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">fs.readFile(<span class="string">'input.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123; <span class="comment">//假如input.txt里面的内容是  hello world</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);<span class="comment">//我们可以打印出来回调函数的参数进行查看，即使文件读取失败，回调函数也会执行</span></div><div class="line">  <span class="built_in">console</span>.log(err);</div><div class="line">  <span class="built_in">console</span>.log(data);<span class="comment">//readFile返回的data数据是buffer类型的数据</span></div><div class="line">  <span class="keyword">if</span>(err)&#123;</div><div class="line">    <span class="built_in">console</span>.log(err.stack);</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(data.toString());<span class="comment">//需要调用toString方法转化为字符串</span></div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"program is done"</span>);</div><div class="line"><span class="comment">//program is done</span></div><div class="line"><span class="comment">//hello world </span></div><div class="line"><span class="comment">//程序无阻塞运行</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//readFile语法</span></div><div class="line">fs.readFile(<span class="string">'etc/passwd'</span>,(err,data)=&gt;&#123;</div><div class="line">  <span class="keyword">if</span>(err) <span class="keyword">throw</span> err;  <span class="comment">//使用箭头函数可以使代码更加简洁</span></div><div class="line">  <span class="built_in">console</span>.log(data);</div><div class="line">&#125;);</div><div class="line"><span class="comment">//readFile用于异步读取文件内容，</span></div></pre></td></tr></table></figure>
-<p>2 写入文件的操作writeFile(file,data,[option],callback)</p>
-<ul>
-<li>file可以是文件名或者文件描述</li>
-<li>data是异步地写入的数据内容，可以是一个string或者buffer</li>
-<li>option 编码格式，如果data是一个buffer,则默认encoding是utf-8</li>
-<li>callback 回调函数,该回调函数里面只有一个参数就是err错误处理对象，如果写入成功err返回null</li>
-</ul>
-<p>看下面这个简单的例子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">fs.writeFile(<span class="string">'../write.txtf'</span>,<span class="string">'hello nodejs'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (err)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"写入文件失败"</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"写入文件成功"</span>);</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"pro is done"</span>);</div></pre></td></tr></table></figure>
-<p>需要注意的是，我们只能写入字符串或者Buffer类型的数据，如果写入复杂数据类型</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">fs.writeFileSync(<span class="string">'./text'</span>,<span class="string">' sync write'</span>); <span class="comment">// 写入文件的内容是    sync write  </span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,&#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>&#125;);<span class="comment">//写入文件的内容是[object Object]</span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;);<span class="comment">//写入文件的内容是  function()&#123;&#125; </span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]); <span class="comment">//写入文件的内容是  1,2,3</span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,<span class="number">1</span>);<span class="comment">//写入文件的内容是 1</span></div></pre></td></tr></table></figure>
-<p>3 以上文件的读写都是异步进行的，不会阻塞程序的执行，同时我们在日常工作中通过服务器端的数据的读写也会经常用到这两个API </p>
-<p>4 对于异步 的任务，很多时候，每个任务的执行先后顺序是无法控制的，那么如何去解决这个问题？</p>
-<p><strong>此时，如果需要异步任务按照我们的意愿顺序进行，那么则需要将形成异步嵌套，形成一个回调链</strong></p>
-
           
         
       
@@ -996,7 +996,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/55-js  jQuery绑定与移除事件的比较/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/27/147NodeJsModuleSystem/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -1018,8 +1018,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/22/55-js  jQuery绑定与移除事件的比较/" itemprop="url">
-                  js event compare with jQuery event
+                <a class="post-title-link" href="/2016/10/27/147NodeJsModuleSystem/" itemprop="url">
+                  NodeJs Module System
                 </a>
               
             
@@ -1035,8 +1035,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
-                2016-10-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-27T12:36:00+08:00">
+                2016-10-27
               </time>
             
 
@@ -1058,8 +1058,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript-event/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript event</span>
+                  <a href="/categories/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
                   </a>
                 </span>
 
@@ -1095,26 +1095,101 @@
       
         
           
-            <h2 id="js-jQuery绑定事件的比较"><a href="#js-jQuery绑定事件的比较" class="headerlink" title="js  jQuery绑定事件的比较:"></a>js  jQuery绑定事件的比较:</h2><h3 id="一-事件分类"><a href="#一-事件分类" class="headerlink" title="一 事件分类"></a>一 事件分类</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span> <span class="built_in">window</span> 事件:onload  onunload onafterprint onbeforeprint onerror  onresize </div><div class="line"><span class="number">2</span> From表单 事件(仅在表单元素中有效):onblur  onfocus onreset onsubmit onselect onchange  oninput</div><div class="line"><span class="number">3</span> 键盘事件 : onkeydown  onkeyup onkeyup</div><div class="line"><span class="number">4</span> 鼠标事件: onclick onmouseout onmouseleave onmouseenter onmousedown onmouseup onscroll(当元素滚动条被滚动的时候) ondrag ondragstart ondragend ondragenter ondragover ondragleave ondrop </div><div class="line"><span class="comment">//键盘事件和鼠标事件在base, bdo, br, frame, frameset, head, html, iframe, meta, param, script, style, title 元素无效；</span></div><div class="line"><span class="number">5</span> 触摸事件 :touchstart touchend touchmove </div><div class="line"><span class="number">6</span> 媒介事件 : </div><div class="line"><span class="number">7</span> 自定义事件:</div><div class="line"><span class="number">8</span> 所有的事件都是成元素的一个属性，原始值为<span class="literal">null</span>;输出一个DOM元素可以查看其所有的属性;</div></pre></td></tr></table></figure>
-<h3 id="二-绑定事件"><a href="#二-绑定事件" class="headerlink" title="二 绑定事件"></a>二 绑定事件</h3><ul>
-<li>JS绑定事件:(onclick之类的本身就是一属性，通过给属性设置函数，可以使其具有功能，而addEventListener是一个函数，通过函数体的内容给元素绑定事件)</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ele.on+事件类型 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  &#125;;     ele.addEventListener(<span class="string">"事件类型"</span>，<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;		ele.addEventListener(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.onmouseout = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;      ele.attachEvent(<span class="string">"onclick"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );(注意有on)</div><div class="line"><span class="built_in">window</span>.onlaod = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;		<span class="built_in">window</span>.addEventListener(<span class="string">"load"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.ondragstart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;	ele.addEventListener(<span class="string">"dragstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div></pre></td></tr></table></figure>
-<p><strong>注意</strong>: 触摸事件只能通过addEventListener来绑定,过渡结束事件(自定义事件)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ele.addEventListener(<span class="string">"touchstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div></pre></td></tr></table></figure>
+            <h3 id="1-Node-js-模块系统"><a href="#1-Node-js-模块系统" class="headerlink" title="1 Node.js 模块系统"></a>1 Node.js 模块系统</h3><p>模块是Node.js 应用程序的基本组成部分，文件和模块是一一对应的。换言之，一个 Node.js 文件就是一个模块，这个文件可能是JavaScript 代码、JSON 或者编译过的C/C++ 扩展。</p>
+<p>模块之间的通信方式 : require引入  module.exports  和 exports 暴露某个模块的对外接口</p>
+<h3 id="2-创建一个模块"><a href="#2-创建一个模块" class="headerlink" title="2 创建一个模块"></a>2 创建一个模块</h3><p>2.1 首先来看下node本身模块是什么</p>
+<p>2.1.1 b.js文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>.exports);</div></pre></td></tr></table></figure>
+<p>执行命令 node b.js  输出如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Module &#123;</div><div class="line">  <span class="attr">id</span>: <span class="string">'.'</span>,</div><div class="line">  <span class="attr">exports</span>: &#123;&#125;,</div><div class="line">  <span class="attr">parent</span>: <span class="literal">null</span>,  <span class="comment">//</span></div><div class="line">  filename: <span class="string">'F:\\workspace\\01-node\\b.js'</span>, <span class="comment">//代表文件的路径</span></div><div class="line">  loaded: <span class="literal">false</span>,</div><div class="line">  <span class="attr">children</span>: [],</div><div class="line">  <span class="attr">paths</span>:</div><div class="line">   [ <span class="string">'F:\\workspace\\01-node\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\workspace\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\node_modules'</span> ] &#125;</div><div class="line">&#123;&#125;   <span class="comment">//这个是module.exports  本身是一个空对象</span></div></pre></td></tr></table></figure>
+<p>a.js 文件            require(package)  返回值是module.exports</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = <span class="built_in">require</span>(<span class="string">'./b.js'</span>);</div><div class="line"><span class="built_in">console</span>.log(res);</div></pre></td></tr></table></figure>
+<p>执行命令 node a.js  输出如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">Module &#123;</div><div class="line">  <span class="attr">id</span>: <span class="string">'F:\\workspace\\01-node\\b.js'</span>,</div><div class="line">  <span class="attr">exports</span>: &#123;&#125;,</div><div class="line">  <span class="attr">parent</span>:</div><div class="line">   Module &#123;</div><div class="line">     <span class="attr">id</span>: <span class="string">'.'</span>,</div><div class="line">     <span class="attr">exports</span>: &#123;&#125;,</div><div class="line">     <span class="attr">parent</span>: <span class="literal">null</span>,</div><div class="line">     <span class="attr">filename</span>: <span class="string">'F:\\workspace\\01-node\\a.js'</span>,</div><div class="line">     <span class="attr">loaded</span>: <span class="literal">false</span>,</div><div class="line">     <span class="attr">children</span>: [ [Circular] ],</div><div class="line">     <span class="attr">paths</span>:</div><div class="line">      [ <span class="string">'F:\\workspace\\01-node\\node_modules'</span>,</div><div class="line">        <span class="string">'F:\\workspace\\node_modules'</span>,</div><div class="line">        <span class="string">'F:\\node_modules'</span> ] &#125;,</div><div class="line">  <span class="attr">filename</span>: <span class="string">'F:\\workspace\\01-node\\b.js'</span>,</div><div class="line">  <span class="attr">loaded</span>: <span class="literal">false</span>,</div><div class="line">  <span class="attr">children</span>: [],        <span class="comment">//被该模块引用的模块对象。</span></div><div class="line">  paths:</div><div class="line">   [ <span class="string">'F:\\workspace\\01-node\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\workspace\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\node_modules'</span> ] &#125;</div><div class="line"></div><div class="line">&#123;&#125;   <span class="comment">//以上是b.js输出</span></div><div class="line"></div><div class="line">&#123;&#125;  <span class="comment">//这个是a.js输出</span></div></pre></td></tr></table></figure>
+<p>由此可得知require返回的是所引的package的module.exports；</p>
+<p><strong>所以我们可以通过改变exports的值</strong></p>
+<p> 2.1.2返回一个构造函数</p>
+<p>b.js </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>.exports);</div></pre></td></tr></table></figure>
+<p>执行 node b.js </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[Function]</div></pre></td></tr></table></figure>
+<p>执行 node a.js</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[Function]   //这个是b.js的输出 console.log(module.exports);</div><div class="line">[Function]   //这个是a.js的输出 console.log(res);</div></pre></td></tr></table></figure>
+<p>2.1.3 或者直接给module.exports对象添加属性</p>
+<p> b.js  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports.prop = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>.exports);</div></pre></td></tr></table></figure>
+<p>执行node b.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; <span class="attr">prop</span>: [<span class="built_in">Function</span>] &#125;</div></pre></td></tr></table></figure>
+<p>此时a.js通过require引用的时候返回的就是这个对象</p>
+<p>以下实例便于理解:</p>
+<p>2.2 exports.prop   形式创建模块</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//sayHello.js</span></div><div class="line">exports.sayhi = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="comment">//exports对象可以定义sayhello.js将该模块的接口</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is a module we made"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>引入创建的模块</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js</span></div><div class="line"><span class="keyword">var</span> hello = <span class="built_in">require</span>(<span class="string">'./sayHello'</span>); </div><div class="line"><span class="built_in">console</span>.log(hello) ;<span class="comment">//&#123; sayhi: [Function] &#125;</span></div><div class="line">hello.sayhi();</div></pre></td></tr></table></figure>
+<p>以上实例中，代码 require(‘./sayhello’) 引入了当前目录下的sayhello.js文件（./ 为当前目录，node.js默认后缀为js）。Node.js 提供了exports 和 require 两个对象，其中 exports 是模块公开的接口，require 用于从外部获取一个模块的接口，即所获取模块的 exports 对象。</p>
+<p>2.3 module.exports = function(){   }</p>
+<p>如果希望模块根导出为一个函数（比如构造函数）或一次导出一个完整的对象而不是每次都创建一个属性，可以把它赋值给 module.exports 而不是 exports。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//square.js</span></div><div class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">width</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span>&#123;</div><div class="line">            <span class="attr">area</span> : <span class="function"><span class="params">()</span> =&gt;</span> width*width</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js</span></div><div class="line"><span class="keyword">const</span> square = <span class="built_in">require</span>(<span class="string">'./square'</span>);  </div><div class="line"><span class="built_in">console</span>.log(square);<span class="comment">//[Function]</span></div><div class="line"><span class="keyword">var</span> res = square(<span class="number">2</span>);<span class="comment">//&#123; area: [Function: area] &#125;</span></div><div class="line"><span class="built_in">console</span>.log(res);</div><div class="line"><span class="built_in">console</span>.log(res.area());</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> square = <span class="built_in">require</span>(<span class="string">'./square'</span>);</div><div class="line"><span class="comment">//可以理解为 </span></div><div class="line"><span class="keyword">const</span> square = <span class="function">(<span class="params">width</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span>&#123;</div><div class="line">            <span class="attr">area</span> : <span class="function"><span class="params">()</span> =&gt;</span> width*width</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>返回一个构造函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//myevents.js</span></div><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> <span class="title">myEvents</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.on = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"通过on绑定事件"</span>);</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">this</span>.emit = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"通过emit触发事件"</span>);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js</span></div><div class="line"><span class="keyword">const</span> Event = <span class="built_in">require</span>(<span class="string">'./myevents'</span>);</div><div class="line"><span class="built_in">console</span>.log(Event);</div><div class="line"><span class="keyword">var</span> event = <span class="keyword">new</span> Event();</div><div class="line"><span class="built_in">console</span>.log(event);</div><div class="line"><span class="built_in">console</span>.log(event.on);</div><div class="line"><span class="built_in">console</span>.log(event.emit);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> Event = <span class="built_in">require</span>(<span class="string">'./myevents'</span>);</div><div class="line"><span class="comment">//可以理解为 </span></div><div class="line"><span class="keyword">const</span> Event = <span class="function"><span class="keyword">function</span> <span class="title">myEvents</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.on = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"通过on绑定事件"</span>);</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">this</span>.emit = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"通过emit触发事件"</span>);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2.4 require(module)   的内部实现，就是返回所引用模块的module.exports </p>
+<p>module.exports 和 exports 的区别 :</p>
+<p>exports 变量是在模块的文件级别作用域内有效的，<strong>它在模块  被执行  前被赋于 module.exports的值</strong>。</p>
+<p>它有一个快捷方式，以便 module.exports.prop= … 可以被更简洁地写成 exports.prop= …。 注意，就像任何变量，如果一个新的值被赋值给 exports，它就不再绑定到 module.exports；</p>
+<p>之所以有这个简洁的写法，根本原因的node做了一个工作  exports在模块执行前被赋值 module.exports</p>
+<p>2.4.1  b.js </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>);</div><div class="line">exports.name = <span class="string">"Jhon"</span>;</div><div class="line"><span class="comment">//可以被导出到引用的模块</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>);</div></pre></td></tr></table></figure>
+<p>执行  node b.js   终端输出如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">Module &#123;</div><div class="line">  <span class="attr">id</span>: <span class="string">'.'</span>,</div><div class="line">  <span class="attr">exports</span>: &#123;&#125;,</div><div class="line">  <span class="attr">parent</span>: <span class="literal">null</span>,</div><div class="line">  <span class="attr">filename</span>: <span class="string">'F:\\workspace\\01-node\\10b.js'</span>,</div><div class="line">  <span class="attr">loaded</span>: <span class="literal">false</span>,</div><div class="line">  <span class="attr">children</span>: [],</div><div class="line">  <span class="attr">paths</span>:</div><div class="line">   [ <span class="string">'F:\\workspace\\01-node\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\workspace\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\node_modules'</span> ] &#125;</div><div class="line">Module &#123;</div><div class="line">  <span class="attr">id</span>: <span class="string">'.'</span>,</div><div class="line">  <span class="attr">exports</span>: &#123; <span class="attr">name</span>: <span class="string">'Jhon'</span> &#125;,</div><div class="line">  <span class="attr">parent</span>: <span class="literal">null</span>,</div><div class="line">  <span class="attr">filename</span>: <span class="string">'F:\\workspace\\01-node\\10b.js'</span>,</div><div class="line">  <span class="attr">loaded</span>: <span class="literal">false</span>,</div><div class="line">  <span class="attr">children</span>: [],</div><div class="line">  <span class="attr">paths</span>:</div><div class="line">   [ <span class="string">'F:\\workspace\\01-node\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\workspace\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\node_modules'</span> ] &#125;</div></pre></td></tr></table></figure>
+<p>a.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = <span class="built_in">require</span>(<span class="string">'./b.js'</span>);<span class="comment">//可以得到 b 模块定义的数据  &#123; name: 'Jhon' &#125;</span></div></pre></td></tr></table></figure>
+<p>2.4.2 b.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>);</div><div class="line">exports = &#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>&#125;;<span class="comment">//此时exports不再和module.exports指向同一块内存地址，最后导出的module.exports 还是未初始化的时候的一个空对象</span></div><div class="line"><span class="comment">//不会导出到引用的模块，只在模块内有效</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>);</div></pre></td></tr></table></figure>
+<p>执行 node b.js    注意exports的内容</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">Module &#123;</div><div class="line">  <span class="attr">id</span>: <span class="string">'.'</span>,</div><div class="line">  <span class="attr">exports</span>: &#123;&#125;,</div><div class="line">  <span class="attr">parent</span>: <span class="literal">null</span>,</div><div class="line">  <span class="attr">filename</span>: <span class="string">'F:\\workspace\\01-node\\10b.js'</span>,</div><div class="line">  <span class="attr">loaded</span>: <span class="literal">false</span>,</div><div class="line">  <span class="attr">children</span>: [],</div><div class="line">  <span class="attr">paths</span>:</div><div class="line">   [ <span class="string">'F:\\workspace\\01-node\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\workspace\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\node_modules'</span> ] &#125;</div><div class="line">Module &#123;</div><div class="line">  <span class="attr">id</span>: <span class="string">'.'</span>,</div><div class="line">  <span class="attr">exports</span>: &#123;&#125;,</div><div class="line">  <span class="attr">parent</span>: <span class="literal">null</span>,</div><div class="line">  <span class="attr">filename</span>: <span class="string">'F:\\workspace\\01-node\\10b.js'</span>,</div><div class="line">  <span class="attr">loaded</span>: <span class="literal">false</span>,</div><div class="line">  <span class="attr">children</span>: [],</div><div class="line">  <span class="attr">paths</span>:</div><div class="line">   [ <span class="string">'F:\\workspace\\01-node\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\workspace\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\node_modules'</span> ] &#125;</div></pre></td></tr></table></figure>
+<p>a.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = <span class="built_in">require</span>(<span class="string">'./b.js'</span>);<span class="comment">//此时得到 b 模块到处的内容  为 &#123; &#125;</span></div></pre></td></tr></table></figure>
+<p>2.4.3  b.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>);</div><div class="line"><span class="built_in">module</span>.exports = &#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>&#125;;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>);</div></pre></td></tr></table></figure>
+<p>执行  node b.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">Module &#123;</div><div class="line">  <span class="attr">id</span>: <span class="string">'.'</span>,</div><div class="line">  <span class="attr">exports</span>: &#123;&#125;,</div><div class="line">  <span class="attr">parent</span>: <span class="literal">null</span>,</div><div class="line">  <span class="attr">filename</span>: <span class="string">'F:\\workspace\\01-node\\10b.js'</span>,</div><div class="line">  <span class="attr">loaded</span>: <span class="literal">false</span>,</div><div class="line">  <span class="attr">children</span>: [],</div><div class="line">  <span class="attr">paths</span>:</div><div class="line">   [ <span class="string">'F:\\workspace\\01-node\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\workspace\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\node_modules'</span> ] &#125;</div><div class="line">Module &#123;</div><div class="line">  <span class="attr">id</span>: <span class="string">'.'</span>,</div><div class="line">  <span class="attr">exports</span>: &#123; <span class="attr">name</span>: <span class="string">'Jhon'</span> &#125;,</div><div class="line">  <span class="attr">parent</span>: <span class="literal">null</span>,</div><div class="line">  <span class="attr">filename</span>: <span class="string">'F:\\workspace\\01-node\\10b.js'</span>,</div><div class="line">  <span class="attr">loaded</span>: <span class="literal">false</span>,</div><div class="line">  <span class="attr">children</span>: [],</div><div class="line">  <span class="attr">paths</span>:</div><div class="line">   [ <span class="string">'F:\\workspace\\01-node\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\workspace\\node_modules'</span>,</div><div class="line">     <span class="string">'F:\\node_modules'</span> ] &#125;</div></pre></td></tr></table></figure>
+<p>a.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = <span class="built_in">require</span>(<span class="string">'./b.js'</span>);<span class="comment">//可以得到 b 模块定义的数据  &#123; name: 'Jhon' &#125;</span></div></pre></td></tr></table></figure>
+<p>2.4.4 根据以上的实验结果，可以大概得知require函数的内部实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//require()实现</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">require</span>(<span class="params">...</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> <span class="built_in">module</span> = &#123; <span class="attr">exports</span>: &#123;&#125; &#125;;</div><div class="line">        <span class="function">(<span class="params">(<span class="built_in">module</span>, exports</span>) =&gt;</span> &#123;</div><div class="line">            <span class="comment">// 你的模块代码在这。在这个例子中，定义了一个函数。</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">some_func</span>(<span class="params"></span>) </span>&#123;&#125;;</div><div class="line">            exports = some_func;<span class="comment">// exports在文件执行前被赋值为 module.exports,这里在重新赋值其他数据，</span></div><div class="line">        <span class="comment">// 此时，exports 不再是一个 module.exports 的快捷方式，</span></div><div class="line">        <span class="comment">// 且这个模块依然导出一个空的默认对象。</span></div><div class="line">            <span class="built_in">module</span>.exports = some_func;</div><div class="line">        <span class="comment">// 此时，该模块导出 some_func，而不是默认对象。</span></div><div class="line">        &#125;)(<span class="built_in">module</span>, <span class="built_in">module</span>.exports);</div><div class="line">    <span class="keyword">return</span> <span class="built_in">module</span>.exports; <span class="comment">//require函数导出的是模块的 module.exports,而不是exports</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2.5 require加载模块的查找规则</p>
+<p>2.5.1 nodejs模块载入策略</p>
+<p>Node.js的模块分为两类，一类为<strong>原生（核心）模块</strong>，一类为<strong>文件模块</strong>。原生模块在Node.js源代码编译的时候编译进了二进制执行文件，加载的速度最快。另一类文件模块是动态加载的，加载速度比原生模块慢。但是Node.js对原生模块和文件模块都进行了缓存，于是在第二次require时，是不会有重复开销的。其中原生模块都被定义在lib这个目录下面，文件模块则不定性</p>
+<p>文件模块又分为以下三类模块，这三类文件以后缀名来区分，nodejs会根据后缀名来决定如何加载文件模块</p>
 <ul>
-<li>JS移除事件(该事件通过什么方式绑定的就要通过什么方式移除)</li>
+<li>.js。通过fs模块同步读取js文件并编译执行。</li>
+<li>.node。通过C/C++进行编写的Addon。通过dlopen方法进行加载。</li>
+<li>.json。读取文件，调用JSON.parse解析加载。</li>
 </ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1注册事件</span></div><div class="line">	my$(<span class="string">"btn1"</span>).onclick = fn;<span class="comment">//(onclick指向一个函数体)</span></div><div class="line"><span class="comment">//1移除事件</span></div><div class="line">	my$(<span class="string">"btn1"</span>).onclick = <span class="literal">null</span>;<span class="comment">//(将指向设置为null,则可以清除事件)</span></div><div class="line"><span class="comment">// 2 注册事件</span></div><div class="line">my$(<span class="string">"btn1"</span>).addEventListener(<span class="string">"click"</span>,fn,<span class="literal">false</span>);</div><div class="line"><span class="comment">// 2 移除事件</span></div><div class="line">my$(<span class="string">"btn1"</span>).removeEventListener(<span class="string">"click"</span>,fn,<span class="literal">false</span>);</div><div class="line"><span class="comment">// 3 注册事件  谷歌和火狐不支持</span></div><div class="line"> my$(<span class="string">"btn1"</span>).attachEvent(<span class="string">"onclick"</span>,fn);</div><div class="line"><span class="comment">// 3 移除事件</span></div><div class="line"> my$(<span class="string">"btn1"</span>).detachEvent(<span class="string">"onclick"</span>,fn);</div></pre></td></tr></table></figure>
+<p>我们有没有考虑过这样一个情况，为什么一个文件没有声明require  module却可以直接使用这些变量值呢？其实nodejs做了以下工作:</p>
+<p>假如有一个 circle.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> PI = <span class="built_in">Math</span>.PI;</div><div class="line">exports.area = <span class="function"><span class="keyword">function</span> (<span class="params">r</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> PI * r * r;</div><div class="line">&#125;;</div><div class="line">exports.circumference = <span class="function"><span class="keyword">function</span> (<span class="params">r</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">2</span> * PI * r;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>app.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> circle = <span class="built_in">require</span>(<span class="string">'./circle.js'</span>);</div><div class="line"><span class="built_in">console</span>.log( <span class="string">'The area of a circle of radius 4 is '</span> + circle.area(<span class="number">4</span>));</div></pre></td></tr></table></figure>
+<p>当我们在终端执行命令  node app.js    的时候，nodejs会对app.js进行编译包装，包装之后其实就是</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">exports, require, module, __filename, __dirname</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> circle = <span class="built_in">require</span>(<span class="string">'./circle.js'</span>);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'The area of a circle of radius 4 is '</span> + circle.area(<span class="number">4</span>));</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>这就是为什么我们直接在终端输入命令    node filename.js的时候，可以直接调用 exports require module等</p>
+<p>接下来我们来看下require加载文件的查找策略:</p>
+<h4 id="从文件模块缓存中加载"><a href="#从文件模块缓存中加载" class="headerlink" title="从文件模块缓存中加载"></a>从文件模块缓存中加载</h4><p>尽管原生模块与文件模块的优先级不同，但是都不会优先于从文件模块的缓存中加载已经存在的模块。</p>
+<h4 id="从原生模块加载"><a href="#从原生模块加载" class="headerlink" title="从原生模块加载"></a>从原生模块加载</h4><p>原生模块的优先级仅次于文件模块缓存的优先级。require方法在解析文件名之后，优先检查模块是否在原生模块列表中。以http模块为例，尽管在目录下存在一个http/http.js/http.node/http.json文件，require(“http”)都不会从这些文件中加载，而是从原生模块中加载。</p>
+<p>原生模块也有一个缓存区，同样也是优先从缓存区加载。如果缓存区没有被加载过，则调用原生模块的加载方式进行加载和执行。</p>
+<h4 id="从文件加载"><a href="#从文件加载" class="headerlink" title="从文件加载"></a>从文件加载</h4><p>当文件模块缓存中不存在，而且不是原生模块的时候，Node.js会解析require方法传入的参数，并从文件系统中加载实际的文件，加载过程中的包装和编译细节在前一节中已经介绍过，这里我们将详细描述查找文件模块的过程，其中，也有一些细节值得知晓。</p>
+<p>require方法接受以下几种参数的传递：</p>
 <ul>
-<li>jQuery绑定事件和移除事件</li>
+<li>http、fs、path等，原生模块。</li>
+<li>./mod或../mod，相对路径的文件模块。</li>
+<li>/pathtomodule/mod，绝对路径的文件模块。</li>
+<li>mod，非原生模块的文件模块。</li>
 </ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">--ready(fn):当DOM元素载入就绪就可以执行的一个函数</div><div class="line">data 是传递给jQuery事件对象参数event.data的数据，fn是绑定在该事件上的处理程序，events和type是要绑定的事件类型</div><div class="line"></div><div class="line">--$(<span class="string">"selector"</span>).on(events,data,fn)   可以一次绑定多个事件  </div><div class="line">  $(<span class="string">"selector"</span>).off(events,data,fn)  移除on绑定的事件 如果不写任何参数，则移除匹配元素的所有事件</div><div class="line">  $(<span class="string">"selector"</span>).bind(type,data,fn)   可以一次绑定多个事件，可以绑定自定义事件;</div><div class="line">  $(<span class="string">"selector"</span>).unbind(type,data,fn) 移除bind绑定的事件 如果不写任何参数，则移除匹配元素的所有事件</div><div class="line"></div><div class="line">--$(<span class="string">"selector"</span>).mouseover(), $(<span class="string">"selector"</span>).mouseover(fn)  如果不写参数，将触发选定元素的该事件，如果写   了函数体，则将为选定的元素绑定事件  </div><div class="line">  mouseout  mousemove  mouseenter mouseleave mouseup mousedown  click keyup keydown change blur</div><div class="line">    都是一样的特性，如果不传函数体，就是触发该事件;如果传了函数体，就是绑定该事件的处理程序.</div><div class="line">--$(<span class="string">"selector"</span>).hover(fn(<span class="keyword">in</span>)/fn(oout)  可以给选中的元素绑定hover事件，鼠标悬浮在上面的时候，执行			fn(<span class="keyword">in</span>),鼠标离开元素的时候执行fn(out);</div><div class="line"></div><div class="line"><span class="comment">//事件委派 使用 delegate() 方法的事件处理程序适用于当前或未来的元素（比如由脚本创建的新元素）。</span></div><div class="line"></div><div class="line">--$(<span class="string">"selector1"</span>).delegate(<span class="string">"selector2"</span>,<span class="string">"type"</span>,fn)  selector1必须是selector2的父元素，事件的执行程序绑定在selector2(子元素选择器)上 。</div></pre></td></tr></table></figure>
-<h3 id="三-js-和-jQuery-绑定事件的区别"><a href="#三-js-和-jQuery-绑定事件的区别" class="headerlink" title="三   js  和  jQuery 绑定事件的区别"></a>三   js  和  jQuery 绑定事件的区别</h3><ul>
-<li>两者绑定的事件符合事件的传播过程，比如冒泡，捕获</li>
-<li>两者的事件对象参数基本一致，不同点在于jQuery绑定的事件，事件对象参数多了两个参数，一个是event.originalEvent  一个是event.data </li>
-</ul>
-<h3 id="四-自定义事件底层实现原理"><a href="#四-自定义事件底层实现原理" class="headerlink" title="四 自定义事件底层实现原理"></a>四 自定义事件底层实现原理</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 绑定事件</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addEvent</span>(<span class="params">obj,type,fn</span>)</span>&#123;</div><div class="line">  obj.listener = obj.listener || &#123;&#125;;</div><div class="line">  obj.listener[type] = obj.listener[type] || [];</div><div class="line">  obj.listener[type].push(fn);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 触发事件</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fireEvent</span>(<span class="params">obj,type</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> arr = obj.listener[type];</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</div><div class="line">    arr[i]();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
@@ -1158,7 +1233,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/23-拖拉事件/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/149URLoperation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -1180,8 +1255,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/22/23-拖拉事件/" itemprop="url">
-                  drag Event
+                <a class="post-title-link" href="/2016/10/22/149URLoperation/" itemprop="url">
+                  URL operation
                 </a>
               
             
@@ -1220,8 +1295,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/html/" itemprop="url" rel="index">
-                    <span itemprop="name">html</span>
+                  <a href="/categories/javascript-URL/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript URL</span>
                   </a>
                 </span>
 
@@ -1257,97 +1332,9 @@
       
         
           
-            <h2 id="拖拉事件"><a href="#拖拉事件" class="headerlink" title="拖拉事件"></a>拖拉事件</h2><p>拖拉指的是，用户在某个对象上按下鼠标键不放，拖动它到另一个位置，然后释放鼠标键，将该对象放在那里。</p>
-<p>拖拉的对象有好几种，包括Element节点、图片、链接、选中的文字等等。在HTML网页中，除了Element节点默认不可以拖拉，其他（图片、链接、选中的文字）都是可以直接拖拉的。为了让Element节点可拖拉，可以将该节点的draggable属性设为true。<strong>注意draggable 是元素的属性，并不是元素的样式属性，设置在CSS样式表或者<style>标签中是没有用的</strong>  </p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">draggable</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">  此区域可拖拉</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>draggable属性可用于任何Element节点，但是图片（img元素）和链接（a元素）不加这个属性，就可以拖拉。对于它们，用到这个属性的时候，往往是将其设为false，防止拖拉。</p>
-<p>注意，一旦某个Element节点的draggable属性设为true，就无法再用鼠标选中该节点内部的文字或子节点了。</p>
-<h3 id="事件种类"><a href="#事件种类" class="headerlink" title="事件种类"></a>事件种类</h3><p>当Element节点或选中的文本被拖拉时，就会持续触发拖拉事件，包括以下一些事件。</p>
-<ul>
-<li><strong>drag事件</strong>：拖拉过程中，在被拖拉的节点上持续触发。</li>
-<li><strong>dragstart事件</strong>：拖拉开始时在被拖拉的节点上触发，该事件的target属性是被拖拉的节点。通常应该在这个事件的监听函数中，指定拖拉的数据。</li>
-<li><strong>dragend事件</strong>：拖拉结束时（释放鼠标键或按下escape键）在被拖拉的节点上触发，该事件的target属性是被拖拉的节点。它与dragStart事件，在同一个节点上触发。不管拖拉是否跨窗口，或者中途被取消，dragend事件总是会触发的。</li>
-<li><strong>dragenter事件</strong>：拖拉进入当前节点时，在当前节点上触发，该事件的target属性是当前节点。通常应该在这个事件的监听函数中，指定是否允许在当前节点放下（drop）拖拉的数据。如果当前节点没有该事件的监听函数，或者监听函数不执行任何操作，就意味着不允许在当前节点放下数据。在视觉上显示拖拉进入当前节点，也是在这个事件的监听函数中设置。</li>
-<li><strong>dragover事件</strong>：拖拉到当前节点上方时，在当前节点上<strong>持续</strong>触发，该事件的target属性是当前节点。该事件与dragenter事件基本类似，默认会重置当前的拖拉事件的效果（DataTransfer对象的dropEffect属性）为none，即不允许放下被拖拉的节点，所以如果允许在当前节点drop数据，通常会使用preventDefault方法，取消重置拖拉效果为none。</li>
-<li><strong>dragleave事件</strong>：拖拉离开当前节点范围时，在当前节点上触发，该事件的target属性是当前节点。在视觉上显示拖拉离开当前节点，就在这个事件的监听函数中设置。</li>
-<li><strong>drop事件</strong>：被拖拉的节点或选中的文本，释放到目标节点时，在目标节点上触发。注意，如果当前节点不允许drop，即使在该节点上方松开鼠标键，也不会触发该事件。如果用户按下Escape键，取消这个操作，也不会触发该事件。该事件的监听函数负责取出拖拉数据，并进行相关处理。</li>
-</ul>
-<p>关于拖拉事件，有以下几点注意事项。</p>
-<ul>
-<li>拖拉过程只触发以上这些拖拉事件，尽管鼠标在移动，但是鼠标事件不会触发。</li>
-<li>将文件从操作系统拖拉进浏览器，不会触发dragStart和dragend事件。</li>
-<li>dragenter和dragover事件的监听函数，用来指定可以放下（drop）拖拉的数据。由于网页的大部分区域不适合作为drop的目标节点，所以这两个事件的默认设置为当前节点不允许drop。如果想要在目标节点上drop拖拉的数据，首先必须阻止这两个事件的默认行为，或者取消这两个事件。</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ondragover</span>=<span class="string">"return false"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ondragover</span>=<span class="string">"event.preventDefault()"</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>上面代码中，如果不取消拖拉事件或者阻止默认行为，就不可能在div节点上drop被拖拉的节点。</p>
-<p>拖拉事件用一个DragEvent对象表示，该对象继承MouseEvent对象，因此也就继承了UIEvent和Event对象。DragEvent对象只有一个独有的属性DataTransfer，其他都是继承的属性。DataTransfer属性用来读写拖拉事件中传输的数据，详见下文《DataTransfer对象》的部分。</p>
-<p>下面的例子展示，如何动态改变被拖动节点的背景色。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">div.addEventListener(<span class="string">"dragstart"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.style.backgroundColor = <span class="string">"red"</span>;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line">div.addEventListener(<span class="string">"dragend"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.style.backgroundColor = <span class="string">"green"</span>;</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
-<p>上面代码中，div节点被拖动时，背景色会变为红色，拖动结束，又变回绿色。</p>
-<p>下面是一个例子，显示如何实现将一个节点从当前父节点，拖拉到另一个父节点中。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML代码为</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;</span></div><div class="line"><span class="comment">//    &lt;div id="draggable" draggable="true"&gt;</span></div><div class="line"><span class="comment">//       该节点可拖拉</span></div><div class="line"><span class="comment">//    &lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;&lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;&lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;&lt;/div&gt;</span></div><div class="line"></div><div class="line"><span class="comment">// 被拖拉节点</span></div><div class="line"><span class="keyword">var</span> dragged;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">"dragstart"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 保存被拖拉节点</span></div><div class="line">  dragged = event.target;</div><div class="line">  <span class="comment">// 被拖拉节点的背景色变透明</span></div><div class="line">  event.target.style.opacity = <span class="number">0.5</span>;</div><div class="line">  <span class="comment">// 兼容Firefox</span></div><div class="line">  event.dataTransfer.setData(<span class="string">'text/plain'</span>, <span class="string">'anything'</span>);</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragend'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 被拖拉节点的背景色恢复正常</span></div><div class="line">  event.target.style.opacity = <span class="string">''</span>;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragover'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 防止拖拉效果被重置，允许被拖拉的节点放入目标节点</span></div><div class="line">  event.preventDefault();</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragenter'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 目标节点的背景色变紫色</span></div><div class="line">  <span class="comment">// 由于该事件会冒泡，所以要过滤节点</span></div><div class="line">  <span class="keyword">if</span> ( event.target.className == <span class="string">'dropzone'</span> ) &#123;</div><div class="line">    event.target.style.background = <span class="string">'purple'</span>;</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragleave'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 目标节点的背景色恢复原样</span></div><div class="line">  <span class="keyword">if</span> ( event.target.className == <span class="string">'dropzone'</span> ) &#123;</div><div class="line">    event.target.style.background = <span class="string">""</span>;</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'drop'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 防止事件默认行为（比如某些Elment节点上可以打开链接）</span></div><div class="line">  event.preventDefault();</div><div class="line">  <span class="keyword">if</span> ( event.target.className === <span class="string">'dropzone'</span> ) &#123;</div><div class="line">    <span class="comment">// 恢复目标节点背景色</span></div><div class="line">    event.target.style.background = <span class="string">''</span>;</div><div class="line">    <span class="comment">// 将被拖拉节点插入目标节点</span></div><div class="line">    dragged.parentNode.removeChild( dragged );</div><div class="line">    event.target.appendChild( dragged );</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
-<h3 id="DataTransfer对象概述"><a href="#DataTransfer对象概述" class="headerlink" title="DataTransfer对象概述"></a>DataTransfer对象概述</h3><p>所有的拖拉事件都有一个dataTransfer属性，用来保存需要传递的数据。这个属性的值是一个DataTransfer对象。</p>
-<p>拖拉的数据保存两方面的数据：数据的种类（又称格式）和数据的值。数据的种类是一个MIME字符串，比如 text/plain或者image/jpeg，数据的值是一个字符串。一般来说，如果拖拉一段文本，则数据默认就是那段文本；如果拖拉一个链接，则数据默认就是链接的URL。</p>
-<p>当拖拉事件开始的时候，可以提供数据类型和数据值；在拖拉过程中，通过dragenter和dragover事件的监听函数，检查数据类型，以确定是否允许放下（drop）被拖拉的对象。比如，在只允许放下链接的区域，检查拖拉的数据类型是否为text/uri-list。</p>
-<p>发生drop事件时，监听函数取出拖拉的数据，对其进行处理。</p>
-<h3 id="DataTransfer对象的属性"><a href="#DataTransfer对象的属性" class="headerlink" title="DataTransfer对象的属性"></a>DataTransfer对象的属性</h3><p>DataTransfer对象有以下属性。</p>
-<p><strong>（1）dropEffect</strong></p>
-<p>dropEffect属性设置放下（drop）被拖拉节点时的效果，可能的值包括copy（复制被拖拉的节点）、move（移动被拖拉的节点）、link（创建指向被拖拉的节点的链接）、none（无法放下被拖拉的节点）。设置除此以外的值，都是无效的。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">target.addEventListener(<span class="string">'dragover'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  e.preventDefault();</div><div class="line">  e.stopPropagation();</div><div class="line">  e.dataTransfer.dropEffect = <span class="string">'copy'</span>;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>dropEffect属性一般在dragenter和dragover事件的监听函数中设置，对于dragstart、drag、dragleave这三个事件，该属性不起作用。进入目标节点后，拖拉行为会初始化成用户设定的效果，用户可以通过按下Shift键和Control键，改变初始设置，在copy、move、link三种效果中切换。</p>
-<p>鼠标箭头会根据dropEffect属性改变形状，提示目前正处于哪一种效果。这意味着，通过鼠标就能判断是否可以在当前节点drop被拖拉的节点。</p>
-<p><strong>（2）effectAllowed</strong></p>
-<p>effectAllowed属性设置本次拖拉中允许的效果，可能的值包括copy（复制被拖拉的节点）、move（移动被拖拉的节点）、link（创建指向被拖拉节点的链接）、copyLink（允许copy或link）、copyMove（允许copy或move）、linkMove（允许link或move）、all（允许所有效果）、none（无法放下被拖拉的节点）、uninitialized（默认值，等同于all）。如果某种效果是不允许的，用户就无法在目标节点中达成这种效果。</p>
-<p>dragstart事件的监听函数，可以设置被拖拉节点允许的效果；dragenter和dragover事件的监听函数，可以设置目标节点允许的效果。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.effectAllowed = <span class="string">"copy"</span>;</div></pre></td></tr></table></figure>
-<p>dropEffect属性和effectAllowed属性，往往配合使用。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.effectAllowed = <span class="string">"copyMove"</span>;</div><div class="line">event.dataTransfer.dropEffect = <span class="string">"copy"</span>;</div></pre></td></tr></table></figure>
-<p>上面代码中，copy是指定的效果，但是可以通过Shift或Ctrl键（根据平台而定），将效果切换成move。</p>
-<p>只要dropEffect属性和effectAllowed属性之中，有一个为none，就无法在目标节点上完成drop操作。</p>
-<p><strong>（3）files</strong></p>
-<p>files属性是一个FileList对象，包含一组本地文件，可以用来在拖拉操作中传送。如果本次拖拉不涉及文件，则属性为空的FileList对象。</p>
-<p>下面就是一个接收拖拉文件的例子。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML代码为</span></div><div class="line"><span class="comment">// &lt;div id="output" style="min-height: 200px;border: 1px solid black;"&gt;</span></div><div class="line"><span class="comment">//   文件拖拉到这里</span></div><div class="line"><span class="comment">// &lt;/div&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.getElementById(<span class="string">'output'</span>);</div><div class="line"></div><div class="line">div.addEventListener(<span class="string">"dragenter"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  div.textContent = <span class="string">''</span>;</div><div class="line">  event.stopPropagation();</div><div class="line">  event.preventDefault();</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line">div.addEventListener(<span class="string">"dragover"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  event.stopPropagation();</div><div class="line">  event.preventDefault();</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line">div.addEventListener(<span class="string">"drop"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  event.stopPropagation();</div><div class="line">  event.preventDefault();</div><div class="line">  <span class="keyword">var</span> files = event.dataTransfer.files;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; files.length; i++) &#123;</div><div class="line">    div.textContent += files[i].name + <span class="string">' '</span> + files[i].size + <span class="string">'字节\n'</span>;</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
-<p>上面代码中，通过files属性读取拖拉文件的信息。如果想要读取文件内容，就要使用FileReader对象。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">div.addEventListener(<span class="string">'drop'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  e.preventDefault();</div><div class="line">  e.stopPropagation();</div><div class="line"></div><div class="line">  <span class="keyword">var</span> fileList = e.dataTransfer.files;</div><div class="line">  <span class="keyword">if</span> (fileList.length &gt; <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">var</span> file = fileList[<span class="number">0</span>];</div><div class="line">    <span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();</div><div class="line">    reader.onloadend = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span> (e.target.readyState == FileReader.DONE) &#123;</div><div class="line">        <span class="keyword">var</span> content = reader.result;</div><div class="line">        contentDiv.innerHTML = <span class="string">"File: "</span> + file.name + <span class="string">"\n\n"</span> + content;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    reader.readAsBinaryString(file);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p><strong>（4）types</strong></p>
-<p>types属性是一个数组，保存每一次拖拉的数据格式，比如拖拉文件，则格式信息就为File。</p>
-<p>下面是一个例子，通过检查dataTransfer属性的类型，决定是否允许在当前节点执行drop操作。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">contains</span>(<span class="params">list, value</span>)</span>&#123;</div><div class="line">  <span class="keyword">for</span>( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; list.length; ++i )&#123;</div><div class="line">    <span class="keyword">if</span>(list[i] === value) <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doDragOver</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> isLink = contains( event.dataTransfer.types, <span class="string">"text/uri-list"</span>);</div><div class="line">  <span class="keyword">if</span> (isLink) event.preventDefault();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码中，只有当被拖拉的节点是一个链接时，才允许在当前节点放下。</p>
-<h3 id="DataTransfer对象的方法"><a href="#DataTransfer对象的方法" class="headerlink" title="DataTransfer对象的方法"></a>DataTransfer对象的方法</h3><p>DataTransfer对象有以下方法。</p>
-<p><strong>（1）setData()</strong></p>
-<p>setData方法用来设置事件所带有的指定类型的数据。它接受两个参数，第一个是数据类型，第二个是具体数据。如果指定的类型在现有数据中不存在，则该类型将写入types属性；如果已经存在，在该类型的现有数据将被替换。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.setData(<span class="string">"text/plain"</span>, <span class="string">"Text to drag"</span>);</div></pre></td></tr></table></figure>
-<p>上面代码为事件加入纯文本格式的数据。</p>
-<p>如果拖拉文本框或者拖拉选中的文本，会默认将文本数据添加到dataTransfer属性，不用手动指定。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">draggable</span>=<span class="string">"true"</span> <span class="attr">ondragstart</span>=<span class="string">"</div><div class="line">  event.dataTransfer.setData('text/plain', 'bbb')"</span>&gt;</span></div><div class="line">  aaa</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>上面代码中，拖拉数据实际上是bbb，而不是aaa。</p>
-<p>下面是添加其他类型的数据。由于text/plain是最普遍支持的格式，为了保证兼容性，建议最后总是将数据保存一份纯文本的格式。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dt = event.dataTransfer;</div><div class="line"></div><div class="line"><span class="comment">// 添加链接</span></div><div class="line">dt.setData(<span class="string">"text/uri-list"</span>, <span class="string">"http://www.example.com"</span>);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, <span class="string">"http://www.example.com"</span>);</div><div class="line"><span class="comment">// 添加HTML代码</span></div><div class="line">dt.setData(<span class="string">"text/html"</span>, <span class="string">"Hello there, &lt;strong&gt;stranger&lt;/strong&gt;"</span>);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, <span class="string">"Hello there, &lt;strong&gt;stranger&lt;/strong&gt;"</span>);</div><div class="line"><span class="comment">// 添加图像的URL</span></div><div class="line">dt.setData(<span class="string">"text/uri-list"</span>, imageurl);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, imageurl);</div></pre></td></tr></table></figure>
-<p>可以一次提供多种格式的数据。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dt = event.dataTransfer;</div><div class="line">dt.setData(<span class="string">"application/x-bookmark"</span>, bookmarkString);</div><div class="line">dt.setData(<span class="string">"text/uri-list"</span>, <span class="string">"http://www.example.com"</span>);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, <span class="string">"http://www.example.com"</span>);</div></pre></td></tr></table></figure>
-<p>上面代码中，通过在同一个事件上面，存放三种类型的数据，使得拖拉事件可以在不同的对象上面，drop不同的值。注意，第一种格式是一个自定义格式，浏览器默认无法读取，这意味着，只有某个部署了特定代码的节点，才可能drop（读取到）这个数据。</p>
-<p><strong>（2）getData()</strong></p>
-<p>getData方法接受一个字符串（表示数据类型）作为参数，返回事件所带的指定类型的数据（通常是用setData方法添加的数据）。如果指定类型的数据不存在，则返回空字符串。通常只有drop事件触发后，才能取出数据。如果取出另一个域名存放的数据，将会报错。</p>
-<p>下面是一个drop事件的监听函数，用来取出指定类型的数据。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">onDrop</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> data = event.dataTransfer.getData(<span class="string">"text/plain"</span>);</div><div class="line">  event.target.textContent = data;</div><div class="line">  event.preventDefault();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码取出拖拉事件的文本数据，将其替换成当前节点的文本内容。注意，这时还必须取消浏览器的默认行为，因为假如用户拖拉的是一个链接，浏览器默认会在当前窗口打开这个链接。</p>
-<p>getData方法返回的是一个字符串，如果其中包含多项数据，就必须手动解析。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doDrop</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> lines = event.dataTransfer.getData(<span class="string">"text/uri-list"</span>).split(<span class="string">"\n"</span>);</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> line <span class="keyword">of</span> lines) &#123;</div><div class="line">    <span class="keyword">let</span> link = <span class="built_in">document</span>.createElement(<span class="string">"a"</span>);</div><div class="line">    link.href = line;</div><div class="line">    link.textContent = line;</div><div class="line">    event.target.appendChild(link);</div><div class="line">  &#125;</div><div class="line">  event.preventDefault();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码中，getData方法返回的是一组链接，就必须自行解析。</p>
-<p>类型值指定为URL，可以取出第一个有效链接。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> link = event.dataTransfer.getData(<span class="string">"URL"</span>);</div></pre></td></tr></table></figure>
-<p>下面是一次性取出多种类型的数据。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doDrop</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> types = event.dataTransfer.types;</div><div class="line">  <span class="keyword">var</span> supportedTypes = [<span class="string">"text/uri-list"</span>, <span class="string">"text/plain"</span>];</div><div class="line">  types = supportedTypes.filter(<span class="function"><span class="keyword">function</span> (<span class="params">value</span>) <span class="title">types</span>.<span class="title">includes</span>(<span class="params">value</span>));</div><div class="line">  <span class="title">if</span> (<span class="params">types.length</span>)</div><div class="line">    <span class="title">var</span> <span class="title">data</span> = <span class="title">event</span>.<span class="title">dataTransfer</span>.<span class="title">getData</span>(<span class="params">types[<span class="number">0</span>]</span>);</div><div class="line">  <span class="title">event</span>.<span class="title">preventDefault</span>(<span class="params"></span>);</div><div class="line">&#125;</span></div></pre></td></tr></table></figure>
-<p><strong>（3）clearData()</strong></p>
-<p>clearData方法接受一个字符串（表示数据类型）作为参数，删除事件所带的指定类型的数据。如果没有指定类型，则删除所有数据。如果指定类型不存在，则原数据不受影响。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.clearData(<span class="string">"text/uri-list"</span>);</div></pre></td></tr></table></figure>
-<p>上面代码清除事件所带的URL数据。</p>
-<p><strong>（4）setDragImage()</strong></p>
-<p>拖动过程中（dragstart事件触发后），浏览器会显示一张图片跟随鼠标一起移动，表示被拖动的节点。这张图片是自动创造的，通常显示为被拖动节点的外观，不需要自己动手设置。setDragImage方法可以用来自定义这张图片，它接受三个参数，第一个是img图片元素或者canvas元素，如果省略或为null则使用被拖动的节点的外观，第二个和第三个参数为鼠标相对于该图片左上角的横坐标和右坐标。</p>
-<p>下面是一个例子。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML代码为</span></div><div class="line"><span class="comment">// &lt;div id="drag-with-image" class="dragdemo" draggable="true"&gt;</span></div><div class="line">     drag me</div><div class="line"><span class="comment">// &lt;/div&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.getElementById(<span class="string">"drag-with-image"</span>);</div><div class="line">div.addEventListener(<span class="string">"dragstart"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> img = <span class="built_in">document</span>.createElement(<span class="string">"img"</span>);</div><div class="line">  img.src = <span class="string">"http://path/to/img"</span>;</div><div class="line">  e.dataTransfer.setDragImage(img, <span class="number">0</span>, <span class="number">0</span>);</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure></style></strong></p>
+            <p>如何操作查询字符串，返回一个查询字符串包含信息的对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> url =<span class="string">'http://www.myvirtual.com?username=Jhon&amp;age=12'</span>;<span class="comment">//将查询字符串转换为js对象</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">queryParam</span>(<span class="params">url</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> newUrl = url.slice(url.indexOf(<span class="string">'?'</span>)+<span class="number">1</span>);</div><div class="line">  <span class="keyword">var</span> urlArr = newUrl.split(<span class="string">'&amp;'</span>);</div><div class="line">  <span class="keyword">var</span> ret = &#123;&#125;</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; urlArr.length ; i++)&#123;</div><div class="line">    <span class="keyword">var</span> arr = urlArr[i].split(<span class="string">'='</span>);</div><div class="line">    ret[arr[<span class="number">0</span>]] = arr[<span class="number">1</span>];</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> ret ;</div><div class="line">&#125;</div><div class="line"></div><div class="line">queryParam(url);</div></pre></td></tr></table></figure>
+
           
         
       
@@ -1824,7 +1811,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/18/37-如何解决移动端两栏自适应的问题？/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/55-js  jQuery绑定与移除事件的比较/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -1846,8 +1833,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/18/37-如何解决移动端两栏自适应的问题？/" itemprop="url">
-                  如何解决移动端两栏自适应的问题
+                <a class="post-title-link" href="/2016/10/22/55-js  jQuery绑定与移除事件的比较/" itemprop="url">
+                  js event compare with jQuery event
                 </a>
               
             
@@ -1863,8 +1850,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-18T12:36:00+08:00">
-                2016-10-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
+                2016-10-22
               </time>
             
 
@@ -1886,8 +1873,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mobile/" itemprop="url" rel="index">
-                    <span itemprop="name">mobile</span>
+                  <a href="/categories/javascript-event/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript event</span>
                   </a>
                 </span>
 
@@ -1923,29 +1910,27 @@
       
         
           
-            <p>如何解决移动端两栏自适应的问题？overflow:hidden </p>
-<p>要求：第一水平方向不要有滚动条；第二，水平第一个侧栏宽度固定，第二个侧栏宽度自适应</p>
-<p>1 明确元素的宽度：<strong>块级元素</strong> 默认占据整行，如果不设置宽度，则默认和<strong>父元素</strong>等宽；行内块元素的宽度由内容决定，可以自行设置；行内元素的宽度由内容决定，不可设置宽高；</p>
-<p>2 设置了浮动或者定位的层的宽宽由内容决定，发生元素转换，display:inline-block;</p>
-<p>3 目的是实现 ：右边栏的宽度 = 屏幕宽度 - 左边栏宽度 ，以此来实现右边栏里面的内容进行百分比设置宽度以自适应屏幕的时候，是以  右边栏的宽度 = 屏幕宽度 - 左边栏宽度 为基准的。</p>
-<p>4 注意理解块级元素的流体特性:在默认情况下(非浮动、定位)，块级元素会默认在水平方向自动填满外部的容器(自动填满父元素)。</p>
-<p>5 浮动元素left和触发了BFC特性的元素right,right栏自适应，right设置overflow:hdden,触发BFC特性，即可实现right自动填充剩余的空间，而不是那种文字环绕图片的效果。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span></span></div><div class="line">          <span class="attr">content</span>=<span class="string">"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"</span>/&gt;</div><div class="line">  <span class="comment">&lt;!--设置移动端视觉窗口，宽度和移动终端设备等宽--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-tag">body</span>&#123;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">            <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="selector-class">.phone</span> &#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">            <span class="attribute">position</span>: absolute;</div><div class="line">            <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#000000</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="selector-class">.left</span>&#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">90px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">            <span class="attribute">float</span>: left;</div><div class="line">            <span class="attribute">background</span>: red;</div><div class="line">            <span class="attribute">overflow</span>: hidden;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">/*产出一个绝缘的盒子  别的浮动不影响它  它也不影响其他的浮动，</span></div><div class="line">      左边盒子设置浮动，宽度固定*/</div><div class="line">        <span class="comment">/*bfc*/</span></div><div class="line">       <span class="selector-class">.right</span>&#123;</div><div class="line">            <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">            <span class="attribute">background-color</span>: skyblue;</div><div class="line">            <span class="attribute">overflow</span>: hidden;</div><div class="line">        &#125;</div><div class="line">      <span class="comment">/*可以点击绿色按钮，看下右边层的宽度，两种情况overflow:hidden 存在与否，overflow:hidden触发了BFC使其不会受浮动元素的影响，同时其也不会影响浮动元素</span></div><div class="line">      overflow存在的时候，可使右边的盒子自动填充剩余的宽度，以实现自适应布局*/</div><div class="line">        <span class="selector-tag">input</span>  &#123;</div><div class="line">            <span class="attribute">display</span>:block;</div><div class="line">            <span class="attribute">height</span>: <span class="number">40px</span>;</div><div class="line">            <span class="attribute">width</span>: <span class="number">30px</span>;</div><div class="line">            <span class="attribute">background-color</span>: green;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="selector-tag">img</span>&#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">50%</span>;</div><div class="line">          <span class="comment">/*根据right的宽度为基准进行设置自身的宽度，以此来实现自适应布局*/</span></div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"phone"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img/01.jpg"</span> <span class="attr">alt</span>=<span class="string">""</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"input"</span>).onclick=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"bingo"</span>);</div><div class="line">            <span class="keyword">var</span> right  = <span class="built_in">document</span>.querySelector(<span class="string">".right"</span>)</div><div class="line">            <span class="built_in">console</span>.log(right.offsetWidth);</div><div class="line"></div><div class="line">    &#125;;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>6 注意：高潮来了，如何设置left和right之间的间隙呢？</p>
-<ul>
-<li>给right设置margin-right   或者  padding-left</li>
+            <h2 id="js-jQuery绑定事件的比较"><a href="#js-jQuery绑定事件的比较" class="headerlink" title="js  jQuery绑定事件的比较:"></a>js  jQuery绑定事件的比较:</h2><h3 id="一-事件分类"><a href="#一-事件分类" class="headerlink" title="一 事件分类"></a>一 事件分类</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span> <span class="built_in">window</span> 事件:onload  onunload onafterprint onbeforeprint onerror  onresize </div><div class="line"><span class="number">2</span> From表单 事件(仅在表单元素中有效):onblur  onfocus onreset onsubmit onselect onchange  oninput</div><div class="line"><span class="number">3</span> 键盘事件 : onkeydown  onkeyup onkeyup</div><div class="line"><span class="number">4</span> 鼠标事件: onclick onmouseout onmouseleave onmouseenter onmousedown onmouseup onscroll(当元素滚动条被滚动的时候) ondrag ondragstart ondragend ondragenter ondragover ondragleave ondrop </div><div class="line"><span class="comment">//键盘事件和鼠标事件在base, bdo, br, frame, frameset, head, html, iframe, meta, param, script, style, title 元素无效；</span></div><div class="line"><span class="number">5</span> 触摸事件 :touchstart touchend touchmove </div><div class="line"><span class="number">6</span> 媒介事件 : </div><div class="line"><span class="number">7</span> 自定义事件:</div><div class="line"><span class="number">8</span> 所有的事件都是成元素的一个属性，原始值为<span class="literal">null</span>;输出一个DOM元素可以查看其所有的属性;</div></pre></td></tr></table></figure>
+<h3 id="二-绑定事件"><a href="#二-绑定事件" class="headerlink" title="二 绑定事件"></a>二 绑定事件</h3><ul>
+<li>JS绑定事件:(onclick之类的本身就是一属性，通过给属性设置函数，可以使其具有功能，而addEventListener是一个函数，通过函数体的内容给元素绑定事件)</li>
 </ul>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.right</span> &#123;</div><div class="line">  	<span class="attribute">margin-left</span>:<span class="number">100px</span>;</div><div class="line">&#125;</div><div class="line">结果是<span class="selector-tag">left</span>和<span class="selector-tag">right</span>还是粘连在一起，不起作用，因为<span class="selector-tag">BFC</span>元素设置<span class="selector-tag">margin-left</span>和<span class="selector-tag">float</span>元素混排是不起作用的</div></pre></td></tr></table></figure>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.right</span> &#123;</div><div class="line">       	<span class="attribute">padding-left</span>:<span class="number">20px</span>;</div><div class="line">     &#125;</div><div class="line">     这个会起作用，可以将两栏隔开一定的距离</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ele.on+事件类型 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  &#125;;     ele.addEventListener(<span class="string">"事件类型"</span>，<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;		ele.addEventListener(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.onmouseout = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;      ele.attachEvent(<span class="string">"onclick"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );(注意有on)</div><div class="line"><span class="built_in">window</span>.onlaod = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;		<span class="built_in">window</span>.addEventListener(<span class="string">"load"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.ondragstart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;	ele.addEventListener(<span class="string">"dragstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div></pre></td></tr></table></figure>
+<p><strong>注意</strong>: 触摸事件只能通过addEventListener来绑定,过渡结束事件(自定义事件)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ele.addEventListener(<span class="string">"touchstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div></pre></td></tr></table></figure>
 <ul>
-<li>给left设置margin-right 或者 padding-right 来撑开两栏之间的间隙</li>
+<li>JS移除事件(该事件通过什么方式绑定的就要通过什么方式移除)</li>
 </ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">.left &#123;</div><div class="line">  	padding-right:20px	;</div><div class="line">或者</div><div class="line">	margin-right:20px	;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>   7 BFC自适应布局的组件化代码</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.left&#123;</div><div class="line">    float:left;</div><div class="line">	margin-right:20px;</div><div class="line">&#125;</div><div class="line">.right &#123;</div><div class="line">  	overflow:hidden ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>   8 如果是右边栏宽度固定，左边栏宽度自适应呢？</p>
-<p>   解析顺序不同会导致占位不同，所以只需要将右边写在左边前面即可</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span></span></div><div class="line">          <span class="attr">content</span>=<span class="string">"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"</span>/&gt;</div><div class="line">    <span class="comment">&lt;!--设置移动端视觉窗口，宽度和移动终端设备等宽--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-tag">body</span>&#123;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">            <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="selector-class">.phone</span> &#123;</div><div class="line">            <span class="comment">/*width: 320px;*/</span></div><div class="line">            <span class="comment">/*height: 480px;*/</span></div><div class="line">            <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">            <span class="attribute">position</span>: absolute;</div><div class="line">            <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#000000</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="selector-class">.left</span>&#123;</div><div class="line">            <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">            <span class="attribute">background-color</span>: skyblue;</div><div class="line">            <span class="attribute">overflow</span>: hidden;</div><div class="line">            <span class="comment">/*两栏自适应留白*/</span></div><div class="line">        &#125;</div><div class="line">        <span class="comment">/*产出一个绝缘的盒子  别的浮动不影响它  它也不影响其他的浮动*/</span></div><div class="line">        <span class="comment">/*bfc*/</span></div><div class="line">        <span class="selector-class">.right</span>&#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">90px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">            <span class="attribute">float</span>: right  ;</div><div class="line">            <span class="attribute">background</span>: red;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">/*右边盒子设置自适应的宽度*/</span></div><div class="line">        <span class="selector-tag">input</span>  &#123;</div><div class="line">            <span class="attribute">display</span>:block;</div><div class="line">            <span class="attribute">height</span>: <span class="number">40px</span>;</div><div class="line">            <span class="attribute">width</span>: <span class="number">30px</span>;</div><div class="line">            <span class="attribute">background-color</span>: green;</div><div class="line">            <span class="attribute">z-index</span>: <span class="number">999</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="selector-tag">img</span>&#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">50%</span>;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"phone"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span>/&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"input"</span>).onclick=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"bingo"</span>);</div><div class="line">        <span class="keyword">var</span> right  = <span class="built_in">document</span>.querySelector(<span class="string">".right"</span>)</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"右边盒子宽度:"</span>+right.offsetWidth);</div><div class="line"></div><div class="line">    &#125;;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1注册事件</span></div><div class="line">	my$(<span class="string">"btn1"</span>).onclick = fn;<span class="comment">//(onclick指向一个函数体)</span></div><div class="line"><span class="comment">//1移除事件</span></div><div class="line">	my$(<span class="string">"btn1"</span>).onclick = <span class="literal">null</span>;<span class="comment">//(将指向设置为null,则可以清除事件)</span></div><div class="line"><span class="comment">// 2 注册事件</span></div><div class="line">my$(<span class="string">"btn1"</span>).addEventListener(<span class="string">"click"</span>,fn,<span class="literal">false</span>);</div><div class="line"><span class="comment">// 2 移除事件</span></div><div class="line">my$(<span class="string">"btn1"</span>).removeEventListener(<span class="string">"click"</span>,fn,<span class="literal">false</span>);</div><div class="line"><span class="comment">// 3 注册事件  谷歌和火狐不支持</span></div><div class="line"> my$(<span class="string">"btn1"</span>).attachEvent(<span class="string">"onclick"</span>,fn);</div><div class="line"><span class="comment">// 3 移除事件</span></div><div class="line"> my$(<span class="string">"btn1"</span>).detachEvent(<span class="string">"onclick"</span>,fn);</div></pre></td></tr></table></figure>
+<ul>
+<li>jQuery绑定事件和移除事件</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">--ready(fn):当DOM元素载入就绪就可以执行的一个函数</div><div class="line">data 是传递给jQuery事件对象参数event.data的数据，fn是绑定在该事件上的处理程序，events和type是要绑定的事件类型</div><div class="line"></div><div class="line">--$(<span class="string">"selector"</span>).on(events,data,fn)   可以一次绑定多个事件  </div><div class="line">  $(<span class="string">"selector"</span>).off(events,data,fn)  移除on绑定的事件 如果不写任何参数，则移除匹配元素的所有事件</div><div class="line">  $(<span class="string">"selector"</span>).bind(type,data,fn)   可以一次绑定多个事件，可以绑定自定义事件;</div><div class="line">  $(<span class="string">"selector"</span>).unbind(type,data,fn) 移除bind绑定的事件 如果不写任何参数，则移除匹配元素的所有事件</div><div class="line"></div><div class="line">--$(<span class="string">"selector"</span>).mouseover(), $(<span class="string">"selector"</span>).mouseover(fn)  如果不写参数，将触发选定元素的该事件，如果写   了函数体，则将为选定的元素绑定事件  </div><div class="line">  mouseout  mousemove  mouseenter mouseleave mouseup mousedown  click keyup keydown change blur</div><div class="line">    都是一样的特性，如果不传函数体，就是触发该事件;如果传了函数体，就是绑定该事件的处理程序.</div><div class="line">--$(<span class="string">"selector"</span>).hover(fn(<span class="keyword">in</span>)/fn(oout)  可以给选中的元素绑定hover事件，鼠标悬浮在上面的时候，执行			fn(<span class="keyword">in</span>),鼠标离开元素的时候执行fn(out);</div><div class="line"></div><div class="line"><span class="comment">//事件委派 使用 delegate() 方法的事件处理程序适用于当前或未来的元素（比如由脚本创建的新元素）。</span></div><div class="line"></div><div class="line">--$(<span class="string">"selector1"</span>).delegate(<span class="string">"selector2"</span>,<span class="string">"type"</span>,fn)  selector1必须是selector2的父元素，事件的执行程序绑定在selector2(子元素选择器)上 。</div></pre></td></tr></table></figure>
+<h3 id="三-js-和-jQuery-绑定事件的区别"><a href="#三-js-和-jQuery-绑定事件的区别" class="headerlink" title="三   js  和  jQuery 绑定事件的区别"></a>三   js  和  jQuery 绑定事件的区别</h3><ul>
+<li>两者绑定的事件符合事件的传播过程，比如冒泡，捕获</li>
+<li>两者的事件对象参数基本一致，不同点在于jQuery绑定的事件，事件对象参数多了两个参数，一个是event.originalEvent  一个是event.data </li>
+</ul>
+<h3 id="四-自定义事件底层实现原理"><a href="#四-自定义事件底层实现原理" class="headerlink" title="四 自定义事件底层实现原理"></a>四 自定义事件底层实现原理</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 绑定事件</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addEvent</span>(<span class="params">obj,type,fn</span>)</span>&#123;</div><div class="line">  obj.listener = obj.listener || &#123;&#125;;</div><div class="line">  obj.listener[type] = obj.listener[type] || [];</div><div class="line">  obj.listener[type].push(fn);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 触发事件</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fireEvent</span>(<span class="params">obj,type</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> arr = obj.listener[type];</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</div><div class="line">    arr[i]();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
           
         
       
@@ -1988,7 +1973,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/17/03opacity/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/23-拖拉事件/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -2010,8 +1995,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/17/03opacity/" itemprop="url">
-                  opacity和rgba 改变透明度的区别
+                <a class="post-title-link" href="/2016/10/22/23-拖拉事件/" itemprop="url">
+                  drag Event
                 </a>
               
             
@@ -2027,8 +2012,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-17T12:36:00+08:00">
-                2016-10-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
+                2016-10-22
               </time>
             
 
@@ -2050,8 +2035,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css-html/" itemprop="url" rel="index">
-                    <span itemprop="name">css html</span>
+                  <a href="/categories/html/" itemprop="url" rel="index">
+                    <span itemprop="name">html</span>
                   </a>
                 </span>
 
@@ -2087,22 +2072,97 @@
       
         
           
-            <p>一  opacity和rgba 改变透明度的区别</p>
-<p>需要注意，rgba()</p>
+            <h2 id="拖拉事件"><a href="#拖拉事件" class="headerlink" title="拖拉事件"></a>拖拉事件</h2><p>拖拉指的是，用户在某个对象上按下鼠标键不放，拖动它到另一个位置，然后释放鼠标键，将该对象放在那里。</p>
+<p>拖拉的对象有好几种，包括Element节点、图片、链接、选中的文字等等。在HTML网页中，除了Element节点默认不可以拖拉，其他（图片、链接、选中的文字）都是可以直接拖拉的。为了让Element节点可拖拉，可以将该节点的draggable属性设为true。<strong>注意draggable 是元素的属性，并不是元素的样式属性，设置在CSS样式表或者<style>标签中是没有用的</strong>  </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">draggable</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">  此区域可拖拉</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>draggable属性可用于任何Element节点，但是图片（img元素）和链接（a元素）不加这个属性，就可以拖拉。对于它们，用到这个属性的时候，往往是将其设为false，防止拖拉。</p>
+<p>注意，一旦某个Element节点的draggable属性设为true，就无法再用鼠标选中该节点内部的文字或子节点了。</p>
+<h3 id="事件种类"><a href="#事件种类" class="headerlink" title="事件种类"></a>事件种类</h3><p>当Element节点或选中的文本被拖拉时，就会持续触发拖拉事件，包括以下一些事件。</p>
 <ul>
-<li>仅仅改变的是背景的透明度，</li>
-<li>不会对文本造成影响，不具有继承性</li>
+<li><strong>drag事件</strong>：拖拉过程中，在被拖拉的节点上持续触发。</li>
+<li><strong>dragstart事件</strong>：拖拉开始时在被拖拉的节点上触发，该事件的target属性是被拖拉的节点。通常应该在这个事件的监听函数中，指定拖拉的数据。</li>
+<li><strong>dragend事件</strong>：拖拉结束时（释放鼠标键或按下escape键）在被拖拉的节点上触发，该事件的target属性是被拖拉的节点。它与dragStart事件，在同一个节点上触发。不管拖拉是否跨窗口，或者中途被取消，dragend事件总是会触发的。</li>
+<li><strong>dragenter事件</strong>：拖拉进入当前节点时，在当前节点上触发，该事件的target属性是当前节点。通常应该在这个事件的监听函数中，指定是否允许在当前节点放下（drop）拖拉的数据。如果当前节点没有该事件的监听函数，或者监听函数不执行任何操作，就意味着不允许在当前节点放下数据。在视觉上显示拖拉进入当前节点，也是在这个事件的监听函数中设置。</li>
+<li><strong>dragover事件</strong>：拖拉到当前节点上方时，在当前节点上<strong>持续</strong>触发，该事件的target属性是当前节点。该事件与dragenter事件基本类似，默认会重置当前的拖拉事件的效果（DataTransfer对象的dropEffect属性）为none，即不允许放下被拖拉的节点，所以如果允许在当前节点drop数据，通常会使用preventDefault方法，取消重置拖拉效果为none。</li>
+<li><strong>dragleave事件</strong>：拖拉离开当前节点范围时，在当前节点上触发，该事件的target属性是当前节点。在视觉上显示拖拉离开当前节点，就在这个事件的监听函数中设置。</li>
+<li><strong>drop事件</strong>：被拖拉的节点或选中的文本，释放到目标节点时，在目标节点上触发。注意，如果当前节点不允许drop，即使在该节点上方松开鼠标键，也不会触发该事件。如果用户按下Escape键，取消这个操作，也不会触发该事件。该事件的监听函数负责取出拖拉数据，并进行相关处理。</li>
 </ul>
-<p>然而，opacity </p>
+<p>关于拖拉事件，有以下几点注意事项。</p>
 <ul>
-<li>不仅会改变背景的透明度，</li>
-<li>还会改变文本的透明度，并且具有继承性</li>
+<li>拖拉过程只触发以上这些拖拉事件，尽管鼠标在移动，但是鼠标事件不会触发。</li>
+<li>将文件从操作系统拖拉进浏览器，不会触发dragStart和dragend事件。</li>
+<li>dragenter和dragover事件的监听函数，用来指定可以放下（drop）拖拉的数据。由于网页的大部分区域不适合作为drop的目标节点，所以这两个事件的默认设置为当前节点不允许drop。如果想要在目标节点上drop拖拉的数据，首先必须阻止这两个事件的默认行为，或者取消这两个事件。</li>
 </ul>
-<p>二 代码演示：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">       div&#123;</div><div class="line">           width: 500px;</div><div class="line">           height: 100px;</div><div class="line">           background-color:  rgba(344,24,67,.3);</div><div class="line"></div><div class="line">       &#125;</div><div class="line">   <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>这一段话是div里面的文字,opacity 透明度会改变字体的透明度 ，rgba  则不会</div><div class="line">  		<span class="tag">&lt;<span class="name">p</span>&gt;</span>这一段话是p里面的文字，如果对div设置透明度的时候，用opacity那么将会被继承，如果用rgba设置			透明度的时候，则不会被继承</div><div class="line">     	<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">      div&#123;</div><div class="line">          width: 500px;</div><div class="line">          height: 100px;</div><div class="line">          background-color:  rgb(344,24,67);</div><div class="line">          opacity: 0.3;  </div><div class="line">      &#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>三  总结：在做项目的时候，尽量用rgba 来改变透明度，因为opacity透明度具有继承性，并且还会改变文本的透明度，会造成一些影响</p>
-
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ondragover</span>=<span class="string">"return false"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ondragover</span>=<span class="string">"event.preventDefault()"</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>上面代码中，如果不取消拖拉事件或者阻止默认行为，就不可能在div节点上drop被拖拉的节点。</p>
+<p>拖拉事件用一个DragEvent对象表示，该对象继承MouseEvent对象，因此也就继承了UIEvent和Event对象。DragEvent对象只有一个独有的属性DataTransfer，其他都是继承的属性。DataTransfer属性用来读写拖拉事件中传输的数据，详见下文《DataTransfer对象》的部分。</p>
+<p>下面的例子展示，如何动态改变被拖动节点的背景色。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">div.addEventListener(<span class="string">"dragstart"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.style.backgroundColor = <span class="string">"red"</span>;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line">div.addEventListener(<span class="string">"dragend"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.style.backgroundColor = <span class="string">"green"</span>;</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
+<p>上面代码中，div节点被拖动时，背景色会变为红色，拖动结束，又变回绿色。</p>
+<p>下面是一个例子，显示如何实现将一个节点从当前父节点，拖拉到另一个父节点中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML代码为</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;</span></div><div class="line"><span class="comment">//    &lt;div id="draggable" draggable="true"&gt;</span></div><div class="line"><span class="comment">//       该节点可拖拉</span></div><div class="line"><span class="comment">//    &lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;&lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;&lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;&lt;/div&gt;</span></div><div class="line"></div><div class="line"><span class="comment">// 被拖拉节点</span></div><div class="line"><span class="keyword">var</span> dragged;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">"dragstart"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 保存被拖拉节点</span></div><div class="line">  dragged = event.target;</div><div class="line">  <span class="comment">// 被拖拉节点的背景色变透明</span></div><div class="line">  event.target.style.opacity = <span class="number">0.5</span>;</div><div class="line">  <span class="comment">// 兼容Firefox</span></div><div class="line">  event.dataTransfer.setData(<span class="string">'text/plain'</span>, <span class="string">'anything'</span>);</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragend'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 被拖拉节点的背景色恢复正常</span></div><div class="line">  event.target.style.opacity = <span class="string">''</span>;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragover'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 防止拖拉效果被重置，允许被拖拉的节点放入目标节点</span></div><div class="line">  event.preventDefault();</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragenter'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 目标节点的背景色变紫色</span></div><div class="line">  <span class="comment">// 由于该事件会冒泡，所以要过滤节点</span></div><div class="line">  <span class="keyword">if</span> ( event.target.className == <span class="string">'dropzone'</span> ) &#123;</div><div class="line">    event.target.style.background = <span class="string">'purple'</span>;</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragleave'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 目标节点的背景色恢复原样</span></div><div class="line">  <span class="keyword">if</span> ( event.target.className == <span class="string">'dropzone'</span> ) &#123;</div><div class="line">    event.target.style.background = <span class="string">""</span>;</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'drop'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 防止事件默认行为（比如某些Elment节点上可以打开链接）</span></div><div class="line">  event.preventDefault();</div><div class="line">  <span class="keyword">if</span> ( event.target.className === <span class="string">'dropzone'</span> ) &#123;</div><div class="line">    <span class="comment">// 恢复目标节点背景色</span></div><div class="line">    event.target.style.background = <span class="string">''</span>;</div><div class="line">    <span class="comment">// 将被拖拉节点插入目标节点</span></div><div class="line">    dragged.parentNode.removeChild( dragged );</div><div class="line">    event.target.appendChild( dragged );</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
+<h3 id="DataTransfer对象概述"><a href="#DataTransfer对象概述" class="headerlink" title="DataTransfer对象概述"></a>DataTransfer对象概述</h3><p>所有的拖拉事件都有一个dataTransfer属性，用来保存需要传递的数据。这个属性的值是一个DataTransfer对象。</p>
+<p>拖拉的数据保存两方面的数据：数据的种类（又称格式）和数据的值。数据的种类是一个MIME字符串，比如 text/plain或者image/jpeg，数据的值是一个字符串。一般来说，如果拖拉一段文本，则数据默认就是那段文本；如果拖拉一个链接，则数据默认就是链接的URL。</p>
+<p>当拖拉事件开始的时候，可以提供数据类型和数据值；在拖拉过程中，通过dragenter和dragover事件的监听函数，检查数据类型，以确定是否允许放下（drop）被拖拉的对象。比如，在只允许放下链接的区域，检查拖拉的数据类型是否为text/uri-list。</p>
+<p>发生drop事件时，监听函数取出拖拉的数据，对其进行处理。</p>
+<h3 id="DataTransfer对象的属性"><a href="#DataTransfer对象的属性" class="headerlink" title="DataTransfer对象的属性"></a>DataTransfer对象的属性</h3><p>DataTransfer对象有以下属性。</p>
+<p><strong>（1）dropEffect</strong></p>
+<p>dropEffect属性设置放下（drop）被拖拉节点时的效果，可能的值包括copy（复制被拖拉的节点）、move（移动被拖拉的节点）、link（创建指向被拖拉的节点的链接）、none（无法放下被拖拉的节点）。设置除此以外的值，都是无效的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">target.addEventListener(<span class="string">'dragover'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  e.preventDefault();</div><div class="line">  e.stopPropagation();</div><div class="line">  e.dataTransfer.dropEffect = <span class="string">'copy'</span>;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>dropEffect属性一般在dragenter和dragover事件的监听函数中设置，对于dragstart、drag、dragleave这三个事件，该属性不起作用。进入目标节点后，拖拉行为会初始化成用户设定的效果，用户可以通过按下Shift键和Control键，改变初始设置，在copy、move、link三种效果中切换。</p>
+<p>鼠标箭头会根据dropEffect属性改变形状，提示目前正处于哪一种效果。这意味着，通过鼠标就能判断是否可以在当前节点drop被拖拉的节点。</p>
+<p><strong>（2）effectAllowed</strong></p>
+<p>effectAllowed属性设置本次拖拉中允许的效果，可能的值包括copy（复制被拖拉的节点）、move（移动被拖拉的节点）、link（创建指向被拖拉节点的链接）、copyLink（允许copy或link）、copyMove（允许copy或move）、linkMove（允许link或move）、all（允许所有效果）、none（无法放下被拖拉的节点）、uninitialized（默认值，等同于all）。如果某种效果是不允许的，用户就无法在目标节点中达成这种效果。</p>
+<p>dragstart事件的监听函数，可以设置被拖拉节点允许的效果；dragenter和dragover事件的监听函数，可以设置目标节点允许的效果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.effectAllowed = <span class="string">"copy"</span>;</div></pre></td></tr></table></figure>
+<p>dropEffect属性和effectAllowed属性，往往配合使用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.effectAllowed = <span class="string">"copyMove"</span>;</div><div class="line">event.dataTransfer.dropEffect = <span class="string">"copy"</span>;</div></pre></td></tr></table></figure>
+<p>上面代码中，copy是指定的效果，但是可以通过Shift或Ctrl键（根据平台而定），将效果切换成move。</p>
+<p>只要dropEffect属性和effectAllowed属性之中，有一个为none，就无法在目标节点上完成drop操作。</p>
+<p><strong>（3）files</strong></p>
+<p>files属性是一个FileList对象，包含一组本地文件，可以用来在拖拉操作中传送。如果本次拖拉不涉及文件，则属性为空的FileList对象。</p>
+<p>下面就是一个接收拖拉文件的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML代码为</span></div><div class="line"><span class="comment">// &lt;div id="output" style="min-height: 200px;border: 1px solid black;"&gt;</span></div><div class="line"><span class="comment">//   文件拖拉到这里</span></div><div class="line"><span class="comment">// &lt;/div&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.getElementById(<span class="string">'output'</span>);</div><div class="line"></div><div class="line">div.addEventListener(<span class="string">"dragenter"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  div.textContent = <span class="string">''</span>;</div><div class="line">  event.stopPropagation();</div><div class="line">  event.preventDefault();</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line">div.addEventListener(<span class="string">"dragover"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  event.stopPropagation();</div><div class="line">  event.preventDefault();</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line">div.addEventListener(<span class="string">"drop"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  event.stopPropagation();</div><div class="line">  event.preventDefault();</div><div class="line">  <span class="keyword">var</span> files = event.dataTransfer.files;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; files.length; i++) &#123;</div><div class="line">    div.textContent += files[i].name + <span class="string">' '</span> + files[i].size + <span class="string">'字节\n'</span>;</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
+<p>上面代码中，通过files属性读取拖拉文件的信息。如果想要读取文件内容，就要使用FileReader对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">div.addEventListener(<span class="string">'drop'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  e.preventDefault();</div><div class="line">  e.stopPropagation();</div><div class="line"></div><div class="line">  <span class="keyword">var</span> fileList = e.dataTransfer.files;</div><div class="line">  <span class="keyword">if</span> (fileList.length &gt; <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">var</span> file = fileList[<span class="number">0</span>];</div><div class="line">    <span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();</div><div class="line">    reader.onloadend = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span> (e.target.readyState == FileReader.DONE) &#123;</div><div class="line">        <span class="keyword">var</span> content = reader.result;</div><div class="line">        contentDiv.innerHTML = <span class="string">"File: "</span> + file.name + <span class="string">"\n\n"</span> + content;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    reader.readAsBinaryString(file);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><strong>（4）types</strong></p>
+<p>types属性是一个数组，保存每一次拖拉的数据格式，比如拖拉文件，则格式信息就为File。</p>
+<p>下面是一个例子，通过检查dataTransfer属性的类型，决定是否允许在当前节点执行drop操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">contains</span>(<span class="params">list, value</span>)</span>&#123;</div><div class="line">  <span class="keyword">for</span>( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; list.length; ++i )&#123;</div><div class="line">    <span class="keyword">if</span>(list[i] === value) <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doDragOver</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> isLink = contains( event.dataTransfer.types, <span class="string">"text/uri-list"</span>);</div><div class="line">  <span class="keyword">if</span> (isLink) event.preventDefault();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码中，只有当被拖拉的节点是一个链接时，才允许在当前节点放下。</p>
+<h3 id="DataTransfer对象的方法"><a href="#DataTransfer对象的方法" class="headerlink" title="DataTransfer对象的方法"></a>DataTransfer对象的方法</h3><p>DataTransfer对象有以下方法。</p>
+<p><strong>（1）setData()</strong></p>
+<p>setData方法用来设置事件所带有的指定类型的数据。它接受两个参数，第一个是数据类型，第二个是具体数据。如果指定的类型在现有数据中不存在，则该类型将写入types属性；如果已经存在，在该类型的现有数据将被替换。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.setData(<span class="string">"text/plain"</span>, <span class="string">"Text to drag"</span>);</div></pre></td></tr></table></figure>
+<p>上面代码为事件加入纯文本格式的数据。</p>
+<p>如果拖拉文本框或者拖拉选中的文本，会默认将文本数据添加到dataTransfer属性，不用手动指定。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">draggable</span>=<span class="string">"true"</span> <span class="attr">ondragstart</span>=<span class="string">"</div><div class="line">  event.dataTransfer.setData('text/plain', 'bbb')"</span>&gt;</span></div><div class="line">  aaa</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>上面代码中，拖拉数据实际上是bbb，而不是aaa。</p>
+<p>下面是添加其他类型的数据。由于text/plain是最普遍支持的格式，为了保证兼容性，建议最后总是将数据保存一份纯文本的格式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dt = event.dataTransfer;</div><div class="line"></div><div class="line"><span class="comment">// 添加链接</span></div><div class="line">dt.setData(<span class="string">"text/uri-list"</span>, <span class="string">"http://www.example.com"</span>);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, <span class="string">"http://www.example.com"</span>);</div><div class="line"><span class="comment">// 添加HTML代码</span></div><div class="line">dt.setData(<span class="string">"text/html"</span>, <span class="string">"Hello there, &lt;strong&gt;stranger&lt;/strong&gt;"</span>);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, <span class="string">"Hello there, &lt;strong&gt;stranger&lt;/strong&gt;"</span>);</div><div class="line"><span class="comment">// 添加图像的URL</span></div><div class="line">dt.setData(<span class="string">"text/uri-list"</span>, imageurl);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, imageurl);</div></pre></td></tr></table></figure>
+<p>可以一次提供多种格式的数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dt = event.dataTransfer;</div><div class="line">dt.setData(<span class="string">"application/x-bookmark"</span>, bookmarkString);</div><div class="line">dt.setData(<span class="string">"text/uri-list"</span>, <span class="string">"http://www.example.com"</span>);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, <span class="string">"http://www.example.com"</span>);</div></pre></td></tr></table></figure>
+<p>上面代码中，通过在同一个事件上面，存放三种类型的数据，使得拖拉事件可以在不同的对象上面，drop不同的值。注意，第一种格式是一个自定义格式，浏览器默认无法读取，这意味着，只有某个部署了特定代码的节点，才可能drop（读取到）这个数据。</p>
+<p><strong>（2）getData()</strong></p>
+<p>getData方法接受一个字符串（表示数据类型）作为参数，返回事件所带的指定类型的数据（通常是用setData方法添加的数据）。如果指定类型的数据不存在，则返回空字符串。通常只有drop事件触发后，才能取出数据。如果取出另一个域名存放的数据，将会报错。</p>
+<p>下面是一个drop事件的监听函数，用来取出指定类型的数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">onDrop</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> data = event.dataTransfer.getData(<span class="string">"text/plain"</span>);</div><div class="line">  event.target.textContent = data;</div><div class="line">  event.preventDefault();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码取出拖拉事件的文本数据，将其替换成当前节点的文本内容。注意，这时还必须取消浏览器的默认行为，因为假如用户拖拉的是一个链接，浏览器默认会在当前窗口打开这个链接。</p>
+<p>getData方法返回的是一个字符串，如果其中包含多项数据，就必须手动解析。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doDrop</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> lines = event.dataTransfer.getData(<span class="string">"text/uri-list"</span>).split(<span class="string">"\n"</span>);</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> line <span class="keyword">of</span> lines) &#123;</div><div class="line">    <span class="keyword">let</span> link = <span class="built_in">document</span>.createElement(<span class="string">"a"</span>);</div><div class="line">    link.href = line;</div><div class="line">    link.textContent = line;</div><div class="line">    event.target.appendChild(link);</div><div class="line">  &#125;</div><div class="line">  event.preventDefault();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码中，getData方法返回的是一组链接，就必须自行解析。</p>
+<p>类型值指定为URL，可以取出第一个有效链接。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> link = event.dataTransfer.getData(<span class="string">"URL"</span>);</div></pre></td></tr></table></figure>
+<p>下面是一次性取出多种类型的数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doDrop</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> types = event.dataTransfer.types;</div><div class="line">  <span class="keyword">var</span> supportedTypes = [<span class="string">"text/uri-list"</span>, <span class="string">"text/plain"</span>];</div><div class="line">  types = supportedTypes.filter(<span class="function"><span class="keyword">function</span> (<span class="params">value</span>) <span class="title">types</span>.<span class="title">includes</span>(<span class="params">value</span>));</div><div class="line">  <span class="title">if</span> (<span class="params">types.length</span>)</div><div class="line">    <span class="title">var</span> <span class="title">data</span> = <span class="title">event</span>.<span class="title">dataTransfer</span>.<span class="title">getData</span>(<span class="params">types[<span class="number">0</span>]</span>);</div><div class="line">  <span class="title">event</span>.<span class="title">preventDefault</span>(<span class="params"></span>);</div><div class="line">&#125;</span></div></pre></td></tr></table></figure>
+<p><strong>（3）clearData()</strong></p>
+<p>clearData方法接受一个字符串（表示数据类型）作为参数，删除事件所带的指定类型的数据。如果没有指定类型，则删除所有数据。如果指定类型不存在，则原数据不受影响。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.clearData(<span class="string">"text/uri-list"</span>);</div></pre></td></tr></table></figure>
+<p>上面代码清除事件所带的URL数据。</p>
+<p><strong>（4）setDragImage()</strong></p>
+<p>拖动过程中（dragstart事件触发后），浏览器会显示一张图片跟随鼠标一起移动，表示被拖动的节点。这张图片是自动创造的，通常显示为被拖动节点的外观，不需要自己动手设置。setDragImage方法可以用来自定义这张图片，它接受三个参数，第一个是img图片元素或者canvas元素，如果省略或为null则使用被拖动的节点的外观，第二个和第三个参数为鼠标相对于该图片左上角的横坐标和右坐标。</p>
+<p>下面是一个例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML代码为</span></div><div class="line"><span class="comment">// &lt;div id="drag-with-image" class="dragdemo" draggable="true"&gt;</span></div><div class="line">     drag me</div><div class="line"><span class="comment">// &lt;/div&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.getElementById(<span class="string">"drag-with-image"</span>);</div><div class="line">div.addEventListener(<span class="string">"dragstart"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> img = <span class="built_in">document</span>.createElement(<span class="string">"img"</span>);</div><div class="line">  img.src = <span class="string">"http://path/to/img"</span>;</div><div class="line">  e.dataTransfer.setDragImage(img, <span class="number">0</span>, <span class="number">0</span>);</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure></style></strong></p>
           
         
       
@@ -2140,7 +2200,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2185,7 +2245,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">113</span>
+                <span class="site-state-item-count">121</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
