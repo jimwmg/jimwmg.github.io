@@ -1,0 +1,768 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="requirejs," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1  函数调用的复杂性，在一个命名空间的概念下
+1234567891011121314151617181920212223 //命名空间的概念下    var M = M || &amp;#123;&amp;#125;;    M.m = M.m || &amp;#123;&amp;#125;;//||找true运算，undefined返回false    M.m.module1 = (function()&amp;#123;//">
+<meta property="og:type" content="article">
+<meta property="og:title" content="require js">
+<meta property="og:url" content="http://yoursite.com/2016/09/10/143requirejs/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="1  函数调用的复杂性，在一个命名空间的概念下
+1234567891011121314151617181920212223 //命名空间的概念下    var M = M || &amp;#123;&amp;#125;;    M.m = M.m || &amp;#123;&amp;#125;;//||找true运算，undefined返回false    M.m.module1 = (function()&amp;#123;//">
+<meta property="og:updated_time" content="2017-03-20T11:05:53.594Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="require js">
+<meta name="twitter:description" content="1  函数调用的复杂性，在一个命名空间的概念下
+1234567891011121314151617181920212223 //命名空间的概念下    var M = M || &amp;#123;&amp;#125;;    M.m = M.m || &amp;#123;&amp;#125;;//||找true运算，undefined返回false    M.m.module1 = (function()&amp;#123;//">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/10/143requirejs/"/>
+
+
+
+
+
+  <title> require js | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/143requirejs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                require js
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-10T12:36:00+08:00">
+                2016-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-requirejs/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript  requirejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>1  函数调用的复杂性，在一个命名空间的概念下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">//命名空间的概念下</span></div><div class="line">    <span class="keyword">var</span> M = M || &#123;&#125;;</div><div class="line">    M.m = M.m || &#123;&#125;;<span class="comment">//||找true运算，undefined返回false</span></div><div class="line">    M.m.module1 = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//        some code here</span></div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">func1</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</div><div class="line">            <span class="attr">func2</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)();</div><div class="line">    M.m.module2 = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">//        some code here</span></div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">func1</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</div><div class="line">            <span class="attr">func2</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)();</div><div class="line"></div><div class="line">    <span class="comment">//调用每个模块下面的方法，如果M 和 m更加长，那么调用起来是不是废了老劲了</span></div><div class="line">    M.m.module1.func1();</div><div class="line">    M.m.module1.func2();</div><div class="line">    M.m.module2.func1();</div><div class="line">    M.m.module2.func2();</div></pre></td></tr></table></figure>
+<p>2 导入一个公共接口，本着面向对象的思想在进行简化  对外开发一个接口  www.myexcute.com</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//导入一个接口,就像导入jQuery一样</span></div><div class="line">   (<span class="function"><span class="keyword">function</span>(<span class="params">$,module1</span>)</span>&#123;</div><div class="line">       <span class="comment">//some code here</span></div><div class="line">       <span class="comment">//jQuery的所有方法可以使用</span></div><div class="line">       <span class="comment">//$.extend</span></div><div class="line">       <span class="comment">//M.m.module1 接口所有的方法可以用</span></div><div class="line">       module1.func1();<span class="comment">//这种调用的方式比起上面的调用是不简化了不少</span></div><div class="line">       module1.func2();</div><div class="line">   &#125;)(jQuery, M.m.module1);</div><div class="line"></div><div class="line">   (<span class="function"><span class="keyword">function</span>(<span class="params">$,module2</span>)</span>&#123;   </div><div class="line">       <span class="comment">//some code here</span></div><div class="line">       <span class="comment">//jQuery的所有方法可以使用</span></div><div class="line">       <span class="comment">//$.extend</span></div><div class="line">       <span class="comment">//M.m.module1 接口所有的方法可以用</span></div><div class="line">       module2.func1();</div><div class="line">       module2.func2();</div><div class="line">   &#125;)(jQuery, M.m.module2);</div></pre></td></tr></table></figure>
+<p>虽然这个样子，代码冲突的可能性已经很小，但是代码依赖的问题，多脚本的管理、阻塞的问题，仍旧无法解决</p>
+<p>3 此时require.js便初露头角</p>
+<p>简单地说，有两点，一、模块作用域自成一体，不污染全局空间；二、模块指明依赖关系，并且依赖是通过参数传递的形式导入的，无需通过全局对象引用 – 依赖同样不污染全局空间。<br>定义模块</p>
+<p>3.1 如何定义模块   </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">define(id? , dependencies ? , factory) ; ?表示可选项</div></pre></td></tr></table></figure>
+<p>模块可以分为两种，第一种是无依赖的模块</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//math.js</span></div><div class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> a+b;</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">add</span> : add</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>第二种是有依赖的模块 dependencies是一个数组形式的参数，factory函数接受的参数是依赖模块的返回值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//getWidth.js文件</span></div><div class="line">define([<span class="string">'jquery'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">$</span>)</span>&#123;  <span class="comment">//jquery.js和getWidth.js在同一目录下</span></div><div class="line">   <span class="keyword">var</span> width = $(<span class="built_in">window</span>).width();</div><div class="line">    <span class="keyword">return</span> width;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>3.2 如何导入模块  require([‘module1’,’module2’ ],callback) 传入的依赖必须是一个数组形式存在的，callback是依赖传入完毕之后执行的逻辑;如果模块有返回值，则会直接传递给callback函数的形参，如果函数没有返回值，那么传递的callback形参的值是undefined      文件目录如下 </p>
+<p>test </p>
+<ul>
+<li>index.html</li>
+<li>js<ul>
+<li>require.js</li>
+<li>jquery.js</li>
+<li>main.js</li>
+<li>getWidth.js</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js  require请求的是模块的路径，因为使用了data-main属性，require默认访问路径是main.js所在目录，也就是js/</span></div><div class="line"><span class="built_in">require</span>([<span class="string">'getWidth'</span>,<span class="string">'jquery'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">ret</span>)</span>&#123; <span class="comment">//这里的jquery是引入的本地文件</span></div><div class="line">    <span class="built_in">console</span>.log(ret);</div><div class="line">&#125;)</div><div class="line"><span class="comment">//等价于  js/getWidth.js      js/jquery.js</span></div></pre></td></tr></table></figure>
+<p>indx.html文件中引入requirejs</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'require.js'</span> <span class="attr">data-main</span> = <span class="string">"js/main"</span>&gt;</span><span class="undefined"></span></div></pre></td></tr></table></figure>
+<p>加载requirejs脚本的script标签加入了data-main属性，这个属性指定的js将在加载完reuqire.js后处理，我们把require.config的配置加入到data-main后，就可以使每一个页面都使用这个配置，然后页面中就可以直接使用<code>require</code>来加载所有的短模块名</p>
+<p>data-main还有一个重要的功能，当script标签指定data-main属性时，require会默认的将data-main指定的js为根路径，是什么意思呢？如上面的data-main=”js/main”设定后，我们在使用require([‘jquery’])后(不配置jquery的paths)，require会自动加载js/jquery.js这个文件，而不是jquery.js，相当于默认配置了：</p>
+<p>data-main需要给所有的脚本文件设置一个根路径。根据这个根路径，RequireJS将会去加载所有相关的模块。下面的脚本是一个使用data-main例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">require.config(&#123;</div><div class="line">    baseUrl : &quot;js&quot;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>3.3 如果我们导入的文件是不符合require的规范或者导入文件来自本地服务器或者CDN或者其他的网站，这个时候上面的require方法就不能起作用了，这个时候我们需要配置文件的地址</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//配置函数require.config(&#123;&#125;)</span></div><div class="line">baseUrl——用于加载模块的根路径。</div><div class="line">paths——用于映射不存在根路径下面的模块路径。</div><div class="line">shims——配置在脚本/模块外面并没有使用RequireJS的函数依赖并且初始化函数。假设underscore并没有使用  RequireJS定义，但是你还是想通过RequireJS来使用它，那么你就需要在配置中把它定义为一个shim。</div><div class="line">deps——加载依赖关系数组</div></pre></td></tr></table></figure>
+<p>不符合规范 : 先来看一个简单的例子,文件目录如下</p>
+<ul>
+<li>export<ul>
+<li>index.html</li>
+<li>js<ul>
+<li>sayhello.js</li>
+<li>main.js</li>
+<li>require.js</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//index.html  加如下代码</div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/require.js"</span> <span class="attr">data-main</span>=<span class="string">'js/main'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//sayhello.js</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"hello handsome you"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js </span></div><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span> : &#123;</div><div class="line">        <span class="attr">h</span> : <span class="string">'sayhello'</span>   <span class="comment">//模块h的路径是js/hello.js   因为data-main属性的作用</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">shim</span> : &#123;</div><div class="line">        <span class="attr">h</span> :&#123; <span class="attr">exports</span> : <span class="string">'hello'</span>&#125;  <span class="comment">//将hello函数暴露出去;如果少了这行代码会报错</span></div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"><span class="built_in">require</span>([<span class="string">'h'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">hello</span>)</span>&#123;</div><div class="line">    hello();</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>上面代码 exports: ‘hello’中的 hello，是我们在 hello.js 中定义的 hello 函数。当我们使用 function hello() {} 的方式定义一个函数的时候，它就是全局可用的。如果我们选择了把它 export给requirejs，那当我们的代码依赖于 hello 模块的时候，就可以拿到这个 hello 函数的引用了。</p>
+<p>所以： exports 可以把某个非requirejs方式的代码中的某一个全局变量暴露出去，当作该模块以引用。</p>
+<p>3.3.1 假如我想暴露多个sayhello.js中的全局变量呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//sayhello.js</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"hello handsome you"</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello1</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"hello1 handsome you"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个时候main.js不能再用export了，应该使用init来初始化这些接口</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span> : &#123;</div><div class="line">        <span class="attr">h</span> : <span class="string">'sayhello'</span> </div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//shim : &#123;</span></div><div class="line">    <span class="comment">//    h :&#123; exports : 'hello'&#125;</span></div><div class="line">    <span class="comment">//&#125;</span></div><div class="line">    shim : &#123;</div><div class="line">        <span class="attr">h</span> :&#123; <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> &#123;</div><div class="line">                <span class="attr">h0</span>: hello,</div><div class="line">                <span class="attr">h1</span>: hello1</div><div class="line">            &#125;</div><div class="line">        &#125;&#125;</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"><span class="built_in">require</span>([<span class="string">'h'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">he</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">    he.h0()</div><div class="line">    he.h1()</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>3.3.2 导入外部服务器的文件，requirejs支持跨域</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span> : &#123;</div><div class="line">        <span class="string">"jq"</span> : [<span class="string">"http://libs.baidu.com/jquery/2.0.3/jquery"</span>],</div><div class="line">        <span class="string">"a"</span> : <span class="string">"js/a"</span>   </div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"><span class="comment">//配置完之后，下面可以引用jquery模块</span></div><div class="line"><span class="built_in">require</span>([<span class="string">"jq"</span>,<span class="string">"a"</span>],<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="comment">//在这里面可以直接使用jquery的所有API</span></div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        alert(<span class="string">"load finished"</span>);  </div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>3.4 如何引入第三方不不符合AMD规范的模块呢？这个时候需要进行配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">  <span class="attr">shim</span>:&#123;</div><div class="line">    <span class="string">'underscore'</span>:&#123;</div><div class="line">      <span class="attr">exports</span>:<span class="string">"_"</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//配置之后，我们就可以在其他模块中引入underscore模块了</span></div><div class="line"><span class="built_in">require</span>(<span class="string">'underscore'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">_</span>)</span>&#123;</div><div class="line">   _.each([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], alert);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>3.5 如何引入第三方不符合AMD规范的插件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">shim</span>: &#123;</div><div class="line">        <span class="string">"underscore"</span> : &#123;</div><div class="line">            <span class="attr">exports</span> : <span class="string">"_"</span>;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"jquery.form"</span> : &#123;</div><div class="line">            <span class="attr">deps</span> : [<span class="string">"jquery"</span>]</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//</span></div></pre></td></tr></table></figure>
+<p>4 requirejs优势</p>
+<p>4.1并行加载</p>
+<pre><code>我们知道，&lt;script&gt;&lt;/script&gt; 标签会阻塞页面，加载 a.js 时，后面的所有文件都得等它加载完成并执行结束后才能开始加载、执行。而 require.js 的模块可以并行下载，没有依赖关系的模块还可以并行执行，大大加快页面访问速度。
+</code></pre><p>4.2 不愁依赖</p>
+<pre><code>在我们定义模块的时候，我们就已经决定好模块的依赖 – c 依赖 b，b 又依赖 a。当我想用 c 模块的功能时，我只要在 require函数的依赖里指定 c：
+
+require([&apos;c&apos;], function(c) {...});
+
+至于 c 依赖的模块，c 依赖的模块的依赖模块… 等等，require.js 会帮我们打理
+</code></pre><p> 4.3  减少全局冲突</p>
+<pre><code>通过 define 的方式，我们大量减少了全局变量，这样代码冲突的概率就极小极小 – JavaScript 界有句话说，全局变量是魔鬼，想想，我们能减少魔鬼的数量，我想是件好事。
+</code></pre><p>关于全局变量</p>
+<p>有一点需要说明的是，require.js 环境中并不是只有 define 和 require 几个全局变量。许多库都会向全局环境中暴露变量，以 jQuery 为例，1.7版本后，它虽然注册自己为 AMD 模块，但同时也向全局环境中暴露了 jQuery 与 $。所以以下代码中，虽然我们没有向回调函数传入一份引用，jQuery/$ 同样是存在的：</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/requirejs/" rel="tag"># requirejs</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/10/39-媒体查询响应式开发/" rel="next" title="媒体查询 响应式开发">
+                <i class="fa fa-chevron-left"></i> 媒体查询 响应式开发
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/11/113-利用defineProperty获取闭包内部数据/" rel="prev" title="利用defineProperty获取闭包内部数据">
+                利用defineProperty获取闭包内部数据 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">112</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
