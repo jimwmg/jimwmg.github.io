@@ -723,6 +723,332 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/15/129ES6class/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/15/129ES6class/" itemprop="url">
+                  ES6 class
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-15T12:36:00+08:00">
+                2016-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index">
+                    <span itemprop="name">ES6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-class-declarations-可以用以下三种方式声明class类，必须先声明在使用；每一个使用class方式定义的类默认都有一个constructor函数，-这个函数是构造函数的主函数，-该函数体内部的this指向生成的实例"><a href="#1-class-declarations-可以用以下三种方式声明class类，必须先声明在使用；每一个使用class方式定义的类默认都有一个constructor函数，-这个函数是构造函数的主函数，-该函数体内部的this指向生成的实例" class="headerlink" title="1 class declarations 可以用以下三种方式声明class类，必须先声明在使用；每一个使用class方式定义的类默认都有一个constructor函数， 这个函数是构造函数的主函数， 该函数体内部的this指向生成的实例"></a>1 class declarations 可以用以下三种方式声明class类，必须先声明在使用；每一个使用class方式定义的类默认都有一个<strong>constructor</strong>函数， 这个函数是构造函数的主函数， 该函数体内部的<strong>this</strong>指向生成的实例</h3><p>An important difference between <strong>function declarations</strong> and <strong>class declarations</strong> is that function declarations are  hoisted and class declarations are not. You first need to declare your class and then access it, otherwise code like the following will throw a ReferenceError</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Rect = <span class="class"><span class="keyword">class</span> <span class="title">Rect</span> </span>&#123;</div><div class="line">       <span class="keyword">constructor</span>(height,width)&#123;		</div><div class="line">           <span class="keyword">this</span>.height = height ;</div><div class="line">           <span class="keyword">this</span>.width = width ;</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="keyword">var</span> Rect = <span class="class"><span class="keyword">class</span> </span>&#123;</div><div class="line">       <span class="keyword">constructor</span>(height,width)&#123;</div><div class="line">           <span class="keyword">this</span>.height = height ;</div><div class="line">           <span class="keyword">this</span>.width = width ;</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line">   </div><div class="line">   <span class="class"><span class="keyword">class</span> <span class="title">Rect</span> </span>&#123;</div><div class="line">       <span class="keyword">constructor</span>(height,width)&#123;</div><div class="line">           <span class="keyword">this</span>.height = height ;</div><div class="line">           <span class="keyword">this</span>.width = width ;</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<h3 id="2-对比ES5和ES6中的差别"><a href="#2-对比ES5和ES6中的差别" class="headerlink" title="2 对比ES5和ES6中的差别"></a>2 对比ES5和ES6中的差别</h3><p>constructor内定义的方法和属性是实例对象自己的，而constructor外定义的方法和属性则是所有实例对象可以共享的。</p>
+<p>2.1 创建类的过程差别</p>
+<p>ES5中:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">RectAngle</span>(<span class="params">height,width</span>)</span>&#123;</div><div class="line">  <span class="keyword">this</span>.height = height ;</div><div class="line">  <span class="keyword">this</span>.width = width ;</div><div class="line">&#125;</div><div class="line">RectAngle.prototype.getArea = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.calcArea();</div><div class="line">&#125;</div><div class="line">RectAngle.prototype.calcArea = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.height*<span class="keyword">this</span>.width;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.dir(RectAngle) ;<span class="comment">//输出下构造函数</span></div><div class="line"><span class="keyword">var</span> rectAngle = <span class="keyword">new</span> RectAngle(<span class="number">10</span>,<span class="number">10</span>);</div><div class="line"><span class="built_in">console</span>.log(rectAngle);</div><div class="line"><span class="built_in">console</span>.log(rectAngle.getArea());</div><div class="line"><span class="built_in">console</span>.log(rectAngle.__proto__ === Rectangle.prototype); <span class="comment">//true</span></div></pre></td></tr></table></figure>
+<p>ES6中:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"> <span class="class"><span class="keyword">class</span> <span class="title">Rect</span> </span>&#123;</div><div class="line">   <span class="keyword">constructor</span>(height,width)&#123;</div><div class="line">     <span class="keyword">this</span>.height = height ;</div><div class="line">     <span class="keyword">this</span>.width = width ;</div><div class="line">   &#125;</div><div class="line">   <span class="comment">//定义原型方法 类似于ES5中的Rect.prototype.getArea = function()&#123;&#125;;</span></div><div class="line">   getArea()&#123;</div><div class="line">     <span class="keyword">return</span> <span class="keyword">this</span>.calcArea();</div><div class="line">   &#125;</div><div class="line">   calcArea()&#123;</div><div class="line">     <span class="keyword">return</span> <span class="keyword">this</span>.height*<span class="keyword">this</span>.width ;</div><div class="line">   &#125;     </div><div class="line"> &#125;</div><div class="line"><span class="built_in">console</span>.dir(Rect) ;</div><div class="line"><span class="keyword">const</span> square = <span class="keyword">new</span> Rect(<span class="number">10</span>,<span class="number">10</span>);</div><div class="line"><span class="built_in">console</span>.log(square);</div><div class="line"><span class="built_in">console</span>.log(square.getArea());</div><div class="line"><span class="built_in">console</span>.log(square.__proto__ === Rect.prototype); <span class="comment">//true</span></div><div class="line"><span class="comment">//class类的prototype属性和其实例化对象的_ _ proto _ _ 全等,这点和ES5中的构造函数prototype和其实例化对象的__proto__全等一致</span></div></pre></td></tr></table></figure>
+<p>2.2 类中的方法独立调用的时候，函数内部this指向不同</p>
+<p>ES5中:原型上的方法被独立调用，非严格模式下，this会指向window，严格模式下指向undefined</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">RectAngle</span>(<span class="params">height,width</span>)</span>&#123;</div><div class="line">     <span class="keyword">this</span>.height = height ;</div><div class="line">     <span class="keyword">this</span>.width = width ;</div><div class="line"> &#125;</div><div class="line"> RectAngle.prototype.getArea = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">     <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> <span class="keyword">var</span> rectAngle = <span class="keyword">new</span> RectAngle(<span class="number">10</span>,<span class="number">10</span>);</div><div class="line"> <span class="keyword">let</span> getArea = rectAngle.getArea;</div><div class="line"> <span class="built_in">console</span>.log(getArea());<span class="comment">//window</span></div></pre></td></tr></table></figure>
+<p>ES6中: static方法或者原型上的方法被独立调用的时候，无论是否严格模式，其this指向都是undefined</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rect</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(height,width)&#123;</div><div class="line">    <span class="keyword">this</span>.height = height ;</div><div class="line">    <span class="keyword">this</span>.width = width ;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//定义原型方法 类似于ES5中的Rect.prototype.getArea = function()&#123;&#125;;</span></div><div class="line">  getArea()&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> square = <span class="keyword">new</span> Rect(<span class="number">10</span>,<span class="number">10</span>);</div><div class="line"><span class="keyword">let</span> getArea = square.getArea;</div><div class="line"><span class="built_in">console</span>.log(getArea());<span class="comment">//undefined</span></div></pre></td></tr></table></figure>
+<p>2.3 class类中static声明的方法不能被实例调用，也不会出现在实例化对象上 ; 可以直接通过类名调用；</p>
+<p>The static keyword defines a static method for a class. Static methods are called without <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript#The_object_(class_instance" target="_blank" rel="external">instantiating </a>)their class and <strong>cannot </strong>be called through a class instance. Static methods are often used to create utility functions for an application.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rect</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(height,width)&#123; 	</div><div class="line">    <span class="keyword">this</span>.height = height ;</div><div class="line">    <span class="keyword">this</span>.width = width ;</div><div class="line">  &#125;</div><div class="line">  getArea()&#123;		<span class="comment">//这个是Rect类的属性prototype上的方法</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.calcArea();</div><div class="line">  &#125;</div><div class="line">  calcArea()&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.height*<span class="keyword">this</span>.width ;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//静态方法为class类定义了一个方法，该方法不能再class类的实例对象上使用</span></div><div class="line">  <span class="keyword">static</span> shortHBW (H,W)&#123;</div><div class="line">    <span class="keyword">return</span> H-W ;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(Rect);<span class="comment">//static方法其实就是class类的属性</span></div><div class="line"><span class="built_in">console</span>.log(Rect.shortHBW(<span class="number">21</span>,<span class="number">12</span>) );<span class="comment">//9  //static方法直接通过类名可以直接调用</span></div><div class="line"><span class="built_in">console</span>.log(Rect.getArea() ); <span class="comment">//prototype method 不能直接通过类名调用</span></div></pre></td></tr></table></figure>
+<p>2.4 先来看下extends关键字的作用 class类实现继承的根本原因就是通过extends关键字，将子类的<strong> proto </strong> 属性指向父类构造函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(name) &#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  speak() &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">' makes a noise.'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;  <span class="comment">//没有继承的情况下</span></div><div class="line">  speak1() &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">' barks.'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.dir(Dog);</div><div class="line"><span class="built_in">console</span>.dir(Animal);</div><div class="line"><span class="built_in">console</span>.log(Dog.__proto__ === Animal);<span class="comment">//fasle</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(name) &#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  speak() &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">' makes a noise.'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span></span>&#123;  &#123;  <span class="comment">//extends的作用 是将子类 的__proto__属性指向父类，由此可以实现继承父类所有的属性和方法</span></div><div class="line">  speak1() &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">' barks.'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.dir(Dog);</div><div class="line"><span class="built_in">console</span>.dir(Animal);</div><div class="line"><span class="built_in">console</span>.log(Dog.__proto__ === Animal);<span class="comment">//true  这个是extends关键字的作用核心</span></div></pre></td></tr></table></figure>
+<p>2.5constructor 方法，以及super关键字</p>
+<p>2.5.1 The constructor method is a special method for creating and initializing an object created with a class； There can only be one special method with the name “constructor” in a class. A SyntaxError will be thrown if the class contains more than one occurrence of a constructor method.</p>
+<p>A constructor can use the super keyword to call the constructor of a parent class.</p>
+<p>constructor方法是类的默认方法，通过new命令生成对象实例时，自动调用该方法。一个类必须有constructor方法，如果没有显式定义，一个空的constructor方法会被默认添加。</p>
+<p>2.5.2 super有三种作用， <strong>第一是作为构造函数直接调用</strong>，<strong>第二种是作为父类实例</strong>， 第三种是在子类中的静态方法中调用父类的静态方法；super关键字，它指代父类的实例（即父类的this对象）。子类必须在constructor方法中调用super方法，否则新建实例时会报错。这是因为子类没有自己的this对象，而是继承父类的this对象，然后对其进行加工。如果不调用super方法，子类就得不到this对象</p>
+<p>也可以理解为super指向父类的 prototype属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(name,color) &#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.color = color;</div><div class="line">  &#125;</div><div class="line">  speak() &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">' makes a noise.'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Lion</span> <span class="keyword">extends</span> <span class="title">Cat</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(name,color,age)&#123;</div><div class="line">    <span class="keyword">super</span>(name,color);<span class="comment">//第一个作用，必须先调用，用来确定子类实例对象的this指向</span></div><div class="line">    <span class="keyword">this</span>.age = age ;</div><div class="line">  &#125;</div><div class="line">  speak() &#123;</div><div class="line">    <span class="keyword">super</span>.speak();<span class="comment">//第二个作用，super 作为父类实例调用父类的方法</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">' roars.'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> lion = <span class="keyword">new</span> Lion(<span class="string">"JErry"</span>,<span class="string">"white"</span>,<span class="number">12</span>);</div><div class="line">lion.speak();</div></pre></td></tr></table></figure>
+<p>2.6 classs类中的 get 和set    对某个属性设置存值函数和取值函数， 拦截该属性的存取行为</p>
+<p>下面这个栗子是对name属性的设置值以及获取值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span> </span>&#123;</div><div class="line">        <span class="keyword">constructor</span>(name) &#123; <span class="comment">//构造函数</span></div><div class="line">            <span class="keyword">this</span>.name = name;</div><div class="line">        &#125;</div><div class="line">        get name() &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>._name.toUpperCase();</div><div class="line">        &#125;</div><div class="line">        set name(value) &#123;</div><div class="line">            <span class="keyword">this</span>._name = value;</div><div class="line">        &#125;</div><div class="line">        sayName() &#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> p = <span class="keyword">new</span> People(<span class="string">"tom"</span>);</div><div class="line">    <span class="built_in">console</span>.log(p);</div><div class="line">    <span class="built_in">console</span>.log(p.name);    <span class="comment">//TOM</span></div><div class="line">    <span class="built_in">console</span>.log(p._name);    <span class="comment">//tom</span></div><div class="line">    p.sayName(); <span class="comment">//TOM</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/13/133ES6Object新词法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/13/133ES6Object新词法/" itemprop="url">
+                  ES6 object 对象新词法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-13T12:36:00+08:00">
+                2016-12-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index">
+                    <span itemprop="name">ES6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>ES6 Object</p>
+<p>1 对象新词法:允许在声明对象字面量时使用简写语法，来初始化属性变量和函数的定义方法，直接写变量，这时，属性名为变量名, 属性值为变量的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span>(<span class="params">name,age,gender</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            name,</div><div class="line">            age,</div><div class="line">            gender,</div><div class="line">            sayHello()&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">'my name is'</span>+<span class="keyword">this</span>.name);</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"><span class="comment">//等价于</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span>(<span class="params">name,age,gender</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">name</span>: name ,</div><div class="line">            <span class="attr">age</span> :age ,</div><div class="line">            <span class="attr">gender</span>: gender,</div><div class="line">            <span class="attr">sayHello</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">'my name is'</span>+<span class="keyword">this</span>.name);</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">let</span> p = getPerson(<span class="string">"Jhon"</span>,<span class="number">18</span>,<span class="string">'man'</span>);</div><div class="line">    <span class="built_in">console</span>.log(p);</div><div class="line">    p.sayHello();</div><div class="line"><span class="comment">//当然了混合这新词法和以前的定义方式定义对象也是可以的</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = <span class="string">'bar'</span>;</div><div class="line"><span class="keyword">var</span> obj = &#123;foo&#125;;</div><div class="line"><span class="comment">//等价于</span></div><div class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">foo</span>:foo&#125;;<span class="comment">//变量名:变量值</span></div></pre></td></tr></table></figure>
+<p>1.1 ES6 允许在声明对象的时候，对象的属性名可以是表达式，同时方法名也可以是表达式;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//javascript语言中定义对象的属性时候有以下两种方式</span></div><div class="line"><span class="keyword">var</span> obj = &#123; &#125; ;</div><div class="line"><span class="comment">//方式一</span></div><div class="line">obj.foo = <span class="string">'bar'</span>;</div><div class="line"><span class="comment">//方式二</span></div><div class="line">obj[<span class="string">'na'</span>+<span class="string">'me'</span>] = <span class="string">"Jhon"</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//在ES5中声明对象字面量时，只允许用第一种方式声明属性名，在ES6中允许使用第二种表达式的方式声明属性名</span></div><div class="line"><span class="comment">//ES5中</span></div><div class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">foo</span>:<span class="literal">true</span>,<span class="attr">abc</span>:<span class="number">123</span>,<span class="attr">sayHello</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">'hello you'</span>)&#125;&#125;;</div><div class="line"><span class="comment">//ES6中,对象的属性名可以是表达式</span></div><div class="line"><span class="keyword">var</span> property = <span class="string">'foo'</span>;</div><div class="line"><span class="keyword">var</span> obj = &#123;[property]:<span class="literal">true</span>,[<span class="string">'a'</span>+<span class="string">'ba'</span>]:<span class="number">123</span>,[<span class="string">'say'</span>+<span class="string">'Hello'</span>]()&#123;<span class="built_in">console</span>.log(<span class="string">'hello you'</span>)&#125;&#125;</div></pre></td></tr></table></figure>
+<p>1.2 注意一点，对象的<strong>属性名可以是表达式</strong>，但是不能和<strong>简写语法</strong>一起用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> property = <span class="string">'foo'</span>;</div><div class="line"><span class="keyword">var</span> obj = &#123;[property]&#125; ;<span class="comment">//会报错</span></div></pre></td></tr></table></figure>
+<p>1.3 属性名表达式如果是一个对象的话，默认情况下会转化为对象的字符串表示，属性名会覆盖</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> keyA = &#123;<span class="attr">a</span>: <span class="number">1</span>&#125;;</div><div class="line"><span class="keyword">const</span> keyB = &#123;<span class="attr">b</span>: <span class="number">2</span>&#125;;</div><div class="line"><span class="keyword">const</span> myObject = &#123;</div><div class="line">  [keyA]: <span class="string">'valueA'</span>,</div><div class="line">  [keyB]: <span class="string">'valueB'</span></div><div class="line">&#125;;</div><div class="line">myObject <span class="comment">// Object &#123;[object Object]: "valueB"&#125;</span></div></pre></td></tr></table></figure>
+<p>2 对象超类 super,当类继承或者设置了一个对象的原型<strong> proto </strong> 的时候，该对象的内使用super的时候，super可以理解为指向该对象的 <strong> proto </strong> 属性；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> parent = &#123;</div><div class="line">  foo()&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is parent"</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> child = &#123;</div><div class="line">  foo()&#123;</div><div class="line">    <span class="keyword">super</span>.foo();</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is child"</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(parent);</div><div class="line"><span class="built_in">console</span>.log(child);</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.setPrototypeOf(child,parent);<span class="comment">//改变child对象的 __proto__指向parent</span></div><div class="line">child.foo();<span class="comment">//this is parent   this is child</span></div><div class="line">child.__proto__.foo();<span class="comment">//this is parent</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/11/64PHP 基础语法：/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1605,388 +1931,11 @@ console.log(pos.left);//0
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/29/72-typeof instance 以及null undefined区别/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/29/72-typeof instance 以及null undefined区别/" itemprop="url">
-                  the difference between null and undefined
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-29T12:36:00+08:00">
-                2016-11-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-typeof的使用-这是一个运算符，不是方法"><a href="#1-typeof的使用-这是一个运算符，不是方法" class="headerlink" title="1 typeof的使用;这是一个运算符，不是方法"></a>1 typeof的使用;这是一个运算符，不是方法</h3><p>1.1检测数据类型，返回的结果是一个字符串类型。有六种可能：number boolean string  object function undefined</p>
-<p>注意typeof(null) 返回的是 : object </p>
-<p> typeof 运算符来判断一个值是否在某种类型的范围内。可以用这种运算符判断一个值是否表示一种原始类型：如果它是原始类型，还可以判断它表示哪种原始类型。ECMAScript 有 5 种原始类型（primitive type），即 Undefined、Null、Boolean、Number 和 String</p>
-<p>1.1.1 在ES6 之前，typeof可以随心所欲的时候，基本上不会报错</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> a);<span class="comment">//undefined   即使 a 在之前为进行任何的声明</span></div></pre></td></tr></table></figure>
-<p>1.1.2 但是在ES6 之后引入了let和const之后 typeof 就需要掂量一下自己咯,let声明的变量，在所声明的作用域中，<strong>必须在使用之前进行声明</strong>  ，其实这是一个好的趋势，可以形成严谨良好的编程习惯；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> a);<span class="comment">//Uncaught ReferenceError: a is not defined</span></div><div class="line">   <span class="keyword">let</span> a;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> a;				</div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">typeof</span> a);<span class="comment">//undefined</span></div></pre></td></tr></table></figure>
-<p>1.2  typeof 可以用于<strong>被声明</strong> 或者<strong>未被声明</strong> 的变量；但是<strong>未被声明</strong> 的变量不能用其他运算符运算，之外的其他运算符的话，会引起错误，因为其他运算符只能用于已声明的变量上。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> exp1 ;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> exp1);<span class="comment">//undefined</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> exp2);<span class="comment">//undefined</span></div><div class="line">    <span class="built_in">console</span>.log(exp1 == <span class="literal">undefined</span>);<span class="comment">//true   </span></div><div class="line">    <span class="built_in">console</span>.log(exp2 == <span class="literal">undefined</span>);<span class="comment">//报错</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> exp1 == <span class="string">'undefined'</span>);<span class="comment">//true</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> exp2 == <span class="string">'undefined'</span>);<span class="comment">//true  typeof运算符可以用于未被声明的变量</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>1.3 对于基本数据类型(Number Boolean String null  undefined) 以及引用类型 object的typeof值 </p>
-<p>1.3.1类 : Object Function Array String Boolean Number Date ；这些未初始化为实例的类的typeof类型为function</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params"></span>)</span>&#123;       &#125;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>);<span class="comment">//function Object() &#123; [native code] &#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">Object</span>);<span class="comment">//function</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Array</span>);<span class="comment">//function Array() &#123; [native code] &#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">Array</span>);<span class="comment">//function</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Function</span>);<span class="comment">//function Function() &#123; [native code] &#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">Function</span>);<span class="comment">//function</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">String</span>);<span class="comment">//function String() &#123; [native code] &#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">String</span>);<span class="comment">//function</span></div><div class="line"><span class="built_in">console</span>.log(test);<span class="comment">//function test()&#123;   &#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> test);<span class="comment">//function</span></div></pre></td></tr></table></figure>
-<p>1.3.2 对象的创建方式是用关键字 new 后面跟上实例化的类的名字，当将一个函数通过new实例化之后，那么就创建了一个对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params"></span>)</span>&#123;       &#125;  </div><div class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> test();</div><div class="line">   <span class="built_in">console</span>.log(obj.constructor);<span class="comment">//function test()&#123;&#125;</span></div><div class="line">   <span class="built_in">console</span>.log(obj);<span class="comment">//test｛｝</span></div><div class="line">   <span class="built_in">console</span>.log(<span class="keyword">typeof</span> obj);<span class="comment">//Object</span></div><div class="line"></div><div class="line">   <span class="keyword">var</span> obj1 = <span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">   <span class="built_in">console</span>.log(obj1.constructor);<span class="comment">//function Array() &#123; [native code] &#125;</span></div><div class="line">   <span class="built_in">console</span>.log(obj1);<span class="comment">//[]</span></div><div class="line">   <span class="built_in">console</span>.log(<span class="keyword">typeof</span> obj1);<span class="comment">//Object</span></div><div class="line"></div><div class="line">   <span class="keyword">var</span> obj2 = <span class="keyword">new</span> <span class="built_in">Function</span>();</div><div class="line">   <span class="built_in">console</span>.log(obj2.constructor);<span class="comment">//function Function() &#123; [native code] &#125;</span></div><div class="line">   <span class="built_in">console</span>.log(obj2);<span class="comment">//function anonymous() &#123;&#125;</span></div><div class="line">   <span class="built_in">console</span>.log(<span class="keyword">typeof</span> obj2);<span class="comment">//function</span></div><div class="line"></div><div class="line">   <span class="keyword">var</span> obj3 = <span class="keyword">new</span> <span class="built_in">String</span>();</div><div class="line">   <span class="built_in">console</span>.log(obj3.constructor);<span class="comment">//function String() &#123; [native code] &#125;</span></div><div class="line">   <span class="built_in">console</span>.log(obj3);<span class="comment">//String &#123;length: 0, [[PrimitiveValue]]: ""&#125;</span></div><div class="line">   <span class="built_in">console</span>.log(<span class="keyword">typeof</span> obj3);<span class="comment">//object</span></div><div class="line"></div><div class="line">   <span class="keyword">var</span> obj4 = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">   <span class="built_in">console</span>.log(obj4.constructor);<span class="comment">//function Object() &#123; [native code] &#125;</span></div><div class="line">   <span class="built_in">console</span>.log(obj4);<span class="comment">//Object &#123;&#125;</span></div><div class="line">   <span class="built_in">console</span>.log(<span class="keyword">typeof</span> obj4);<span class="comment">//object</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> obj5 = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">   <span class="built_in">console</span>.log(obj5.constructor);<span class="comment">//function Date() &#123; [native code] &#125;</span></div><div class="line">   <span class="built_in">console</span>.log(obj5);<span class="comment">//Tue Feb 28 2017 21:13:36 GMT+0800 (中国标准时间) //当前的时间 </span></div><div class="line">   <span class="built_in">console</span>.log(<span class="keyword">typeof</span> obj5);<span class="comment">//object</span></div></pre></td></tr></table></figure>
-<p>1.3.3 基本数据类型的typeof的值</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"你好"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> obj = &#123;<span class="string">"name"</span>:<span class="string">"john"</span>&#125;;  		</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="number">5</span>);			<span class="comment">//number</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="string">'name'</span>);		<span class="comment">//string</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="literal">false</span>);		<span class="comment">//boolean</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="literal">null</span>);		<span class="comment">// object</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="literal">undefined</span>);	<span class="comment">// undefined</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> func);		<span class="comment">// object</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> obj);		<span class="comment">// object</span></div><div class="line"><span class="comment">//所有的返回值的类型都会 字符串  类型，注意都是小写字母；但是有一点缺陷就是函数和对象以及DOM对象返回的值都是object,所以typeof用来监测数据类型的时候，如果监测基本数据类型还比较可靠，但是监测对象的时候却无太大作用。</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>1.3.5 通过上面分析我们发现typeof可以判断基本数据类型，但是对于复杂数据类型，返回都是object，那么如何检测object的”类”呢？也就是说，如何检测一个对象是由哪个构造函数创建的呢？</p>
-<p>这个时候就要用到 instanceof 了；语法: obj instanceof Type ,会沿着对象的原型链一层层的找，如果找到由Type类型的构造函数,则返回true，否则返回false；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params"></span>)</span>&#123;       &#125;</div><div class="line">    <span class="keyword">var</span> obj = <span class="keyword">new</span> test();</div><div class="line">    <span class="built_in">console</span>.log(obj.constructor);<span class="comment">//function test()&#123;&#125;</span></div><div class="line">    <span class="built_in">console</span>.log(obj);<span class="comment">//test｛｝</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> obj);<span class="comment">//Object</span></div><div class="line">    <span class="built_in">console</span>.log(obj <span class="keyword">instanceof</span> test);<span class="comment">//true </span></div><div class="line"><span class="comment">//表示obj对象是test这个构造函数产生的 obj.__proto__ = test.prototype ;</span></div><div class="line"><span class="comment">//obj的原型上__proto__ 指向test.prototype</span></div><div class="line">	<span class="built_in">console</span>.log(obj <span class="keyword">instanceof</span> <span class="built_in">Object</span>);<span class="comment">//true</span></div></pre></td></tr></table></figure>
-<p>1.3.6 或者可以直接调用Object.prototype.toString.call(obj) 来判断obj到底是哪个类型的内置对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.toString.call(<span class="literal">true</span>));<span class="comment">//[object Boolean]</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.toString.call(<span class="number">1</span>,<span class="number">2</span>)); <span class="comment">//[object Number]</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.toString.call(<span class="literal">null</span>));<span class="comment">//[object Null]</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.toString.call(<span class="literal">undefined</span>));<span class="comment">//[object Undefined]</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.toString.call(<span class="string">"str"</span>));<span class="comment">//[object String]</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.toString.call([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]));<span class="comment">//[object Array]</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.toString.call(&#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>&#125;));<span class="comment">//[object Object]</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.toString.call(<span class="keyword">new</span> <span class="built_in">Date</span>()));<span class="comment">//[object Date]</span></div></pre></td></tr></table></figure>
-<h3 id="2-null-undefined-这两个原始数据类型没有属性和方法"><a href="#2-null-undefined-这两个原始数据类型没有属性和方法" class="headerlink" title="2 null  undefined  这两个原始数据类型没有属性和方法"></a>2 null  undefined  这两个原始数据类型没有属性和方法</h3><p>2.1 null是一个表示”无”的对象(null 则用于表示尚未存在的对象)，转化为数值的时候值为0；典型的用法是：</p>
-<ul>
-<li>用来初始化一个变量，该变量将来可能会被赋值成一个对象</li>
-<li>用来和一个已经初始化的对象进行比较，这个变量可以是一个对象，也可以不是一个对象</li>
-<li>当函数的参数期望是对象时，被用作参数传入</li>
-<li>当函数返回值期望是对象时，被当做返回值输出(比如调用API 获取页面元素)</li>
-<li>调用API获取页面中的元素，获取不到的时候，返回undefined;</li>
-<li>删除事件绑定,事件本身是一个 null ,是一个空的对象，可以添加</li>
-<li>作为对象原型链的终点</li>
-<li>正则exec()方法如果未找到匹配，则返回值为 null。</li>
-<li>字符串 str.match(value) 方法匹配字符串，如果匹配不到，返回null</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"按钮"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">document</span>.querySelector(<span class="string">"input"</span>).onclick);<span class="comment">//null</span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"input"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"被定义"</span>);</div><div class="line">    &#125;;</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">document</span>.querySelector(<span class="string">"input"</span>).onclick);<span class="comment">//function()&#123;  console.log("被定义"); &#125;</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>2.2 undefined 是一个表示”无”的原始值，转化为数值的时候值为0 ；为布尔类型的时候使false ; 典型用法是：</p>
-<ul>
-<li>变量被声明了，但是没有赋值，那么该变量的值就是undefined</li>
-<li>调用一个函数的时候，如果应该提供的参数没有提供，那么该参数默认是undefined</li>
-<li>如果一个对象的属性没有赋值，那么该属性值为undefined</li>
-<li>获取某个对象的属性，该对象本身就没有该属性，返回undefined(数组也是对象)</li>
-<li>函数没有返回值的时候，默认返回undefined;</li>
-<li>函数的实参少于形参个数，未被赋值的形参默认值为undefined</li>
-<li>使用shift pop 删除数组中的第一个和最后一个元素的时候，如果数组为空，那么返回值是undefined</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="keyword">this</span>.age=<span class="number">10</span>;</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">var</span> p1=foo.call(<span class="literal">null</span>); <span class="comment">//函数执行结果没有返回值，默认返回undefined,</span></div><div class="line">   <span class="built_in">console</span>.log(p1.age);<span class="comment">//undefined没有属性和方法，所以会报错</span></div></pre></td></tr></table></figure>
-<p>2.3 乱入一个空字符串作为返回值以及NaN作为返回值的情况总结吧</p>
-<ul>
-<li>str.chatAt(index)  如果index不再0和str.length那么返回一个空字符；</li>
-<li>如果期望转化的结果为数字的时候，转化失败的时候，返回NaN</li>
-</ul>
-<p>2.4如何区分二者？</p>
-<ul>
-<li>==  运算符只比较值，不进行类型的比较，比较之前会进行隐式转化，null==undefined  返回true.</li>
-<li>=== 区分两者，不仅仅比较内容，还比较数据类型  null===undefined  false</li>
-</ul>
-<p>如何判断一个变量是null还是undefined?</p>
-<ul>
-<li>如何确定一个变量是undefined;</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> exp = <span class="literal">undefined</span> ;<span class="comment">//var exp ;如果不进行赋值的话，结果也是undefined</span></div><div class="line"><span class="comment">//这种方法是错误的，因为null==undefined 返回true;</span></div><div class="line"><span class="keyword">if</span>(exp == <span class="literal">undefined</span>)&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"exp变量是undefined"</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">//这种方法才是正确的，注意undefined加"" ,因为typeof返回的值是一个字符串类型的</span></div><div class="line"><span class="keyword">if</span>(<span class="keyword">typeof</span>(exp) == <span class="string">'undefined'</span>)&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"exp变量是undefined"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>以下附上   ==  运算符的W3C解释，方便读者回忆基础</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">执行类型转化遵循的规则:</div><div class="line">如果一个运算数是 Boolean 值，在检查相等性之前，把它转换成数字值。false 转换成 0，true 为 1。 </div><div class="line">如果一个运算数是字符串，另一个是数字，在检查相等性之前，要尝试把字符串转换成数字。 </div><div class="line">如果一个运算数是对象，另一个是字符串，在检查相等性之前，要尝试把对象转换成字符串。 </div><div class="line">如果一个运算数是对象，另一个是数字，在检查相等性之前，要尝试把对象转换成数字。</div><div class="line">还遵循以下转化规则:</div><div class="line">值 null 和 undefined 相等。 </div><div class="line">在检查相等性时，不能把 null 和 undefined 转换成其他值。 </div><div class="line">如果某个运算数是 NaN，等号将返回 false，非等号将返回 true。 </div><div class="line">如果两个运算数都是对象，那么比较的是它们的引用值。如果两个运算数指向同一对象，那么等号返回 true，否则两个运算数不等。</div></pre></td></tr></table></figure>
-<p>我觉得可以进行再简化，来进行解释这个比较过程:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">如果其中一个是布尔类型则先将布尔类型转化 为0 或者 1 ;</div><div class="line">如果一个是对象，和字符串、 数字 或者 布尔类型 进行比较的时候则将对象转化为原始值，对象通过toString  valueOf 查看原始值，然后在与字符串 数字 布尔类型进行比较</div></pre></td></tr></table></figure>
-<ul>
-<li>如何确定一个变量是null</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> exp = <span class="literal">null</span>;</div><div class="line"><span class="comment">//以下两种是不正确的</span></div><div class="line"><span class="keyword">if</span>(!exp)&#123;   <span class="comment">//0 或者undefined同样可以进入if语句</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"该变量是null"</span>);</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>(exp == <span class="literal">null</span> )&#123; <span class="comment">//undefined == null 返回true </span></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"该变量是null"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">//下面这种才是正确判断null 类型的</span></div><div class="line"><span class="keyword">if</span>(<span class="keyword">typeof</span>(exp) == <span class="string">'object'</span> &amp;&amp; exp == <span class="literal">null</span>)&#123; <span class="comment">//同时进行类型和内容的判断</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"该变量是null"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/22/31-width  百分比取值相对基准问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/22/31-width  百分比取值相对基准问题/" itemprop="url">
-                  width 百分比取值基准
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-22T12:36:00+08:00">
-                2016-11-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/html/" itemprop="url" rel="index">
-                    <span itemprop="name">html</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>width  百分比取值相对基准问题</p>
-<p>一 ：标准流下，父元素不定位，不浮动，子元素的100% width相对于哪个元素的width进行取值</p>
-<p>二：脱离标准流之后，父元素设置了定位或者浮动之后，子元素的100% width相对于哪个元素的width进行取值</p>
-<p>注意理解：</p>
-<ul>
-<li><p>当<strong>子元素</strong><code>是</code><strong>标准流</strong>的元素的时候，(包括子元素设置position:relative，也是永远相对于父元素的宽高为基准)</p>
-<p>无论<strong>父元素是否是标准流</strong> 的元素，<strong>子元素</strong>的width和height的百分比取值永远都是<strong>相对于父元素</strong>的;</p>
-</li>
-</ul>
-<p>此时无论父元素是否设置定位，子元素的width height padding margin 通过百分数取值的时候，都是相对于其<strong>直接父元素</strong>。</p>
-<ul>
-<li><p>当<strong>子元素</strong><code>不是</code><strong>标准流</strong>的时候，比如子元素设置了position:absolute；</p>
-<p> 此时子元素的宽高百分比设置的时候，百分比的宽高基准是顺着DOM元素往上寻找最近的一个设置了定位了父元素的宽高为基准，如果祖先元素都没有定位的话，那么就是相对于body的宽高；注意position除了static的父元素 ；</p>
-<p>注意<strong>position除了static的父元素</strong> ；</p>
-</li>
-<li><p>其实绝对定位的子元素的  margin  padding  等值的百分比都是相对于顺着DOM节点树向上第一个设置了除了static定位之外的position 的元素的宽度为基准的；</p>
-</li>
-<li><p>% 重点理解：width 是 基于父元素的 width 计算的值<br>height 是基于父元素的 height 计算的值<br>padding 和 margin 的无论上下左右 值 都是基于DOM树节点祖先元素中第一个设置了除了static定位之外的第一个祖先元素的宽度 </p>
-<p>​</p>
-<p>​</p>
-<p>​</p>
-<p>​</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2031,7 +1980,7 @@ console.log(pos.left);//0
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">90</span>
+                <span class="site-state-item-count">103</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
