@@ -449,6 +449,194 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/13/158DOMContentLoaded/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/13/158DOMContentLoaded/" itemprop="url">
+                  DOMContentLoaded
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-13T12:36:00+08:00">
+                2016-05-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DOM/" itemprop="url" rel="index">
+                    <span itemprop="name">DOM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1 DOMContentLoaded </p>
+<p>1.1 先来看下浏览器向服务器发送请求之后，请求到了HTML文档之后便开始解析，先生成DOM树 ，然后生成CSSDOM树，再由二者结合生成渲染树(RenderTree),有了所有的节点的样式，浏览器便可以genuine这些节点以及它们的样式确定它们的位置和大小，这就是layout阶段，之后浏览器会进行渲染，总结如下</p>
+<p>DOM–&gt;CSSOM–&gt;RenderTree–&gt;layout–&gt;Paint</p>
+<p>1.2 当然了这个时候我们还没有考虑到javascript;javascript会阻塞DOM的生成，也就是说当浏览器解析HTML的时候，如果遇到了script标签就会停止对HTML的解析，转而进行处理javascript脚本</p>
+<ul>
+<li>如果脚本是内联的，浏览器会先执行这段javascript代码</li>
+<li>如果脚本是外联的，浏览器会先加载脚本，然后执行</li>
+<li>因为javascript可以查询任意对象的样式，也就是说在CSSOM解析完毕之后，javascript才会被执行</li>
+</ul>
+<p>处理完毕脚本之后会继续解析HTML文档</p>
+<p>1.3 总结:</p>
+<ul>
+<li>当文档中没有javascript脚本的时候，浏览器解析玩文档便能触发DOMContentLoaded事件</li>
+<li>如果文档中包含脚本，则会阻塞文档的解析，同时脚本的执行需要等待CSSOM解析完毕才能执行</li>
+<li>DOMContentLoaded事件的触发不需要等待图片等其他资源加载完成</li>
+</ul>
+<p>2 异步脚本</p>
+<p>2.1 我们知道同步脚本的解析对网页渲染有影响，如果我们想要页面尽快的显示，那我们可以使用异步脚本；HTML5中有两种执行异步脚本的方法:defer和async</p>
+<p>2.2 看下二者的区别</p>
+<p>2.2.1 script脚本，没有defer和async属性</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"***.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>当HTML文档解析的时候遇到javascript标签，会停止对文档的解析，进而加载javascript脚本，加载完毕之后<strong>立即执行</strong></p>
+<p>2.2.2 defer脚本</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"***.js"</span> <span class="attr">defer</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>当HTML文档解析的时候遇见defer脚本，则会在后台加载脚本，文档的解析过程不会中断，</p>
+<p><strong>当文档解析结束之后，defer脚本执行</strong>；defer脚本的执行顺序与定义的时候的位置有关</p>
+<ul>
+<li>defer属性只适用于外联脚本，如果script标签没有src属性，只是内联脚本，不要使用defer</li>
+<li>如果声明了多个defer脚本，则会按照顺序进行执行</li>
+<li>defer脚本会在DOMContentLoaded和loaded事件触发之前执行</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>defer &amp; async<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"css/main.css"</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- adding a 'defer' attribute, by default, the value will be 'true' --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"js/1.js"</span> <span class="attr">defer</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"js/2.js"</span> <span class="attr">defer</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">defer</span>&gt;</span><span class="undefined"></span></div><div class="line">            console.log(3);</div><div class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text"</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line">            document.addEventListener("DOMContentLoaded", function() &#123;</div><div class="line">                console.log('dom content loaded, ready state:', this.readyState);</div><div class="line">            &#125;, false);</div><div class="line"></div><div class="line">            window.addEventListener('load', function() &#123;</div><div class="line">                console.log('window loaded, dom ready state:', document.readyState);</div><div class="line">            &#125;, false);</div><div class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//js/1.js</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"1"</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//js/2.js</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"2"</span>);</div></pre></td></tr></table></figure>
+<p>输出如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">3</div><div class="line">1</div><div class="line">2</div><div class="line">20defer.html:17 dom content loaded, ready state: interactive</div><div class="line">20defer.html:21 window loaded, dom ready state: complete</div></pre></td></tr></table></figure>
+<p>2.2.3 async脚本</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"***.js"</span> <span class="attr">async</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>当HTML文档解析的时候遇见async脚本，则会在后台加载脚本，文档的解析过程不会中断，</p>
+<p><strong>脚本加载完成之后，文档停止解析，async脚本执行</strong>；async脚本执行完毕之后，文档继续解析</p>
+<ul>
+<li>只适用于外联脚本，这一点和defer一致 </li>
+<li>如果有多个声明了async的脚本，其下载和执行也是异步的，不能确保彼此的先后顺序 </li>
+<li>async会在load事件之前执行，但并不能确保与DOMContentLoaded的执行先后顺序</li>
+</ul>
+<p>2.2.4 async脚本不考虑依赖，加载完毕之后马上会执行，这点对于不需要依赖的javascript脚本是非常合适的，但是对于需要依赖的javascript脚本而言，defer无疑是最合适的。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/28/38-清除浮动的方式：/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -553,160 +741,6 @@
 <p>第二：给父元素设置 overflow:hidden ，zoom:1 (zoom :1用来兼容IE6)触发BFC，父元素仍然会被设置了浮动的子元素的高度撑开(如果父元素没有设置高度的话)</p>
 <p>第三：伪元素，在当前元素的前后添加伪元素，使该伪元素设置：clear:both;注意height必须设置为0 ，否则该元素回避实际高出若干像素；</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">clearfix::before,clearfix::after &#123;</div><div class="line">	content:"";</div><div class="line">	display:block;</div><div class="line">	visibility:hidden;//伪元素不可见</div><div class="line">	line-height:0;</div><div class="line">	height:0 ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/17/154Ajax-如何处理缓存/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/17/154Ajax-如何处理缓存/" itemprop="url">
-                  Ajax 如何处理缓存
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-17T12:36:00+08:00">
-                2016-04-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/http-ajax/" itemprop="url" rel="index">
-                    <span itemprop="name">http ajax</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.GET请求缓存处理，不想要缓存GET请求？</p>
-<p>浏览器会缓存GET请求，不会缓存POST请求，因此解决为：</p>
-<p>方法1：GET请求URL后加随机数，让服务器认为是不同的请求，如：”<a href="http://www.example.com/index.jsp?class=articele&amp;page=5&amp;t&quot;+new" target="_blank" rel="external">http://www.example.com/index.jsp?class=articele&amp;page=5&amp;t&quot;+new</a> Date().getTime();</p>
-<p>方法2：在ajax发送请求前加上xmlHttpRequest.setRequestHeader(“If-modified-since”,”0”);</p>
-<p>方法3：在ajax发送请求前加上xmlHttpRequest.setRequestHeader(“Cache-Control”,”no-cache”);</p>
-<p>方法4：若为<a href="http://lib.csdn.net/base/jquery" target="_blank" rel="external">jQuery</a> ajax, 设置ajax属性cache:false;(注意：cache属性对post没有用，对get才有用)</p>
-<p>方法5：在服务器端响应请求时加上response.setHeader(“Cache-Control”,”no-cache,must-revalidate”);</p>
-<p>方法6：使用POST代替GET,浏览器不会对POST做缓存</p>
-<p>注意：为什么cache属性对post没有用，对get才有用？</p>
-<p>因为1.浏览器缓存url请求原理就是判断url是否相同，url相同则读取缓存，url不相同则读取服务器</p>
-<p>2.使用GET方式提交url类似”<a href="http://www.example.com/index.jsp?class=articele&amp;page=5“，而POST方式提交url类似http://www.example.com/index.jsp，参数是在请求" target="_blank" rel="external">http://www.example.com/index.jsp?class=articele&amp;page=5“，而POST方式提交url类似http://www.example.com/index.jsp，参数是在请求</a> head里的，不在url上，请求参数url始终相同</p>
-<p>3.jquery ajax GET方式提交： data: “t=” + new Date().getTime(),  或者 data:{“t”: new Date().getTime()}或者cash:false都是在请求后面加上不同的参数，cach:false会启动生成参数附加在url请求里，因此浏览器认为是不同的请求，就重新请求服务器</p>
 
           
         
@@ -1196,6 +1230,160 @@
 <p>3.4 通过对XHR发送请求，加载javascript脚本</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">xhr.open(<span class="string">'get'</span>,<span class="string">'script1.js'</span>,<span class="string">'true'</span>);</div><div class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">if</span>(xhr.status &gt;=<span class="number">200</span> &amp;&amp; xhr.status &lt;<span class="number">300</span> || xhr.status == <span class="number">304</span>)&#123;</div><div class="line">    <span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</div><div class="line">    script.type = <span class="string">"text/javascript"</span>;</div><div class="line">    script.text = xhr.responseText;</div><div class="line">    <span class="built_in">document</span>.body.appendChild(script);</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//有个缺点就是javascript文件必须与页面同域，不能从CDN(Content Delivery Network)下载</span></div></pre></td></tr></table></figure>
 <h3 id="4-内存管理"><a href="#4-内存管理" class="headerlink" title="4 内存管理"></a>4 内存管理</h3><p>虽然javascript具有垃圾回收机制，但是为了让页面具有更好地性能，还是需要进行内存的优化；对于局部变量，在其执行完毕之后，会被自动清除(闭包除外)，但是对于全局变量以及全局的函数，如果数据不再使用，最好通过设置为null的形式进行手动接触占用</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/17/154Ajax-如何处理缓存/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/17/154Ajax-如何处理缓存/" itemprop="url">
+                  Ajax 如何处理缓存
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-17T12:36:00+08:00">
+                2016-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/http-ajax/" itemprop="url" rel="index">
+                    <span itemprop="name">http ajax</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.GET请求缓存处理，不想要缓存GET请求？</p>
+<p>浏览器会缓存GET请求，不会缓存POST请求，因此解决为：</p>
+<p>方法1：GET请求URL后加随机数，让服务器认为是不同的请求，如：”<a href="http://www.example.com/index.jsp?class=articele&amp;page=5&amp;t&quot;+new" target="_blank" rel="external">http://www.example.com/index.jsp?class=articele&amp;page=5&amp;t&quot;+new</a> Date().getTime();</p>
+<p>方法2：在ajax发送请求前加上xmlHttpRequest.setRequestHeader(“If-modified-since”,”0”);</p>
+<p>方法3：在ajax发送请求前加上xmlHttpRequest.setRequestHeader(“Cache-Control”,”no-cache”);</p>
+<p>方法4：若为<a href="http://lib.csdn.net/base/jquery" target="_blank" rel="external">jQuery</a> ajax, 设置ajax属性cache:false;(注意：cache属性对post没有用，对get才有用)</p>
+<p>方法5：在服务器端响应请求时加上response.setHeader(“Cache-Control”,”no-cache,must-revalidate”);</p>
+<p>方法6：使用POST代替GET,浏览器不会对POST做缓存</p>
+<p>注意：为什么cache属性对post没有用，对get才有用？</p>
+<p>因为1.浏览器缓存url请求原理就是判断url是否相同，url相同则读取缓存，url不相同则读取服务器</p>
+<p>2.使用GET方式提交url类似”<a href="http://www.example.com/index.jsp?class=articele&amp;page=5“，而POST方式提交url类似http://www.example.com/index.jsp，参数是在请求" target="_blank" rel="external">http://www.example.com/index.jsp?class=articele&amp;page=5“，而POST方式提交url类似http://www.example.com/index.jsp，参数是在请求</a> head里的，不在url上，请求参数url始终相同</p>
+<p>3.jquery ajax GET方式提交： data: “t=” + new Date().getTime(),  或者 data:{“t”: new Date().getTime()}或者cash:false都是在请求后面加上不同的参数，cach:false会启动生成参数附加在url请求里，因此浏览器认为是不同的请求，就重新请求服务器</p>
 
           
         
@@ -1903,220 +2091,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/11/98-Javascript中运算符/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/11/98-Javascript中运算符/" itemprop="url">
-                  javascript中的运算符
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-11T12:36:00+08:00">
-                2016-04-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Javascript中运算符"><a href="#Javascript中运算符" class="headerlink" title="Javascript中运算符"></a>Javascript中运算符</h2><p>###1  一元运算符以及访问</p>
-<table>
-<thead>
-<tr>
-<th>. [] ()</th>
-<th>字段访问、数组下标、函数调用以及表达式分组</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>++ — - + ~ ! delete new typeof void</td>
-<td>一元运算符、返回数据类型、对象创建、未定义值</td>
-</tr>
-</tbody>
-</table>
-<p>delete可以删除对象的属性值以及方法，将其值为undefined，对于局部变量和方法，以及全局用var声明的变量,delete是没有用的；delete  obj.prop ;</p>
-<p>如果删除成功，delete x 返回true，否则返回false;</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">a = <span class="number">6</span> ;</div><div class="line">  <span class="built_in">console</span>.log(a);<span class="comment">//6</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">delete</span> a );<span class="comment">//true</span></div><div class="line">  <span class="built_in">console</span>.log(a);<span class="comment">//报错</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">6</span> ;</div><div class="line">   <span class="built_in">console</span>.log(a);<span class="comment">//6</span></div><div class="line">   <span class="built_in">console</span>.log(<span class="keyword">delete</span> a );<span class="comment">//fasle</span></div><div class="line">   <span class="built_in">console</span>.log(a);<span class="comment">//6</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">  (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//        'use strict'    //如果在严格模式下会报错</span></div><div class="line">        <span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line">        <span class="built_in">Object</span>.defineProperty(obj,<span class="string">"name"</span>,&#123;</div><div class="line">            <span class="attr">value</span>:<span class="string">"Jhon"</span>,</div><div class="line">            <span class="attr">weitable</span>:<span class="literal">true</span>,</div><div class="line">            <span class="attr">configable</span>:<span class="literal">false</span>,<span class="comment">//控制属性是否可以被删除</span></div><div class="line">            enumerable:<span class="literal">false</span></div><div class="line">        &#125;)</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">delete</span> obj.name); <span class="comment">//false</span></div><div class="line">        <span class="built_in">console</span>.log(obj.name);<span class="comment">//Jhon</span></div><div class="line">    &#125;)()</div></pre></td></tr></table></figure>
-<p>一元加法(+)和一元减法(-),对于数字来说，就是简单的加减，对于字符串来说，会将字符串转化为数字，类似于parseInt；</p>
-<h3 id="2-关系运算符-gt-gt-lt-lt-返回一个布尔类型的值"><a href="#2-关系运算符-gt-gt-lt-lt-返回一个布尔类型的值" class="headerlink" title="2 关系运算符  &gt;  &gt;=  &lt;  &lt;=  返回一个布尔类型的值"></a>2 关系运算符  &gt;  &gt;=  &lt;  &lt;=  返回一个布尔类型的值</h3><p>(带有NaN的比较运算，返回的结果都是false)</p>
-<p>2.1 基本数据类型的比较(比较的时候会将对象，数组等转化为原始值)</p>
-<p>​    2.1.1 <strong>Number类型比较</strong>   直接比较值即可  ,就是常规的算术比较，不做深究，</p>
-<p><strong>如果只有一个运算数是数字，那么会隐式的将另外一个运算数转化为数字，然后进行比较；字符串转化为数字，布尔类型转化为数字，对象转化为数字；</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果有一个是数字类型的，会尽量将另外一个运算数也转化为数字类型</span></div><div class="line"> 	<span class="built_in">console</span>.log(<span class="number">1</span> &gt; []);<span class="comment">//true   空数组转化为数字是0 ,先将空数组转化为空字符串，然后空字符串转化为 0 </span></div><div class="line">    <span class="built_in">console</span>.log(<span class="number">1</span> &lt; []);<span class="comment">//false</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="number">1</span> &lt; &#123;&#125;);<span class="comment">//false  对象转化为字符串[object object] 然后转为数字是 NaN 带有NaN的关系运算表达式，返回的结果是false</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="number">1</span> &lt; &#123;&#125;);<span class="comment">//false</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="number">1</span> &lt; <span class="keyword">new</span> <span class="built_in">Date</span>());<span class="comment">//true</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="number">1</span> &gt; <span class="keyword">new</span> <span class="built_in">Date</span>());<span class="comment">//false</span></div></pre></td></tr></table></figure>
-<p>​    2.1.2  <strong>字符串类型比较</strong>  对于字符串，第一个字符串中每个字符的代码都与会第二个字符串中对应位置的字符的代码进行数值比较。完成这种比较操作后，返回一个 Boolean 值。</p>
-<ul>
-<li><strong>大写字母的代码都小于小写字母的代码</strong> ，所以，如果比较的字符有大写和小写，那么需要将字母字符串进行大小写转化</li>
-<li>如果两个运算数都是字符串，比较的是字符串中每一个字符的对应的字符代码</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"> <span class="built_in">console</span>.log(<span class="string">"Ball"</span>&lt;<span class="string">"alpha"</span>);<span class="comment">//true</span></div><div class="line"> <span class="built_in">console</span>.log(<span class="string">"Ball"</span>.toLocaleLowerCase()&lt;<span class="string">"alpha"</span>.toLocaleLowerCase());<span class="comment">//true</span></div><div class="line"> <span class="built_in">console</span>.log(<span class="string">'alpha'</span> &lt; <span class="string">"5"</span>);<span class="comment">//false</span></div><div class="line"> <span class="built_in">console</span>.log(<span class="string">'alpha'</span> &gt; <span class="string">"5"</span>);<span class="comment">//true</span></div><div class="line"> <span class="built_in">console</span>.log(<span class="string">"23"</span> &lt; <span class="string">"5"</span>);<span class="comment">//true   对于字符串比较的是字符的编码</span></div><div class="line"><span class="comment">//"2" 的字符代码是 50,"3" 的字符代码是 51</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">""</span> &gt; <span class="string">"a"</span>);<span class="comment">//false   字符串的比较是字符的编码</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">""</span> &lt; <span class="string">"a"</span>);<span class="comment">//true</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"a"</span> &lt; []);<span class="comment">//true</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"a"</span> &gt; []);<span class="comment">//fasle</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"a"</span> &gt; &#123;&#125;);<span class="comment">//true   空对象经过ToPrimitive运算出来的是 '[object Object]' 字符串值，以 'a'.charCodeAt(0) 计算出的值是字符编码是97数字，而 '['.charCodeAt(0) 则是91数字，所以 'a' &gt; (&#123;&#125;) 会是得到true。</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"a"</span> &lt; &#123;&#125;);<span class="comment">//fasle</span></div><div class="line">	<span class="built_in">console</span>.log([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>] &lt; [<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>]) ;<span class="comment">//true 数组的比较按照字典顺序比较</span></div><div class="line"><span class="comment">//接下来引出 数字和字符串的比较</span></div><div class="line"> <span class="built_in">console</span>.log(<span class="number">23</span> &lt; <span class="string">"5"</span>);<span class="comment">//false</span></div></pre></td></tr></table></figure>
-<p>2.1.3 <strong>字符串和数字类型比较</strong> 会将字符串先转化成数字，将字符串转化成数字的时候，解析器会使用parseInt () parseFloat()将字符串转化为可比较的数字；</p>
-<p>布尔类型值和数字类型值比较会将布尔类型转化为数字</p>
-<p>2.1.4 复杂数据类型的比较</p>
-<h3 id="parseInt"><a href="#parseInt" class="headerlink" title="parseInt()"></a>parseInt()</h3><p>parseInt() 方法首先查看位置 0 处的字符，判断它是否是个有效数字；如果不是，该方法将返回 NaN，不再继续执行其他操作。但如果该字符是有效数字，该方法将查看位置 1 处的字符，进行同样的测试。这一过程将持续到发现非有效数字的字符为止，此时 parseInt() 将把该字符之前的字符串转换成数字。</p>
-<p>例如，如果要把字符串 “12345red” 转换成整数，那么 parseInt() 将返回 12345，因为当它检查到字符 r 时，就会停止检测过程。</p>
-<p>字符串中包含的数字字面量会被正确转换为数字，比如 “0xA” 会被正确转换为数字 10。不过，字符串 “22.5” 将被转换成 22，因为对于整数来说，小数点是无效字符。</p>
-<h3 id="parseFloat"><a href="#parseFloat" class="headerlink" title="parseFloat()"></a>parseFloat()</h3><p>parseFloat() 方法与 parseInt() 方法的处理方式相似，从位置 0 开始查看每个字符，直到找到第一个非有效的字符为止，然后把该字符之前的字符串转换成整数。</p>
-<p>不过，对于这个方法来说，第一个出现的小数点是有效字符。如果有两个小数点，第二个小数点将被看作无效的。parseFloat() 会把这个小数点之前的字符转换成数字。这意味着字符串 “11.22.33” 将被解析成 11.22。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">//'alpha'转化成数字的时候，会直接返回NaN ，带有NaN的关系运算表达式，返回的结果是false</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'alpha'</span> &gt; <span class="number">5</span>);<span class="comment">//false    </span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'alpha'</span> &lt; <span class="number">5</span>);<span class="comment">//false</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"22.5"</span> &gt; <span class="number">22</span>); <span class="comment">//true</span></div></pre></td></tr></table></figure>
-<p>2.2  ==   ===  !=  !== 比较运算</p>
-<p>全等比较 ===  不仅仅比较两个运算数的值，还比较两个运算数的数据类型，这个一般容易进行判断</p>
-<p>对于 ==  比较运算，会对运算数进行隐式转化，转化为原始值进行比较</p>
-<p>如果我们要判断两个运算数是否相等的话，最好使用全等，因为 ==  !=  会进行隐式类型转化；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span>、如果两个值类型相同，进行 === 比较。 </div><div class="line"></div><div class="line"><span class="number">2</span>、如果两个值类型不同，他们可能相等。根据下面规则进行类型转换再比较： </div><div class="line"></div><div class="line">   a、如果一个是<span class="literal">null</span>、一个是<span class="literal">undefined</span>，那么[相等]。 </div><div class="line"></div><div class="line">   b、如果一个是字符串，一个是数值，把字符串转换成数值再进行比较。 </div><div class="line"></div><div class="line">   c、如果任一值是 <span class="literal">true</span>，把它转换成 <span class="number">1</span> 再比较；如果任一值是 <span class="literal">false</span>，把它转换成 <span class="number">0</span> 再比较。 </div><div class="line">	 <span class="built_in">console</span>.log([] == <span class="literal">true</span>);<span class="comment">//fasle</span></div><div class="line">     <span class="built_in">console</span>.log([] == <span class="literal">false</span>);<span class="comment">//true</span></div><div class="line">   d、如果一个是对象，另一个是数值或字符串，把对象转换成基础类型的值再比较。对象转换成基础类型，利用它的toString或者valueOf方法。js核心内置类，会尝试valueOf先于toString；例外的是<span class="built_in">Date</span>，<span class="built_in">Date</span>利用的是toString转换。非js核心的对象，令说（比较麻烦，我也不大懂） </div><div class="line"></div><div class="line">   e、任何其他组合，都[不相等]。</div></pre></td></tr></table></figure>
-<h3 id="3-运算符"><a href="#3-运算符" class="headerlink" title="3  + -  运算符"></a>3  + -  运算符</h3><h3 id="3-1-运算符-以下有两种情况-执行代码之前会将运算数转化为原始值"><a href="#3-1-运算符-以下有两种情况-执行代码之前会将运算数转化为原始值" class="headerlink" title="3.1  + 运算符   以下有两种情况(执行代码之前会将运算数转化为原始值)"></a>3.1  + 运算符   以下有两种情况(执行代码之前会将运算数转化为原始值)</h3><p>原始值: number  string boolean null  undefined 对象值[object,object]</p>
-<p>3.1.1 : 如果<strong>两个</strong> 运算数都是数值类型，直接进行算术运算</p>
-<p>3.1.2 :  如果有一个运算是不是数字，或者都不是数字，那么将会进行字符串拼接</p>
-<ul>
-<li>如果运算数有一个是字符串，那么这个运算环境就是字符串环境，需要将另外一个运算数转化为字符串，然后进行字符串的连接<ul>
-<li>另外一个是字符串，直接进行拼接</li>
-<li>另外一个运算数是  <strong>数字</strong> ， 将数字转化字符串，然后进行字符串拼接</li>
-<li>另外一个运算数是 复杂数据类型  <strong>数组</strong>  或者<strong>对象</strong>   javascript会调用这两者的toString()方法，将它们转化为字符串，然后进行拼接</li>
-</ul>
-</li>
-<li>如果两个运算数都是 <strong>数组</strong>  或者<strong>对象</strong>  ，那么在  +  性环境中，javascript会将两个运算数都转化成字符串，然后进行拼接；</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//以下是第二种情况下，转化为字符串	</span></div><div class="line">	<span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">    <span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</div><div class="line">    <span class="keyword">var</span> obj1 = &#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>&#125;</div><div class="line">    <span class="keyword">var</span> obj2 = &#123;<span class="attr">name</span>:<span class="string">"JiM"</span>&#125;</div><div class="line">    <span class="keyword">var</span> num = <span class="number">9</span>;</div><div class="line">    <span class="keyword">var</span> num1 = <span class="number">6</span>;</div><div class="line">    <span class="keyword">var</span> str = <span class="string">"Jhon"</span>;</div><div class="line"></div><div class="line">	<span class="built_in">console</span>.log(arr+num);<span class="comment">//1,2,39</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> (arr+num));<span class="comment">//string</span></div><div class="line">    <span class="built_in">console</span>.log(arr+str);<span class="comment">//string</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> (arr+str));</div><div class="line">    <span class="built_in">console</span>.log(obj1+num);<span class="comment">//[object Object]9</span></div><div class="line">	<span class="built_in">console</span>.log(arr1+arr);<span class="comment">//1,2,3,41,2,3</span></div><div class="line">    <span class="built_in">console</span>.log(obj1+obj2);<span class="comment">//[object Object][object Object]</span></div></pre></td></tr></table></figure>
-<h3 id="3-2-运算符-两种情况"><a href="#3-2-运算符-两种情况" class="headerlink" title="3.2    -  运算符 两种情况"></a>3.2    -  运算符 两种情况</h3><p>3.2.1 如果两个运算数都是数字，那么进行基本的算术运算；</p>
-<p>3.2.2 如果有一个运算数不是 数字 ，那么返回NaN (infinity和0 那些再说)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">	<span class="built_in">console</span>.log(num - num1);<span class="comment">//3</span></div><div class="line"><span class="comment">//只要有一个不是数字，运算结果就返回NaN</span></div><div class="line">    <span class="built_in">console</span>.log(num - arr);<span class="comment">//NaN</span></div><div class="line">    <span class="built_in">console</span>.log(num - str);<span class="comment">//NaN</span></div><div class="line">    <span class="built_in">console</span>.log(arr1-arr);<span class="comment">//NaN</span></div><div class="line">    <span class="built_in">console</span>.log(obj1-obj2);<span class="comment">//NaN</span></div></pre></td></tr></table></figure>
-<h3 id="4-逻辑运算符-！-amp-amp-｜｜-根本要明白布尔类型转化的规则，这个逻辑运算也就清楚了"><a href="#4-逻辑运算符-！-amp-amp-｜｜-根本要明白布尔类型转化的规则，这个逻辑运算也就清楚了" class="headerlink" title="4 逻辑运算符　　！　 &amp;&amp;　　｜｜   根本要明白布尔类型转化的规则，这个逻辑运算也就清楚了 　　"></a>4 逻辑运算符　　！　 &amp;&amp;　　｜｜   根本要明白布尔类型转化的规则，这个逻辑运算也就清楚了 　　</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//-------------------! 运算符  以下结果全部返回true</span></div><div class="line">  	<span class="built_in">console</span>.log(!<span class="literal">undefined</span>);</div><div class="line">    <span class="built_in">console</span>.log(!<span class="literal">null</span>);</div><div class="line">    <span class="built_in">console</span>.log(!<span class="literal">NaN</span>);</div><div class="line">    <span class="built_in">console</span>.log(!<span class="number">0</span>);</div><div class="line">    <span class="built_in">console</span>.log(!<span class="string">""</span>);</div><div class="line"><span class="comment">// ！ 运算返回的一定是布尔类型的</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//----------------|| 或运算符   返回布尔类型或者其他数据类型</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">''</span>|| <span class="literal">null</span>);<span class="comment">//null  空字符串 和null都是false 返回第二个运算数</span></div><div class="line"><span class="built_in">console</span>.log(<span class="number">2</span>||<span class="number">1</span>);<span class="comment">//2    2转化为布尔类型是true，直接返回，不在及逆行第二个运算数的运算</span></div><div class="line"><span class="built_in">console</span>.log(<span class="number">2</span>||<span class="literal">null</span>);<span class="comment">//2  </span></div><div class="line"><span class="comment">//简单来说，或运算就是找true的运算，找到true则马上返回该运算数；</span></div><div class="line"><span class="comment">//1 对于运算数已经声明的情况</span></div><div class="line"><span class="comment">// 如果第一个运算数是true,那么就返回第一个运算数，不再进行第二个运算数的判断</span></div><div class="line"><span class="comment">// 如果第一个运算数是false,那么就直接返回第二个运算数，无论第二个运算数是true还是false;</span></div><div class="line"><span class="comment">//2 对于运算数没有声明的情况,如果第一个运算数没有声明，则直接报错，如果第二个运算数没有声明，在第一个运算数为true的情况下不会报错，如果第一个运算数为false,会报错</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//----------------&amp;&amp; 与运算符</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">''</span> &amp;&amp; <span class="literal">null</span>); <span class="comment">//如果第一个运算数为false,则直接返回第一个运算数</span></div><div class="line"><span class="built_in">console</span>.log(<span class="number">2</span> &amp;&amp; <span class="number">1</span> ); <span class="comment">//如果第一个运算数为true,则直接返回第二个运算数</span></div><div class="line"><span class="built_in">console</span>.log(<span class="number">2</span> &amp;&amp; <span class="literal">null</span> );</div><div class="line"><span class="comment">//简单来说 ，与运算就是找false的运算，找到false则马上返回该运算数；</span></div><div class="line"><span class="comment">//1 对于已经声明的变量，</span></div><div class="line"><span class="comment">// 如果第一个运算数是false,则直接返回第一个运算数，不再进行第二个运算数的判断，</span></div><div class="line"><span class="comment">//如果第一个运算数是true,则直接返回第二个运算数，无论第二个运算数是true还是false;</span></div><div class="line"><span class="comment">//2 对于运算数没有声明的情况，如果第一个运算数没有声明，那么直接报错，如果第二个运算数没有声明，在第一个运算数为false的情况下不会报错，当第一个运算数为true的时候，会报错</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(notDefined || <span class="literal">true</span> );<span class="comment">//对于没有定义的直接报错是这样的情况，不再一一举证</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"cant be excuted"</span>);</div></pre></td></tr></table></figure>
-<h3 id="5-类型转换"><a href="#5-类型转换" class="headerlink" title="5 类型转换"></a>5 类型转换</h3><p>5.1 转化为布尔类型为 false 的值如下；这个是逻辑运算的核心支撑 </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 0  null  undefined NaN "" (空字符串)  返回false	</span></div><div class="line">	<span class="built_in">console</span>.log(<span class="built_in">Boolean</span>(<span class="literal">null</span>));</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">Boolean</span>(<span class="literal">undefined</span>));</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">Boolean</span>(<span class="number">0</span>));</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">Boolean</span>(<span class="string">""</span>));</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">Boolean</span>(<span class="literal">NaN</span>));</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">Boolean</span>(<span class="literal">false</span>));</div><div class="line"><span class="comment">//对于非空字符串 数字 数组 对象 返回true </span></div><div class="line">	<span class="built_in">console</span>.log(<span class="built_in">Boolean</span>(<span class="string">"str"</span>));</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">Boolean</span>(<span class="number">9</span>));</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">Boolean</span>(<span class="keyword">new</span> <span class="built_in">Object</span>));</div><div class="line"><span class="comment">//if( ) 会进行隐式类型转化  if判断会对flag进行隐式类型转化，转化为布尔类型的值</span></div><div class="line"><span class="built_in">document</span>.getElementById(id)如果能够获取某个元素，那么返回该元素对象，如果获取不到，返回<span class="literal">undefined</span></div><div class="line">获取到的话，返回一个对象，对象的布尔类型值是 <span class="literal">true</span></div></pre></td></tr></table></figure>
-<p>### </p>
-<h3 id="7-条件运算符-variable-boolean-expression-true-value-false-value"><a href="#7-条件运算符-variable-boolean-expression-true-value-false-value" class="headerlink" title="7 条件运算符  variable = boolean expression ? true value : false value ;"></a>7 条件运算符  variable = boolean expression ? true value : false value ;</h3><p>在进行条件运算符运算的时候，会对boolean expression进行转化为布尔类型，需要熟悉了解布尔类型转化的规则；</p>
-<p>8 赋值运算符，返回 = 右边的运算数，从右向左进行运算；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">    <span class="keyword">var</span> x = <span class="number">5</span> ;</div><div class="line">    <span class="built_in">console</span>.log(x = <span class="number">7</span>);<span class="comment">//7</span></div><div class="line">    <span class="keyword">var</span> y = <span class="string">"str"</span>;</div><div class="line">    <span class="built_in">console</span>.log(x = y );<span class="comment">//str</span></div><div class="line"><span class="comment">//"链式"赋值运算符----------------------------------</span></div><div class="line">    <span class="keyword">var</span> arr, num1,num2 ;</div><div class="line">    arr = [num1,num2] = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>];</div><div class="line">    <span class="built_in">console</span>.log(arr);<span class="comment">// [1,2,3,4]</span></div><div class="line">    <span class="built_in">console</span>.log(num1);<span class="comment">//1</span></div><div class="line">    <span class="built_in">console</span>.log(num2);<span class="comment">//2</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2166,7 +2140,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">126</span>
+                <span class="site-state-item-count">127</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
