@@ -1,0 +1,756 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Angular," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="文墨(末)有彩蛋00哦
+1 先来了解以下angular的依赖Module依赖：在声明app模块时，需要给出依赖模块的列表。同时这些模块对应的JS需要在HTML中加以引入。在中可以直接使用依赖模块中声明的Service、Directive、Filter。
+Service依赖：在声明Controller、Service、Directive、Filter的工厂方法中，把依赖的Service直接放到参数列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AngularJsService">
+<meta property="og:url" content="http://yoursite.com/2016/11/17/165AngularJsService/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="文墨(末)有彩蛋00哦
+1 先来了解以下angular的依赖Module依赖：在声明app模块时，需要给出依赖模块的列表。同时这些模块对应的JS需要在HTML中加以引入。在中可以直接使用依赖模块中声明的Service、Directive、Filter。
+Service依赖：在声明Controller、Service、Directive、Filter的工厂方法中，把依赖的Service直接放到参数列">
+<meta property="og:updated_time" content="2017-04-09T13:00:05.939Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AngularJsService">
+<meta name="twitter:description" content="文墨(末)有彩蛋00哦
+1 先来了解以下angular的依赖Module依赖：在声明app模块时，需要给出依赖模块的列表。同时这些模块对应的JS需要在HTML中加以引入。在中可以直接使用依赖模块中声明的Service、Directive、Filter。
+Service依赖：在声明Controller、Service、Directive、Filter的工厂方法中，把依赖的Service直接放到参数列">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/17/165AngularJsService/"/>
+
+
+
+
+
+  <title> AngularJsService | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/17/165AngularJsService/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                AngularJsService
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-17T12:36:00+08:00">
+                2016-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-Angular/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript Angular</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>文墨(末)有彩蛋00哦</p>
+<h3 id="1-先来了解以下angular的依赖"><a href="#1-先来了解以下angular的依赖" class="headerlink" title="1 先来了解以下angular的依赖"></a>1 先来了解以下angular的依赖</h3><p>Module依赖：在声明app模块时，需要给出依赖模块的列表。同时这些模块对应的JS需要在HTML中加以引入。在中可以直接使用依赖模块中声明的Service、Directive、Filter。</p>
+<p>Service依赖：在声明Controller、Service、Directive、Filter的工厂方法中，把依赖的Service直接放到参数列表，Angular Injector会为你生成这些Service的实例。</p>
+<h3 id="1-1-Services-定义"><a href="#1-1-Services-定义" class="headerlink" title="1.1  Services 定义"></a>1.1  Services 定义</h3><p>AngularJS services are substitutable objects that are wired together using <a href="https://docs.angularjs.org/guide/di" target="_blank" rel="external">dependency injection (DI)</a>. You can use services to organize and share code across your app.</p>
+<p>AngularJS services are:</p>
+<ul>
+<li>Lazily instantiated – AngularJS only instantiates a service when an application component depends on it.</li>
+<li>Singletons – Each component dependent on a service gets a reference to the single instance generated by the service factory.</li>
+</ul>
+<p>service通常用来进行不同的controller之间进行通信;</p>
+<h3 id="1-2-service声明方式-provider-下面有五个API-factory-service-value-constant-provider-这些都是provider的封装-可以用来声明服务"><a href="#1-2-service声明方式-provider-下面有五个API-factory-service-value-constant-provider-这些都是provider的封装-可以用来声明服务" class="headerlink" title="1.2 service声明方式 $provider 下面有五个API  factory   service  value constant  provider(这些都是provider的封装) 可以用来声明服务"></a>1.2 service声明方式 $provider 下面有五个API  factory   service  value constant  provider(这些都是provider的封装) 可以用来声明服务</h3><p>1.2.1 最常见的方式：工厂方式,当someService作为依赖的时候，angular Injector会调用工厂方法，然后将返回值作为Service的实例传入依赖它的工厂方法</p>
+<p>factory(name, fn)registers a service <strong>factory function</strong> that will be wrapped in a <strong>service provider</strong> object, whose $get  property will contain the given factory function.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">app.factory(<span class="string">'someService'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">dependency1, ...</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">property1</span>: value1,</div><div class="line">        <span class="attr">property2</span>: value2</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>走个小栗子</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'myApp'</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span>=<span class="string">"myCtrl"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'info.name'</span> <span class="attr">placeholder</span>=<span class="string">"please input your name"</span>/&gt;</span></div><div class="line">   name:<span class="tag">&lt;<span class="name">p</span>&gt;</span>`&#123;&#123;info.name&#125;&#125;`<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'info.age'</span> <span class="attr">placeholder</span>=<span class="string">"please input your age"</span>/&gt;</span></div><div class="line">    age:<span class="tag">&lt;<span class="name">p</span>&gt;</span>`&#123;&#123;info.age&#125;&#125;`<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> myApp = angular.module(<span class="string">'myApp'</span>,[]);</div><div class="line"></div><div class="line">    myApp.factory(<span class="string">'myService'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">name</span> : <span class="string">"Jhon"</span>,</div><div class="line">            <span class="attr">age</span> : <span class="number">18</span>,</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    myApp.controller(<span class="string">'myCtrl'</span>,[<span class="string">"$scope"</span>,<span class="string">"myService"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope,myService</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">        $scope.info = myService ;</div><div class="line">    &#125;]);</div><div class="line">    </div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.2.2  最直接的方式：构造函数 当someService作为依赖的时候，angular Injector会以new的方式调用该构造函数，然后将返回值作为Service的实例传入依赖它的工厂方法</p>
+<p>service(name, Fn)  registers a <strong>constructor function</strong> that will be wrapped in a <strong>service provider</strong> object, whose $get  property will instantiate a new object using the given constructor function.</p>
+<p>我们可以定义私有变量和共有变量</p>
+<p>先来看下内部实现机制,angular Injector会以new的方式调用构造函数，然后将返回值传入依赖；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Service</span> (<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">this</span>.public = &#123;</div><div class="line">            <span class="attr">name</span> : <span class="string">"Jhon"</span>,</div><div class="line">            <span class="attr">age</span> :<span class="number">18</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">var</span> private = &#123;</div><div class="line">            <span class="attr">name</span> :<span class="string">"JiM"</span>,</div><div class="line">            <span class="attr">age</span> : <span class="number">20</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.getPri = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">return</span> private ;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> service = <span class="keyword">new</span> Service();</div><div class="line">    <span class="built_in">console</span>.log(service);</div><div class="line">    <span class="built_in">console</span>.log(service.getPri());</div><div class="line">   </div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">app.service(<span class="string">'someService'</span>, someService(dependency1, ...)&#123;</div><div class="line">    <span class="keyword">this</span>.property1 = value1;</div><div class="line">    <span class="keyword">this</span>.property2 = value2;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'myApp'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span>=<span class="string">"myCtrl"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'info.name'</span> <span class="attr">placeholder</span>=<span class="string">"please input your name"</span>/&gt;</span></div><div class="line">    public name:<span class="tag">&lt;<span class="name">p</span>&gt;</span>`&#123;&#123;info.name&#125;&#125;`<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'info.age'</span> <span class="attr">placeholder</span>=<span class="string">"please input your age"</span>/&gt;</span></div><div class="line">    public age:<span class="tag">&lt;<span class="name">p</span>&gt;</span>`&#123;&#123;info.age&#125;&#125;`<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"></div><div class="line">    private name : <span class="tag">&lt;<span class="name">p</span>&gt;</span>`&#123;&#123;infoPri.name&#125;&#125;`<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    private name : <span class="tag">&lt;<span class="name">p</span>&gt;</span>`&#123;&#123;infoPri.age&#125;&#125;`<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> myApp = angular.module(<span class="string">'myApp'</span>,[]);</div><div class="line">    myApp.service(<span class="string">'myService'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">this</span>.public = &#123;</div><div class="line">            <span class="attr">name</span> : <span class="string">"Jhon"</span>,</div><div class="line">            <span class="attr">age</span> :<span class="number">18</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">var</span> private = &#123;</div><div class="line">            <span class="attr">name</span> :<span class="string">"JiM"</span>,</div><div class="line">            <span class="attr">age</span> : <span class="number">20</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.getPri = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">return</span> private ;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    myApp.controller(<span class="string">'myCtrl'</span>,[<span class="string">"$scope"</span>,<span class="string">"myService"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope,myService</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">        $scope.info = myService.public ;</div><div class="line">        $scope.infoPri = myService.getPri();</div><div class="line">    &#125;]);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.2.3 最简单的方式</p>
+<h3 id="value-name-value"><a href="#value-name-value" class="headerlink" title="value(name, value);"></a>value(name, value);</h3><p>Register a <strong>value service</strong> with the <a href="https://docs.angularjs.org/api/auto/service/$injector" target="_blank" rel="external">$injector</a>, such as a string, a number, an array, an object or a function. This is short for registering a service where its provider’s <code>$get</code> property is a factory function that takes no arguments and returns the <strong>value service</strong>. That also means it is not possible to inject other services into a value service.</p>
+<p>Value services are similar to constant services, except that they cannot be injected into a module configuration function (see <a href="https://docs.angularjs.org/api/ng/type/angular.Module#config" target="_blank" rel="external"><code>angular.Module</code></a>) but they can be overridden by an AngularJS <a href="https://docs.angularjs.org/api/auto/service/$provide#decorator" target="_blank" rel="external">decorator</a>.</p>
+<h3 id="constant-name-value"><a href="#constant-name-value" class="headerlink" title="constant(name, value);"></a>constant(name, value);</h3><p>Register a <strong>constant service</strong> with the <a href="https://docs.angularjs.org/api/auto/service/$injector" target="_blank" rel="external">$injector</a>, such as a string, a number, an array, an object or a function. Like the <a href="https://docs.angularjs.org/api/auto/service/$provide#value" target="_blank" rel="external">value</a>, it is not possible to inject other services into a constant.</p>
+<p>But unlike <a href="https://docs.angularjs.org/api/auto/service/$provide#value" target="_blank" rel="external">value</a>, a constant can be injected into a module configuration function (see <a href="https://docs.angularjs.org/api/ng/type/angular.Module#config" target="_blank" rel="external"><code>angular.Module</code></a>) and it cannot be overridden by an AngularJS <a href="https://docs.angularjs.org/api/auto/service/$provide#decorator" target="_blank" rel="external">decorator</a>.</p>
+<ul>
+<li>两者的相同之处就是不能依赖其他的service,</li>
+<li>两者的不同之处就是value不能注册进其他模块，但是constant可以被注册进其他模块</li>
+<li>两者的不同之处还有就是value可以被decorator重写，但是constant不能被重写，constant常量的意思</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">app.value(<span class="string">'someService'</span>, &#123; <span class="attr">property1</span>: value1, <span class="attr">property2</span>: value2&#125;);</div><div class="line"></div><div class="line">app.constant(<span class="string">'anotherService'</span>, <span class="string">'I am a simple string'</span>);</div></pre></td></tr></table></figure>
+<h3 id="decorator-name-decorator"><a href="#decorator-name-decorator" class="headerlink" title="decorator(name, decorator);"></a>decorator(name, decorator);</h3><p>Register a <strong>decorator function</strong> with the <a href="https://docs.angularjs.org/api/auto/service/$injector" target="_blank" rel="external">$injector</a>. A decorator function intercepts the creation of a service, allowing it to override or modify the behavior of the service. The return value of the decorator function may be the original service, or a new service that replaces (or wraps and delegates to) the original service.</p>
+<p>You can find out more about using decorators in the <a href="https://docs.angularjs.org/guide/decorators" target="_blank" rel="external">decorators</a> guide.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Angular/" rel="tag"># Angular</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/15/128NodeJsEvent/" rel="next" title="NodeJs Event">
+                <i class="fa fa-chevron-left"></i> NodeJs Event
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/19/19-transform(3d)：/" rel="prev" title="Transform">
+                Transform <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">128</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-先来了解以下angular的依赖"><span class="nav-number">1.</span> <span class="nav-text">1 先来了解以下angular的依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Services-定义"><span class="nav-number">2.</span> <span class="nav-text">1.1  Services 定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-service声明方式-provider-下面有五个API-factory-service-value-constant-provider-这些都是provider的封装-可以用来声明服务"><span class="nav-number">3.</span> <span class="nav-text">1.2 service声明方式 $provider 下面有五个API  factory   service  value constant  provider(这些都是provider的封装) 可以用来声明服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#value-name-value"><span class="nav-number">4.</span> <span class="nav-text">value(name, value);</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#constant-name-value"><span class="nav-number">5.</span> <span class="nav-text">constant(name, value);</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#decorator-name-decorator"><span class="nav-number">6.</span> <span class="nav-text">decorator(name, decorator);</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

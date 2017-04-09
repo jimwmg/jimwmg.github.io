@@ -423,6 +423,180 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/08/14-HTML5的全屏API拖拽API/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/08/14-HTML5的全屏API拖拽API/" itemprop="url">
+                  HTML5 拖拽
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-08T12:36:00+08:00">
+                2016-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTML5/" itemprop="url" rel="index">
+                    <span itemprop="name">HTML5</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>HTML5的高级ＡＰＩ</p>
+<p>1,全屏API:DOM元素支持全屏，HTML5的标准写法是   ele.requestFullScreen( ), 即可使DOM元素全屏；但是由于该方法处于不够完善，所以需要写各个浏览器的兼容代码；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">if(this.webkitRequestFullScreen)&#123;</div><div class="line">     this.webkitRequestFullScreen();</div><div class="line">   &#125;else if(this.mozRequestFullScreen)&#123;</div><div class="line">     this.mozRequestFullScreen();</div><div class="line">   &#125;else if(this.requestFullScreen)&#123;</div><div class="line">     this.requestFullScreen();</div><div class="line">   &#125;else if(this.msRequestFullscreen)&#123;</div><div class="line">     //  ie 比较恶心</div><div class="line">     //  去 微软的 开发中中心查询 MSDN</div><div class="line">     // msRequestFullscreen</div><div class="line">     this.msRequestFullscreen();</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>2,拖拽API:拖拉事件(drag&amp;&amp;drop)</p>
+<p>拖拉指的是，用户在某个对象上按下鼠标键不放，拖动它到另一个位置，然后释放鼠标键，将该对象放在那里。</p>
+<p>拖拉的对象有好几种，包括Element节点、图片、链接、选中的文字等等。在HTML网页中，除了Element节点默认不可以拖拉，其他（图片、链接、选中的文字）都是可以直接拖拉的。为了让Element节点可拖拉，可以将该节点的draggable属性设为true。</p>
+<p>draggable属性可用于任何Element节点，但是图片（img元素）和链接（a元素）不加这个属性，就可以拖拉。对于它们，用到这个属性的时候，往往是将其设为false，防止拖拉。</p>
+<p>注意，一旦某个Element节点的draggable属性设为true，就无法再用鼠标选中该节点内部的文字或子节点了</p>
+<p>首先来看有哪些拖放(drag和drop)的事件，如果要是元素可以拖拽，</p>
+<p>首先要给该元素设置  draggable = true 属性，保证该元素可以被拖放.(img标签默认支持拖放，div默认不支持拖放)</p>
+<p>拖拽元素的监听事件如下：</p>
+<ul>
+<li>ondrag   当拖动元素的时候运行脚本被拖动的元素在拖动过程中持续触发</li>
+<li>ondragstart    当元素拖动操作开始时候运行脚本</li>
+<li>ondragend   当拖动操作结束的时候运行脚本</li>
+</ul>
+<p>目标元素的上的监听事件如下：在默认情况下，拖放的目标元素是不允许接受元素的，为了把元素拖放到其中，必须把默认处理给关掉    给目标元素设置  e.preventDefault()  阻止默认事件的发生；使得被拖放元素可以放入目标元素里面。</p>
+<ul>
+<li><p>ondragover   当元素被拖动至有效拖放目标元素上方时持续执行脚本</p>
+</li>
+<li><p>ondragenter  当元素被拖动至有效拖动目标元素时执行脚本</p>
+</li>
+<li><p>ondragleave 当元素离开至有效拖放目标元素时运行脚本</p>
+</li>
+<li><p>ondrop  当被拖动元素正在被放下的时候运行脚本;注意，如果当前节点不允许drop，即使在该节点上方松开鼠标键，也不会触发该事件。如果用户按下Escape键，取消这个操作，也不会触发该事件。该事件的监听函数负责取出拖拉数据，并进行相关处理。<strong>注意：只有鼠标松开才算放下，鼠标松开的时候才会触发该事件</strong> </p>
+<p>dragenter和dragover事件的监听函数，用来指定可以放下（drop）拖拉的数据。由于网页的大部分区域不适合作为drop的目标节点，所以这两个事件的默认设置为当前节点不允许drop。如果想要在目标节点上drop拖拉的数据，首先必须阻止这两个事件的默认行为，或者取消这两个事件。</p>
+</li>
+</ul>
+<p>注意如果想要使目标元素可以被放进来拖放的元素，因为默认地，无法将数据/元素放置到其他元素中。如果需要设置允许放置，我们必须阻止对元素的默认处理方式。此时需要对目标元素进行处理，调用dragover阻止默认事件 的方法：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">目标元素.ondragover = function(event)&#123;</div><div class="line">		event.preventDefault() ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3 代码演示</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-cn"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">    html,</div><div class="line">    body &#123;</div><div class="line">      height: 100%;</div><div class="line">    &#125; </div><div class="line">    body &#123;</div><div class="line">      margin: 0;</div><div class="line">      display: flex;</div><div class="line">      justify-content: space-around;</div><div class="line">      align-items: center;</div><div class="line">    &#125;</div><div class="line">    div &#123;</div><div class="line">      width: 400px;</div><div class="line">      height: 400px;</div><div class="line">      border: 1px solid #000;</div><div class="line">    &#125;</div><div class="line">    .left &#123;</div><div class="line">      display: flex;</div><div class="line">      flex-wrap: wrap;</div><div class="line">      justify-content: space-around;</div><div class="line">      align-items: center;</div><div class="line">    &#125; </div><div class="line">    div&gt;img &#123;</div><div class="line">      width: 70px;</div><div class="line">      height: 70px;</div><div class="line">      margin: 10px;</div><div class="line">      background-color: ;</div><div class="line">    &#125;</div><div class="line">    /* 使用css来修改 定义一个 高亮的颜色 */ </div><div class="line">    .right.active &#123;</div><div class="line">      background-color: lightblue;</div><div class="line">    &#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (1).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (2).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (3).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="comment">// .right 盒子 元素移入  颜色高亮 </span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragenter = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// this.style.background = 'lightgray';</span></div><div class="line">    <span class="keyword">this</span>.classList.add(<span class="string">'active'</span>);</div><div class="line">    <span class="comment">// $(this).addClass('active');</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// .right 移出 颜色还原 </span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragleave = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//  颜色 就是 直接设置透明 </span></div><div class="line">    <span class="comment">// this.style.background = 'transparent';</span></div><div class="line">    <span class="comment">// this.style.background = 'rgba(0,0,0,0)';</span></div><div class="line">    <span class="keyword">this</span>.classList.remove(<span class="string">'active'</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 为了能够触发drop 必须设置如下代码,给目标元素设置阻止默认处理方式，允许元素可以被放置</span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragover = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</div><div class="line">    event.preventDefault();</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//  drop  .right盒子绑定</span></div><div class="line">  <span class="comment">//  img 拖拽开始的 时候 保存为 全局变量</span></div><div class="line">  <span class="keyword">var</span> imgs = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.left&gt;img'</span>);</div><div class="line">  <span class="comment">// 当前移动的 img</span></div><div class="line">  <span class="keyword">var</span> moveImg = <span class="literal">undefined</span>;</div><div class="line">  <span class="comment">// 循环绑定，给每个拖拽元素设置拖拽事件，每个元素被拖拽时触发该事件</span></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;imgs.length;i++)&#123;</div><div class="line">    imgs[i].ondragstart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">      <span class="comment">// 保存为全局变量</span></div><div class="line">      moveImg = <span class="keyword">this</span>;</div><div class="line">      <span class="comment">// 打印是否保存</span></div><div class="line">      <span class="built_in">console</span>.log(moveImg);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondrop = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line"><span class="comment">//  moveImg.ondrop = function () &#123;</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'进来了'</span>);</div><div class="line">    <span class="comment">// 将 丢进来的 元素 设置为 子元素 </span></div><div class="line">    <span class="comment">// 获取丢进来的元素 在拖拽img的时候 将当前拖拽的img 存起来获取保存的img</span></div><div class="line">    <span class="comment">// 通过全局变量 moveImg  添加给自己</span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).appendChild(moveImg);</div><div class="line">    <span class="comment">//  还原 自己的颜色</span></div><div class="line">    <span class="keyword">this</span>.classList.remove(<span class="string">'active'</span>) </div><div class="line">  &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/01/13-HTML5 web存储：/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1933,193 +2107,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/28/06 伪类选择符 关系选择符/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/28/06 伪类选择符 关系选择符/" itemprop="url">
-                  伪类选择符
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-28T12:36:00+08:00">
-                2016-05-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index">
-                    <span itemprop="name">css</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="伪类选择符"><a href="#伪类选择符" class="headerlink" title="伪类选择符"></a>伪类选择符</h3><p>一  先看定义：</p>
-<p>​    E:first-child{  }   :<strong>匹配父元素的第一个子元素E。</strong> </p>
-<p>要使该属性生效，<strong>E元素必须是某个元素的子元素</strong>，E的父元素最高是body，即E可以是body的子元素 </p>
-<p>注意两点 第一 <strong>E 必须是某个元素的子元素</strong>   第二 <strong>E 必须是该元素的  第一个子元素，否则无法获取</strong>；</p>
-<p>​    E:first-of-type{     } : <strong>匹配同类型中的第一个同级兄弟元素E</strong> ，可以理解为在同辈元素中找到所有的E 元素组成一个新的集合，可以选中这个新的集合中的第一个E 元素</p>
-<p>要使该属性生效，<strong>E元素必须是某个元素的子元素</strong>，E的父元素最高是html，即E可以是html的子元素，也就是说E可以是body<br>该选择符总是能命中父元素的第1个为E的子元素，不论第1个子元素是否为E </p>
-<p>注意和first-child 的区别，第一：<strong>E 必须是某个元素的子元素</strong>，第二 <strong>E 不必是父元素的额第一个子元素</strong> </p>
-<p>​    E:nth-child (n){    } :<strong>匹配父元素的第n个子元素E，假设该子元素不是E，则选择符无效。</strong>注意n 的取值是从  1  开始。 </p>
-<p>要使该属性生效，E元素必须是某个元素的子元素，E的父元素最高是body，即E可以是body的子元素<br>该选择符允许使用一个乘法因子(n)来作为换算方式，比如我们想选中所有的偶数子元素E，那么选择符可以写成：E:nth-child(2n) </p>
-<p>注意：第一：E元素必须是某个元素的子元素，第二，n的取值要对应父元素的所有子元素组成的集合的索引值</p>
-<p>​    E:nth-of-type(n) {   } :<strong>匹配同类型中的第n个同级兄弟元素E。</strong> 可以理解为在同辈元素中找到所有的E 元素组成一个新的集合，可以选中这个新的集合中的第 n 个E 元素</p>
-<p>要使该属性生效，E元素必须是某个元素的子元素，E的父元素最高是html，即E可以是html的子元素，也就是说E可以是body<br>该选择符总是能命中父元素的第n个为E的子元素，不论第n个子元素是否为E </p>
-<p>二  :直接撸代码</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">       p:first-child &#123;</div><div class="line">           background-color: pink;</div><div class="line">       &#125;</div><div class="line">      p:first-of-type &#123;</div><div class="line">           color: blue;</div><div class="line">       &#125;</div><div class="line">   <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">p</span>&gt;</span>第1个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">p</span>&gt;</span>第2个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">span</span>&gt;</span>第1个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">p</span>&gt;</span>第3个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">span</span>&gt;</span>第2个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>结果：第一个p 的背景色会变，颜色字体会变（注意：大家最可能搞混的是选中第一个p会这么写</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">div:first-child	&#123;  &#125;  //这么写是错误的，大家注意区分</div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">     	<span class="tag">&lt;<span class="name">div</span>&gt;</span>这是一个div <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">p</span>&gt;</span>第1个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">p</span>&gt;</span>第2个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">span</span>&gt;</span>第1个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">p</span>&gt;</span>第3个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">span</span>&gt;</span>第2个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">       p:first-child &#123;</div><div class="line">           background-color: pink;</div><div class="line">       &#125;</div><div class="line">     p:first-of-type &#123;</div><div class="line">           color: blue;</div><div class="line">       &#125;</div><div class="line">   <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>结果：第一个p的背景色不会变，颜色字体会变。</p>
-<p>如果在前面加一个div,那么不会改变：</p>
-<ul>
-<li><p>first-child伪类选择器选择的元素必须是某个父元素的的<strong>第一个子元素</strong>才能被选中。</p>
-</li>
-<li><p>first-of-type 伪类选择器选择的可以选择第一个该类型的元素，无论其是不是父元素的第一个子元素。</p>
-</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">      </div><div class="line">       p:nth-child(1)&#123;</div><div class="line">           font-size: 30px;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">   <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">p</span>&gt;</span>第1个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">p</span>&gt;</span>第2个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">span</span>&gt;</span>第1个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">p</span>&gt;</span>第3个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">span</span>&gt;</span>第2个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">         p:nth-child(1)&#123;</div><div class="line">             font-size: 30px;</div><div class="line">         &#125;//这行代码已经无法命中第一个p，需要用下面的代码</div><div class="line"> 		p:nth-of-type(1)&#123;</div><div class="line">             font-size: 30px;    </div><div class="line">         &#125;</div><div class="line">     <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"> <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">div</span>&gt;</span>这是一个div <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">p</span>&gt;</span>第1个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">p</span>&gt;</span>第2个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">span</span>&gt;</span>第1个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">p</span>&gt;</span>第3个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">span</span>&gt;</span>第2个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li><p>nth-child(n)  伪类选择器，选择的范围是所有子元素的同辈元素组成的一个集合，然后n代表该集合中某个元素的索引 p:nth-child(2) 可以获取 ‘’第1个p’  p:nth-child(3) 可以获取 ‘第2个p  ‘’;注意：如果里面是n的表达式</p>
-<p>比如p:nth-child(n) ,也是会选择中所有的p标签，n或从 0 一直递增。选择的过程是：判断第一个div，发现不是p标签，然后不选中，执行n+1，此时判断第一个p ，判断出来是一个p标签，然后选中，依次类推。</p>
-</li>
-<li><p>nth-of-type(n) 伪类选择器，选择的范围是所有子元素中该类型的元素组成的一个集合，然后  n  代表该类型结合中元素的索引  比如 p:nth-of-type(2){  }  则可以选中第2个p  p:nth-of-type(3){  }  则可以选中第3个p </p>
-</li>
-</ul>
-<p>三   last-child   last-of-type  nth-last-child(n)  nth-last-of-type(n),和上面一样，只是从后面开始</p>
-<p>四  需要注意的一点就是   first-child   last-child  。</p>
-<p>五  综合下jquery</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">jquery-1.12.2.js</span>&gt;</span><span class="undefined"> </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    $("p:first-child").css("border","2px solid green");</div><div class="line">    $("p:first-of-type").css("border","2px solid red");</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p> 在jquery中也是如此，如果用first-child 伪类选择该元素，那么该元素必须是其父元素的第一个子元素，仔细回顾伪类的定义;first-of-child ,等以上的几个伪类选择器，在jquery中一样的规则。可以说新的CSS 3  向jquery学习和借鉴了很多特点。</p>
-<p>二 关系选择符</p>
-<ul>
-<li>E+F  只会选择所有匹配到的E后面<strong>紧邻</strong> 的F元素</li>
-<li>E~F  只会选择所有匹配到的E后面<strong>所有</strong> 的F元素</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">          p+p&#123;</div><div class="line">              font-size: 30px;</div><div class="line">          &#125;</div><div class="line">  //这行代码只能选中 第2个p 和  第4个p</div><div class="line">  		 p~p&#123;</div><div class="line">              font-size: 30px;    </div><div class="line">          &#125; </div><div class="line">  //这行代码将选中 第2 3 4 5 个p </div><div class="line">      <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">div</span>&gt;</span>这是一个div <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>第1个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>第2个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>第1个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>第3个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>第4个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>第2个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">p</span>&gt;</span>第5个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2169,7 +2156,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">127</span>
+                <span class="site-state-item-count">128</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
