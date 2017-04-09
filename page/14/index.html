@@ -257,389 +257,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/01/56-事件冒泡/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/01/56-事件冒泡/" itemprop="url">
-                  eventBubble
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-01T00:00:00+08:00">
-                2015-12-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h2><h3 id="一、什么是事件冒泡"><a href="#一、什么是事件冒泡" class="headerlink" title="一、什么是事件冒泡"></a>一、什么是事件冒泡</h3><p>在一个对象上触发某类事件（比如单击onclick事件，那么会一直冒泡直到document元素找click事件，然后执行处理程序，如果都没有绑定，那就算咯；比如onmouseover事件，也是会执行这样的过程），如果此对象定义了此事件的处理程序，那么此事件就会调用这个处理程序，如果没有定义此事件处理程序或者事件返回true，那么这个事件会向这个对象的父级对象传播，从里到外，直至它被处理（父级对象所有同类事件都将被激活），或者它到达了对象层次的最顶层，即document对象（有些浏览器是window）。</p>
-<h3 id="二、事件冒泡有什么作用"><a href="#二、事件冒泡有什么作用" class="headerlink" title="二、事件冒泡有什么作用"></a>二、事件冒泡有什么作用</h3><p>（1）事件冒泡允许<strong>多个操作被集中处理</strong>（把事件处理器添加到一个父级元素上，避免把事件处理器添加到多个子级元素上），它还可以让你<strong>在对象层的不同级别捕获事件</strong>。</p>
-<p><strong>【集中处理例子】</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"eventHandle(event)"</span> <span class="attr">id</span>=<span class="string">"outSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#000; padding:50px"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"inSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#CCC"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line">//本例子只在外面盒子定义了处理方法，而这个方法一样可以捕获到子元素点击行为并处理它。假设有成千上万子元素要处理，难道我们要为每个元素加“onclick="eventHandle(event)"”？显然没有这种集中处理的方法来的简单，同时它的性能也是更高的。</div><div class="line">function eventHandle(e)</div><div class="line">&#123;</div><div class="line">    var e=e||window.event;</div><div class="line">    var obj=e.target||e.srcElement;</div><div class="line">    alert(obj.id+' was click')</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">复制代码</div></pre></td></tr></table></figure>
-<p>（2）让<strong>不同的对象同时捕获同一事件</strong>，并调用自己的专属处理程序做自己的事情，就像老板一下命令，各自员工做自己岗位上的工作去了。</p>
-<p><strong>【同时捕获同一事件例子】</strong> </p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"outSideWork()"</span> <span class="attr">id</span>=<span class="string">"outSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#000; padding:50px"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"inSideWork()"</span> <span class="attr">id</span>=<span class="string">"inSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#CCC"</span>&gt;</span>		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line">function outSideWork()</div><div class="line">&#123;</div><div class="line">    alert('My name is outSide,I was working...');</div><div class="line">&#125;</div><div class="line"></div><div class="line">function inSideWork()</div><div class="line">&#123;</div><div class="line">    alert('My name is inSide,I was working...');</div><div class="line">&#125;</div><div class="line"></div><div class="line">//因为下面程序自动激活单击事件，有些浏览器不允许，所以请单击灰色盒子，从这里开始下命令，这样因为冒泡的原因，黑色大盒子也会收到单击事件，并调用了自己的处理程序。如果还有更多盒子嵌套，一样道理。</div><div class="line"></div><div class="line">/*</div><div class="line">function bossOrder()</div><div class="line">&#123;</div><div class="line">    document.getElmentById('inSide').click();</div><div class="line">&#125;</div><div class="line">bossOrder();</div><div class="line">*/</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<h3 id="三、需要注意什么"><a href="#三、需要注意什么" class="headerlink" title="三、需要注意什么"></a>三、需要注意什么</h3><p>●事件捕获其实有三种方式，事件冒泡只是其中的一种：（1）IE从里到外（inside→outside）的冒泡型事件。（2）Netscape4.0从外到里（outside→inside）的捕获型事件。（3）DOM事件流，先从外到里，再从里到外回到原点（outside→inside→outside）的事件捕获方法（似乎对象将触发两次事件处理，这有什么作用？鄙人不懂！）。</p>
-<p>●不是所有的事件都能冒泡。以下事件不冒泡：blur、focus、load、unload。</p>
-<p>●事件捕获方式在不同浏览器，甚至同种浏览器的不同版本中是有所区别的。如Netscape4.0采用捕获型事件解决方案，其它多数浏览器则支持冒泡型事件解决方案，另外DOM事件流还支持文本节点事件冒泡。</p>
-<p>●事件捕获到达顶层的目标在不同浏览器或不同浏览器版本也是有区别的。在IE6中HTML是接收事件冒泡的，另外大部分浏览器将冒泡延续到window对象，即……body→documen→window。</p>
-<p>●阻止冒泡并不能阻止对象默认行为。比如submit按钮被点击后会提交表单数据，这种行为无须我们写程序定制。</p>
-<h3 id="四、阻止事件冒泡"><a href="#四、阻止事件冒泡" class="headerlink" title="四、阻止事件冒泡"></a>四、阻止事件冒泡</h3><p>通常情况下我们都是一步到位，明确自己的事件触发源，并不希望浏览器自作聪明、漫无目的地去帮我们找合适的事件处理程序，即我们明确最精准目标，这种情况下我们不需要事件冒泡。另外通过对事件冒泡的理解，我们知道程序将做多较多额外的事情，这必然增大程序开销。还有一个重要的问题是：事件冒泡处理可能会激活我们本来不想激活的事件，导致程序错乱，甚至无从下手调试，这常成为对事件冒泡不熟悉程序员的棘手问题。所以必要时，我们要阻止事件冒泡。</p>
-<p><strong>【不想激活的事件被激活例子】</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"openWin('http://www.baidu.com')"</span> <span class="attr">id</span>=<span class="string">"outSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#000; padding:50px"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"openWin('http://www.google.com')"</span> <span class="attr">id</span>=<span class="string">"inSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#CCC"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line">//本例你实际希望点击灰色盒子打开google首页，而点击黑色盒子打开baidu首页，但结果你点击灰色盒子的时候，却是同时打开了两个网页。其实在实际设计中较少遇到此问题，你可能会想如果我在页面不同DOM深处安置了不同的按钮或链接，深层处的事件触发会不会波及顶层的按钮呢？不会，因为按钮不能形成嵌套关系。</div><div class="line">function openWin(url)</div><div class="line">&#123;</div><div class="line">    window.open(url);</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>本例你实际希望点击灰色盒子打开google首页，而点击黑色盒子打开baidu首页，但结果你点击灰色盒子的时候，却是同时打开了两个网页。其实在实际设计中较少遇到此问题，你可能会想如果我在页面不同DOM深处安置了不同的按钮或链接，深层处的事件触发会不会波及顶层的按钮呢？不会，因为按钮不能形成嵌套关系。</p>
-<p><strong>【阻止事件冒泡例子】</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"showMsg(this,event)"</span> <span class="attr">id</span>=<span class="string">"outSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#000; padding:50px"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"showMsg(this,event)"</span> <span class="attr">id</span>=<span class="string">"inSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#CCC"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line">//阻止事件冒泡后，你点击灰色盒子，整个过程只弹一次对话框了（注意与默认情况对比）</div><div class="line">function showMsg(obj,e)</div><div class="line">&#123;</div><div class="line">    alert(obj.id);</div><div class="line">    stopBubble(e)</div><div class="line">&#125;</div><div class="line"></div><div class="line">//阻止事件冒泡函数</div><div class="line">function stopBubble(e)</div><div class="line">&#123;</div><div class="line">    if (e &amp;&amp; e.stopPropagation)</div><div class="line">        e.stopPropagation()</div><div class="line">    else</div><div class="line">        window.event.cancelBubble=true;</div><div class="line">  //或者如下</div><div class="line">  e&amp;&amp;e.stopPropagation ? e.stopPropagation : window.event.cancelBubble = true ;</div><div class="line">&#125;</div><div class="line">  //或者在事件处理函数  return false也可以阻止事件冒泡，同时会取消对应的默认行为</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>【阻止事件默认行为】</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">e = e ? e : <span class="built_in">window</span>.event ;</div><div class="line">e.preventDefault()</div><div class="line"></div><div class="line"><span class="comment">//或者</span></div><div class="line"><span class="keyword">return</span> <span class="literal">false</span>;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/14/62-HTTP协议/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/14/62-HTTP协议/" itemprop="url">
-                  HTTP(HyperText Transfer Protocol)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-14T12:36:00+08:00">
-                2015-11-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/http/" itemprop="url" rel="index">
-                    <span itemprop="name">http</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="HTTP-HyperText-Transfer-Protocol"><a href="#HTTP-HyperText-Transfer-Protocol" class="headerlink" title="HTTP(HyperText Transfer Protocol)"></a>HTTP(HyperText Transfer Protocol)</h2><h3 id="MIME-Multipurpose-Internet-Mail-Extensions-是描述消息内容类型的因特网标准。"><a href="#MIME-Multipurpose-Internet-Mail-Extensions-是描述消息内容类型的因特网标准。" class="headerlink" title="MIME (Multipurpose Internet Mail Extensions) 是描述消息内容类型的因特网标准。"></a>MIME (<em>M</em>ultipurpose <em>I</em>nternet <em>M</em>ail <em>E</em>xtensions) 是描述消息内容类型的因特网标准。</h3><h3 id="一-HTTP理解"><a href="#一-HTTP理解" class="headerlink" title="一 HTTP理解"></a>一 HTTP理解</h3><p>1 HTTP 服务器:即网站服务器，主要提供文档(文本、图片、视频、音频)浏览服务，一般安装Apache、Nginx服务器软件。HTTP服务器可以结合某一编程语言处理业务逻辑，由此进行的开发，通常称之为<strong>服务端开发</strong>。常见的运行在服务端的编程语言包 括 php、java、.net、Python、Ruby、Perl等。</p>
-<p>如何搭建自己的HTTP服务器？</p>
-<ul>
-<li>安装wampsever:(Windows+Apache+Mysql+PHP)</li>
-<li>配置安装根目录</li>
-<li>配置虚拟主机</li>
-</ul>
-<p>2 HTTP 协议:超文本传输协议（HTTP，HyperText Transfer Protocol) 网站是基于HTTP协议的， 例如网站的图片、CSS、JS等都是基于HTTP协议进行传输的。HTTP协议是由从客户机到服务器的请求(Request)和从服务器到客户机的响应(Response)进行了约束和规范。即HTTP协议主要由请求和响应构成。</p>
-<p>3 请求和响应</p>
-<ul>
-<li><strong>3.1、请求行</strong> </li>
-</ul>
-<p>由请求方式、请求URL和协议版本构成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">GET /day01/code/login.php?username=123&amp;password=123 HTTP/1.1</div><div class="line">POST /day01/code/login.php HTTP/1.1</div></pre></td></tr></table></figure>
-<ul>
-<li><strong>3.2、请求头</strong></li>
-</ul>
-<p>Host：localhost请求的主机</p>
-<p>Cache-Control：max-age=0控制缓存</p>
-<p>Accept：<em>/</em> 接受的文档MIME类型</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1 如果是XHR对象和javascript标签发送请求，那么accept ：*/ *  代表接受所有的MIME类型的返回值;</div><div class="line">2 jQuery ajax发送请求的时候，如果设置了dataType 属性</div></pre></td></tr></table></figure>
-<p>User-Agent：很重要</p>
-<p>Referer：从哪个URL跳转过来的</p>
-<p>Accept-Encoding：可接受的压缩格式</p>
-<p>If-None-Match：记录服务器响应的ETag值，用于控制缓存</p>
-<p>此值是由服务器自动生成的</p>
-<p>If-Modified-Since：记录服务器响应的Last-Modified值</p>
-<p>此值是由服务器自动生成的</p>
-<ul>
-<li><strong>3.3、请求主体</strong></li>
-</ul>
-<p>即传递给服务端的数据</p>
-<p>注：当以post形式提交表单的时候，请求头里会设置</p>
-<p>Content-Type: application/x-www-form-urlencoded，以get形式当不需要</p>
-<p> 4 响应 </p>
-<p>响应由服务器发出，其规范格式为：状态行、响应头、响应主体。</p>
-<ul>
-<li><strong>4.1、状态行</strong></li>
-</ul>
-<p>由协议版本号、状态码和状态信息构成 HTTP/1.1 200 OK</p>
-<ul>
-<li><strong>4.2、响应头</strong></li>
-</ul>
-<p>Date：响应时间</p>
-<p>Server：服务器信息</p>
-<p>Last-Modified：资源最后修改时间 由服务器自动生成</p>
-<p>ETag：资源修改后生成的唯一标识</p>
-<p>由服务器自动生成</p>
-<p>Content-Length：响应主体长度</p>
-<p>Content-Type：响应资源的类型(header()函数可以定义返回的资源类型text/html  、text/javascript  、 )</p>
-<ul>
-<li><strong>4.3、响应主体</strong></li>
-</ul>
-<p>即服务端返回给客户端的内容；</p>
-<h3 id="二-请求的”进化”；"><a href="#二-请求的”进化”；" class="headerlink" title="二  请求的”进化”；"></a>二  请求的”进化”；</h3><p>“标签”请求  form可以设置get和post  a标签href发送请求get请求   iframe src属性 img src属性 script src属性</p>
-<p>1 form表单method:get post方法请求   a 标签 都是以get发送请求</p>
-<p>控制台  type document对象 ; </p>
-<p>代表有document对象直接发送请求(这就是为什么页面会刷新的原因)</p>
-<p>2 XMLHttpResponse 对象请求 ，该请求只允许请求当前源(域名，端口，协议)的资源，所以AJAX是不能跨域的</p>
-<pre><code>控制台  type 是 XMLHttpRequest 对象 ；
-
-代表请求是由这个javascript内置对象发送的；所谓的ajax其实就是请求的发送以及响应体的接受都是由一个javascript对象XMLHttpRequest完成。页面不会刷新，可以通过js动态的加载元素。
-</code></pre><p>3 跨域请求(同源策略:域名 协议 端口相同，当前域不能访问其他域的资源)</p>
-<ul>
-<li><p>script标签请求 script标签不受同源策略的限制 <strong>script 的src获取javascript;link的src获取 css； img的src获取图片资源； iframe 的src获取页面标</strong> 是允许跨域的，这些标签不受跨域的限制；</p>
-<p>控制台  type script ，(如果我们用script标签请求其他网站的jQuery库，可以减少本网站的请求)</p>
-</li>
-<li><p>Cross-Origin Resource Sharing（CORS）跨域资源共享是一份浏览器技术的规范，提供了 Web 服务从不同域传来沙盒脚本的方法，以避开浏览器的同源策略，是 JSONP 模式的现代版。</p>
-</li>
-</ul>
-<p>3.1 如何解决同源策略带来的问题，进行跨域？</p>
-<p>3.1.1 jsonp 单向跨域(get请求方式)</p>
-<p>为什么script标签引入的文件不受同源策略的限制？因为script标签引入的文件内容是不能够被客户端的js获取到的，不会影响到被引用文件的安全，所以没必要使script标签引入的文件遵循浏览器的同源策略。而通过ajax加载的文件内容是能够被客户端js获取到的，所以ajax必须遵循同源策略，否则被引入文件的内容会泄漏或者存在其他风险。JSONP的缺点则是：它只支持GET请求而不支持POST等其它类型的HTTP请求</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//本域代码</div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">getUsers</span> (<span class="params">obj</span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(obj)</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://www.google.com/getUsers.php"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//需要谷歌支持，服务器代码如下，返回的是一个js代码的字符串，</span></div><div class="line"><span class="meta">&lt;?php</span> </div><div class="line"> 	<span class="keyword">echo</span> <span class="string">'getUsers(["Jhon","JiM","kobe"])'</span>;</div><div class="line"> <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>3.1.2 Assess-Control</p>
-<p>比如百度向谷歌发送一个请求，那么谷歌的服务器上的响应的文件上需要设置如下</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">header("Access-Control-Allow-Origin: http://www.baidu.com");//表示允许baidu.com跨域请求本文件</div></pre></td></tr></table></figure>
-<p>4 HTML5新增API postMessage方法，HTML5系列博文有篇文章专门分析总结</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/09/66XML/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -941,6 +558,163 @@
 <h2 id="3-应用场景——类型转换"><a href="#3-应用场景——类型转换" class="headerlink" title="3.应用场景——类型转换"></a>3.应用场景——类型转换</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">String类型转化    对象到字符串  </div><div class="line">（1）执行toString，如果返回了一个原始值，则将其转化为字符串</div><div class="line">（2）否则执行valueOf方法，如果返回了一个原始值，则将其转化为字符串</div><div class="line">（3）否则抛出类型错误</div><div class="line">    如果 toString 方法存在并且返回原始类型，返回 toString 的结果。</div><div class="line">    如果 toString 方法不存在或者返回的不是原始类型，调用 valueOf 方法，如果 valueOf 方法存在，并且返回原	始类型数据，返回 valueOf 的结果。</div><div class="line">    其他情况，抛出错误。</div><div class="line">Number类型转化  对象到数字</div><div class="line">（1）执行valueOf，如果返回了一个原始值，如果需要，则将其转化为数字</div><div class="line">（2）否则执行toString，如果返回了一个原始值，则将其转化为数字并返回</div><div class="line">（3）否则抛出类型错误</div><div class="line"></div><div class="line">	如果 valueOf 存在，且返回原始类型数据，返回 valueOf 的结果。</div><div class="line">	如果 toString 存在，且返回原始类型数据，返回 toString 的结果。</div><div class="line">	其他情况，抛出错误。</div><div class="line">	</div><div class="line">以上两种方式转换的情况，我们可以通过重写对象的valueOf()方法和toString()方法来看下javascript是如何选择执行的以及执行的顺序</div></pre></td></tr></table></figure>
 <h2 id="4-类型转换与关系操作符-gt-、-lt-等，不包括-和"><a href="#4-类型转换与关系操作符-gt-、-lt-等，不包括-和" class="headerlink" title="4.类型转换与关系操作符(&gt;、&lt;等，不包括===和!==)"></a>4.类型转换与关系操作符(&gt;、&lt;等，不包括===和!==)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- 两个都是数值，则比较数值</div><div class="line">- 两个都是字符串，则比较字符编码值</div><div class="line">- 其中一个是数值，则要把另个转化成数值进行比较</div><div class="line">- 如果其中一个是对象，则调用valueOf，若没有返回原始值则调用toString，再进行前面的比较</div><div class="line">- 如果有一个是布尔值，则将其转化成数值</div></pre></td></tr></table></figure>
 <p>注：日期对象只调用toString，不会调用valueOf方法</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/17/03opacity和rgba 改变透明度的区别/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/10/17/03opacity和rgba 改变透明度的区别/" itemprop="url">
+                  opacity和rgba 改变透明度的区别
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-17T12:36:00+08:00">
+                2015-10-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css-html/" itemprop="url" rel="index">
+                    <span itemprop="name">css html</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一  opacity和rgba 改变透明度的区别</p>
+<p>需要注意，rgba()</p>
+<ul>
+<li>仅仅改变的是背景的透明度，</li>
+<li>不会对文本造成影响，不具有继承性</li>
+</ul>
+<p>然而，opacity </p>
+<ul>
+<li>不仅会改变背景的透明度，</li>
+<li>还会改变文本的透明度，并且具有继承性</li>
+</ul>
+<p>二 代码演示：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">       div&#123;</div><div class="line">           width: 500px;</div><div class="line">           height: 100px;</div><div class="line">           background-color:  rgba(344,24,67,.3);</div><div class="line"></div><div class="line">       &#125;</div><div class="line">   <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>这一段话是div里面的文字,opacity 透明度会改变字体的透明度 ，rgba  则不会</div><div class="line">  		<span class="tag">&lt;<span class="name">p</span>&gt;</span>这一段话是p里面的文字，如果对div设置透明度的时候，用opacity那么将会被继承，如果用rgba设置			透明度的时候，则不会被继承</div><div class="line">     	<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">      div&#123;</div><div class="line">          width: 500px;</div><div class="line">          height: 100px;</div><div class="line">          background-color:  rgb(344,24,67);</div><div class="line">          opacity: 0.3;  </div><div class="line">      &#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>三  总结：在做项目的时候，尽量用rgba 来改变透明度，因为opacity透明度具有继承性，并且还会改变文本的透明度，会造成一些影响</p>
 
           
         
@@ -1652,7 +1426,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/05/06/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/07/29/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -1674,7 +1448,7 @@
             
               
                 
-                <a class="post-title-link" href="/2015/05/06/hello-world/" itemprop="url">
+                <a class="post-title-link" href="/2015/07/29/hello-world/" itemprop="url">
                   Hello World
                 </a>
               
@@ -1691,8 +1465,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-06T00:00:00+08:00">
-                2015-05-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-29T00:00:00+08:00">
+                2015-07-29
               </time>
             
 
@@ -1821,7 +1595,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">139</span>
+                <span class="site-state-item-count">138</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1832,7 +1606,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
