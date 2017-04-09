@@ -257,7 +257,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/17/65js和jQuery的  AJAX  底层实现/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/17/01jquery  height()  innerHeight ()  outerHeight( )/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -279,8 +279,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/04/17/65js和jQuery的  AJAX  底层实现/" itemprop="url">
-                  Ajax(Asynchronous JavaScript and XML)
+                <a class="post-title-link" href="/2016/04/17/01jquery  height()  innerHeight ()  outerHeight( )/" itemprop="url">
+                  jquery height  innerHeight outerHeight
                 </a>
               
             
@@ -319,8 +319,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/http/" itemprop="url" rel="index">
-                    <span itemprop="name">http</span>
+                  <a href="/categories/jQuery/" itemprop="url" rel="index">
+                    <span itemprop="name">jQuery</span>
                   </a>
                 </span>
 
@@ -356,154 +356,29 @@
       
         
           
-            <h2 id="一-Ajax-Asynchronous-JavaScript-and-XML"><a href="#一-Ajax-Asynchronous-JavaScript-and-XML" class="headerlink" title="一:Ajax(Asynchronous JavaScript and XML)"></a>一:Ajax(Asynchronous JavaScript and XML)</h2><p>客户端:发送请求，确定请求方式以及处理请求的URL,发送给服务器——&gt;&gt;ajxa(javascript+XMLHttpRequset):作为媒介，xhr的open() send() 以及onreadystatechange()方法处理客户端和服务器之间的联系&lt;&lt;——服务器:处理请求，后台程序处理数据，返回给客户端;可以实现异步交互。</p>
-<p>同步交互:客户端向服务器发送请求，客户端的页面进行响应，刷新页面</p>
-<p>异步交互:客户端向服务器发送请求，客户端的页面进行响应，并不会刷新页面。</p>
-<p>(这个是我们对于页面感官上感受)</p>
-<p>从浏览器和服务器之间来理解同步和异步</p>
-<p>同步:浏览器发送请求，等待服务器的响应，等服务器返回响应，然后浏览器继续执行</p>
-<p>异步:浏览器通过javascript内置XMLHttpRequest对象向服务器发送请求，不等待服务器响应，浏览器继续执行代码，等服务器状态改变，onreadystatechange监听到改变，会执行回调函数；</p>
-<p>Ajax 采用一种沙箱安全模型。因此，Ajax 代码（具体来说就是 XMLHttpRequest 对象）只能对所在的同一个域发送请求</p>
-<p>我们需要检测并判断响应头的MIME类型后确定使用request.responseText或者request.responseXML</p>
-<h2 id="JS——Ajax"><a href="#JS——Ajax" class="headerlink" title="JS——Ajax"></a>JS——Ajax</h2><p>1 ajax的要点是XMLHttpRequset对象,根据不同浏览器兼容性，下面代码可以创建兼容性极强的XMLHttpRequset对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">GetXmlHttpObject</span>(<span class="params"></span>)</span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">var</span> xmlHttp=<span class="literal">null</span>;</div><div class="line">  <span class="keyword">try</span></div><div class="line">    &#123;</div><div class="line">    <span class="comment">// Firefox, Opera 8.0+, Safari</span></div><div class="line">    xmlHttp=<span class="keyword">new</span> XMLHttpRequest();</div><div class="line">    &#125;</div><div class="line">  <span class="keyword">catch</span> (e)</div><div class="line">    &#123;</div><div class="line">    <span class="comment">// Internet Explorer</span></div><div class="line">    <span class="keyword">try</span></div><div class="line">      &#123;</div><div class="line">      xmlHttp=<span class="keyword">new</span> ActiveXObject(<span class="string">"Msxml2.XMLHTTP"</span>);</div><div class="line">      &#125;</div><div class="line">    <span class="keyword">catch</span> (e)</div><div class="line">      &#123;</div><div class="line">      xmlHttp=<span class="keyword">new</span> ActiveXObject(<span class="string">"Microsoft.XMLHTTP"</span>);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  <span class="keyword">return</span> xmlHttp;</div><div class="line">&#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
-<p>2 XMLHttpRequest对象重要的属性</p>
+            <p>一  看解释：</p>
+<p>1 height( )只可以获取内容高度，也就是原本设置的height高度值，或者由内容撑开的高度值</p>
+<p>2 innerHeight( ) ,获取的高度包括 padding，不包括边框  </p>
+<p>3 outerHeight( ),获取的高度值包括 padding 和border ，不包括margin，</p>
+<p>二  撸代码：</p>
 <ul>
-<li>readystate存储着服务器相应状态的信息<strong>每当服务器响应状态改变的时候，onreadystatechange函数就会被执行</strong></li>
-<li>status由服务器返回的HTTP状态代码 200一切正常 404 NOT FOUND 403  Forbidden  </li>
-<li>statusText由服务器返回的HTTP状态描述，比如200  “OK”  404  “NOT FOUND”</li>
-<li>以上三个当响应不完成的时候，可以通过输出它们判断问题所在</li>
+<li>不写参数可以获取当前值</li>
 </ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">if</span>(xhr.readyState == <span class="number">4</span> )&#123;  <span class="comment">//代表服务器已经完全接受响应</span></div><div class="line">    <span class="keyword">if</span>(xhr.status == <span class="number">200</span> )&#123;  <span class="comment">//代表服务器响应状态OK</span></div><div class="line">      sone code</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">      alert(<span class="string">"status is "</span>+xhr.status) ;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//以上代码可以用来检测状态码的问题</span></div></pre></td></tr></table></figure>
-<p>当readyState小于3的时候，status  statusText 读取这些属性会导致一个异常。(注意S大写)</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">0</th>
-<th>Uninitialized</th>
-<th>初始化状态。XMLHttpRequest 对象已创建或已被 abort() 方法重置。</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">1</td>
-<td>Open</td>
-<td>open() 方法已调用，但是 send() 方法未调用。请求还没有被发送。</td>
-</tr>
-<tr>
-<td style="text-align:left">2</td>
-<td>Sent</td>
-<td>send() 方法已调用，HTTP 请求已发送到 Web 服务器。未接收到响应。</td>
-</tr>
-<tr>
-<td style="text-align:left">3</td>
-<td>Receiving</td>
-<td>所有响应头部都已经接收到。响应体开始接收但未完成。</td>
-</tr>
-<tr>
-<td style="text-align:left">4</td>
-<td>Loaded</td>
-<td>HTTP 响应已经完全接收。</td>
-</tr>
-</tbody>
-</table>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">        *&#123;</div><div class="line">            margin: 0;</div><div class="line">            padding: 0;</div><div class="line">        &#125;</div><div class="line">        div&#123;</div><div class="line">            border: 5px solid #000;</div><div class="line">            position: absolute;</div><div class="line">            width: 300px;</div><div class="line">            height: 200px;</div><div class="line">            margin: 100px;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        p&#123;</div><div class="line">            border: 1px solid green;</div><div class="line">            width: 200px;</div><div class="line">         	height:18px</div><div class="line">            padding: 10px;</div><div class="line">            margin: 20px;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"p2"</span>&gt;</span>这是一个段落<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.2.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    console.log($("#p2").height());       //18     padding   18  margin 18</div><div class="line">    console.log($("#p2").innerHeight());  //18               38         38</div><div class="line">    console.log($("#p2").outerHeight());  //20               40         40</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>代码解释：padding  和  margin 逐渐加上之后，输出值变化如注释所示。</p>
 <ul>
-<li><p>onreadystatechange属性存有服务器响应的函数，readyState数字每次改变都会执行该函数；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xmlHttp.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  &#125;;</div></pre></td></tr></table></figure>
-</li>
-<li><p>responseText 用来获取由服务器返回的数据,返回<strong>字符串形式</strong> ；(json格式)或者如果还没有接收到数据的话，就是<strong>空字符串</strong> 。</p>
-</li>
-<li><p>responseXML 与 responseText 以<strong>字符串</strong> 返回 HTTP 响应不同，responseXML 以 XML 返回响应。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">responseXML 属性返回 **XML 文档对象** ，可使用节点树的方法和属性来检查和解析该对象;这些从数据库中选取的数据将被转换为 XML 文档，然后我们将使用 DOM 来提取要显示的值。</div></pre></td></tr></table></figure>
-</li>
-<li><p>所谓的服务器返回的数据，其实就是echo 输出的内容(这个内容就是服务器端的响应体)，如果响应体是XML格式的文本，则需要用responseXML，如果响应体是字符串格式的文本，则需要用responseText来获取响应的内容；</p>
-</li>
+<li>写了参数可以设置  height(number)  innerHeight(number)  outerHeight(number) 它们各自代表的高度的值 </li>
+<li>写了参数也可以这么设置 height(number+”px”) 栗子: $(“selector”).height(100+”px”);</li>
+<li>Tips  $(“selector”).width(number) 等价于 \$(“selector”).css(“width”,number);</li>
 </ul>
-<p>3 XMLHttpRequest对象的重要方法:如何将请求发送到服务器</p>
-<p>  3.1 open( type,url,async) type代表客户端向服务器发送数据的方式，url代表服务器处理客户端发送数据的程序，async代表是异步处理还是同步处理，默认是true，异步处理，false是同步处理;</p>
-<p>open(HEAD,url,true) ,</p>
-<p>  3.2 setRequestHeader(‘Content-Type’,’application/x-www-form-urlencoded’);</p>
-<p>getAllResponseHeaders()</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">使用open(&quot;post&quot;,url)的时候必须这样设置；表示相应返回的资源格式</div><div class="line">get请求可以不设置；setRequestHeader() 方法指定了一个 HTTP 请求的头部，它应该包含在通过后续 send() 调用而发布的请求中。这个方法只有当 readyState 为 1 的时候才能调用，在调用了 open() 之后，但在调用 send() 之前。</div></pre></td></tr></table></figure>
-<p>   3.3 send( string ),将请求发往服务器;send() 把 readyState 设置为 2，并触发 onreadystatechange 事件句柄。必须在open()方法之后才能调用 ; 注意:添加一个随机数，以防服务器使用缓存的文件 </p>
-<p>  3.4 栗子解释:</p>
-<ul>
-<li>get请求   请求发送给服务器的数据直接附在URL地址的后面</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">xmlhttp.open(<span class="string">"GET"</span>,<span class="string">"demo_get2.asp?fname=Bill&amp;lname=Gates&amp;r="</span>+<span class="built_in">Math</span>.random(),<span class="literal">true</span>);</div><div class="line">xmlhttp.send();</div></pre></td></tr></table></figure>
-<ul>
-<li>post请求 请求发送的数据在send(string) ；</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">xmlhttp.open(<span class="string">"POST"</span>,<span class="string">"ajax_test.asp"</span>,<span class="literal">true</span>);</div><div class="line">xmlhttp.setRequestHeader(<span class="string">"Content-type"</span>,<span class="string">"application/x-www-form-urlencoded"</span>);</div><div class="line">xmlhttp.send(<span class="string">"fname=Bill&amp;lname=Gates&amp;r="</span>+<span class="built_in">Math</span>.random());</div></pre></td></tr></table></figure>
-<ul>
-<li>async  异步处理 (true)  同步处理(false)</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//async = true ;需要规定响应处于 onreadystatechange 事件中的就绪状态时执行的函数：</span></div><div class="line">xmlhttp.onreadystatechange=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span></div><div class="line">  &#123;</div><div class="line">  <span class="keyword">if</span> (xmlhttp.readyState==<span class="number">4</span> &amp;&amp; xmlhttp.status==<span class="number">200</span>)</div><div class="line">    &#123;</div><div class="line">    <span class="built_in">document</span>.getElementById(<span class="string">"myDiv"</span>).innerHTML=xmlhttp.responseText;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">xmlhttp.open(<span class="string">"GET"</span>,<span class="string">"test1.txt"</span>,<span class="literal">true</span>);</div><div class="line">xmlhttp.send();</div><div class="line"><span class="comment">//async =false ; 规定必须在响应完成之后才能执行javascript,此时不需要编写onreadystatechange,javascript代码紧跟在send()之后便可以;</span></div><div class="line">xmlhttp.open(<span class="string">"GET"</span>,<span class="string">"test1.txt"</span>,<span class="literal">false</span>);</div><div class="line">xmlhttp.send();</div><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">"myDiv"</span>).innerHTML=xmlhttp.responseText;</div></pre></td></tr></table></figure>
-<p>4 XMLHttpRequest对象监听服务器变化 onreadystatechanges属性发生变化的时候，可以执行函数体；responseText和responseXML得到响应体。</p>
-<p>5 XMLHttpRequest是javascript的一个内置对象，这个对象可以用来给后台服务器发送数据，同时接受后台返回来的数据，通过javascript动态的操作返回的数据，从而实现了交互的友好型，不会再反复的刷新页面。因为之前发送请求的时候，都是通过document对象发送请求，所以会刷新页面，后来直接用XHR发送请求，则不会再刷新页面了；</p>
-<h2 id="jQuery—-Ajax"><a href="#jQuery—-Ajax" class="headerlink" title="jQuery— Ajax"></a>jQuery— Ajax</h2><p>1 ajax方法里面封装了底层的XMLHttpRequest对象，建立了发送请求和响应请求的过程，并且在发送请求和得到响应这个过程中定义了一系列的函数的函数;</p>
-<p>2 jQuery Ajax是一个十分强大的封装体，ajax所有的技术基本上都可以设置，一个$.ajax(url,settings)基本上可以处理大部分服务器和客户端的通信；</p>
-<p>3 下面一步步来用栗子了解 jQuery-Ajax底层实现原理；(有关XMLHttpRequest对象的兼容上面以及解释过，此处不再做兼容)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">obj = &#123;<span class="string">"type"</span>:<span class="string">"GET"</span>,<span class="string">"data"</span>:<span class="string">"data"</span>,<span class="string">"URL"</span>:<span class="string">"url"</span>&#125;</div><div class="line"><span class="keyword">var</span> $ = &#123;</div><div class="line">  <span class="attr">ajax</span> : <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> obj.data === <span class="string">"object"</span>)&#123;</div><div class="line">      <span class="comment">//因为data有可能是一个对象，将data自动转化为字符串;</span></div><div class="line">      <span class="keyword">var</span> str = <span class="keyword">this</span>.params(obj.data);<span class="comment">//将data转化为字符串，这个就是 jQuery底层发送到服务器的数据。将自动转换为请求字符串格式的原理；</span></div><div class="line">      obj.data= str ;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(obj.type == <span class="string">"GET"</span>)&#123;</div><div class="line">      obj.url = obj.url+<span class="string">"?"</span>+obj.data;</div><div class="line">      obj.data = <span class="literal">null</span> ;</div><div class="line">    &#125;</div><div class="line">    xhr.open(obj.type,obj.url,<span class="literal">true</span>);</div><div class="line">    <span class="keyword">if</span>(obj.type ==<span class="string">"POST"</span>)&#123;</div><div class="line">      xhr.setRequestHeader(<span class="string">"Content-Type"</span>, <span class="string">"application/x-www-form-urlencoded"</span>);</div><div class="line">    &#125;</div><div class="line">    xhr.send(obj.data);</div><div class="line">    xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  <span class="comment">//每次readyState值变化的时候，都活触发这个onreadystatechange监听器，所以要设定一些条件，来限制函数体的执行，</span></div><div class="line">      <span class="keyword">if</span>(xhr.readyState == <span class="number">4</span>)&#123;  <span class="comment">//响应完成</span></div><div class="line">        <span class="keyword">if</span>(xhr.status == <span class="number">200</span>) &#123;  <span class="comment">//状态ok</span></div><div class="line">          <span class="keyword">var</span> res = xhr.responseText ;<span class="comment">//(如果返回是XML类型的数据，则用 xhr.responseXML接受)</span></div><div class="line">          <span class="keyword">var</span> resObj = <span class="built_in">JSON</span>.parse(res);<span class="comment">//这个就是jQuery底层实现：当dataType设置为json的时候，返回的数据类型是javascript对象;</span></div><div class="line">          obj.sucess(resObj);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">          obj.reeor();</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">          obj.complete();</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;;</div><div class="line">  &#125;,</div><div class="line">   <span class="attr">params</span>: <span class="function"><span class="keyword">function</span> (<span class="params">obj</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> str = <span class="string">""</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> obj) &#123;</div><div class="line">            <span class="comment">//console.log(key);</span></div><div class="line">            str += key + <span class="string">"="</span> + obj[key] + <span class="string">"&amp;"</span></div><div class="line">        &#125;</div><div class="line">        <span class="built_in">console</span>.log(str);</div><div class="line">        str = str.substr(<span class="number">0</span>, str.length - <span class="number">1</span>);</div><div class="line"></div><div class="line">        <span class="built_in">console</span>.log(str);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> str;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>4 用法 语法: $.ajax({ URL  [settings]    }) 传入键值对形式的设置和URL</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$.ajax (&#123;</div><div class="line">  <span class="attr">url</span> : <span class="string">"url"</span> ,  <span class="comment">//表示要访问的服务器后台地址</span></div><div class="line">  settings :     <span class="comment">//以下详细说明settings设置</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>settings 设置</p>
-<ul>
-<li><p>dataType  :  请求服务器返回的数据类型；</p>
-<p>“text”: 返回纯文本字符串</p>
-<p>“xml”: 返回 XML 文档，可用 jQuery 处理。</p>
-<p>“html”: 返回纯文本 HTML 信息；包含的script标签会在插入dom时执行。</p>
-<p>“script”: 返回纯文本 JavaScript 代码。不会自动缓存结果。除非设置了”cache”参数。’’’注意：’’’在远程请求时(不在同一个域下)，所有POST请求都将转为GET请求。(因为将使用DOM的script标签来加载)</p>
-<p>“json”: 返回 JSON 数据 ，服务器返回javascript对象;即经过JSON.parse()解析成javascript对象</p>
-<p>“jsonp” : <strong>如果跨域的话，这个时候就不是XMLHttpRequest对象发送请求了，而是script标签发送请求，服务器返回的script代码会直接执行</strong>  </p>
-<p>表示可以进行跨域请求；使用这种类型的话，会创建一个查询字符串参数 callback=? </p>
-<p>，这个参数会加在请求的URL后面。服务器端应当在JSON数据前加上回调函数名，以便完成一个有效的JSONP请求。如果要指定回调函数的参数名来取代默认的callback</p>
-<p>如果指定了text html javascript 则将返回字符串；如果指定了XML 则将返回XML格式的数据，可以用XML DOM 对象操作</p>
-<p>我们必须确保网页服务器报告的MIME类型与我们选择的dataType所匹配。比如说，如果我们将dataType设置为xml，则要求服务器返回xml类型的数据，服务器端就必须声明 text/xml 或者 application/xml 来获得一致的结果。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">            $callback=$_GET[<span class="string">'back'</span>];</div><div class="line">            $data=<span class="string">'&#123;"username":"zhangsanlisiwangwsu"&#125;'</span>;</div><div class="line">            echo $callback.<span class="string">"("</span>.$data.<span class="string">")"</span>;</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>situation:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"> </span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">getInfo</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(obj);</div><div class="line">        &#125;     </div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/jquery-1.12.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        $.ajax(&#123;</div><div class="line">             <span class="attr">url</span>:<span class="string">"04jsonp.php?callback=getInfo"</span>,</div><div class="line">            <span class="attr">type</span>:<span class="string">"GET"</span>,</div><div class="line">            <span class="attr">dataType</span>:<span class="string">"jsonp"</span>,<span class="comment">//如果没有这行代码，就是返回纯文本的javascript代码</span></div><div class="line">          <span class="comment">//既支持跨域资源，也支持本地资源，服务器返回的以javascript代码直接执行</span></div><div class="line">          <span class="comment">//&#123; username: "zhangsanlisiwangwsu" &#125;</span></div><div class="line">            success:<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(res);</div><div class="line">            &#125;</div><div class="line">        &#125;)</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>jsonp : 在一个jsonp请求中重写回调函数的名字。这个值用来替代在”callback=?”中的 callback</li>
-<li><p>jsonpCallback : 为jsonp请求指定一个回调函数名。这个值将用来取代jQuery自动生成的随机函数名。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"> $.ajax(&#123;</div><div class="line">        <span class="attr">url</span>:<span class="string">'http://study.com/data.php'</span>,</div><div class="line">        <span class="attr">dataType</span> : <span class="string">'jsonp'</span>,</div><div class="line">        <span class="attr">jsonpCallback</span>:<span class="string">"myCall"</span>,</div><div class="line">        <span class="attr">jsonp</span>:<span class="string">"funcName"</span>,</div><div class="line">        <span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line"><span class="comment">//  ?funcName=myCall&amp;_=1488624180015</span></div><div class="line"> <span class="comment">//如果不设置 jsonp和 jsonpCallback </span></div><div class="line"> <span class="comment">// ?callback=jQuery111103367937101396201_1488624279118&amp;_=1488624279119</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>type :  jQuery默认  GET   其他值 POST ,规定请求的方式；</p>
-</li>
-<li><p>async  Boolean (默认: true) 默认设置下，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为 false。注意，同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行。</p>
-</li>
-<li><p>cache : 默认为true ，缓存 ，dataType : jsonp script  的时候默认为false</p>
-</li>
-<li><p>data : 传递给服务器的数据 ，如果是对象，则自动转化为字符串；必须为key/value 格式，如果value值是数组，则将为相应 的key对应每个数组的值；<strong>如果是GET请求，需要将参数附在url之后</strong>　</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">data:&#123; "name":"Jhon", "age":[13,14] &#125;,</div><div class="line">jQuery将解析成这样的字符串 :   ?name=Jhon&amp;age%5B%5D=13&amp;age%5B%5D=14  传递给服务器；</div></pre></td></tr></table></figure>
-<p><strong>必须</strong> 为 data: { “name”:”Jhon”,”age”:14 }   这种格式，其他的都会报错；</p>
-<p><strong>即使</strong> 是data: ‘ {“name”:”Jhon”,”age”:15} ‘  这种形式，发送到服务器的数据有误；</p>
-<p><strong>当以键值对的对象发送给后台数据的时候，可以被转化为JSON的数据格式，key值方便后台查询</strong> </p>
-</li>
-<li><p>processData : (默认: true) 默认情况下，通过data选项传递进来的数据，如果是一个对象(技术上讲只要不是字符串)，都会处理转化成一个查询字符串，以配合默认内容类型<br>“application/x-www-form-urlencoded”。如果要发送 DOM 树信息或其它不希望转换的信息，请设置为 false。</p>
-<p>发送 XML 数据至服务器。设置 processData 选项为 false，防止自动转换数据格式。</p>
-</li>
-</ul>
-<ul>
-<li>jsonp : JSON with padding 底层实现原理其实就是动态的创建<script>标签，然后利用scritp的src属性不受同源策略的约束来跨域获取数据；</li>
-</ul>
-<ul>
-<li><p>timeout : 设置请求超时时间，以毫秒计；比如设置了 timeout:3000,如果服务器3 秒内没有响应的阿虎，那么则断开这个请求链接；</p>
-</li>
-<li><p>success : function( data,textStatus,XHR){    }     请求成功才会执行该函数体，从服务器返回的数据直接返回给该函数的参数；参数：由服务器返回，并根据dataType参数进行处理后的数据；描述状态的字符串</p>
-<p>注意:此时返回的data的类型由dataType 决定，html text script返回的是  字符串类型的文本；</p>
-<p>​    json 会返回javascript对象  ;  xml  会返回xml 文档 ；</p>
-</li>
-<li><p>beforeSend : function( XHR ){  }</p>
-<p>传入一个xhr对象，包含XMLHttpRequset相关的属性详细的信息；</p>
-</li>
-</ul>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="keyword">echo</span> <span class="string">"ok"</span>;</div><div class="line">    <span class="keyword">echo</span> $_GET[<span class="string">"name"</span>];</div><div class="line">    <span class="keyword">echo</span> $_GET[<span class="string">"age"</span>];</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"触发ajax"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></div><div class="line">    $.ajax(&#123;</div><div class="line">        <span class="attr">url</span>:<span class="string">"05-ajxacallback.php"</span>,</div><div class="line"></div><div class="line">        <span class="attr">type</span>:<span class="string">"GET"</span>,</div><div class="line">        <span class="attr">data</span>:&#123;<span class="string">"name"</span>:<span class="string">"Jhon"</span>,<span class="string">"age"</span>:<span class="number">15</span>&#125;,</div><div class="line"><span class="comment">//        data:&#123;</span></div><div class="line"><span class="comment">//            "name":"Jhon",</span></div><div class="line"><span class="comment">//            "age":[13,14]</span></div><div class="line"><span class="comment">//        &#125;,//不能这种形式</span></div><div class="line">        <span class="comment">//  ?name=Jhon&amp;age%5B%5D=13&amp;age%5B%5D=14</span></div><div class="line"><span class="comment">//       data :&#123;</span></div><div class="line"><span class="comment">//            "name":[&#123;"name":"Jhon","age":14&#125;]</span></div><div class="line"><span class="comment">//        &#125; ,不能这种形式</span></div><div class="line">        dataType:<span class="string">"html"</span>, <span class="comment">//可以改变属性值，</span></div><div class="line">        beforeSend:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">complete</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(res);</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">typeof</span> res);</div><div class="line">           <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>如果请求的数据类型和返回的数据类型不同的话，则不会执行success函数</p>
-</script></li></ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    $("#btn").click(function()&#123;</div><div class="line">        $("#p2").height(30);</div><div class="line">        $("#p2").innerHeight(60);</div><div class="line">        $("#p2").outerHeight(70)；</div><div class="line">        console.log($("#p2").height());</div><div class="line">        console.log($("#p2").innerHeight());</div><div class="line">        console.log($("#p2").outerHeight());</div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>三：width( )  innerWidth( )  outerWidth( )也是一样的道理。</p>
+<p>四：这些方法对隐藏元素和显示元素均有效。</p>
+<p>五：如果获取的元素是一个节点列表，那么可以获取或者设置该列表元素的额第一个元素的宽高；</p>
+<p>六 ：window对象的尺寸 </p>
+<h3 id="js-中有三种方法能够确定浏览器窗口的尺寸（浏览器的视口，不包括工具栏F12和滚动条）。"><a href="#js-中有三种方法能够确定浏览器窗口的尺寸（浏览器的视口，不包括工具栏F12和滚动条）。" class="headerlink" title="js  中有三种方法能够确定浏览器窗口的尺寸（浏览器的视口，不包括工具栏F12和滚动条）。"></a>js  中有三种方法能够确定浏览器窗口的尺寸（浏览器的视口，不包括工具栏F12和滚动条）。</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">对于Internet Explorer、Chrome、Firefox、Opera 以及 Safari</div><div class="line">- <span class="built_in">window</span>.innerHeight - 浏览器窗口的内部高度 </div><div class="line">- <span class="built_in">window</span>.innerWidth - 浏览器窗口的内部宽度 </div><div class="line">对于 Internet Explorer <span class="number">8</span>、<span class="number">7</span>、<span class="number">6</span>、<span class="number">5</span>：</div><div class="line">- <span class="built_in">document</span>.documentElement.clientHeight </div><div class="line">- <span class="built_in">document</span>.documentElement.clientWidth </div><div class="line">或者</div><div class="line">- <span class="built_in">document</span>.body.clientHeight </div><div class="line">- <span class="built_in">document</span>.body.clientWidth </div><div class="line"><span class="comment">//封装一个兼容各个浏览的代码</span></div><div class="line"><span class="keyword">var</span> height = <span class="built_in">window</span>.innerHeight||<span class="built_in">document</span>.documentElement.clientHeight||<span class="built_in">document</span>.body.clientHeight</div><div class="line"><span class="keyword">var</span> width = <span class="built_in">window</span>.innerWidth || <span class="built_in">document</span>.documentElement.clientWidth || docuemnt.body.clientWidth</div></pre></td></tr></table></figure>
+<h3 id="jQuery中"><a href="#jQuery中" class="headerlink" title="jQuery中"></a>jQuery中</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$(<span class="built_in">window</span>).height()    $(<span class="built_in">window</span>),width() ;</div></pre></td></tr></table></figure>
+
           
         
       
@@ -670,6 +545,162 @@
 <p><em>现实生活中，银行不同的窗口办理不同的业务。</em></p>
 <p>查看端口占用情况 netstat -an</p>
 <p>常见端口号 80、8080、3306、21、22</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/11/76-事件委派/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/11/76-事件委派/" itemprop="url">
+                  eventDelegate
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-11T00:00:00+08:00">
+                2016-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="事件委派"><a href="#事件委派" class="headerlink" title="事件委派"></a>事件委派</h3><p>1 jQuery事件委派:可以理解为，本来应该下属做的事情，却由领导做了</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">   $(function()&#123;</div><div class="line">        $("ul li").click(function()&#123;</div><div class="line">            console.log("click绑定程序");</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line">    $(function()&#123;</div><div class="line">        $("ul").delegate("li","click",function()&#123;</div><div class="line">            console.log("delegate直接绑定执行程序");</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>以上两种绑定事件的方式所实现的效果是一样的，但是需要注意</p>
+<p>第一种绑定方式 click </p>
+<ul>
+<li><p>1 很耗费资源，因为这种方式是给每个li都加上了事件，li的个数少的话还没事，如果li多的话会很耗费资源。</p>
+<p>2 如果后期动态添加li，不会拥有这个弹出事件。</p>
+</li>
+</ul>
+<p>第二种绑定方式 delegate</p>
+<ul>
+<li>1 可以解决耗费资源的问题，只绑定给ul元素一个事件处理程序</li>
+<li>2 后期动态添加的子元素，也会拥有该事件处理程序</li>
+</ul>
 
           
         
@@ -1810,227 +1841,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/14/62-HTTP协议/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/14/62-HTTP协议/" itemprop="url">
-                  HTTP(HyperText Transfer Protocol)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-14T12:36:00+08:00">
-                2015-11-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/http/" itemprop="url" rel="index">
-                    <span itemprop="name">http</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="HTTP-HyperText-Transfer-Protocol"><a href="#HTTP-HyperText-Transfer-Protocol" class="headerlink" title="HTTP(HyperText Transfer Protocol)"></a>HTTP(HyperText Transfer Protocol)</h2><h3 id="MIME-Multipurpose-Internet-Mail-Extensions-是描述消息内容类型的因特网标准。"><a href="#MIME-Multipurpose-Internet-Mail-Extensions-是描述消息内容类型的因特网标准。" class="headerlink" title="MIME (Multipurpose Internet Mail Extensions) 是描述消息内容类型的因特网标准。"></a>MIME (<em>M</em>ultipurpose <em>I</em>nternet <em>M</em>ail <em>E</em>xtensions) 是描述消息内容类型的因特网标准。</h3><h3 id="一-HTTP理解"><a href="#一-HTTP理解" class="headerlink" title="一 HTTP理解"></a>一 HTTP理解</h3><p>1 HTTP 服务器:即网站服务器，主要提供文档(文本、图片、视频、音频)浏览服务，一般安装Apache、Nginx服务器软件。HTTP服务器可以结合某一编程语言处理业务逻辑，由此进行的开发，通常称之为<strong>服务端开发</strong>。常见的运行在服务端的编程语言包 括 php、java、.net、Python、Ruby、Perl等。</p>
-<p>如何搭建自己的HTTP服务器？</p>
-<ul>
-<li>安装wampsever:(Windows+Apache+Mysql+PHP)</li>
-<li>配置安装根目录</li>
-<li>配置虚拟主机</li>
-</ul>
-<p>2 HTTP 协议:超文本传输协议（HTTP，HyperText Transfer Protocol) 网站是基于HTTP协议的， 例如网站的图片、CSS、JS等都是基于HTTP协议进行传输的。HTTP协议是由从客户机到服务器的请求(Request)和从服务器到客户机的响应(Response)进行了约束和规范。即HTTP协议主要由请求和响应构成。</p>
-<p>3 请求和响应</p>
-<ul>
-<li><strong>3.1、请求行</strong> </li>
-</ul>
-<p>由请求方式、请求URL和协议版本构成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">GET /day01/code/login.php?username=123&amp;password=123 HTTP/1.1</div><div class="line">POST /day01/code/login.php HTTP/1.1</div></pre></td></tr></table></figure>
-<ul>
-<li><strong>3.2、请求头</strong></li>
-</ul>
-<p>Host：localhost请求的主机</p>
-<p>Cache-Control：max-age=0控制缓存</p>
-<p>Accept：<em>/</em> 接受的文档MIME类型</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1 如果是XHR对象和javascript标签发送请求，那么accept ：*/ *  代表接受所有的MIME类型的返回值;</div><div class="line">2 jQuery ajax发送请求的时候，如果设置了dataType 属性</div></pre></td></tr></table></figure>
-<p>User-Agent：很重要</p>
-<p>Referer：从哪个URL跳转过来的</p>
-<p>Accept-Encoding：可接受的压缩格式</p>
-<p>If-None-Match：记录服务器响应的ETag值，用于控制缓存</p>
-<p>此值是由服务器自动生成的</p>
-<p>If-Modified-Since：记录服务器响应的Last-Modified值</p>
-<p>此值是由服务器自动生成的</p>
-<ul>
-<li><strong>3.3、请求主体</strong></li>
-</ul>
-<p>即传递给服务端的数据</p>
-<p>注：当以post形式提交表单的时候，请求头里会设置</p>
-<p>Content-Type: application/x-www-form-urlencoded，以get形式当不需要</p>
-<p> 4 响应 </p>
-<p>响应由服务器发出，其规范格式为：状态行、响应头、响应主体。</p>
-<ul>
-<li><strong>4.1、状态行</strong></li>
-</ul>
-<p>由协议版本号、状态码和状态信息构成 HTTP/1.1 200 OK</p>
-<ul>
-<li><strong>4.2、响应头</strong></li>
-</ul>
-<p>Date：响应时间</p>
-<p>Server：服务器信息</p>
-<p>Last-Modified：资源最后修改时间 由服务器自动生成</p>
-<p>ETag：资源修改后生成的唯一标识</p>
-<p>由服务器自动生成</p>
-<p>Content-Length：响应主体长度</p>
-<p>Content-Type：响应资源的类型(header()函数可以定义返回的资源类型text/html  、text/javascript  、 )</p>
-<ul>
-<li><strong>4.3、响应主体</strong></li>
-</ul>
-<p>即服务端返回给客户端的内容；</p>
-<h3 id="二-请求的”进化”；"><a href="#二-请求的”进化”；" class="headerlink" title="二  请求的”进化”；"></a>二  请求的”进化”；</h3><p>“标签”请求  form可以设置get和post  a标签href发送请求get请求   iframe src属性 img src属性 script src属性</p>
-<p>1 form表单method:get post方法请求   a 标签 都是以get发送请求</p>
-<p>控制台  type document对象 ; </p>
-<p>代表有document对象直接发送请求(这就是为什么页面会刷新的原因)</p>
-<p>2 XMLHttpResponse 对象请求 ，该请求只允许请求当前源(域名，端口，协议)的资源，所以AJAX是不能跨域的</p>
-<pre><code>控制台  type 是 XMLHttpRequest 对象 ；
-
-代表请求是由这个javascript内置对象发送的；所谓的ajax其实就是请求的发送以及响应体的接受都是由一个javascript对象XMLHttpRequest完成。页面不会刷新，可以通过js动态的加载元素。
-</code></pre><p>3 跨域请求(同源策略:域名 协议 端口相同，当前域不能访问其他域的资源)</p>
-<ul>
-<li><p>script标签请求 script标签不受同源策略的限制 <strong>script 的src获取javascript;link的src获取 css； img的src获取图片资源； iframe 的src获取页面标</strong> 是允许跨域的，这些标签不受跨域的限制；</p>
-<p>控制台  type script ，(如果我们用script标签请求其他网站的jQuery库，可以减少本网站的请求)</p>
-</li>
-<li><p>Cross-Origin Resource Sharing（CORS）跨域资源共享是一份浏览器技术的规范，提供了 Web 服务从不同域传来沙盒脚本的方法，以避开浏览器的同源策略，是 JSONP 模式的现代版。</p>
-</li>
-</ul>
-<p>3.1 如何解决同源策略带来的问题，进行跨域？</p>
-<p>3.1.1 jsonp 单向跨域(get请求方式)</p>
-<p>为什么script标签引入的文件不受同源策略的限制？因为script标签引入的文件内容是不能够被客户端的js获取到的，不会影响到被引用文件的安全，所以没必要使script标签引入的文件遵循浏览器的同源策略。而通过ajax加载的文件内容是能够被客户端js获取到的，所以ajax必须遵循同源策略，否则被引入文件的内容会泄漏或者存在其他风险。JSONP的缺点则是：它只支持GET请求而不支持POST等其它类型的HTTP请求</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//本域代码</div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">getUsers</span> (<span class="params">obj</span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(obj)</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://www.google.com/getUsers.php"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//需要谷歌支持，服务器代码如下，返回的是一个js代码的字符串，</span></div><div class="line"><span class="meta">&lt;?php</span> </div><div class="line"> 	<span class="keyword">echo</span> <span class="string">'getUsers(["Jhon","JiM","kobe"])'</span>;</div><div class="line"> <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>3.1.2 Assess-Control</p>
-<p>比如百度向谷歌发送一个请求，那么谷歌的服务器上的响应的文件上需要设置如下</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">header("Access-Control-Allow-Origin: http://www.baidu.com");//表示允许baidu.com跨域请求本文件</div></pre></td></tr></table></figure>
-<p>4 HTML5新增API postMessage方法，HTML5系列博文有篇文章专门分析总结</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2080,7 +1890,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">54</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
