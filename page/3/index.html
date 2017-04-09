@@ -257,7 +257,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/02/131NodeJsFS/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/04/87-Javscript中this详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -279,8 +279,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/11/02/131NodeJsFS/" itemprop="url">
-                  NodeJsFileSystem WriteFileAndReadFile
+                <a class="post-title-link" href="/2016/11/04/87-Javscript中this详解/" itemprop="url">
+                  Javscript中this详解
                 </a>
               
             
@@ -296,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-02T12:36:00+08:00">
-                2016-11-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-04T21:08:00+08:00">
+                2016-11-04
               </time>
             
 
@@ -319,8 +319,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index">
-                    <span itemprop="name">nodejs</span>
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
                   </a>
                 </span>
 
@@ -356,45 +356,81 @@
       
         
           
-            <h3 id="FileSystem"><a href="#FileSystem" class="headerlink" title="FileSystem"></a>FileSystem</h3><p>文件 I/O 是由简单封装的标准 POSIX 函数提供的。 通过 require(‘fs’)使用该模块。 <strong>所有的方法都有异步和同步的形式。</strong></p>
+            <h2 id="Javscript中this详解"><a href="#Javscript中this详解" class="headerlink" title="Javscript中this详解"></a>Javscript中this详解</h2><h3 id="一-宿主环境和javascript-引擎"><a href="#一-宿主环境和javascript-引擎" class="headerlink" title="一 宿主环境和javascript 引擎"></a>一 宿主环境和javascript 引擎</h3><ul>
+<li>宿主环境：一门语言在运行的时候需要一个环境，这个环境就是宿主环境，对于JavaScript来说宿主环境就是我们常说的浏览器，在这个浏览器里面提供了一些借口让javascript引擎可以和宿主环境对接；</li>
+<li>jacascript引擎才是真正执行代码的地方，常见的javascript引擎包括V8，javascript core,javascript引擎主要做了以下几件事情:一套与宿主环境相互联系的规则，javascript引擎内核，规定了基本javascript语法逻辑和命令，一组内置对象和API</li>
+<li>javascript不仅可以在浏览器里面运行，还可以在其他宿主环境，比如node.js</li>
+</ul>
+<h3 id="二-this详解"><a href="#二-this详解" class="headerlink" title="二 this详解"></a>二 this详解</h3><h2 id="1-global-this"><a href="#1-global-this" class="headerlink" title="1 global this"></a>1 global this</h2><p>1.1在浏览器里面，全局范围内，this等价于window对象(其实window对象也是Window构造函数的实例)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span> === <span class="built_in">window</span>);<span class="comment">//true  全等号还是返回true  </span></div><div class="line">   <span class="keyword">this</span>.name = <span class="string">"jhon"</span>;</div><div class="line">   <span class="built_in">console</span>.log(<span class="built_in">window</span>.name);<span class="comment">//jhon</span></div><div class="line">   <span class="built_in">window</span>.age = <span class="number">13</span> ;</div><div class="line">   <span class="built_in">console</span>.log(<span class="keyword">this</span>.age);<span class="comment">//13</span></div></pre></td></tr></table></figure>
+<p>1.2 在浏览器中，在全局范围内，用var声明一个变量和给this  window 设置属性是等价的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = <span class="string">"bar"</span>;</div><div class="line">   <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);<span class="comment">//bar</span></div><div class="line">   <span class="built_in">console</span>.log(<span class="built_in">window</span>.foo);<span class="comment">//bar</span></div></pre></td></tr></table></figure>
+<p>1.2.1 预解析对顶级对象window的属性的添加</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.exp); <span class="comment">//由于预解析  var exp ;会被提升到最上部，声明的对象未被定义的话，默认为undefined</span></div><div class="line"><span class="keyword">if</span> (exp <span class="keyword">in</span> <span class="built_in">window</span>)&#123;  <span class="comment">//  返回true;</span></div><div class="line">  <span class="comment">//in  操作符，可以用来判断某个对象是否拥有某个属性，可以追溯对象所有的属性，包括原型上的;</span></div><div class="line">        <span class="keyword">var</span> exp = <span class="string">"example"</span>;<span class="comment">//会进行预解析，声明exp属性给到window,解析到这一行代码的时候，会进行赋值</span></div><div class="line">    <span class="comment">//明确预解析:所谓预解析是浏览器的动作，它会在执行javascript代码之前，全局的检索javascript代码，将变量声明以及函数声明提升到函数的额最顶部，所以，变量声明提升的时候，相当于给window对象添加了一个属性</span></div><div class="line">       <span class="built_in">console</span>.log(<span class="built_in">window</span>.exp);<span class="comment">//example </span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>1.2.2 用function声明函数和在全局用var 声明变量，或者函数体不用var声明变量，都是在给全局的window添加属性值</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> amyName;			<span class="comment">// window 对象会多一个amyName 属性</span></div><div class="line">    a ;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">anewBuilder</span>(<span class="params"></span>)</span>&#123;  <span class="comment">//window对象会多一个anerBuilder属性</span></div><div class="line">        aaa = <span class="number">1</span>;  <span class="comment">//函数执行后 ，window对象又会多一个aaa属性</span></div><div class="line">    &#125;</div><div class="line">    anewBuilder()</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">window</span>);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.2.3 如果没有用var 声明，那么则不会进行变量提升，即使该变量也是隐式全局变量</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (exp <span class="keyword">in</span> <span class="built_in">window</span>)&#123;	<span class="comment">//报错，程序停止运行</span></div><div class="line">      exp = <span class="string">"example"</span>;<span class="comment">//隐式全局变量，不会进行预解析，声明exp属性给到window</span></div><div class="line">      <span class="built_in">console</span>.log(exp);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>1.3 在<strong>函数体内</strong> ，(即使是函数体内的函数嵌套函数),没有var或者let声明的变量或者函数，就是在给全局this  window添加属性；如果使用了var 或者 let声明变量，则不能被全局的this访问到；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">//    var str = "全局的this";</span></div><div class="line">    <span class="comment">//在函数体，声明变量的时候，如果没有用var</span></div><div class="line">    <span class="keyword">var</span> func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> str =<span class="string">"这个不能被全局的this访问到"</span>;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.str);<span class="comment">//undefined  this代表全局的window，在全局范围内，并没有str赋值</span></div><div class="line">      <span class="comment">// 如果不是被new调用函数，那么函数体的this都是指代全局范围的this,代表window对象；</span></div><div class="line">        func3 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            innerV = <span class="string">"这是函数体内的变量"</span>;</div><div class="line">        &#125;;</div><div class="line"><span class="comment">//      func3();</span></div><div class="line">    &#125;</div><div class="line">    func();</div><div class="line">    <span class="keyword">this</span>.func3();<span class="comment">//和在函数体内执行效果是一样的，func3也是全局this的属性(方法)</span></div><div class="line"><span class="comment">//这两个函数必须被执行，才能正确赋值,以下innerV 才能输出；</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.innerV);<span class="comment">//"这是函数体内的变量"</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.str);<span class="comment">//undefined</span></div><div class="line">    <span class="comment">//在函数体内，不使用var或者let声明变量，也是在给全局的this和window对象设置属性</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="2-function-this"><a href="#2-function-this" class="headerlink" title="2 function this"></a>2 function this</h2><h3 id="2-0-对于一个函数，有三种角色，普通函数，直接调用执行；构造函数，通过new调用；函数作为对象；"><a href="#2-0-对于一个函数，有三种角色，普通函数，直接调用执行；构造函数，通过new调用；函数作为对象；" class="headerlink" title="2.0 对于一个函数，有三种角色，普通函数，直接调用执行；构造函数，通过new调用；函数作为对象；"></a>2.0 对于一个函数，有三种角色，普通函数，直接调用执行；构造函数，通过new调用；函数作为对象；</h3><p>2.1  如果不是被new调用函数，</p>
 <ul>
-<li><p>异步形式始终以完成回调作为它最后一个参数。 传给完成回调的参数取决于具体方法，但第一个参数总是留给异常。 如果操作成功完成，则第一个参数会是 null或 undefined，如果操作失败，则第一个参数将是一个错误对象；</p>
-<p>需要注意一点，异步操作无法通过try-catch来捕获异常</p>
-</li>
-<li><p>当使用同步形式时，任何异常都会被立即抛出。 可以使用 try/catch 来处理异常，或让它们往上冒泡。</p>
-</li>
+<li>普通函数:直接执行函数体，那么函数体的this都是指代全局范围的this,代表window对象；</li>
 </ul>
-<h3 id="nodejs-fs"><a href="#nodejs-fs" class="headerlink" title="nodejs fs"></a>nodejs fs</h3><p>1 读取文件操作readFile(file,options,callback)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> foo = <span class="string">"bar"</span>;   <span class="comment">//变量的声明，相当于给window添加了一个 foo 属性，属性值是一个基础数据类型值</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params"></span>)</span>&#123;  <span class="comment">//函数的声明，相当于给window添加了一个test属性，属性值是复杂数据类型值</span></div><div class="line">        <span class="keyword">this</span>.foo = <span class="string">"bar is changed"</span>;<span class="comment">//当函数不是被new操作符调用的时候，this还是指向window对象</span></div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);<span class="comment">//bar</span></div><div class="line">    test();<span class="comment">//直接执行函数，this代表全局的this</span></div><div class="line">  <span class="comment">//等价于window.test()</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);<span class="comment">//bar is changed </span></div><div class="line">  <span class="comment">//--------------------------------------------------------------------</span></div><div class="line">  	<span class="keyword">var</span> num = <span class="number">300</span>;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> num = <span class="number">200</span> ;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">getInnerNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>.num);<span class="comment">//300</span></div><div class="line">           <span class="built_in">console</span>.log(num);<span class="comment">//200</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> getInnerNum;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> res = getNum();</div><div class="line">    res();</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
 <ul>
-<li>file是要读取的文件的路径</li>
-<li>options<ul>
-<li>encoding  <string> | null     //默认值是null,所以如果不指定编码方式，读取文件的结果<strong>默认返回的值是二进制数据</strong>,返回的结果会作为参数传递给callback回调函数</string></li>
-<li>flag  <string>  默认是  ‘r’</string></li>
+<li>直接执行函数体的时候，如果使用了apply  call 则代表改变了函数运行时的this指向，原先this默认指向的是其执行的上下文环境；语法  fn.apply(  thisArg[, argsArray]  ) 、 fn.call( thisArg[, arg1[, arg2[, …]]] ) 执行之后，this指向传入的第一个参数</li>
 </ul>
-</li>
-<li>callback 回调函数又有两个参数，第一个参数是error对象，第二个参数是读取到的数据<ul>
-<li>如果读取文件成功，err返回null  data返回读取到的文件数据;(如果字符编码未指定，则返回原始的buffer数据)</li>
-<li>如果读取文件失败，err返回一个错误对象，data返回undefined;</li>
-</ul>
-</li>
-<li>注意读取文件的内容返回的结果要么是<strong>Buffer类型</strong>的数据，要么是<strong>字符串类型</strong>的数据</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建文件读取对象</span></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">fs.readFile(<span class="string">'input.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123; <span class="comment">//假如input.txt里面的内容是  hello world</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);<span class="comment">//我们可以打印出来回调函数的参数进行查看，即使文件读取失败，回调函数也会执行</span></div><div class="line">  <span class="built_in">console</span>.log(err);</div><div class="line">  <span class="built_in">console</span>.log(data);<span class="comment">//readFile返回的data数据是buffer类型的数据</span></div><div class="line">  <span class="keyword">if</span>(err)&#123;</div><div class="line">    <span class="built_in">console</span>.log(err.stack);</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(data.toString());<span class="comment">//需要调用toString方法转化为字符串</span></div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"program is done"</span>);</div><div class="line"><span class="comment">//program is done</span></div><div class="line"><span class="comment">//hello world </span></div><div class="line"><span class="comment">//程序无阻塞运行</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//readFile语法</span></div><div class="line">fs.readFile(<span class="string">'etc/passwd'</span>,(err,data)=&gt;&#123;</div><div class="line">  <span class="keyword">if</span>(err) <span class="keyword">throw</span> err;  <span class="comment">//使用箭头函数可以使代码更加简洁</span></div><div class="line">  <span class="built_in">console</span>.log(data);</div><div class="line">&#125;);</div><div class="line"><span class="comment">//readFile用于异步读取文件内容，</span></div></pre></td></tr></table></figure>
-<p>2 写入文件的操作writeFile(file,data,[option],callback)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> foo = <span class="string">"bar"</span>;</div><div class="line">    <span class="keyword">var</span> obj = &#123;<span class="string">"foo"</span>:<span class="string">"objBar"</span>&#125;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);</div><div class="line">    &#125;</div><div class="line">    test();<span class="comment">//bar 函数执行的时候this指向执行的上下文环境</span></div><div class="line">  </div><div class="line">    test.apply(obj);<span class="comment">// objBar  将test函数执行的时候this的指向指向了obj</span></div><div class="line">    test.call(obj);<span class="comment">// objBar  将test函数执行的时候this的指向指向了obj</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2.2 函数作为构造函数:如果被new操作符调用函数体,那么函数体的this就变成了一个新的值，和global的this没有任何关系</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> foo = <span class="string">"bar"</span>;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">this</span>.foo = <span class="string">"bar is changed"</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);<span class="comment">//bar</span></div><div class="line">  <span class="comment">//不使用new操作符调用</span></div><div class="line">  <span class="comment">//    test();</span></div><div class="line">  <span class="comment">//    console.log(this.foo);//bar is changed</span></div><div class="line">  <span class="comment">//使用new操作调用   </span></div><div class="line">     <span class="keyword">new</span> test();<span class="comment">//通过new操作符之后，函数体里面的this不再指向全局window，而是指向其新创建的对象</span></div><div class="line">     <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);<span class="comment">//bar  </span></div><div class="line">     <span class="built_in">console</span>.log(<span class="keyword">new</span> test().foo);<span class="comment">//bar is changed</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2.3 接下来解释下new 操作符的作用，看下面的代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params"></span>)</span>&#123;</div><div class="line">         <span class="keyword">this</span>.foo = <span class="string">"bar is changed"</span>;</div><div class="line">  		<span class="keyword">this</span>.func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">          	<span class="built_in">console</span>.log(<span class="string">"new的解析"</span>);</div><div class="line">  		&#125;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(test);</div><div class="line">	<span class="comment">//function test()&#123;</span></div><div class="line">    <span class="comment">//   this.foo = "bar is changed";</span></div><div class="line">    <span class="comment">//   this.func = function()&#123;</span></div><div class="line">    <span class="comment">//    console.log("new的解析");</span></div><div class="line">   <span class="comment">//   &#125;</span></div><div class="line">   <span class="comment">// &#125;</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> test);</div><div class="line"><span class="comment">//function</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">new</span> test);</div><div class="line"><span class="comment">//test &#123;foo: "bar is changed",func:()&#125;</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="keyword">new</span> test());</div><div class="line"><span class="comment">//object</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2.3.1 解释new的作用，当以 new 操作符调用构造函数的时候，<strong>函数内部</strong> 发生以下变化：</p>
 <ul>
-<li>file可以是文件名或者文件描述</li>
-<li>data是异步地写入的数据内容，可以是一个string或者buffer</li>
-<li>option 编码格式，如果data是一个buffer,则默认encoding是utf-8</li>
-<li>callback 回调函数,该回调函数里面只有一个参数就是err错误处理对象，如果写入成功err返回null</li>
+<li><p>函数内部会创建一个空的对象，将该对象的引用指向this；所以后期只能通过this给实例添加属性和方法；</p>
+</li>
+<li><p>属性和方法会被添加到this 引用的对象中；</p>
+</li>
+<li><p>新创建的对象的引用指向了this,最后返回this</p>
+</li>
 </ul>
-<p>看下面这个简单的例子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">fs.writeFile(<span class="string">'../write.txtf'</span>,<span class="string">'hello nodejs'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (err)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"写入文件失败"</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"写入文件成功"</span>);</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"pro is done"</span>);</div></pre></td></tr></table></figure>
-<p>需要注意的是，我们只能写入字符串或者Buffer类型的数据，如果写入复杂数据类型</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">fs.writeFileSync(<span class="string">'./text'</span>,<span class="string">' sync write'</span>); <span class="comment">// 写入文件的内容是    sync write  </span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,&#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>&#125;);<span class="comment">//写入文件的内容是[object Object]</span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;);<span class="comment">//写入文件的内容是  function()&#123;&#125; </span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]); <span class="comment">//写入文件的内容是  1,2,3</span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,<span class="number">1</span>);<span class="comment">//写入文件的内容是 1</span></div></pre></td></tr></table></figure>
-<p>3 以上文件的读写都是异步进行的，不会阻塞程序的执行，同时我们在日常工作中通过服务器端的数据的读写也会经常用到这两个API </p>
-<p>4 对于异步 的任务，很多时候，每个任务的执行先后顺序是无法控制的，那么如何去解决这个问题？</p>
-<p><strong>此时，如果需要异步任务按照我们的意愿顺序进行，那么则需要将形成异步嵌套，形成一个回调链</strong></p>
+<p>2.3.2 new操作符的作用如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params"></span>)</span>&#123;</div><div class="line">      <span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="built_in">Object</span>();<span class="comment">//实例化一个对象</span></div><div class="line">      obj.foo = <span class="string">"bar"</span>;</div><div class="line">      obj.func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">          <span class="built_in">console</span>.log(<span class="string">"new的解析"</span>);</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> obj;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>2.3.3 从原型的角度理解下 new操作符的作用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params"></span>)</span>&#123;</div><div class="line">         <span class="keyword">this</span>.foo = <span class="string">"bar is changed"</span>;</div><div class="line">  		<span class="keyword">this</span>.func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">          	<span class="built_in">console</span>.log(<span class="string">"new的解析"</span>);</div><div class="line">  		&#125;</div><div class="line">    &#125;</div><div class="line"><span class="keyword">var</span> </div><div class="line"><span class="comment">//1 方法new的瞬间 得到一个空的对象</span></div><div class="line"><span class="keyword">var</span> obj = &#123; &#125; ;</div><div class="line">obj.__proto__ = test.prototype;</div><div class="line"><span class="comment">//2 方法的this指向空对象obj</span></div><div class="line"><span class="comment">//3 执行构造方法</span></div><div class="line">&#123; &#125;.foo = <span class="string">"bar is changed"</span>;</div><div class="line">&#123; &#125;.func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  	<span class="built_in">console</span>.log(<span class="string">"new的解析"</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 返回该对象</span></div><div class="line">test.call(obj)</div></pre></td></tr></table></figure>
+<p>2.3.4 如果使用构造函数显式的返回<strong>基本数据类型</strong>(number string boolean null undefined)不会影响输出结果 ，返回<strong>引用类型</strong> object 则不会再返回构造函数的实例对象的地址，而是返回该引用的地址；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">anotherTest</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"this is another test"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">this</span>.foo = <span class="string">"bar"</span>;</div><div class="line">        <span class="keyword">this</span>.func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"new的解析"</span>);</div><div class="line">        &#125;</div><div class="line"><span class="comment">//        返回基本数据类型，不会影响最后的结果</span></div><div class="line"><span class="comment">//        return 123;</span></div><div class="line"><span class="comment">//        return "str";</span></div><div class="line"><span class="comment">//        return null;</span></div><div class="line"><span class="comment">//        如果返回的是引用类型，则会改变返回值</span></div><div class="line"><span class="comment">//        return &#123;'name':'jhon','age':12&#125;;</span></div><div class="line"><span class="comment">//        return [1,2,3]</span></div><div class="line"> <span class="comment">//       return anotherTest ;</span></div><div class="line">        <span class="comment">//如果返回this，那么还是返回的实例化对象;new操作符默认返回实例化对象</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> obj = <span class="keyword">new</span> test();</div><div class="line">    <span class="built_in">console</span>.log(obj);<span class="comment">//基本数据类型，仍会返回构造函数的实例化对象，返回引用类型的话，就是返回了引用类型的地址，原来构造函数的实例化的对象指向该引用类型</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2.3.5 new操作符每次调用的时候，在<strong>堆</strong>  (heap)内存中开辟一块内存空间，存储<strong>实例化对象的信息</strong>;如果有变量接受该对象的地址，那么 定义变量的时候会在<strong>栈</strong>(stack) 中开辟了一块空间存储<strong>变量名和引用地址</strong> ；<strong>不同的变量</strong>指向<strong>不同的堆内存空间</strong> </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params">name</span>)</span>&#123;</div><div class="line">      <span class="keyword">this</span>.name = name;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> obj1 = <span class="keyword">new</span> test(<span class="string">'Jhon'</span>);</div><div class="line">  <span class="keyword">var</span> obj2 = <span class="keyword">new</span> test(<span class="string">"Jhon"</span>);</div><div class="line">  <span class="built_in">console</span>.log(obj1.name);<span class="comment">//Jhon</span></div><div class="line">  <span class="built_in">console</span>.log(obj2.name);<span class="comment">//Jhon</span></div><div class="line"></div><div class="line">  obj1.name = <span class="string">"kobe"</span>;</div><div class="line">  <span class="built_in">console</span>.log(obj1.name);<span class="comment">//kobe</span></div><div class="line">  <span class="built_in">console</span>.log(obj2.name);<span class="comment">//Jhon</span></div></pre></td></tr></table></figure>
+<p>2.4 如果函数体是对象的方法，那么此时的函数体里面的this就是指向的<strong>调用</strong> 该函数的对象；注意区分下面这两种情况</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> foo = <span class="string">"bar"</span>;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);<span class="comment">//bar</span></div><div class="line">    <span class="keyword">var</span> obj = &#123;</div><div class="line">        <span class="attr">foo</span>:<span class="string">"objBar"</span>,</div><div class="line">        <span class="attr">test</span>:<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;	<span class="comment">//函数作为对象的方法，被对象调用</span></div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);<span class="comment">//objBar   此时的this指向调用函数的对象</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    obj.test();<span class="comment">//对象的方法的执行的上下文是对象，所以this指向对象</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = <span class="string">"bar"</span>;</div><div class="line"> <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);<span class="comment">//bar</span></div><div class="line"> <span class="keyword">var</span> obj = &#123;</div><div class="line">     <span class="attr">foo</span>:<span class="string">"objBar"</span>,</div><div class="line">     <span class="attr">test</span>:<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</div><div class="line">         <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">             <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);<span class="comment">//bar   </span></div><div class="line">         &#125;</div><div class="line">     &#125;</div><div class="line"> &#125;</div><div class="line"> obj.test()();<span class="comment">//注意区分这两种情况:test()返回的是一个函数，函数直接在Window环境下执行</span></div></pre></td></tr></table></figure>
+<p>2.5 如果函数体是数组中的元素，那么函数作为数组的元素被调用的时候，指向数组,对于伪数组来书也是指向伪数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn1</span> (<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="built_in">console</span>.log(<span class="string">"fn1"</span>);</div><div class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">   &#125;</div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">fn2</span> (<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="built_in">console</span>.log(<span class="string">"fn2"</span>);</div><div class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>[<span class="number">2</span>]);</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">var</span> arr = [fn1,fn2,<span class="string">'things'</span>];</div><div class="line">   arr[<span class="number">0</span>]();<span class="comment">//fn1 [function, function, "things"]</span></div><div class="line">   arr[<span class="number">1</span>]();<span class="comment">//fn2 things</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span> (<span class="params"></span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="keyword">this</span>.length);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> obj = &#123;</div><div class="line">      <span class="attr">length</span> : <span class="number">10</span> ,</div><div class="line">      <span class="attr">method</span> : <span class="function"><span class="keyword">function</span>(<span class="params">f</span>)</span>&#123;</div><div class="line">          <span class="built_in">console</span>.log(<span class="keyword">this</span>.length);<span class="comment">//10</span></div><div class="line">          <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">          <span class="built_in">arguments</span>[<span class="number">0</span>]();<span class="comment">//1   this.length代表传入参数的个数</span></div><div class="line">          <span class="built_in">arguments</span>[<span class="number">0</span>].call(<span class="keyword">this</span>);<span class="comment">//10</span></div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">  obj.method(fn);</div></pre></td></tr></table></figure>
+<p>this指向被调用的<strong>直接对象</strong> ，被谁调用指向谁</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> foo = <span class="string">"winBar"</span>;</div><div class="line">    <span class="keyword">var</span> out = &#123;</div><div class="line">        <span class="attr">foo</span>:<span class="string">"outerBar"</span>,</div><div class="line">        <span class="attr">outFunc</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">          	<span class="built_in">console</span>.log(<span class="keyword">this</span>);<span class="comment">//this 代表out对象</span></div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);<span class="comment">//执行后输出  outerBar</span></div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        <span class="attr">inner</span>:&#123;</div><div class="line">            <span class="attr">foo</span>:<span class="string">"innerBar"</span>,</div><div class="line">            <span class="attr">innerFunc</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="keyword">this</span>);<span class="comment">//this代表 inner对象</span></div><div class="line">                <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);<span class="comment">//执行后输出 innerBar</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    out.outFunc();<span class="comment">//outFunc 函数被out这个对象调用，所以其内部的this指向out这个对象</span></div><div class="line">    out.inner.innerFunc();<span class="comment">//innerFunc函数被inner这个对象调用，所以其内部的this指向inner这个对象</span></div><div class="line"><span class="comment">//函数体被谁调用指向谁</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="总结-函数直接执行相当于被window调用，所以函数中的this指向window"><a href="#总结-函数直接执行相当于被window调用，所以函数中的this指向window" class="headerlink" title="总结:函数直接执行相当于被window调用，所以函数中的this指向window"></a>总结:函数直接执行相当于被window调用，所以函数中的this指向window</h3><p>2.5 javascript 中经常用的也就是事件的绑定，对应的事件处理函数中如果出现了this,那么这个this代表的所绑定的元素</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"按钮"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"input"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.value);<span class="comment">//按钮     这个this指向input标签</span></div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2.6 setInterval(fn,time)   setTimeout(fn,time)  中的this指向window;为什么呢？大家还记得 setInterval   setTimeont都是window对象的属性吗？setInterval(fn,time)  等价于  window.setInterval(fn,time)其实是window调用了setInterval方法，所以其指向window ;</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> foo = <span class="string">"bar"</span>;</div><div class="line">    <span class="keyword">var</span> setTime = setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> foo = <span class="string">"changedBar"</span>;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);<span class="comment">//bar</span></div><div class="line">    &#125;,<span class="number">1000</span>)</div><div class="line">    <span class="built_in">console</span>.log(setTime);<span class="comment">//setInterval函数返回以个ID值，代表当前定时器，用于后期可以清除该计时器用</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="3-prototype-this"><a href="#3-prototype-this" class="headerlink" title="3 prototype this"></a>3 prototype this</h2><p>原型里面的this指向，包括实例化的方法中的this指向:可以这么理解，它指向实例化的那个对象，但是,在找相应的属性的时候，它会顺着原型链一级级向上找，直到找到那个属性，如果没有找到，那么返回undefined;</p>
+<p><strong>这个其实也是函数独立调用还是被对象调用的情况</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Test</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">this</span>.foo= <span class="string">"bar"</span>;</div><div class="line">        <span class="keyword">this</span>.logFoo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);<span class="comment">//this代表实例化之后的对象</span></div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> test1 = <span class="keyword">new</span> Test();</div><div class="line">    <span class="built_in">console</span>.log(test1);</div><div class="line">  <span class="comment">//Test&#123;foo: "bar" ,logFoo: (),__proto__: Objectconstructor: Test(),__proto__: Object&#125;</span></div><div class="line"><span class="comment">//关于new出来的对象可以暂时这么理解，然后该对象的地址赋值给test1;</span></div><div class="line">    <span class="built_in">console</span>.log(test1.foo);<span class="comment">//bar</span></div><div class="line">    test1.logFoo();<span class="comment">//bar</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>通过原型添加属性和方法：this会顺着对象的原型链一直往下找，直到找到该属性为止，如果找不到的话，那么返回undefined;原型里的this也是指向实例化的对象，this.foo就是顺着原型链一直找；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Test</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    Test.prototype.foo = <span class="string">"changedBar"</span>;</div><div class="line">    Test.prototype.logFoo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">var</span> test1 = <span class="keyword">new</span> Test();</div><div class="line">    <span class="built_in">console</span>.log(test1);</div><div class="line"> <span class="comment">// Test&#123;__proto__: Object,constructor: Test(),foo: "changedBar",logFoo: (),__proto__: Object</span></div><div class="line">    <span class="built_in">console</span>.log(test1.foo);<span class="comment">//changedBar</span></div><div class="line">    test1.logFoo();<span class="comment">//changedBar</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>4 </p>
+<h2 id="三-this总结"><a href="#三-this总结" class="headerlink" title="三 this总结"></a>三 this总结</h2><p>1 this永远指向函数运行的时候所在的对象，而不是被创建的时候所在的对象；</p>
+<p>2 匿名函数或不处于任何对象中的函数指向window</p>
+<p>3 如果是call apply with   指定的this是谁，就是谁，如果是普通的函数调用，函数被谁调用，this就指向谁</p>
+<p>4 如果不是被new调用函数，那么函数体的this都是指代全局范围的this,代表window对象；</p>
+<p>5 函数独立运行的时候，那么this指向其所在运行的环境；函数作为对象的方法被调用的时候，this指向调用该函数的对象</p>
+<p>6 <strong>如果调用者函数，被某一个对象所拥有，那么该函数在调用时，内部的this指向该对象。</strong></p>
+<p><strong>如果函数独立调用，那么该函数内部的this，则指向undefined</strong>;但是在非严格模式中，当this指向undefined时，它会被自动指向全局对象。</p>
+<p>严格模式下this指向</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</div><div class="line"><span class="meta">       'use strict'</span>;</div><div class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   fn(); <span class="comment">//undefined //        fn是调用者，独立调用 </span></div><div class="line">   <span class="built_in">window</span>.fn();  <span class="comment">//window  //  fn是调用者，被window所拥有</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line">   <span class="keyword">var</span> a = <span class="number">20</span> ;</div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>.a);</div><div class="line">   &#125;</div><div class="line">   fn();<span class="comment">//报错</span></div></pre></td></tr></table></figure>
 
           
         
@@ -594,6 +630,187 @@
 <p><strong>总结</strong></p>
 <p>我们可以利用Chrome开发者工具下的Timeline去观察整个关键路径渲染的过程。</p>
 </script></p>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/02/131NodeJsFS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/02/131NodeJsFS/" itemprop="url">
+                  NodeJsFileSystem WriteFileAndReadFile
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-02T12:36:00+08:00">
+                2016-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="FileSystem"><a href="#FileSystem" class="headerlink" title="FileSystem"></a>FileSystem</h3><p>文件 I/O 是由简单封装的标准 POSIX 函数提供的。 通过 require(‘fs’)使用该模块。 <strong>所有的方法都有异步和同步的形式。</strong></p>
+<ul>
+<li><p>异步形式始终以完成回调作为它最后一个参数。 传给完成回调的参数取决于具体方法，但第一个参数总是留给异常。 如果操作成功完成，则第一个参数会是 null或 undefined，如果操作失败，则第一个参数将是一个错误对象；</p>
+<p>需要注意一点，异步操作无法通过try-catch来捕获异常</p>
+</li>
+<li><p>当使用同步形式时，任何异常都会被立即抛出。 可以使用 try/catch 来处理异常，或让它们往上冒泡。</p>
+</li>
+</ul>
+<h3 id="nodejs-fs"><a href="#nodejs-fs" class="headerlink" title="nodejs fs"></a>nodejs fs</h3><p>1 读取文件操作readFile(file,options,callback)</p>
+<ul>
+<li>file是要读取的文件的路径</li>
+<li>options<ul>
+<li>encoding  <string> | null     //默认值是null,所以如果不指定编码方式，读取文件的结果<strong>默认返回的值是二进制数据</strong>,返回的结果会作为参数传递给callback回调函数</string></li>
+<li>flag  <string>  默认是  ‘r’</string></li>
+</ul>
+</li>
+<li>callback 回调函数又有两个参数，第一个参数是error对象，第二个参数是读取到的数据<ul>
+<li>如果读取文件成功，err返回null  data返回读取到的文件数据;(如果字符编码未指定，则返回原始的buffer数据)</li>
+<li>如果读取文件失败，err返回一个错误对象，data返回undefined;</li>
+</ul>
+</li>
+<li>注意读取文件的内容返回的结果要么是<strong>Buffer类型</strong>的数据，要么是<strong>字符串类型</strong>的数据</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建文件读取对象</span></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">fs.readFile(<span class="string">'input.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123; <span class="comment">//假如input.txt里面的内容是  hello world</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);<span class="comment">//我们可以打印出来回调函数的参数进行查看，即使文件读取失败，回调函数也会执行</span></div><div class="line">  <span class="built_in">console</span>.log(err);</div><div class="line">  <span class="built_in">console</span>.log(data);<span class="comment">//readFile返回的data数据是buffer类型的数据</span></div><div class="line">  <span class="keyword">if</span>(err)&#123;</div><div class="line">    <span class="built_in">console</span>.log(err.stack);</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(data.toString());<span class="comment">//需要调用toString方法转化为字符串</span></div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"program is done"</span>);</div><div class="line"><span class="comment">//program is done</span></div><div class="line"><span class="comment">//hello world </span></div><div class="line"><span class="comment">//程序无阻塞运行</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//readFile语法</span></div><div class="line">fs.readFile(<span class="string">'etc/passwd'</span>,(err,data)=&gt;&#123;</div><div class="line">  <span class="keyword">if</span>(err) <span class="keyword">throw</span> err;  <span class="comment">//使用箭头函数可以使代码更加简洁</span></div><div class="line">  <span class="built_in">console</span>.log(data);</div><div class="line">&#125;);</div><div class="line"><span class="comment">//readFile用于异步读取文件内容，</span></div></pre></td></tr></table></figure>
+<p>2 写入文件的操作writeFile(file,data,[option],callback)</p>
+<ul>
+<li>file可以是文件名或者文件描述</li>
+<li>data是异步地写入的数据内容，可以是一个string或者buffer</li>
+<li>option 编码格式，如果data是一个buffer,则默认encoding是utf-8</li>
+<li>callback 回调函数,该回调函数里面只有一个参数就是err错误处理对象，如果写入成功err返回null</li>
+</ul>
+<p>看下面这个简单的例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">fs.writeFile(<span class="string">'../write.txtf'</span>,<span class="string">'hello nodejs'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (err)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"写入文件失败"</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"写入文件成功"</span>);</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"pro is done"</span>);</div></pre></td></tr></table></figure>
+<p>需要注意的是，我们只能写入字符串或者Buffer类型的数据，如果写入复杂数据类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">fs.writeFileSync(<span class="string">'./text'</span>,<span class="string">' sync write'</span>); <span class="comment">// 写入文件的内容是    sync write  </span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,&#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>&#125;);<span class="comment">//写入文件的内容是[object Object]</span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;);<span class="comment">//写入文件的内容是  function()&#123;&#125; </span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]); <span class="comment">//写入文件的内容是  1,2,3</span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,<span class="number">1</span>);<span class="comment">//写入文件的内容是 1</span></div></pre></td></tr></table></figure>
+<p>3 以上文件的读写都是异步进行的，不会阻塞程序的执行，同时我们在日常工作中通过服务器端的数据的读写也会经常用到这两个API </p>
+<p>4 对于异步 的任务，很多时候，每个任务的执行先后顺序是无法控制的，那么如何去解决这个问题？</p>
+<p><strong>此时，如果需要异步任务按照我们的意愿顺序进行，那么则需要将形成异步嵌套，形成一个回调链</strong></p>
+
           
         
       
@@ -1395,283 +1612,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/127RegExpReview/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/22/127RegExpReview/" itemprop="url">
-                  RegExp Review
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
-                2016-10-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>先来看下正则中的特殊字符</p>
-<table>
-<thead>
-<tr>
-<th><strong>特别字符</strong></th>
-<th><strong>说明</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$</td>
-<td>匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 ‘\n’ 或 ‘\r’。要匹配 $ 字符本身，请使用 \$。</td>
-</tr>
-<tr>
-<td>( )</td>
-<td>标记一个子表达式的开始和结束位置。子表达式可以获取供以后使用。要匹配这些字符，请使用 \( 和 \)。</td>
-</tr>
-<tr>
-<td>*</td>
-<td>匹配前面的子表达式零次或多次。要匹配 <em> 字符，请使用 \</em>。</td>
-</tr>
-<tr>
-<td>+</td>
-<td>匹配前面的子表达式一次或多次。要匹配 + 字符，请使用 +。</td>
-</tr>
-<tr>
-<td>.</td>
-<td>匹配除换行符 \n之外的任何单字符。要匹配 .，请使用 \。</td>
-</tr>
-<tr>
-<td>[ ]</td>
-<td>标记一个中括号表达式的开始。要匹配 [，请使用 [。</td>
-</tr>
-<tr>
-<td>?</td>
-<td>匹配前面的子表达式零次或一次，或指明一个非贪婪限定符。要匹配 ? 字符，请使用 \?。</td>
-</tr>
-<tr>
-<td>\</td>
-<td>将下一个字符标记为或特殊字符、或原义字符、或向后引用、或八进制转义符。例如， ‘n’ 匹配字符‘n’。’\n’ 匹配换行符。序列 ‘\‘ 匹配 “\”，而 ‘(‘ 则匹配 “(”。</td>
-</tr>
-<tr>
-<td>^</td>
-<td>匹配输入字符串的开始位置，除非在方括号表达式中使用，此时它表示不接受该字符集合。要匹配 ^ 字符本身，请使用 \^。</td>
-</tr>
-<tr>
-<td>{ }</td>
-<td>标记限定符表达式的开始。要匹配 {，请使用 {。</td>
-</tr>
-<tr>
-<td>\</td>
-<td></td>
-<td>指明两项之间的一个选择。要匹配 \</td>
-<td>，请使用 \</td>
-<td>。</td>
-</tr>
-</tbody>
-</table>
-<p>正则中的限定符</p>
-<table>
-<thead>
-<tr>
-<th>字符</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>*</td>
-<td>匹配前面的子表达式零次或多次。例如，zo<em> 能匹配 “z” 以及 “zoo”。</em> 等价于{0,}。</td>
-</tr>
-<tr>
-<td>+</td>
-<td>匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
-</tr>
-<tr>
-<td>?</td>
-<td>匹配前面的子表达式零次或一次。例如，”do(es)?” 可以匹配 “do” 或 “does” 中的”do” 。? 等价于 {0,1}。</td>
-</tr>
-<tr>
-<td>{n}</td>
-<td>n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</td>
-</tr>
-<tr>
-<td>{n,}</td>
-<td>n 是一个非负整数。至少匹配n 次。例如，’o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。’o{1,}’ 等价于 ‘o+’。’o{0,}’ 则等价于 ‘o*’。</td>
-</tr>
-<tr>
-<td>{n,m}</td>
-<td>m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，”o{1,3}” 将匹配 “fooooood” 中的前三个 o。’o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。</td>
-</tr>
-</tbody>
-</table>
-<p>正则中的操作符优先级</p>
-<table>
-<thead>
-<tr>
-<th>操作符</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>\</td>
-<td>转义符</td>
-</tr>
-<tr>
-<td>(), (?:), (?=), [ ]</td>
-<td>圆括号和方括号</td>
-</tr>
-<tr>
-<td>*, +, ?, {n}, {n,}, {n,m}</td>
-<td>限定符</td>
-</tr>
-<tr>
-<td>^, $, \anymetacharacter</td>
-<td>位置和顺序</td>
-</tr>
-<tr>
-<td>\</td>
-<td></td>
-<td>“或”操作</td>
-</tr>
-</tbody>
-</table>
-<p>1  单词字符包括 0-9 a-z A-Z  _   下划线</p>
-<p>元字符 \w 查找单词字符   \W 查找非单词字符</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/\byou/g</span>; <span class="comment">//  \b可以匹配单词的边界,单词中以you开头的you将会被匹配到</span></div><div class="line"><span class="keyword">var</span> result ;</div><div class="line"><span class="keyword">while</span>((result = reg.exec(str)) != <span class="literal">null</span>)&#123;</div><div class="line">  <span class="built_in">console</span>.log(result);</div><div class="line">  <span class="built_in">console</span>.log(reg.lastIndex);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>2 \b  元字符匹配单词边界  在单词边界匹配的位置，单词字符后面或前面不与另一个单词字符直接相邻</p>
-<p>\B 元字符匹配非单词边界  通常用于查找不处在单词的开头或结尾的匹配</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">'hello youthereyou yourighthere '</span>;</div><div class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/\Bthere/g</span>  ;<span class="comment">//用来匹配 不在单词开头的there</span></div><div class="line"><span class="keyword">var</span> result ;</div><div class="line"><span class="keyword">while</span>((result = reg2.exec(str)) != <span class="literal">null</span>)&#123;</div><div class="line">  <span class="built_in">console</span>.log(result);</div><div class="line">  <span class="built_in">console</span>.log(reg2.lastIndex);</div><div class="line">&#125;</div><div class="line"><span class="comment">//---------------------------------------------</span></div><div class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/there\B/g</span> ;<span class="comment">//匹配不在单词结尾的there</span></div></pre></td></tr></table></figure>
-<p>3       .  元字符用于查找单个字符，除了换行和行结束符。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//exec() 方法用于检索字符串中的正则表达式的匹配。如果找不到，则返回null</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'that is hot'</span>;</div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/h.t/g</span>;</div><div class="line"><span class="keyword">var</span> ret ;</div><div class="line"><span class="keyword">while</span>( (ret = reg.exec(str) ) != <span class="literal">null</span>)&#123;</div><div class="line">  <span class="built_in">console</span>.log(ret);<span class="comment">// Array[1][0:"hat"index:1,input:"that is hot",length:1]</span></div><div class="line">  <span class="comment">//Array[1][0:"hot"index:8,input:"that is hot",length:1]</span></div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log(reg.lastIndex);<span class="comment">// 4 11  exec()方法 RegExpObject 的 lastIndex 属性设置为匹配文本的最后一个字符的下一个位置</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。返回匹配结果的数组，如果找不到返回null</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'that is hot'</span>;</div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/h.t/g</span>;</div><div class="line"><span class="keyword">var</span> ret = str.match(reg);</div><div class="line"><span class="built_in">console</span>.log(ret1);<span class="comment">//["hat", "hot"]</span></div></pre></td></tr></table></figure>
-<p>4 \s</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/149URLoperation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1773,6 +1713,163 @@
           
             <p>如何操作查询字符串，返回一个查询字符串包含信息的对象</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> url =<span class="string">'http://www.myvirtual.com?username=Jhon&amp;age=12'</span>;<span class="comment">//将查询字符串转换为js对象</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">queryParam</span>(<span class="params">url</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> newUrl = url.slice(url.indexOf(<span class="string">'?'</span>)+<span class="number">1</span>);</div><div class="line">  <span class="keyword">var</span> urlArr = newUrl.split(<span class="string">'&amp;'</span>);</div><div class="line">  <span class="keyword">var</span> ret = &#123;&#125;</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; urlArr.length ; i++)&#123;</div><div class="line">    <span class="keyword">var</span> arr = urlArr[i].split(<span class="string">'='</span>);</div><div class="line">    ret[arr[<span class="number">0</span>]] = arr[<span class="number">1</span>];</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> ret ;</div><div class="line">&#125;</div><div class="line"></div><div class="line">queryParam(url);</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/146NodeJsBuffer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/22/146NodeJsBuffer/" itemprop="url">
+                  NodeJs Buffer
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
+                2016-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1 Buffer类的定义:本质上是创建了一块专门存放二进制数据的缓存区</p>
+<p>JavaScript 语言自身只有字符串数据类型，没有二进制数据类型。</p>
+<p>但在处理像TCP流或文件流时，必须使用到二进制数据。因此在 Node.js中，定义了一个 Buffer 类，该类用来创建一个专门存放二进制数据的缓存区。</p>
+<p>在 Node.js 中，Buffer 类是随 Node 内核一起发布的核心库。Buffer 库为 Node.js 带来了一种存储原始数据的方法，可以让 Node.js 处理二进制数据，每当需要在 Node.js 中处理I/O操作中移动的数据时，就有可能使用 Buffer 库。原始数据存储在 Buffer 类的实例中。一个 Buffer 类似于一个整数数组，但它对应于 V8 堆内存之外的一块原始内存。</p>
+<p>2 如何创建Buffer实例 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(arg) <span class="comment">//1 必须传入参数 2  传入的参数类型 string, Buffer, ArrayBuffer, Array, or array-like object.</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf1 = <span class="keyword">new</span> Buffer(<span class="number">10</span>);<span class="comment">//这个是指定Buffer实例的长度，区分 var buf1 = new Buffer('10');</span></div><div class="line"><span class="built_in">console</span>.log(buf1);</div><div class="line"><span class="built_in">console</span>.log(buf1.length);</div><div class="line"><span class="built_in">console</span>.log(buf1.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf2 = <span class="keyword">new</span> Buffer([<span class="number">10</span>, <span class="number">40</span>, <span class="number">30</span>]);<span class="comment">//数组的长度 作为Buffer实例的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf2);</div><div class="line"><span class="built_in">console</span>.log(buf2.length);</div><div class="line"><span class="comment">//buf2.write('hahhahahahhah')</span></div><div class="line"><span class="built_in">console</span>.log(buf2.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf3 = <span class="keyword">new</span> Buffer(&#123;<span class="attr">length</span>:<span class="number">12</span>&#125;);<span class="comment">//类数组对象 的长度作为Buffer的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf3);</div><div class="line"><span class="built_in">console</span>.log(buf3.length);</div><div class="line"><span class="built_in">console</span>.log(buf3.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf4 = <span class="keyword">new</span> Buffer(<span class="string">'this is it yeah'</span>); <span class="comment">//直接将字符串写入Buffer实例，长度等于字符串的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf4);</div><div class="line"><span class="built_in">console</span>.log(buf4.length);</div><div class="line"><span class="built_in">console</span>.log(buf4.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf5 = <span class="keyword">new</span> Buffer(buf4);<span class="comment">//将Buffer实例直接作为参数传入</span></div><div class="line"><span class="built_in">console</span>.log(buf5);</div><div class="line"><span class="built_in">console</span>.log(buf5.length);</div><div class="line"><span class="built_in">console</span>.log(buf5.toString());</div></pre></td></tr></table></figure>
+<p>3 向缓冲区写入数据以及读取数据</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">buf.write(string[, offset[, length]][, encoding])</div><div class="line">参数描述如下：</div><div class="line">    string - 写入缓冲区的字符串。</div><div class="line">    offset - 缓冲区开始写入的索引值，默认为 <span class="number">0</span> 。</div><div class="line">    length - 写入的字节数，默认为 buffer.length</div><div class="line">    encoding - 使用的编码。默认为 <span class="string">'utf8'</span> 。</div><div class="line">返回值</div><div class="line">	返回实际写入的大小。如果 buffer 空间不足， 则只会写入部分字符串。</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">buf.toString([encoding[, start[, end]]])</div><div class="line">参数描述如下：</div><div class="line">    encoding - 使用的编码。默认为 <span class="string">'utf8'</span> 。</div><div class="line">    start - 指定开始读取的索引位置，默认为 <span class="number">0</span>。</div><div class="line">    end - 结束位置，默认为缓冲区的末尾。</div><div class="line">返回值</div><div class="line">	解码缓冲区数据并使用指定的编码返回字符串。</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.length;  返回Buffer实例实际所占据的内存的长度</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.toJSON();将Buffer实例转化为<span class="built_in">JSON</span>对象</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">buf.slice(start,end);默认start <span class="number">0</span> end 为buf.length </div><div class="line">返回一个新的缓冲区，它和旧缓冲区指向同一块内存，但是从索引 start 到 end 的位置剪切。</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Buffer.concat(list[, totalLength]) 返回一个多个成员合并的新 Buffer 对象。</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//console.log(Buffer) 可以尝试着输入下Buffer类，看下其属性和方法</span></div><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(<span class="string">'this is it yeah'</span>);</div><div class="line"><span class="built_in">console</span>.log(buf);</div><div class="line"><span class="built_in">console</span>.log(buf.length);<span class="comment">//15</span></div><div class="line"><span class="built_in">console</span>.log(buf.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> wLen = buf.write(<span class="string">'changed?'</span>);</div><div class="line"><span class="built_in">console</span>.log(buf.toString());<span class="comment">//changed?it yeah</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(wLen);<span class="comment">//8</span></div><div class="line"><span class="built_in">console</span>.log(buf.toJSON());</div><div class="line"><span class="comment">/*&#123;</span></div><div class="line">	type: 'Buffer',</div><div class="line"> 	data: [ 99, 104, 97, 110, 103, 101, 100, 63, 105, 116, 32, 121, 101, 97, 104 ] </div><div class="line"> &#125;</div><div class="line"> */</div><div class="line"><span class="keyword">var</span> sliceBuf = buf.slice(<span class="number">2</span>,<span class="number">5</span>);</div><div class="line"><span class="built_in">console</span>.log(sliceBuf);</div><div class="line"><span class="built_in">console</span>.log(sliceBuf.length);<span class="comment">//3</span></div><div class="line"><span class="built_in">console</span>.log(sliceBuf.toString());<span class="comment">//ang</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> con = Buffer.concat ([buf,sliceBuf]);</div><div class="line"><span class="built_in">console</span>.log(con);</div><div class="line"><span class="built_in">console</span>.log(con.length);<span class="comment">//18</span></div><div class="line"><span class="built_in">console</span>.log(con.toString());<span class="comment">//changed?it yeahang</span></div></pre></td></tr></table></figure>
 
           
         
@@ -2039,163 +2136,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/146NodeJsBuffer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/22/146NodeJsBuffer/" itemprop="url">
-                  NodeJs Buffer
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
-                2016-10-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index">
-                    <span itemprop="name">nodejs</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1 Buffer类的定义:本质上是创建了一块专门存放二进制数据的缓存区</p>
-<p>JavaScript 语言自身只有字符串数据类型，没有二进制数据类型。</p>
-<p>但在处理像TCP流或文件流时，必须使用到二进制数据。因此在 Node.js中，定义了一个 Buffer 类，该类用来创建一个专门存放二进制数据的缓存区。</p>
-<p>在 Node.js 中，Buffer 类是随 Node 内核一起发布的核心库。Buffer 库为 Node.js 带来了一种存储原始数据的方法，可以让 Node.js 处理二进制数据，每当需要在 Node.js 中处理I/O操作中移动的数据时，就有可能使用 Buffer 库。原始数据存储在 Buffer 类的实例中。一个 Buffer 类似于一个整数数组，但它对应于 V8 堆内存之外的一块原始内存。</p>
-<p>2 如何创建Buffer实例 </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(arg) <span class="comment">//1 必须传入参数 2  传入的参数类型 string, Buffer, ArrayBuffer, Array, or array-like object.</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf1 = <span class="keyword">new</span> Buffer(<span class="number">10</span>);<span class="comment">//这个是指定Buffer实例的长度，区分 var buf1 = new Buffer('10');</span></div><div class="line"><span class="built_in">console</span>.log(buf1);</div><div class="line"><span class="built_in">console</span>.log(buf1.length);</div><div class="line"><span class="built_in">console</span>.log(buf1.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf2 = <span class="keyword">new</span> Buffer([<span class="number">10</span>, <span class="number">40</span>, <span class="number">30</span>]);<span class="comment">//数组的长度 作为Buffer实例的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf2);</div><div class="line"><span class="built_in">console</span>.log(buf2.length);</div><div class="line"><span class="comment">//buf2.write('hahhahahahhah')</span></div><div class="line"><span class="built_in">console</span>.log(buf2.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf3 = <span class="keyword">new</span> Buffer(&#123;<span class="attr">length</span>:<span class="number">12</span>&#125;);<span class="comment">//类数组对象 的长度作为Buffer的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf3);</div><div class="line"><span class="built_in">console</span>.log(buf3.length);</div><div class="line"><span class="built_in">console</span>.log(buf3.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf4 = <span class="keyword">new</span> Buffer(<span class="string">'this is it yeah'</span>); <span class="comment">//直接将字符串写入Buffer实例，长度等于字符串的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf4);</div><div class="line"><span class="built_in">console</span>.log(buf4.length);</div><div class="line"><span class="built_in">console</span>.log(buf4.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf5 = <span class="keyword">new</span> Buffer(buf4);<span class="comment">//将Buffer实例直接作为参数传入</span></div><div class="line"><span class="built_in">console</span>.log(buf5);</div><div class="line"><span class="built_in">console</span>.log(buf5.length);</div><div class="line"><span class="built_in">console</span>.log(buf5.toString());</div></pre></td></tr></table></figure>
-<p>3 向缓冲区写入数据以及读取数据</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">buf.write(string[, offset[, length]][, encoding])</div><div class="line">参数描述如下：</div><div class="line">    string - 写入缓冲区的字符串。</div><div class="line">    offset - 缓冲区开始写入的索引值，默认为 <span class="number">0</span> 。</div><div class="line">    length - 写入的字节数，默认为 buffer.length</div><div class="line">    encoding - 使用的编码。默认为 <span class="string">'utf8'</span> 。</div><div class="line">返回值</div><div class="line">	返回实际写入的大小。如果 buffer 空间不足， 则只会写入部分字符串。</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">buf.toString([encoding[, start[, end]]])</div><div class="line">参数描述如下：</div><div class="line">    encoding - 使用的编码。默认为 <span class="string">'utf8'</span> 。</div><div class="line">    start - 指定开始读取的索引位置，默认为 <span class="number">0</span>。</div><div class="line">    end - 结束位置，默认为缓冲区的末尾。</div><div class="line">返回值</div><div class="line">	解码缓冲区数据并使用指定的编码返回字符串。</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.length;  返回Buffer实例实际所占据的内存的长度</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.toJSON();将Buffer实例转化为<span class="built_in">JSON</span>对象</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">buf.slice(start,end);默认start <span class="number">0</span> end 为buf.length </div><div class="line">返回一个新的缓冲区，它和旧缓冲区指向同一块内存，但是从索引 start 到 end 的位置剪切。</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Buffer.concat(list[, totalLength]) 返回一个多个成员合并的新 Buffer 对象。</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//console.log(Buffer) 可以尝试着输入下Buffer类，看下其属性和方法</span></div><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(<span class="string">'this is it yeah'</span>);</div><div class="line"><span class="built_in">console</span>.log(buf);</div><div class="line"><span class="built_in">console</span>.log(buf.length);<span class="comment">//15</span></div><div class="line"><span class="built_in">console</span>.log(buf.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> wLen = buf.write(<span class="string">'changed?'</span>);</div><div class="line"><span class="built_in">console</span>.log(buf.toString());<span class="comment">//changed?it yeah</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(wLen);<span class="comment">//8</span></div><div class="line"><span class="built_in">console</span>.log(buf.toJSON());</div><div class="line"><span class="comment">/*&#123;</span></div><div class="line">	type: 'Buffer',</div><div class="line"> 	data: [ 99, 104, 97, 110, 103, 101, 100, 63, 105, 116, 32, 121, 101, 97, 104 ] </div><div class="line"> &#125;</div><div class="line"> */</div><div class="line"><span class="keyword">var</span> sliceBuf = buf.slice(<span class="number">2</span>,<span class="number">5</span>);</div><div class="line"><span class="built_in">console</span>.log(sliceBuf);</div><div class="line"><span class="built_in">console</span>.log(sliceBuf.length);<span class="comment">//3</span></div><div class="line"><span class="built_in">console</span>.log(sliceBuf.toString());<span class="comment">//ang</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> con = Buffer.concat ([buf,sliceBuf]);</div><div class="line"><span class="built_in">console</span>.log(con);</div><div class="line"><span class="built_in">console</span>.log(con.length);<span class="comment">//18</span></div><div class="line"><span class="built_in">console</span>.log(con.toString());<span class="comment">//changed?it yeahang</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2245,7 +2185,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-count">124</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
