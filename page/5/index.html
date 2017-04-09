@@ -257,6 +257,778 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/17/65js和jQuery的  AJAX  底层实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/17/65js和jQuery的  AJAX  底层实现/" itemprop="url">
+                  Ajax(Asynchronous JavaScript and XML)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-17T12:36:00+08:00">
+                2016-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/http/" itemprop="url" rel="index">
+                    <span itemprop="name">http</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="一-Ajax-Asynchronous-JavaScript-and-XML"><a href="#一-Ajax-Asynchronous-JavaScript-and-XML" class="headerlink" title="一:Ajax(Asynchronous JavaScript and XML)"></a>一:Ajax(Asynchronous JavaScript and XML)</h2><p>客户端:发送请求，确定请求方式以及处理请求的URL,发送给服务器——&gt;&gt;ajxa(javascript+XMLHttpRequset):作为媒介，xhr的open() send() 以及onreadystatechange()方法处理客户端和服务器之间的联系&lt;&lt;——服务器:处理请求，后台程序处理数据，返回给客户端;可以实现异步交互。</p>
+<p>同步交互:客户端向服务器发送请求，客户端的页面进行响应，刷新页面</p>
+<p>异步交互:客户端向服务器发送请求，客户端的页面进行响应，并不会刷新页面。</p>
+<p>(这个是我们对于页面感官上感受)</p>
+<p>从浏览器和服务器之间来理解同步和异步</p>
+<p>同步:浏览器发送请求，等待服务器的响应，等服务器返回响应，然后浏览器继续执行</p>
+<p>异步:浏览器通过javascript内置XMLHttpRequest对象向服务器发送请求，不等待服务器响应，浏览器继续执行代码，等服务器状态改变，onreadystatechange监听到改变，会执行回调函数；</p>
+<p>Ajax 采用一种沙箱安全模型。因此，Ajax 代码（具体来说就是 XMLHttpRequest 对象）只能对所在的同一个域发送请求</p>
+<p>我们需要检测并判断响应头的MIME类型后确定使用request.responseText或者request.responseXML</p>
+<h2 id="JS——Ajax"><a href="#JS——Ajax" class="headerlink" title="JS——Ajax"></a>JS——Ajax</h2><p>1 ajax的要点是XMLHttpRequset对象,根据不同浏览器兼容性，下面代码可以创建兼容性极强的XMLHttpRequset对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">GetXmlHttpObject</span>(<span class="params"></span>)</span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">var</span> xmlHttp=<span class="literal">null</span>;</div><div class="line">  <span class="keyword">try</span></div><div class="line">    &#123;</div><div class="line">    <span class="comment">// Firefox, Opera 8.0+, Safari</span></div><div class="line">    xmlHttp=<span class="keyword">new</span> XMLHttpRequest();</div><div class="line">    &#125;</div><div class="line">  <span class="keyword">catch</span> (e)</div><div class="line">    &#123;</div><div class="line">    <span class="comment">// Internet Explorer</span></div><div class="line">    <span class="keyword">try</span></div><div class="line">      &#123;</div><div class="line">      xmlHttp=<span class="keyword">new</span> ActiveXObject(<span class="string">"Msxml2.XMLHTTP"</span>);</div><div class="line">      &#125;</div><div class="line">    <span class="keyword">catch</span> (e)</div><div class="line">      &#123;</div><div class="line">      xmlHttp=<span class="keyword">new</span> ActiveXObject(<span class="string">"Microsoft.XMLHTTP"</span>);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  <span class="keyword">return</span> xmlHttp;</div><div class="line">&#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
+<p>2 XMLHttpRequest对象重要的属性</p>
+<ul>
+<li>readystate存储着服务器相应状态的信息<strong>每当服务器响应状态改变的时候，onreadystatechange函数就会被执行</strong></li>
+<li>status由服务器返回的HTTP状态代码 200一切正常 404 NOT FOUND 403  Forbidden  </li>
+<li>statusText由服务器返回的HTTP状态描述，比如200  “OK”  404  “NOT FOUND”</li>
+<li>以上三个当响应不完成的时候，可以通过输出它们判断问题所在</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">if</span>(xhr.readyState == <span class="number">4</span> )&#123;  <span class="comment">//代表服务器已经完全接受响应</span></div><div class="line">    <span class="keyword">if</span>(xhr.status == <span class="number">200</span> )&#123;  <span class="comment">//代表服务器响应状态OK</span></div><div class="line">      sone code</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">      alert(<span class="string">"status is "</span>+xhr.status) ;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//以上代码可以用来检测状态码的问题</span></div></pre></td></tr></table></figure>
+<p>当readyState小于3的时候，status  statusText 读取这些属性会导致一个异常。(注意S大写)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">0</th>
+<th>Uninitialized</th>
+<th>初始化状态。XMLHttpRequest 对象已创建或已被 abort() 方法重置。</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td>Open</td>
+<td>open() 方法已调用，但是 send() 方法未调用。请求还没有被发送。</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td>Sent</td>
+<td>send() 方法已调用，HTTP 请求已发送到 Web 服务器。未接收到响应。</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td>Receiving</td>
+<td>所有响应头部都已经接收到。响应体开始接收但未完成。</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td>Loaded</td>
+<td>HTTP 响应已经完全接收。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>onreadystatechange属性存有服务器响应的函数，readyState数字每次改变都会执行该函数；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xmlHttp.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  &#125;;</div></pre></td></tr></table></figure>
+</li>
+<li><p>responseText 用来获取由服务器返回的数据,返回<strong>字符串形式</strong> ；(json格式)或者如果还没有接收到数据的话，就是<strong>空字符串</strong> 。</p>
+</li>
+<li><p>responseXML 与 responseText 以<strong>字符串</strong> 返回 HTTP 响应不同，responseXML 以 XML 返回响应。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">responseXML 属性返回 **XML 文档对象** ，可使用节点树的方法和属性来检查和解析该对象;这些从数据库中选取的数据将被转换为 XML 文档，然后我们将使用 DOM 来提取要显示的值。</div></pre></td></tr></table></figure>
+</li>
+<li><p>所谓的服务器返回的数据，其实就是echo 输出的内容(这个内容就是服务器端的响应体)，如果响应体是XML格式的文本，则需要用responseXML，如果响应体是字符串格式的文本，则需要用responseText来获取响应的内容；</p>
+</li>
+</ul>
+<p>3 XMLHttpRequest对象的重要方法:如何将请求发送到服务器</p>
+<p>  3.1 open( type,url,async) type代表客户端向服务器发送数据的方式，url代表服务器处理客户端发送数据的程序，async代表是异步处理还是同步处理，默认是true，异步处理，false是同步处理;</p>
+<p>open(HEAD,url,true) ,</p>
+<p>  3.2 setRequestHeader(‘Content-Type’,’application/x-www-form-urlencoded’);</p>
+<p>getAllResponseHeaders()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">使用open(&quot;post&quot;,url)的时候必须这样设置；表示相应返回的资源格式</div><div class="line">get请求可以不设置；setRequestHeader() 方法指定了一个 HTTP 请求的头部，它应该包含在通过后续 send() 调用而发布的请求中。这个方法只有当 readyState 为 1 的时候才能调用，在调用了 open() 之后，但在调用 send() 之前。</div></pre></td></tr></table></figure>
+<p>   3.3 send( string ),将请求发往服务器;send() 把 readyState 设置为 2，并触发 onreadystatechange 事件句柄。必须在open()方法之后才能调用 ; 注意:添加一个随机数，以防服务器使用缓存的文件 </p>
+<p>  3.4 栗子解释:</p>
+<ul>
+<li>get请求   请求发送给服务器的数据直接附在URL地址的后面</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">xmlhttp.open(<span class="string">"GET"</span>,<span class="string">"demo_get2.asp?fname=Bill&amp;lname=Gates&amp;r="</span>+<span class="built_in">Math</span>.random(),<span class="literal">true</span>);</div><div class="line">xmlhttp.send();</div></pre></td></tr></table></figure>
+<ul>
+<li>post请求 请求发送的数据在send(string) ；</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">xmlhttp.open(<span class="string">"POST"</span>,<span class="string">"ajax_test.asp"</span>,<span class="literal">true</span>);</div><div class="line">xmlhttp.setRequestHeader(<span class="string">"Content-type"</span>,<span class="string">"application/x-www-form-urlencoded"</span>);</div><div class="line">xmlhttp.send(<span class="string">"fname=Bill&amp;lname=Gates&amp;r="</span>+<span class="built_in">Math</span>.random());</div></pre></td></tr></table></figure>
+<ul>
+<li>async  异步处理 (true)  同步处理(false)</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//async = true ;需要规定响应处于 onreadystatechange 事件中的就绪状态时执行的函数：</span></div><div class="line">xmlhttp.onreadystatechange=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span></div><div class="line">  &#123;</div><div class="line">  <span class="keyword">if</span> (xmlhttp.readyState==<span class="number">4</span> &amp;&amp; xmlhttp.status==<span class="number">200</span>)</div><div class="line">    &#123;</div><div class="line">    <span class="built_in">document</span>.getElementById(<span class="string">"myDiv"</span>).innerHTML=xmlhttp.responseText;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">xmlhttp.open(<span class="string">"GET"</span>,<span class="string">"test1.txt"</span>,<span class="literal">true</span>);</div><div class="line">xmlhttp.send();</div><div class="line"><span class="comment">//async =false ; 规定必须在响应完成之后才能执行javascript,此时不需要编写onreadystatechange,javascript代码紧跟在send()之后便可以;</span></div><div class="line">xmlhttp.open(<span class="string">"GET"</span>,<span class="string">"test1.txt"</span>,<span class="literal">false</span>);</div><div class="line">xmlhttp.send();</div><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">"myDiv"</span>).innerHTML=xmlhttp.responseText;</div></pre></td></tr></table></figure>
+<p>4 XMLHttpRequest对象监听服务器变化 onreadystatechanges属性发生变化的时候，可以执行函数体；responseText和responseXML得到响应体。</p>
+<p>5 XMLHttpRequest是javascript的一个内置对象，这个对象可以用来给后台服务器发送数据，同时接受后台返回来的数据，通过javascript动态的操作返回的数据，从而实现了交互的友好型，不会再反复的刷新页面。因为之前发送请求的时候，都是通过document对象发送请求，所以会刷新页面，后来直接用XHR发送请求，则不会再刷新页面了；</p>
+<h2 id="jQuery—-Ajax"><a href="#jQuery—-Ajax" class="headerlink" title="jQuery— Ajax"></a>jQuery— Ajax</h2><p>1 ajax方法里面封装了底层的XMLHttpRequest对象，建立了发送请求和响应请求的过程，并且在发送请求和得到响应这个过程中定义了一系列的函数的函数;</p>
+<p>2 jQuery Ajax是一个十分强大的封装体，ajax所有的技术基本上都可以设置，一个$.ajax(url,settings)基本上可以处理大部分服务器和客户端的通信；</p>
+<p>3 下面一步步来用栗子了解 jQuery-Ajax底层实现原理；(有关XMLHttpRequest对象的兼容上面以及解释过，此处不再做兼容)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">obj = &#123;<span class="string">"type"</span>:<span class="string">"GET"</span>,<span class="string">"data"</span>:<span class="string">"data"</span>,<span class="string">"URL"</span>:<span class="string">"url"</span>&#125;</div><div class="line"><span class="keyword">var</span> $ = &#123;</div><div class="line">  <span class="attr">ajax</span> : <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> obj.data === <span class="string">"object"</span>)&#123;</div><div class="line">      <span class="comment">//因为data有可能是一个对象，将data自动转化为字符串;</span></div><div class="line">      <span class="keyword">var</span> str = <span class="keyword">this</span>.params(obj.data);<span class="comment">//将data转化为字符串，这个就是 jQuery底层发送到服务器的数据。将自动转换为请求字符串格式的原理；</span></div><div class="line">      obj.data= str ;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(obj.type == <span class="string">"GET"</span>)&#123;</div><div class="line">      obj.url = obj.url+<span class="string">"?"</span>+obj.data;</div><div class="line">      obj.data = <span class="literal">null</span> ;</div><div class="line">    &#125;</div><div class="line">    xhr.open(obj.type,obj.url,<span class="literal">true</span>);</div><div class="line">    <span class="keyword">if</span>(obj.type ==<span class="string">"POST"</span>)&#123;</div><div class="line">      xhr.setRequestHeader(<span class="string">"Content-Type"</span>, <span class="string">"application/x-www-form-urlencoded"</span>);</div><div class="line">    &#125;</div><div class="line">    xhr.send(obj.data);</div><div class="line">    xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  <span class="comment">//每次readyState值变化的时候，都活触发这个onreadystatechange监听器，所以要设定一些条件，来限制函数体的执行，</span></div><div class="line">      <span class="keyword">if</span>(xhr.readyState == <span class="number">4</span>)&#123;  <span class="comment">//响应完成</span></div><div class="line">        <span class="keyword">if</span>(xhr.status == <span class="number">200</span>) &#123;  <span class="comment">//状态ok</span></div><div class="line">          <span class="keyword">var</span> res = xhr.responseText ;<span class="comment">//(如果返回是XML类型的数据，则用 xhr.responseXML接受)</span></div><div class="line">          <span class="keyword">var</span> resObj = <span class="built_in">JSON</span>.parse(res);<span class="comment">//这个就是jQuery底层实现：当dataType设置为json的时候，返回的数据类型是javascript对象;</span></div><div class="line">          obj.sucess(resObj);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">          obj.reeor();</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">          obj.complete();</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;;</div><div class="line">  &#125;,</div><div class="line">   <span class="attr">params</span>: <span class="function"><span class="keyword">function</span> (<span class="params">obj</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> str = <span class="string">""</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> obj) &#123;</div><div class="line">            <span class="comment">//console.log(key);</span></div><div class="line">            str += key + <span class="string">"="</span> + obj[key] + <span class="string">"&amp;"</span></div><div class="line">        &#125;</div><div class="line">        <span class="built_in">console</span>.log(str);</div><div class="line">        str = str.substr(<span class="number">0</span>, str.length - <span class="number">1</span>);</div><div class="line"></div><div class="line">        <span class="built_in">console</span>.log(str);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> str;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>4 用法 语法: $.ajax({ URL  [settings]    }) 传入键值对形式的设置和URL</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$.ajax (&#123;</div><div class="line">  <span class="attr">url</span> : <span class="string">"url"</span> ,  <span class="comment">//表示要访问的服务器后台地址</span></div><div class="line">  settings :     <span class="comment">//以下详细说明settings设置</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>settings 设置</p>
+<ul>
+<li><p>dataType  :  请求服务器返回的数据类型；</p>
+<p>“text”: 返回纯文本字符串</p>
+<p>“xml”: 返回 XML 文档，可用 jQuery 处理。</p>
+<p>“html”: 返回纯文本 HTML 信息；包含的script标签会在插入dom时执行。</p>
+<p>“script”: 返回纯文本 JavaScript 代码。不会自动缓存结果。除非设置了”cache”参数。’’’注意：’’’在远程请求时(不在同一个域下)，所有POST请求都将转为GET请求。(因为将使用DOM的script标签来加载)</p>
+<p>“json”: 返回 JSON 数据 ，服务器返回javascript对象;即经过JSON.parse()解析成javascript对象</p>
+<p>“jsonp” : <strong>如果跨域的话，这个时候就不是XMLHttpRequest对象发送请求了，而是script标签发送请求，服务器返回的script代码会直接执行</strong>  </p>
+<p>表示可以进行跨域请求；使用这种类型的话，会创建一个查询字符串参数 callback=? </p>
+<p>，这个参数会加在请求的URL后面。服务器端应当在JSON数据前加上回调函数名，以便完成一个有效的JSONP请求。如果要指定回调函数的参数名来取代默认的callback</p>
+<p>如果指定了text html javascript 则将返回字符串；如果指定了XML 则将返回XML格式的数据，可以用XML DOM 对象操作</p>
+<p>我们必须确保网页服务器报告的MIME类型与我们选择的dataType所匹配。比如说，如果我们将dataType设置为xml，则要求服务器返回xml类型的数据，服务器端就必须声明 text/xml 或者 application/xml 来获得一致的结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">            $callback=$_GET[<span class="string">'back'</span>];</div><div class="line">            $data=<span class="string">'&#123;"username":"zhangsanlisiwangwsu"&#125;'</span>;</div><div class="line">            echo $callback.<span class="string">"("</span>.$data.<span class="string">")"</span>;</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>situation:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"> </span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">getInfo</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(obj);</div><div class="line">        &#125;     </div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/jquery-1.12.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        $.ajax(&#123;</div><div class="line">             <span class="attr">url</span>:<span class="string">"04jsonp.php?callback=getInfo"</span>,</div><div class="line">            <span class="attr">type</span>:<span class="string">"GET"</span>,</div><div class="line">            <span class="attr">dataType</span>:<span class="string">"jsonp"</span>,<span class="comment">//如果没有这行代码，就是返回纯文本的javascript代码</span></div><div class="line">          <span class="comment">//既支持跨域资源，也支持本地资源，服务器返回的以javascript代码直接执行</span></div><div class="line">          <span class="comment">//&#123; username: "zhangsanlisiwangwsu" &#125;</span></div><div class="line">            success:<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(res);</div><div class="line">            &#125;</div><div class="line">        &#125;)</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>jsonp : 在一个jsonp请求中重写回调函数的名字。这个值用来替代在”callback=?”中的 callback</li>
+<li><p>jsonpCallback : 为jsonp请求指定一个回调函数名。这个值将用来取代jQuery自动生成的随机函数名。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"> $.ajax(&#123;</div><div class="line">        <span class="attr">url</span>:<span class="string">'http://study.com/data.php'</span>,</div><div class="line">        <span class="attr">dataType</span> : <span class="string">'jsonp'</span>,</div><div class="line">        <span class="attr">jsonpCallback</span>:<span class="string">"myCall"</span>,</div><div class="line">        <span class="attr">jsonp</span>:<span class="string">"funcName"</span>,</div><div class="line">        <span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line"><span class="comment">//  ?funcName=myCall&amp;_=1488624180015</span></div><div class="line"> <span class="comment">//如果不设置 jsonp和 jsonpCallback </span></div><div class="line"> <span class="comment">// ?callback=jQuery111103367937101396201_1488624279118&amp;_=1488624279119</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>type :  jQuery默认  GET   其他值 POST ,规定请求的方式；</p>
+</li>
+<li><p>async  Boolean (默认: true) 默认设置下，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为 false。注意，同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行。</p>
+</li>
+<li><p>cache : 默认为true ，缓存 ，dataType : jsonp script  的时候默认为false</p>
+</li>
+<li><p>data : 传递给服务器的数据 ，如果是对象，则自动转化为字符串；必须为key/value 格式，如果value值是数组，则将为相应 的key对应每个数组的值；<strong>如果是GET请求，需要将参数附在url之后</strong>　</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">data:&#123; "name":"Jhon", "age":[13,14] &#125;,</div><div class="line">jQuery将解析成这样的字符串 :   ?name=Jhon&amp;age%5B%5D=13&amp;age%5B%5D=14  传递给服务器；</div></pre></td></tr></table></figure>
+<p><strong>必须</strong> 为 data: { “name”:”Jhon”,”age”:14 }   这种格式，其他的都会报错；</p>
+<p><strong>即使</strong> 是data: ‘ {“name”:”Jhon”,”age”:15} ‘  这种形式，发送到服务器的数据有误；</p>
+<p><strong>当以键值对的对象发送给后台数据的时候，可以被转化为JSON的数据格式，key值方便后台查询</strong> </p>
+</li>
+<li><p>processData : (默认: true) 默认情况下，通过data选项传递进来的数据，如果是一个对象(技术上讲只要不是字符串)，都会处理转化成一个查询字符串，以配合默认内容类型<br>“application/x-www-form-urlencoded”。如果要发送 DOM 树信息或其它不希望转换的信息，请设置为 false。</p>
+<p>发送 XML 数据至服务器。设置 processData 选项为 false，防止自动转换数据格式。</p>
+</li>
+</ul>
+<ul>
+<li>jsonp : JSON with padding 底层实现原理其实就是动态的创建<script>标签，然后利用scritp的src属性不受同源策略的约束来跨域获取数据；</li>
+</ul>
+<ul>
+<li><p>timeout : 设置请求超时时间，以毫秒计；比如设置了 timeout:3000,如果服务器3 秒内没有响应的阿虎，那么则断开这个请求链接；</p>
+</li>
+<li><p>success : function( data,textStatus,XHR){    }     请求成功才会执行该函数体，从服务器返回的数据直接返回给该函数的参数；参数：由服务器返回，并根据dataType参数进行处理后的数据；描述状态的字符串</p>
+<p>注意:此时返回的data的类型由dataType 决定，html text script返回的是  字符串类型的文本；</p>
+<p>​    json 会返回javascript对象  ;  xml  会返回xml 文档 ；</p>
+</li>
+<li><p>beforeSend : function( XHR ){  }</p>
+<p>传入一个xhr对象，包含XMLHttpRequset相关的属性详细的信息；</p>
+</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="keyword">echo</span> <span class="string">"ok"</span>;</div><div class="line">    <span class="keyword">echo</span> $_GET[<span class="string">"name"</span>];</div><div class="line">    <span class="keyword">echo</span> $_GET[<span class="string">"age"</span>];</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"触发ajax"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></div><div class="line">    $.ajax(&#123;</div><div class="line">        <span class="attr">url</span>:<span class="string">"05-ajxacallback.php"</span>,</div><div class="line"></div><div class="line">        <span class="attr">type</span>:<span class="string">"GET"</span>,</div><div class="line">        <span class="attr">data</span>:&#123;<span class="string">"name"</span>:<span class="string">"Jhon"</span>,<span class="string">"age"</span>:<span class="number">15</span>&#125;,</div><div class="line"><span class="comment">//        data:&#123;</span></div><div class="line"><span class="comment">//            "name":"Jhon",</span></div><div class="line"><span class="comment">//            "age":[13,14]</span></div><div class="line"><span class="comment">//        &#125;,//不能这种形式</span></div><div class="line">        <span class="comment">//  ?name=Jhon&amp;age%5B%5D=13&amp;age%5B%5D=14</span></div><div class="line"><span class="comment">//       data :&#123;</span></div><div class="line"><span class="comment">//            "name":[&#123;"name":"Jhon","age":14&#125;]</span></div><div class="line"><span class="comment">//        &#125; ,不能这种形式</span></div><div class="line">        dataType:<span class="string">"html"</span>, <span class="comment">//可以改变属性值，</span></div><div class="line">        beforeSend:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">complete</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(res);</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">typeof</span> res);</div><div class="line">           <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>如果请求的数据类型和返回的数据类型不同的话，则不会执行success函数</p>
+</script></li></ul>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/11/61-cmd常用命令行/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/11/61-cmd常用命令行/" itemprop="url">
+                  CMD command
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-11T12:36:00+08:00">
+                2016-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/window/" itemprop="url" rel="index">
+                    <span itemprop="name">window</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>cmd常用命令行</p>
+<h4 id="1-IP地址"><a href="#1-IP地址" class="headerlink" title="1 IP地址"></a>1 IP地址</h4><p>所谓IP地址就是给每个连接在互联网上的主机分配的一个32位地址。(就像每部手机能正常通话需要一个号码一样)</p>
+<p>查看本机IP地址 ping、ipconfig、ifconfig（linux）</p>
+<pre><code>&gt; ipconfig                       ... 显示信息
+&gt; ipconfig /all                  ... 显示详细信息
+&gt; ipconfig /renew                ... 更新所有适配器
+&gt; ipconfig /renew EL*            ... 更新所有名称以 EL 开头
+                                     的连接
+&gt; ipconfig /release *Con*        ... 释放所有匹配的连接，
+                                     例如“有线以太网连接 1”或
+                                         “有线以太网连接 2”
+&gt; ipconfig /allcompartments      ... 显示有关所有隔离舱的
+                                     信息
+&gt; ipconfig /allcompartments /all ... 显示有关所有隔离舱的
+                                     详细信息
+</code></pre><h4 id="2、域名"><a href="#2、域名" class="headerlink" title="2、域名"></a>2、域名</h4><p>由于IP地址基于数字，不方便记忆，于是便用域名来代替IP地址，域名是一个IP地址的“面具”</p>
+<p>查看域名对应的IP地址 ping</p>
+<h4 id="3、DNS服务"><a href="#3、DNS服务" class="headerlink" title="3、DNS服务"></a>3、DNS服务</h4><p>DNS（Domain Name System）因特网上作为域名和IP地址相互映射的一个分布式数据库， 能够使用户更方便的访问互联网，而不用去记住能够被机器直接读取的IP数串。</p>
+<p>简单的说就是记录IP地址和域名之间对应关系的服务。</p>
+<p><strong>查找优先级 本机hosts文件、DNS服务器</strong> </p>
+<p>ipconfig /flushdns 刷新DNS</p>
+<h4 id="4、端口"><a href="#4、端口" class="headerlink" title="4、端口"></a>4、端口</h4><p>端口号是计算机与外界通讯交流的出口，每个端口对应不同的服务。</p>
+<p><em>现实生活中，银行不同的窗口办理不同的业务。</em></p>
+<p>查看端口占用情况 netstat -an</p>
+<p>常见端口号 80、8080、3306、21、22</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/22/41-Bootstrap框架总结总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/22/41-Bootstrap框架总结总结/" itemprop="url">
+                  boostrap基础
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-22T12:36:00+08:00">
+                2016-03-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/boostrap/" itemprop="url" rel="index">
+                    <span itemprop="name">boostrap</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1 理解其核心思想:通过组合样式对标签进行样式操作，从而到达控制页面的样式以及网页结构</p>
+<p>2 bootstrap环境搭建:引入相应的css  javascript</p>
+<p>3 如何理解Bootstrap移动端优先，通过其媒体查询设置宽度可窥一二,Bootstrap框架代码的百分比设置优先基于</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span> &#123;</div><div class="line">  <span class="attribute">padding-right</span>: <span class="number">15px</span>;</div><div class="line">  <span class="attribute">padding-left</span>: <span class="number">15px</span>;</div><div class="line">  <span class="attribute">margin-right</span>: auto;</div><div class="line">  <span class="attribute">margin-left</span>: auto;</div><div class="line">&#125;</div><div class="line"><span class="comment">/*默认移动端设备优先  width &lt; 768px*/</span></div><div class="line">@<span class="keyword">media</span> (min-width: <span class="number">768px</span>) &#123;</div><div class="line">  <span class="selector-class">.container</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">750px</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">/*sm 屏幕设备  768px &lt; width &lt; 992px*/</span></div><div class="line">@<span class="keyword">media</span> (min-width: <span class="number">992px</span>) &#123;</div><div class="line">  <span class="selector-class">.container</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">970px</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">/*md屏幕设备 992px &lt; width &lt; 1200px */</span></div><div class="line">@<span class="keyword">media</span> (min-width: <span class="number">1200px</span>) &#123;</div><div class="line">  <span class="selector-class">.container</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">1170px</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">/*lg 屏幕设备 width &gt; 1200px*/</span></div></pre></td></tr></table></figure>
+<p>4 Bootstrap 实现移动端自适应布局的基础是根据宽度 100% 设置自适应布局，宽度基准是以父元素的宽度为基准的。</p>
+<p>5 栅格系统:如何理解 col-xs-<em>(超小屏&lt;768px) col-sm-</em>(小屏768px  992px) col-md-<em>(1200px&gt;中等屏 &gt;992px) col-lg-</em> (大屏 &gt;1200px)</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 超小屏幕（手机，小于 768px） */</span></div><div class="line"><span class="comment">/* 没有任何媒体查询相关的代码，因为这在 Bootstrap 中是默认的（Bootstrap 是移动设备优先的） */</span></div><div class="line"><span class="comment">/* 小屏幕（平板，大于等于 768px） */</span></div><div class="line">@<span class="keyword">media</span> (min-width: @screen-sm-min) &#123; ... &#125;</div><div class="line"><span class="comment">/* 中等屏幕（桌面显示器，大于等于 992px） */</span></div><div class="line">@<span class="keyword">media</span> (min-width: @screen-md-min) &#123; ... &#125;</div><div class="line"><span class="comment">/* 大屏幕（大桌面显示器，大于等于 1200px） */</span></div><div class="line">@<span class="keyword">media</span> (min-width: @screen-lg-min) &#123; ... &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-6 col-sm-4 col-md-3"</span>&gt;</span></div><div class="line">      col-xs-6会优先作用，查看bootstrap源码可以得知，col-sm-4需要在@media(min-width : 768px)&#123;&#125;成立的时		候，该类才会起作用，col-md-3需要在@media(min-width : 992px)&#123;&#125;成立的时候才会起作用。</div><div class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-6 col-sm-4 col-md-3"</span>&gt;</span></div><div class="line">          源码中的书写顺序如下:</div><div class="line">              .col-xs-6 &#123;</div><div class="line">                    width:100%;</div><div class="line">              &#125;</div><div class="line">      			col-xs-*  是可以全局使用的</div><div class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-6 col-sm-4 col-md-3"</span>&gt;</span></div><div class="line">            @media(min-width : 768px)&#123;</div><div class="line">                .col-sm-4 &#123;</div><div class="line">                     width: 33.33333333%;</div><div class="line">                &#125;  </div><div class="line">            &#125;</div><div class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-6 col-sm-4 col-md-3"</span>&gt;</span></div><div class="line">            @media(min-width : 992px)&#123;</div><div class="line">                .col-md-3&#123;</div><div class="line">                    width: 25%;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>由此可见col-  类主要是改变元素的样式属性，width 的值，所以无论什么情况下，</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">col-xs-6</span> &#123; <span class="attribute">width</span>:<span class="number">100%</span>&#125;</div></pre></td></tr></table></figure>
+<p>都是可以起作用的，但是当屏幕的大小变化的时候，比如由<strong>超小屏幕</strong>变化到—&gt;<strong>小屏幕</strong> ,此时</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">media</span>(<span class="keyword">min</span>-<span class="keyword">width</span> : <span class="number">768px</span>)&#123;</div><div class="line">              <span class="selector-class">.col-sm-4</span> &#123;</div><div class="line">                   <span class="attribute">width</span>: <span class="number">33.33333333%</span>;</div><div class="line">              &#125;  </div><div class="line">          &#125;</div></pre></td></tr></table></figure>
+<p>将会起作用，<strong>覆盖</strong> 掉原来的width：100%设置，变为width:33.3333333%;同理变为中等屏幕的时候，此时</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">media</span>(<span class="keyword">min</span>-<span class="keyword">width</span> : <span class="number">992px</span>)&#123;</div><div class="line">               <span class="selector-class">.col-md-3</span>&#123;</div><div class="line">                   <span class="attribute">width</span>: <span class="number">25%</span>;</div><div class="line">               &#125;</div><div class="line">           &#125;</div></pre></td></tr></table></figure>
+<p>将会起作用，覆盖掉原来的width:33.3333333%，变为width:25%.</p>
+<p><strong>此时在回过头来理解Bootstrap是移动设备优先的这句话，可以看出，移动设备(width&lt;768px)的时候，类样式默认没有使用条件，不需要媒介查询判断，任何时候都可以使用，但是其他屏幕设备上就需要通过媒介查询来判断该类样式是否可以执行</strong>   </p>
+<p>6 Bootstrap源码在全局定义了box-sizing:border-box ，所有的HTML元素都是以边框为准进行的宽度计算，内容会被压缩</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">* &#123;</div><div class="line">  <span class="attribute">-webkit-box-sizing</span>: border-box;</div><div class="line">     <span class="attribute">-moz-box-sizing</span>: border-box;</div><div class="line">          <span class="attribute">box-sizing</span>: border-box;</div><div class="line">&#125;</div><div class="line">*<span class="selector-pseudo">:before</span>,</div><div class="line">*<span class="selector-pseudo">:after</span> &#123;</div><div class="line">  <span class="attribute">-webkit-box-sizing</span>: border-box;</div><div class="line">     <span class="attribute">-moz-box-sizing</span>: border-box;</div><div class="line">          <span class="attribute">box-sizing</span>: border-box;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/27/35varticalAlign/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/02/27/35varticalAlign/" itemprop="url">
+                  vertivalAlign
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-27T12:36:00+08:00">
+                2016-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/html/" itemprop="url" rel="index">
+                    <span itemprop="name">html</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>vertical-align  </p>
+<p>1 在一行中，行内元素默认是以baseline为基准进行垂直对齐的，行内元素包括  img  a  span 等</p>
+<p>2 baseline 基线:可以简单的理解为是在四线格中字母x的底部的那根线</p>
+<p>3 img标签默认对齐行内的文本的基线</p>
+<p>4 那么由于图片默认对齐基线，会在下面出现几像素的间隙，如何去除该间隙？</p>
+<p>5 先来看看间隙的产生：(注意浏览器默认字体大小，所以对于所有的DOM元素都有)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.div1&#123;</div><div class="line">  font-size:50px;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"div1"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>该行的基线以文本的baseline为基准<span class="tag">&lt;/<span class="name">span</span>&gt;</span> <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img/01.jpg"</span> <span class="attr">alt</span>=<span class="string">""</span> <span class="attr">width</span>=<span class="string">"20px"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>一 : 既然产生间隙的根源是<strong>行内元素</strong> 默认以<strong>文本</strong>的基线为基准的对齐方式导致的，那么只需要将改行的文本字体大小设置为font-size 为0  即可这行代码将图片所在行的文本大小设置为0 ，由于文本相关属性的继承性，该元素内所有元素的文本大小均为0px，所以此时可以消除间隙</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.div1 &#123;</div><div class="line">  font-size:0px	;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>二:既然间隙是有行内元素默认以改行的文本的baseline为基准进行垂直方向的对齐，那么将图片设置为块级元素，也可以消除间隙：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.div1&gt;img&#123;</div><div class="line">           display: block;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<p>三 利用vertical-align属性：设置元素的对齐方式 可能值 baseline  top bottom middle text-top text-bottom</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.div1&gt;img&#123;</div><div class="line">  vertical-align:bottom;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>四 如果想要更好地理解vertical-align属性的作用，可以将图片width=”20px”，改成可以和字体比较的大小，然后文本设置font-size设置大一些，然后看效果，有助于理解vertical-align的属性。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/19/53-js  和 jquery 的事件区别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1259,499 +2031,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/09/66XML/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/09/66XML/" itemprop="url">
-                  XML base
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-09T00:00:00+08:00">
-                2015-11-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>XML</p>
-<p>1 XML声明以及基础语法</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"ISO-8859-1"</span><span class="meta">?&gt;</span></span>   </div><div class="line"><span class="comment">&lt;!--第一行是 XML 声明。它定义 XML 的版本 (1.0) 和所使用的编码 (ISO-8859-1 = Latin-1/西欧字符集)。</span></div><div class="line">下一行描述文档的根元素--&gt;</div><div class="line"><span class="tag">&lt;<span class="name">note</span>&gt;</span>										</div><div class="line"><span class="tag">&lt;<span class="name">to</span>&gt;</span>George<span class="tag">&lt;/<span class="name">to</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">from</span>&gt;</span>John<span class="tag">&lt;/<span class="name">from</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">heading</span>&gt;</span>Reminder<span class="tag">&lt;/<span class="name">heading</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span>Don't forget the meeting!<span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">note</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">child</span> <span class="attr">id</span>=<span class="string">"brother"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">subchild</span>&gt;</span>.....<span class="tag">&lt;/<span class="name">subchild</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">child</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>注意:xml如何形成良好的语法习惯</p>
-<ul>
-<li>1)XML 文档必须有根元素             2) XML 文档必须有关闭标签        3)XML 标签对大小写敏感     </li>
-<li>4)XML 元素必须被正确的嵌套      5)XML 属性必须加引号 </li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>&lt;</th>
-<th>&lt;</th>
-<th>小于</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>&gt;</td>
-<td>&gt;</td>
-<td>大于</td>
-</tr>
-<tr>
-<td>&amp;</td>
-<td>&amp;</td>
-<td>和号</td>
-</tr>
-<tr>
-<td>&apos;</td>
-<td>‘</td>
-<td>单引号</td>
-</tr>
-<tr>
-<td>&quot;</td>
-<td>“</td>
-<td>引号</td>
-</tr>
-</tbody>
-</table>
-<p>2 xml命名规则:可使用任何名称，没有保留的字词。</p>
-<ul>
-<li>1)名称可以含字母、数字以及其他的字符                   2)名称不能以数字或者标点符号开始 </li>
-<li>3)名称不能以字符 “xml”（或者 XML、Xml）开始             4)名称不能包含空格 </li>
-</ul>
-<p>3 xml元素和属性:元数据（有关数据的数据）应当存储为属性，比如id 用来查找元素的，可以存储为属性；而数据本身应当存储为元素。</p>
-<p>因使用属性而引起的一些问题,请尽量使用元素来描述数据。而仅仅使用属性来提供与数据无关的信息</p>
-<ul>
-<li>1)属性无法包含多重的值（元素可以）       2)属性无法描述树结构（元素可以） </li>
-<li>3)属性不易扩展（为未来的变化）              4)属性难以阅读和维护 </li>
-</ul>
-<p>4 xmlDOM   XMLHttpRequest对象:XMLHttpRequest 对象提供了对 HTTP 协议的完全的访问，包括做出 POST 和 HEAD 请求以及普通的 GET 请求的能力。XMLHttpRequest 可以同步或异步地返回 Web 服务器的响应，并且能够以文本或者一个 DOM 文档的形式返回内容。尽管名为 XMLHttpRequest，它并不限于和 XML 文档一起使用：它可以接收任何形式的文本文档。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/09/19/63-for-in   foreach   /">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/09/19/63-for-in   foreach   /" itemprop="url">
-                  forin 遍历数组和对象细节
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-19T12:36:00+08:00">
-                2015-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="for-in"><a href="#for-in" class="headerlink" title="for  in"></a>for  in</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//for in 遍历的是数组的索引 ，而不是数组的值 	</span></div><div class="line">	<span class="keyword">var</span> arr= [<span class="string">"name"</span>,<span class="string">"age"</span>,<span class="string">"address"</span>]</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> arr )&#123;</div><div class="line">        <span class="built_in">console</span>.log(key);</div><div class="line">    &#125;</div><div class="line"><span class="comment">//---------------------------------------</span></div><div class="line"><span class="comment">//遍历对象的时候，遍历的是对象的属性，而不是属性值</span></div><div class="line"> 	<span class="keyword">var</span> obj = &#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>,<span class="attr">age</span>:<span class="number">14</span>&#125;;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> obj)&#123;</div><div class="line">        <span class="built_in">console</span>.log(key);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/09/12/29-webstorm编辑器运用小技巧/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/09/12/29-webstorm编辑器运用小技巧/" itemprop="url">
-                  webStorm 运用快捷键
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-12T12:36:00+08:00">
-                2015-09-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>webstorm编辑器运用小技巧</p>
-<p>1 如何比较两份文件的区别：先复制，然后与剪贴板进行比较: 视图–&gt;与剪贴板比较</p>
-<p>2 webstorm默认是没有换行的:</p>
-<ul>
-<li>单个文件设置：视图–活跃编辑器–启用自动换行</li>
-<li>系统设置，每个文件都要自动换行：文件–设置–编辑器–softwraps–启用软换行</li>
-</ul>
-<p>3 鼠标点击某个方法或者某个类，按住ctrl+鼠标左键，可以直接进入该方法或者类所在文件</p>
-<p>4 快捷键设置</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">快捷键配置</div><div class="line">点击“File”-&gt; “settings”</div><div class="line"></div><div class="line">Webstorm预置了其他编辑器的快捷键配置，可以点击</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">默认配置-Eclipse的常用快捷键对照表</div><div class="line">查找/代替</div><div class="line">Webstorm快捷键	Eclipse快捷键	说明</div><div class="line">ctrl+shift+N	ctrl+shift+R	通过文件名快速查找工程内的文件（必记）</div><div class="line">ctrl+shift+alt+N	ctrl+shift+alt+N	通过一个字符快速查找位置（必记）</div><div class="line">ctrl+F	ctrl+F	在文件内快速查找代码</div><div class="line">F3	ctrl+K	查找下一个</div><div class="line">shift+F3	ctrl+shift+K	查找上一个</div><div class="line">ctrl+R	ctrl+F	文件内代码替换</div><div class="line">ctrl+shift+R	 	指定目录内代码批量替换</div><div class="line">ctrl+shift+F	ctrl+H	指定目录内代码批量查找</div><div class="line">界面操作</div><div class="line"></div><div class="line">Webstorm快捷键	Eclipse快捷键	说明</div><div class="line">ctrl+shift+A	ctrl+shift+A	快速查找并使用编辑器所有功能（必记）</div><div class="line">alt+[0-9]	alt+[0-9]	快速拆合功能界面模块</div><div class="line">ctrl+shift+F12	ctrl+shift+F12	最大区域显示代码（会隐藏其他的功能界面模块）</div><div class="line">alt+shift+F	alt+shift+F	将当前文件加入收藏夹</div><div class="line">ctrl+alt+s	ctrl+alt+s	打开配置窗口</div><div class="line">ctrl+tab	ctrl+tab	切换代码选项卡（还要进行此选择，效率差些）</div><div class="line">alt+←/→	alt+←/→	切换代码选项卡</div><div class="line">ctrl+F4	ctrl+F4	关闭当前代码选项卡</div><div class="line">代码编辑</div><div class="line">Webstorm快捷键	Eclipse快捷键	说明</div><div class="line">ctrl+D	ctrl+shift+↑	复制当前行</div><div class="line">ctrl+W	alt+shift+↑	选中单词</div><div class="line">ctrl+←/→</div><div class="line">ctrl+←/→</div><div class="line">以单词作为边界跳光标位置</div><div class="line">alt+insert	alt+insert	新建一个文件或其他</div><div class="line">ctrl+alt+L	ctrl+alt+L	格式化代码</div><div class="line">shift+tab/tab	shift+tab/tab	减少/扩大缩进（可以在代码中减少行缩进）</div><div class="line">ctrl+Y	ctrl+D	删除一行</div><div class="line">shift+enter	shift+enter	重新开始一行（无论光标在哪个位置）</div><div class="line">导航</div><div class="line"></div><div class="line">Webstorm快捷键	Eclipse快捷键	说明</div><div class="line">esc	esc	进入代码编辑区域</div><div class="line">alt+F1	alt+F1	查找代码在其他界面模块的位置，颇为有用</div><div class="line">ctrl+G	ctrl+L	到指定行的代码</div><div class="line">ctrl+]/[	ctrl+]/[	光标到代码块的前面或后面</div><div class="line">alt+up/down	ctrl+shift+up/down	上一个/下一个方法</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1796,7 +2080,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-count">53</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -1,0 +1,820 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="serialize," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="jQuery  对象$(“selector”).serialize()方法的使用1 表单元素:from 表单能够包含 input 元素，比如文本字段、复选框、单选框、提交按钮等等。表单还可以包含 menus、textarea、fieldset、legend 和 label 元素。表单用于向服务器传输数据。
+
+input : type 类型 button checkbox file hidden i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery serialize">
+<meta property="og:url" content="http://yoursite.com/2016/07/22/74-jQuery  对象serialize()方法的使用/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="jQuery  对象$(“selector”).serialize()方法的使用1 表单元素:from 表单能够包含 input 元素，比如文本字段、复选框、单选框、提交按钮等等。表单还可以包含 menus、textarea、fieldset、legend 和 label 元素。表单用于向服务器传输数据。
+
+input : type 类型 button checkbox file hidden i">
+<meta property="og:updated_time" content="2017-04-09T11:02:19.259Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery serialize">
+<meta name="twitter:description" content="jQuery  对象$(“selector”).serialize()方法的使用1 表单元素:from 表单能够包含 input 元素，比如文本字段、复选框、单选框、提交按钮等等。表单还可以包含 menus、textarea、fieldset、legend 和 label 元素。表单用于向服务器传输数据。
+
+input : type 类型 button checkbox file hidden i">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/07/22/74-jQuery  对象serialize()方法的使用/"/>
+
+
+
+
+
+  <title> jQuery serialize | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/22/74-jQuery  对象serialize()方法的使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jQuery serialize
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-22T12:36:00+08:00">
+                2016-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-jquery/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript jquery</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="jQuery-对象-“selector”-serialize-方法的使用"><a href="#jQuery-对象-“selector”-serialize-方法的使用" class="headerlink" title="jQuery  对象$(“selector”).serialize()方法的使用"></a>jQuery  对象$(“selector”).serialize()方法的使用</h2><p>1 表单元素:from 表单能够包含 <a href="tag_input.asp.htm">input 元素</a>，比如文本字段、复选框、单选框、提交按钮等等。表单还可以包含 <a href="tag_menu.asp.htm">menus</a>、<a href="tag_textarea.asp.htm">textarea</a>、<a href="tag_fieldset.asp.htm">fieldset</a>、<a href="tag_legend.asp.htm">legend</a> 和 <a href="tag_label.asp.htm">label 元素</a>。表单用于向服务器传输数据。</p>
+<ul>
+<li>input : type 类型 button checkbox file hidden image password radio reset submit text   。如果要表单元素的值包含到序列字符串中，元素必须使用 name 属性。<strong>默认text类型</strong> </li>
+<li>textarea  必须属性 col row  该标签也有 name属性，也可以上传数据</li>
+</ul>
+<p>2 select select 元素可创建单选或多选菜单。当提交表单时，浏览器会提交选定的项目，或者收集用逗号分隔的多个选项，将其合成一个单独的参数列表，并且在将 \<select> 表单数据提交给服务器时包括 name 属性。</select></p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>描述</th>
+<th>DTD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="att_select_disabled.asp.htm">disabled</a></td>
+<td>disabled</td>
+<td>规定禁用该下拉列表。</td>
+<td>STF</td>
+</tr>
+<tr>
+<td><a href="att_select_multiple.asp.htm">multiple</a></td>
+<td>multiple</td>
+<td>规定可选择多个选项。</td>
+<td>STF</td>
+</tr>
+<tr>
+<td><a href="att_select_name.asp.htm">name</a></td>
+<td><em>name</em></td>
+<td>规定下拉列表的名称。</td>
+<td>STF</td>
+</tr>
+<tr>
+<td><a href="att_select_size.asp.htm">size</a></td>
+<td><em>number</em></td>
+<td>规定下拉列表中可见选项的数目。</td>
+<td>STF</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>option 元素必须位于select元素内部,不能单独的使用，没有name属性</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>描述</th>
+<th>DTD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="att_option_disabled.asp.htm">disabled</a></td>
+<td>disabled</td>
+<td>规定此选项应在首次加载时被禁用。</td>
+<td>STF</td>
+</tr>
+<tr>
+<td><a href="att_option_label.asp.htm">label</a></td>
+<td><em>text</em></td>
+<td>定义当使用 <optgroup> 时所使用的标注。</optgroup></td>
+<td>STF</td>
+</tr>
+<tr>
+<td><a href="att_option_selected.asp.htm">selected</a></td>
+<td>selected</td>
+<td>规定选项（在首次显示在列表中时）表现为选中状态。</td>
+<td>STF</td>
+</tr>
+<tr>
+<td><a href="att_option_value.asp.htm">value</a></td>
+<td><em>text</em></td>
+<td>定义送往服务器的选项值。</td>
+<td>STF</td>
+</tr>
+</tbody>
+</table>
+<p>3 首先理解jQuery ajax - serialize() 方法注意：只会将”成功的控件“序列化为<strong>字符串</strong> 。如果不使用按钮来提交表单，则不对提交按钮的值序列化。如果要表单元素的值包含到序列字符串中，元素必须使用 name 属性。 </p>
+<p>什么是”成功的控件”？可以简单理解为   被选中的  表单元素 有name属性的表单元素；**注意name属性不能是js或者jQuery中的关键字，否则无法序列化 ；其实就是用户操作选中的那些控件内容会被序列化；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">input 	type = text password hidden 可以直接被选中序列化为字符串</div><div class="line">        type = checkbox  radio  只有当check="checked" 的时候才能被选中序列化为字符串</div><div class="line">        type =  file button image 则不会被选中序列化为字符串</div><div class="line">input   元素有name 属性，发往服务器的是input元素的name属性值  和 input元素的 value 值</div><div class="line">select  元素有name 属性，发往服务器的数据是select的name属性值和 其子元素的option元素的 value值;注意不是option标签包裹的内容 <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"man"</span>&gt;</span>男<span class="tag">&lt;/<span class="name">option</span>&gt;</span>  上传到服务器的是   man ;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">textarea 元素有name 属性，发往服务器的数据是textarea的name属性值和textarea元素的内容；</div></pre></td></tr></table></figure>
+<h3 id="如果要表单元素的值包含到序列字符串中，元素必须使用-name-属性。否则无法序列化该元素的值；"><a href="#如果要表单元素的值包含到序列字符串中，元素必须使用-name-属性。否则无法序列化该元素的值；" class="headerlink" title="如果要表单元素的值包含到序列字符串中，元素必须使用 name 属性。否则无法序列化该元素的值；"></a>如果要表单元素的值包含到序列字符串中，元素必须使用 name 属性。否则无法序列化该元素的值；</h3><p>序列化的”键值对”是   </p>
+<ul>
+<li>对于input  select 元素是 name 属性 的值 和  value 属性的值；如果value属性也有值，那么就提交value属性的值，如果没有value属性，或者value属性值为空字符串，则序列化的结果没有value值，如果value值是一个空的字符串，那么序列化的结果是一个  +  字符。</li>
+<li>对于textarea 元素是textarea元素的 name属性值  和内容值</li>
+</ul>
+<p>4 明白以上的内容，具体到serialize()的用法,是对所有选中的表单元素进行序列化；序列化表单值的作用是将表单中的值拼装成字符串形式的key-value键值对提交给后台服务器程序解析，来获取用户的输入值</p>
+<ul>
+<li>定义:serialize()方法通过序列化表单值，创建标准的URL编码文本<strong>字符串</strong> ，它的操作对象是代表表单元素集合的<strong>jQuery 对象</strong>.你可以选择一个或多个表单元素（比如input或文本框），或者 form 元素本身。序列化的值可在生成 AJAX 请求时用于 URL 查询字符串中，然后发送到服务器。</li>
+<li>我们可以单独的获取某个表单元素的序列化的值，$(“input”).serialize(),序列化所有的input元素，\$(“input:password”).serialize(),序列化password ; \$(“form”).serialize()  序列化 form；</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"</span></div><div class="line">        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/1999/xhtml"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.2.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>serializeArray()与serialize()<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">onClik</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            $(<span class="string">"#results"</span>).html(<span class="string">"serializeArray()与serialize()的区别如下："</span>);</div><div class="line">            <span class="keyword">var</span> data1 = $(<span class="string">"#form1"</span>).serializeArray(); <span class="comment">//自动将form表单封装成json</span></div><div class="line">            $(<span class="string">"#results"</span>).append(<span class="string">"&lt;br/&gt;&lt;b&gt;serializeArray:&lt;/b&gt;"</span>);</div><div class="line">            $.each(data1, <span class="function"><span class="keyword">function</span>(<span class="params">i, field</span>)</span>&#123;</div><div class="line">                $(<span class="string">"#results"</span>).append(field.name+<span class="string">":"</span>+field.value+<span class="string">" "</span>);</div><div class="line">            &#125;);</div><div class="line">            $(<span class="string">"#results"</span>).append(<span class="string">"&lt;br/&gt;"</span>);</div><div class="line">            <span class="keyword">var</span> data2 = $(<span class="string">"#form1"</span>).serialize(); <span class="comment">//自动将form表单封装成json</span></div><div class="line">            $(<span class="string">"#results"</span>).append(<span class="string">"&lt;b&gt;serialize():&lt;/b&gt;"</span>+data2);</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">"form1"</span> <span class="attr">name</span>=<span class="string">"form1"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">action</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>进货人 :</div><div class="line">        <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"name"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">id</span>=<span class="string">"name"</span> /&gt;</span></div><div class="line">      <span class="comment">&lt;!--没有value值，结果为空--&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>性别:</div><div class="line">        <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"sex"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"sex"</span> <span class="attr">size</span>=<span class="string">"1"</span> <span class="attr">id</span>=<span class="string">"sex"</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--select有name属性，会序列化选中的option 。这里是第一个option--&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"man"</span>&gt;</span>男<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"女"</span>&gt;</span>女<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"sex"</span> <span class="attr">size</span>=<span class="string">"1"</span> <span class="attr">id</span>=<span class="string">"sex"</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--select有name属性，会序列化选中的option 。这里是第二个option--&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"man"</span>&gt;</span>男<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"woman"</span> <span class="attr">selected</span>=<span class="string">"selected"</span>&gt;</span>女<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">select</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--select没有name属性，则不会被序列化--&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span> =<span class="string">"volvo"</span>&gt;</span>Volvo<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span> =<span class="string">"saab"</span>&gt;</span>Saab<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"opel"</span>&gt;</span>Opel<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"audi"</span>&gt;</span>Audi<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">name</span>=<span class="string">"txt"</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">cols</span>=<span class="string">"30"</span> <span class="attr">rows</span>=<span class="string">"10"</span>&gt;</span></div><div class="line">             这是text</div><div class="line">            <span class="comment">&lt;!--注意这里面有空格，会被序列化为+--&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">width</span>=<span class="string">"708"</span> <span class="attr">border</span>=<span class="string">"1"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">width</span>=<span class="string">"185"</span>&gt;</span>商品名<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">width</span>=<span class="string">"205"</span>&gt;</span>商品数量<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">width</span>=<span class="string">"296"</span>&gt;</span>商品价格<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"pro_name"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pro_name"</span> <span class="attr">id</span>=<span class="string">"pro_name"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">          <span class="comment">&lt;!--没有value值，结果是 pro_name=  --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"pro_num"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pro_num"</span> <span class="attr">id</span>=<span class="string">"pro_num"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"pro_price"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pro_price"</span> <span class="attr">id</span>=<span class="string">"pro_price"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">""</span>  <span class="attr">value</span>=<span class="string">"123"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"hid"</span>  <span class="attr">value</span>=<span class="string">"hid"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"fil"</span>  <span class="attr">value</span>=<span class="string">"filess"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"ck"</span>  <span class="attr">value</span>=<span class="string">"ckk"</span> <span class="attr">checked</span>=<span class="string">"checked"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span>ck</div><div class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"ck"</span>  <span class="attr">value</span>=<span class="string">"ckk2"</span>  /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span>ck2</div><div class="line">		   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"ra"</span>  <span class="attr">value</span>=<span class="string">"raa"</span> <span class="attr">checked</span>=<span class="string">"checked"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span>ra</div><div class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"ra2"</span>  <span class="attr">value</span>=<span class="string">"raa2"</span>  /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span>ra2</div><div class="line">			   <span class="comment">&lt;!--没有被选中，不会序列化，  --&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pro_name2"</span> <span class="attr">id</span>=<span class="string">"pro_name2"</span> <span class="attr">value</span>=<span class="string">" "</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--注意此时的value属性值是一个  空格 序列化为 + --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pro_num2"</span> <span class="attr">id</span>=<span class="string">"pro_num2"</span>  <span class="attr">value</span>=<span class="string">""</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--这个地方的value属性值是  空字符串 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pro_price2"</span> <span class="attr">id</span>=<span class="string">"pro_price2"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"results"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">name</span>=<span class="string">"submit"</span> <span class="attr">onclick</span>=<span class="string">"onClik();"</span> <span class="attr">value</span>=<span class="string">"提交"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--serializeArray()与serialize()的区别如下：--&gt;</span></div><div class="line"><span class="comment">&lt;!--serializeArray:name: sex:man sex:woman txt: 这是text ck:ckk ra:raa pro_name: pro_num: pro_price: hid:hid pro_name2: pro_num2: pro_price2:--&gt;</span></div><div class="line"><span class="comment">&lt;!--serialize():name=&amp;sex=man&amp;sex=woman&amp;txt=+++++++++++++%E8%BF%99%E6%98%AFtext%3C!&amp;#45;&amp;#45;%E6%B3%A8%E6%84%8F%E8%BF%99%E9%87%8C%E9%9D%A2%E6%9C%89%E7%A9%BA%E6%A0%BC%EF%BC%8C%E4%BC%9A%E8%A2%AB%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%BA%2B&amp;#45;&amp;#45;%3E%0D%0A++++++++&amp;ck=ckk&amp;ra=raa&amp;pro_name=&amp;pro_num=&amp;pro_price=&amp;hid=hid&amp;pro_name2=+&amp;pro_num2=&amp;pro_price2=--&gt;</span></div></pre></td></tr></table></figure>
+<p>$.param()方法是serialize()方法的核心，用来对一个数组或对象按照key/value进行序列化。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">param: <span class="function"><span class="keyword">function</span>(<span class="params"> a </span>) </span>&#123;</div><div class="line">        <span class="comment">///    &lt;summary&gt;</span></div><div class="line">        <span class="comment">///        This method is internal.  Use serialize() instead.</span></div><div class="line">        <span class="comment">///    &lt;/summary&gt;</span></div><div class="line">        <span class="comment">///    &lt;param name="a" type="Map"&gt;A map of key/value pairs to serialize into a string.&lt;/param&gt;'</span></div><div class="line">        <span class="comment">///    &lt;returns type="String" /&gt;</span></div><div class="line">        <span class="comment">///    &lt;private /&gt;</span></div><div class="line">    </div><div class="line">        <span class="keyword">var</span> s = [ ];</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"> key, value </span>)</span>&#123;</div><div class="line">            s[ s.length ] = <span class="built_in">encodeURIComponent</span>(key) + <span class="string">'='</span> + <span class="built_in">encodeURIComponent</span>(value);</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        <span class="comment">// If an array was passed in, assume that it is an array</span></div><div class="line">        <span class="comment">// of form elements</span></div><div class="line">        <span class="keyword">if</span> ( jQuery.isArray(a) || a.jquery )</div><div class="line">            <span class="comment">// Serialize the form elements</span></div><div class="line">            jQuery.each( a, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                add( <span class="keyword">this</span>.name, <span class="keyword">this</span>.value );</div><div class="line">            &#125;);</div><div class="line"></div><div class="line">        <span class="comment">// Otherwise, assume that it's an object of key/value pairs</span></div><div class="line">        <span class="keyword">else</span></div><div class="line">            <span class="comment">// Serialize the key/values</span></div><div class="line">            <span class="keyword">for</span> ( <span class="keyword">var</span> j <span class="keyword">in</span> a )</div><div class="line">                <span class="comment">// If the value is an array then the key names need to be repeated</span></div><div class="line">                <span class="keyword">if</span> ( jQuery.isArray(a[j]) )</div><div class="line">                    jQuery.each( a[j], <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                        add( j, <span class="keyword">this</span> );</div><div class="line">                    &#125;);</div><div class="line">                <span class="keyword">else</span></div><div class="line">                    add( j, jQuery.isFunction(a[j]) ? a[j]() : a[j] );</div><div class="line"></div><div class="line">        <span class="comment">// Return the resulting serialization</span></div><div class="line">        <span class="keyword">return</span> s.join(<span class="string">"&amp;"</span>).replace(<span class="regexp">/%20/g</span>, <span class="string">"+"</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>5 如何 解决空字符串转化为 +  号 的问题？</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/serialize/" rel="tag"># serialize</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/21/27-js jQuery offset scroll client/" rel="next" title="offset scroll client">
+                <i class="fa fa-chevron-left"></i> offset scroll client
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/02/45-js和jQuey的事件对象参数的区别：/" rel="prev" title="js 事件对象参数">
+                js 事件对象参数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#jQuery-对象-“selector”-serialize-方法的使用"><span class="nav-number">1.</span> <span class="nav-text">jQuery  对象$(“selector”).serialize()方法的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如果要表单元素的值包含到序列字符串中，元素必须使用-name-属性。否则无法序列化该元素的值；"><span class="nav-number">1.1.</span> <span class="nav-text">如果要表单元素的值包含到序列字符串中，元素必须使用 name 属性。否则无法序列化该元素的值；</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
