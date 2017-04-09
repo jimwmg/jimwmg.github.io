@@ -257,7 +257,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/02/141windowObject/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/09/116-Object 新增API   Object.defineProperty(obj,prop,descripter)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -279,8 +279,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/02/141windowObject/" itemprop="url">
-                  window Object
+                <a class="post-title-link" href="/2016/08/09/116-Object 新增API   Object.defineProperty(obj,prop,descripter)/" itemprop="url">
+                  Object.defineProperty(obj,prop,descriptor)
                 </a>
               
             
@@ -296,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-02T12:36:00+08:00">
-                2016-08-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-09T22:00:00+08:00">
+                2016-08-09
               </time>
             
 
@@ -319,8 +319,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript-window/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript window</span>
+                  <a href="/categories/javascript-object/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript object</span>
                   </a>
                 </span>
 
@@ -356,29 +356,56 @@
       
         
           
-            <p>在应用有frameset或者iframe的页面时，parent是父窗口，top是最顶级父窗口（有的窗口中套了好几层frameset或者iframe），self是当前窗口， opener是用open方法打开当前窗口的那个窗口。</p>
-<p> window.self</p>
-<p>功能：是对当前窗口自身的引用。它和window属性是等价的。</p>
-<p>语法：window.self</p>
-<p>注：window、self、window.self是等价的。</p>
-<p> window.top</p>
-<p>功能：返回顶层窗口，即浏览器窗口。</p>
-<p>语法：window.top</p>
-<p>注：<strong>如果窗口本身就是顶层窗口，top属性返回的是对自身的引用。</strong></p>
-<p> window.parent</p>
-<p>功能：返回父窗口。</p>
-<p>语法：window.parent</p>
-<p>注：如果窗口本身是顶层窗口，parent属性返回的是对自身的引用。</p>
-<p>parent</p>
-<p>parent用于在iframe,frame中生成的子页面中访问父页面的对象。例如：A页面中有一个iframe或frame，那么iframe<br>或frame中的页面就可以通过parent对象来引用A页面中的对象。这样就可以获取或返回值到A页面中。</p>
-<p>在框架网页中，一般父窗口就是顶层窗口，但如果框架中还有框架，父窗口和顶层窗口就不一定相同了。</p>
-<p> 判断当前窗口是否在一个框架中：</p>
-<script type="text/[JavaScript](http://lib.csdn.net/base/javascript)">
-var b = window.top!=window.self;
-document.write( "当前窗口是否在一个框架中："+b );
-</script>
-
-<p>你应当将框架视为窗口中的不同区域，框架是浏览器窗口中特定的部分。一个浏览器窗口可以根据你的需要分成任意多的框架，一个单个的框架也可以分成其它多个框架，即所谓的嵌套框架</p>
+            <h2 id="Object-新增API-Object-defineProperty-obj-prop-descripter"><a href="#Object-新增API-Object-defineProperty-obj-prop-descripter" class="headerlink" title="Object 新增API   Object.defineProperty(obj,prop,descripter)"></a>Object 新增API   Object.defineProperty(obj,prop,descripter)</h2><p>1 Object.defineProperty(obj,prop,descriptor)  接受三个参数，第一是要设置属性的对象，第二个是要设置的属性名，第三个是要设置的属性的相关信息descriptor对象，该对象有如下属性：value writable configurable enumerable get 和set；返回值是传递给defineProperty的对象，也就是obj，作为返回值</p>
+<p>2 对于descriptor有如下可配置的信息：</p>
+<p>Both data and accessor descriptors are  <strong>objects</strong>. They share the following required keys:</p>
+<ul>
+<li><p>configurable</p>
+<p><code>true</code> if and only if the type of this property descriptor may be changed and if the property may be deleted from the corresponding object.<strong>Defaults to false.</strong></p>
+</li>
+<li><p>enumerable</p>
+<p><code>true</code> if and only if this property shows up during enumeration of the properties on the corresponding object.<strong>Defaults to false.</strong></p>
+</li>
+</ul>
+<p><strong>第一种方式</strong>  : A data descriptor also has the following optional keys:</p>
+<ul>
+<li><p>value</p>
+<p>The value associated with the property. Can be any valid JavaScript value (number, object, function, etc).<strong>Defaults to undefined.</strong></p>
+</li>
+<li><p>writable</p>
+<p><code>true</code> if and only if the value associated with the property may be changed with an <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators" target="_blank" rel="external">assignment operator</a>.<strong>Defaults to false.</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj=&#123;&#125;;</div><div class="line">    <span class="built_in">Object</span>.defineProperty(obj,<span class="string">"name"</span>,&#123;</div><div class="line">        <span class="attr">get</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">10</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    obj.name=<span class="number">20</span>;</div><div class="line">    <span class="built_in">console</span>.log(obj.name);<span class="comment">//10  默认不可修改 writable false</span></div></pre></td></tr></table></figure>
+<p><strong>第二种方式</strong> An accessor descriptor also has the following optional keys:</p>
+</li>
+</ul>
+<ul>
+<li><p>get</p>
+<p>A function which serves as a getter for the property, or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined" target="_blank" rel="external"><code>undefined</code></a> if there is no getter. The function return will be used as the value of property.<strong>Defaults to undefined.</strong></p>
+</li>
+<li><p>set</p>
+<p>A function which serves as a setter for the property, or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined" target="_blank" rel="external"><code>undefined</code></a> if there is no setter. The function will receive as only argument the new value being assigned to the property.<strong>Defaults to undefined.</strong></p>
+</li>
+</ul>
+<p>3 先来看下默认值的影响</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">"name"</span>,&#123;</div><div class="line"> </div><div class="line">&#125;);	</div><div class="line"><span class="comment">//等价于如下:</span></div><div class="line"><span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">"name"</span>,&#123;</div><div class="line">    <span class="attr">value</span> : <span class="literal">undefined</span>,</div><div class="line">	<span class="attr">writable</span> : <span class="literal">false</span> ,</div><div class="line">	<span class="attr">configurable</span> : <span class="literal">false</span> ,</div><div class="line">	<span class="attr">enumerable</span> : <span class="literal">false</span></div><div class="line">&#125;);	</div><div class="line"><span class="built_in">console</span>.log(obj.name);<span class="comment">//undefined</span></div><div class="line">obj.name = <span class="string">"JiM"</span>;</div><div class="line"><span class="built_in">console</span>.log(obj.name);<span class="comment">//undefined</span></div></pre></td></tr></table></figure>
+<p>4 descriptor对象分为data descriptor 和 accessor descriptor，两者只能存在一个，两者共存会报错；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj= &#123;&#125;;</div><div class="line">    <span class="built_in">Object</span>.defineProperty(obj,<span class="string">"name"</span>,&#123;</div><div class="line">      <span class="comment">//------------------可在两者中存在</span></div><div class="line">        configurable:<span class="literal">true</span>,</div><div class="line">        <span class="attr">enumerable</span> : <span class="literal">false</span>,</div><div class="line">  <span class="comment">//----------------------------data descriptor  </span></div><div class="line">        value:<span class="string">"Jhon"</span>,</div><div class="line">        <span class="attr">writable</span>:<span class="literal">true</span>,</div><div class="line">   <span class="comment">//--------------------------accessor descriptor      </span></div><div class="line">        get : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">           <span class="keyword">return</span> <span class="string">"JiM"</span>;</div><div class="line">        &#125;</div><div class="line">        set:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            </div><div class="line">        &#125;</div><div class="line">    <span class="comment">//------data descriptor中的 value 或者 writable 任何一个不能和 accessor descriptor中的get set任何一个共同存在 descriptor对象中；</span></div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<p>5 descriptor对象的属性</p>
+<p>5.1 value 属性:用来设置obj对象的属性值，writable属性用来控制obj对象的属性值是否可以修改</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj= &#123;&#125;;</div><div class="line">   <span class="built_in">Object</span>.defineProperty(obj,<span class="string">"name"</span>,&#123;</div><div class="line">       <span class="attr">configurable</span>:<span class="literal">true</span>,</div><div class="line">       <span class="attr">enumerable</span> : <span class="literal">false</span>,</div><div class="line"></div><div class="line">       <span class="attr">value</span>:<span class="string">"Jhon"</span>,</div><div class="line">       <span class="attr">writable</span>:<span class="literal">false</span>,<span class="comment">//当设置为true的时候，obj的name属性可以被修改为 JiM333 ;</span></div><div class="line">   &#125;);</div><div class="line">   obj.name = <span class="string">'JiM333'</span>;</div><div class="line">   <span class="built_in">console</span>.log(obj.name);<span class="comment">//Jhon</span></div></pre></td></tr></table></figure>
+<p>5.2 set 方法:用来设置属性的值obj.property = “value”的时候调用set方法，get方法用来获取属性的值 ，obj.property的时候调用get方法；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj= &#123;&#125;;</div><div class="line">    <span class="built_in">Object</span>.defineProperty(obj,<span class="string">"name"</span>,&#123;</div><div class="line">        <span class="attr">configurable</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">enumerable</span> : <span class="literal">false</span>,</div><div class="line"></div><div class="line">        <span class="attr">get</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">           <span class="keyword">return</span> <span class="string">" I always return this string, whatever you have assigned"</span>;</div><div class="line"></div><div class="line">        &#125;,</div><div class="line">        <span class="attr">set</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            obj.newName = <span class="string">"JiM2"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    obj.name = <span class="string">'JiM333'</span>; <span class="comment">// 这个表达式相当于调用了descriptor的set方法</span></div><div class="line">    <span class="built_in">console</span>.log(obj.name);<span class="comment">//  I always return this string, whatever you have assigned</span></div><div class="line">    <span class="built_in">console</span>.log(obj.newName); <span class="comment">//JiM2 </span></div><div class="line"><span class="comment">//obj.name 相当于调用descriptor的get方法</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//接下来看一个最大调用栈溢出的问题	</span></div><div class="line"><span class="keyword">var</span> obj= &#123;&#125;;</div><div class="line">    <span class="built_in">Object</span>.defineProperty(obj,<span class="string">"name"</span>,&#123;</div><div class="line">        <span class="attr">configurable</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">enumerable</span> : <span class="literal">false</span>,</div><div class="line">        <span class="attr">get</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">           <span class="keyword">return</span> <span class="string">" I always return this string, whatever you have assigned"</span>;</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">set</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            obj.name = <span class="string">"JiM2"</span>;<span class="comment">//一直在重复的调用set函数，注意这个还是在给name属性赋值，而上一个案例是给一个newName属性赋值;</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(obj.name);</div><div class="line"></div><div class="line">    obj.name = <span class="string">'JiM333'</span>;<span class="comment">//调用set函数；</span></div></pre></td></tr></table></figure>
+<p>5.3 configurable属性，用来设置descriptor对象的属性(value  writable get set enumerable )是否可以修改;如果设置了false，那么这些属性都不可以修改，即使设置的值和原来一样；如果设置了true,那么就可以重新更改；</p>
+<p>The <code>configurable</code> attribute controls at the same time whether the property can be deleted from the object and whether its attributes (other than <code>writable</code>) can be changed.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(o, <span class="string">'a'</span>, &#123;</div><div class="line">  <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">1</span>; &#125;,</div><div class="line">  <span class="attr">configurable</span>: <span class="literal">false</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.defineProperty(o, <span class="string">'a'</span>, &#123;</div><div class="line">  <span class="attr">configurable</span>: <span class="literal">true</span></div><div class="line">&#125;); <span class="comment">// throws a TypeError</span></div><div class="line"><span class="built_in">Object</span>.defineProperty(o, <span class="string">'a'</span>, &#123;</div><div class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span></div><div class="line">&#125;); <span class="comment">// throws a TypeError</span></div><div class="line"><span class="built_in">Object</span>.defineProperty(o, <span class="string">'a'</span>, &#123;</div><div class="line">  <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">&#125;); <span class="comment">// throws a TypeError (set was undefined previously)</span></div><div class="line"><span class="built_in">Object</span>.defineProperty(o, <span class="string">'a'</span>, &#123;</div><div class="line">  <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">1</span>; &#125;</div><div class="line">&#125;); <span class="comment">// throws a TypeError</span></div><div class="line"><span class="comment">// (even though the new get does exactly the same thing)</span></div><div class="line"><span class="built_in">Object</span>.defineProperty(o, <span class="string">'a'</span>, &#123;</div><div class="line">  <span class="attr">value</span>: <span class="number">12</span></div><div class="line">&#125;); <span class="comment">// throws a TypeError</span></div><div class="line"><span class="built_in">Object</span>.defineProperty(o, <span class="string">'a'</span>, &#123;</div><div class="line">  <span class="attr">writable</span>:<span class="literal">true</span></div><div class="line">&#125;); <span class="comment">// throws a TypeError</span></div><div class="line"><span class="built_in">console</span>.log(o.a); <span class="comment">// logs 1</span></div><div class="line"><span class="keyword">delete</span> o.a; <span class="comment">// Nothing happens</span></div><div class="line"><span class="built_in">console</span>.log(o.a); <span class="comment">// logs 1</span></div></pre></td></tr></table></figure>
+<p>5.4 enumerable 属性 </p>
+<p>The <code>enumerable</code> property attribute defines whether the property shows up in a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in" target="_blank" rel="external"><code>for...in</code></a> loop and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys" target="_blank" rel="external"><code>Object.keys()</code></a> or not.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(o, <span class="string">'a'</span>, &#123;</div><div class="line">  <span class="attr">value</span>: <span class="number">1</span>,</div><div class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span></div><div class="line">&#125;);</div><div class="line"><span class="built_in">Object</span>.defineProperty(o, <span class="string">'b'</span>, &#123;</div><div class="line"> <span class="attr">value</span>: <span class="number">2</span>,</div><div class="line"> <span class="attr">enumerable</span>: <span class="literal">false</span></div><div class="line">&#125;);</div><div class="line"><span class="built_in">Object</span>.defineProperty(o, <span class="string">'c'</span>, &#123;</div><div class="line">  <span class="attr">value</span>: <span class="number">3</span></div><div class="line">&#125;); <span class="comment">// enumerable defaults to false</span></div><div class="line">o.d = <span class="number">4</span>; <span class="comment">// enumerable defaults to true</span></div><div class="line">         <span class="comment">// when creating a property by setting it</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> o) &#123;</div><div class="line">  <span class="built_in">console</span>.log(i);</div><div class="line">&#125;</div><div class="line"><span class="comment">// logs 'a' and 'd' (in undefined order)</span></div><div class="line"></div><div class="line"><span class="built_in">Object</span>.keys(o); <span class="comment">// ['a', 'd']</span></div><div class="line"></div><div class="line">o.propertyIsEnumerable(<span class="string">'a'</span>); <span class="comment">// true</span></div><div class="line">o.propertyIsEnumerable(<span class="string">'b'</span>); <span class="comment">// false</span></div><div class="line">o.propertyIsEnumerable(<span class="string">'c'</span>); <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p>6 Object.defineProperties(obj ,prop) The <code>**Object.defineProperties()**</code> method defines new or modifies existing properties directly on an object, returning the object.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperties(obj, &#123;</div><div class="line">  <span class="string">'property1'</span>: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">writable</span>: <span class="literal">true</span></div><div class="line">  &#125;,</div><div class="line">  <span class="string">'property2'</span>: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="string">'Hello'</span>,</div><div class="line">    <span class="attr">writable</span>: <span class="literal">false</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// etc. etc.</span></div><div class="line">&#125;);</div><div class="line"><span class="comment">//注意prop的格式 </span></div><div class="line">&#123;</div><div class="line">  <span class="string">'property1'</span> : &#123;  &#125;</div><div class="line">  <span class="string">'property2'</span> : &#123;  &#125;</div><div class="line">  <span class="string">'property3'</span> : &#123;  &#125;</div><div class="line">  <span class="comment">//etc	</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>7 Object.getOwnPropertyDescriptor(obj,’property’) ; 获取obj对象的指定属性的descriptor,返回时描述该属性的详细信息的对象；</p>
+<p>Object.getOwnPropertyDescriptors(obj);  获取obj对象的所有属性descriptor详细信息的对象，该对象包含了每个属性的descriptor对象；</p>
 
           
         
@@ -540,6 +567,171 @@ document.write( "当前窗口是否在一个框架中："+b );
 <h3 id="二-jQuery中事件参数-多了两个属性，e-originalEvent-用于存放所有的事件对象参数值-e-data"><a href="#二-jQuery中事件参数-多了两个属性，e-originalEvent-用于存放所有的事件对象参数值-e-data" class="headerlink" title="二 : jQuery中事件参数,多了两个属性，e . originalEvent : 用于存放所有的事件对象参数值 ;  e . data :"></a>二 : jQuery中事件参数,多了两个属性，e . originalEvent : 用于存放所有的事件对象参数值 ;  e . data :</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">originalEvent:Event</div><div class="line">originalEvent:MouseEvent</div><div class="line">originalEvent:DragEvent</div><div class="line">originalEvent:TouchEvent</div><div class="line">data : undefined (如果没有传值给这个参数，那么就是undefined)</div></pre></td></tr></table></figure>
 <p>对于drag事件和touch 事件的新增属性dataTransfer  changedTouches  targetTouches  touches  存放在originalEvent属性里面.</p>
 <h3 id="三-标准Event方法"><a href="#三-标准Event方法" class="headerlink" title="三 : 标准Event方法"></a>三 : 标准Event方法</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">preventDefault() : 该方法将通知 Web 浏览器不要执行与事件关联的默认动作（如果存在这样的动作）。例如，如果 type 属性是 "submit"，在事件传播的任意阶段可以调用任意的事件句柄，通过调用该方法，可以阻止提交表单。注意，如果 Event 对象的 cancelable 属性是 fasle，那么就没有默认动作，或者不能阻止默认动作。无论哪种情况，调用该方法都没有作用。</div><div class="line">stopPropagation() : 不再派发事件。</div><div class="line">终止事件在传播过程的捕获、目标处理或起泡阶段进一步传播。调用该方法后，该节点上处理该事件的处理程序将被调用，事件不再被分派到其他节点。</div><div class="line">该方法将停止事件的传播，阻止它被分派到其他 Document 节点。在事件传播的任何阶段都可以调用它。注意，虽然该方法不能阻止同一个 Document 节点上的其他事件句柄被调用，但是它可以阻止把事件分派到其他节点。</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/02/141windowObject/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/02/141windowObject/" itemprop="url">
+                  window Object
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-02T12:36:00+08:00">
+                2016-08-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-window/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript window</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在应用有frameset或者iframe的页面时，parent是父窗口，top是最顶级父窗口（有的窗口中套了好几层frameset或者iframe），self是当前窗口， opener是用open方法打开当前窗口的那个窗口。</p>
+<p> window.self</p>
+<p>功能：是对当前窗口自身的引用。它和window属性是等价的。</p>
+<p>语法：window.self</p>
+<p>注：window、self、window.self是等价的。</p>
+<p> window.top</p>
+<p>功能：返回顶层窗口，即浏览器窗口。</p>
+<p>语法：window.top</p>
+<p>注：<strong>如果窗口本身就是顶层窗口，top属性返回的是对自身的引用。</strong></p>
+<p> window.parent</p>
+<p>功能：返回父窗口。</p>
+<p>语法：window.parent</p>
+<p>注：如果窗口本身是顶层窗口，parent属性返回的是对自身的引用。</p>
+<p>parent</p>
+<p>parent用于在iframe,frame中生成的子页面中访问父页面的对象。例如：A页面中有一个iframe或frame，那么iframe<br>或frame中的页面就可以通过parent对象来引用A页面中的对象。这样就可以获取或返回值到A页面中。</p>
+<p>在框架网页中，一般父窗口就是顶层窗口，但如果框架中还有框架，父窗口和顶层窗口就不一定相同了。</p>
+<p> 判断当前窗口是否在一个框架中：</p>
+<script type="text/[JavaScript](http://lib.csdn.net/base/javascript)">
+var b = window.top!=window.self;
+document.write( "当前窗口是否在一个框架中："+b );
+</script>
+
+<p>你应当将框架视为窗口中的不同区域，框架是浏览器窗口中特定的部分。一个浏览器窗口可以根据你的需要分成任意多的框架，一个单个的框架也可以分成其它多个框架，即所谓的嵌套框架</p>
 
           
         
@@ -2258,180 +2450,6 @@ document.write( "当前窗口是否在一个框架中："+b );
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/08/14-HTML5的全屏API拖拽API/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/08/14-HTML5的全屏API拖拽API/" itemprop="url">
-                  HTML5 拖拽
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-08T12:36:00+08:00">
-                2016-07-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/HTML5/" itemprop="url" rel="index">
-                    <span itemprop="name">HTML5</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>HTML5的高级ＡＰＩ</p>
-<p>1,全屏API:DOM元素支持全屏，HTML5的标准写法是   ele.requestFullScreen( ), 即可使DOM元素全屏；但是由于该方法处于不够完善，所以需要写各个浏览器的兼容代码；</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">if(this.webkitRequestFullScreen)&#123;</div><div class="line">     this.webkitRequestFullScreen();</div><div class="line">   &#125;else if(this.mozRequestFullScreen)&#123;</div><div class="line">     this.mozRequestFullScreen();</div><div class="line">   &#125;else if(this.requestFullScreen)&#123;</div><div class="line">     this.requestFullScreen();</div><div class="line">   &#125;else if(this.msRequestFullscreen)&#123;</div><div class="line">     //  ie 比较恶心</div><div class="line">     //  去 微软的 开发中中心查询 MSDN</div><div class="line">     // msRequestFullscreen</div><div class="line">     this.msRequestFullscreen();</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>2,拖拽API:拖拉事件(drag&amp;&amp;drop)</p>
-<p>拖拉指的是，用户在某个对象上按下鼠标键不放，拖动它到另一个位置，然后释放鼠标键，将该对象放在那里。</p>
-<p>拖拉的对象有好几种，包括Element节点、图片、链接、选中的文字等等。在HTML网页中，除了Element节点默认不可以拖拉，其他（图片、链接、选中的文字）都是可以直接拖拉的。为了让Element节点可拖拉，可以将该节点的draggable属性设为true。</p>
-<p>draggable属性可用于任何Element节点，但是图片（img元素）和链接（a元素）不加这个属性，就可以拖拉。对于它们，用到这个属性的时候，往往是将其设为false，防止拖拉。</p>
-<p>注意，一旦某个Element节点的draggable属性设为true，就无法再用鼠标选中该节点内部的文字或子节点了</p>
-<p>首先来看有哪些拖放(drag和drop)的事件，如果要是元素可以拖拽，</p>
-<p>首先要给该元素设置  draggable = true 属性，保证该元素可以被拖放.(img标签默认支持拖放，div默认不支持拖放)</p>
-<p>拖拽元素的监听事件如下：</p>
-<ul>
-<li>ondrag   当拖动元素的时候运行脚本被拖动的元素在拖动过程中持续触发</li>
-<li>ondragstart    当元素拖动操作开始时候运行脚本</li>
-<li>ondragend   当拖动操作结束的时候运行脚本</li>
-</ul>
-<p>目标元素的上的监听事件如下：在默认情况下，拖放的目标元素是不允许接受元素的，为了把元素拖放到其中，必须把默认处理给关掉    给目标元素设置  e.preventDefault()  阻止默认事件的发生；使得被拖放元素可以放入目标元素里面。</p>
-<ul>
-<li><p>ondragover   当元素被拖动至有效拖放目标元素上方时持续执行脚本</p>
-</li>
-<li><p>ondragenter  当元素被拖动至有效拖动目标元素时执行脚本</p>
-</li>
-<li><p>ondragleave 当元素离开至有效拖放目标元素时运行脚本</p>
-</li>
-<li><p>ondrop  当被拖动元素正在被放下的时候运行脚本;注意，如果当前节点不允许drop，即使在该节点上方松开鼠标键，也不会触发该事件。如果用户按下Escape键，取消这个操作，也不会触发该事件。该事件的监听函数负责取出拖拉数据，并进行相关处理。<strong>注意：只有鼠标松开才算放下，鼠标松开的时候才会触发该事件</strong> </p>
-<p>dragenter和dragover事件的监听函数，用来指定可以放下（drop）拖拉的数据。由于网页的大部分区域不适合作为drop的目标节点，所以这两个事件的默认设置为当前节点不允许drop。如果想要在目标节点上drop拖拉的数据，首先必须阻止这两个事件的默认行为，或者取消这两个事件。</p>
-</li>
-</ul>
-<p>注意如果想要使目标元素可以被放进来拖放的元素，因为默认地，无法将数据/元素放置到其他元素中。如果需要设置允许放置，我们必须阻止对元素的默认处理方式。此时需要对目标元素进行处理，调用dragover阻止默认事件 的方法：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">目标元素.ondragover = function(event)&#123;</div><div class="line">		event.preventDefault() ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>3 代码演示</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-cn"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">    html,</div><div class="line">    body &#123;</div><div class="line">      height: 100%;</div><div class="line">    &#125; </div><div class="line">    body &#123;</div><div class="line">      margin: 0;</div><div class="line">      display: flex;</div><div class="line">      justify-content: space-around;</div><div class="line">      align-items: center;</div><div class="line">    &#125;</div><div class="line">    div &#123;</div><div class="line">      width: 400px;</div><div class="line">      height: 400px;</div><div class="line">      border: 1px solid #000;</div><div class="line">    &#125;</div><div class="line">    .left &#123;</div><div class="line">      display: flex;</div><div class="line">      flex-wrap: wrap;</div><div class="line">      justify-content: space-around;</div><div class="line">      align-items: center;</div><div class="line">    &#125; </div><div class="line">    div&gt;img &#123;</div><div class="line">      width: 70px;</div><div class="line">      height: 70px;</div><div class="line">      margin: 10px;</div><div class="line">      background-color: ;</div><div class="line">    &#125;</div><div class="line">    /* 使用css来修改 定义一个 高亮的颜色 */ </div><div class="line">    .right.active &#123;</div><div class="line">      background-color: lightblue;</div><div class="line">    &#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (1).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (2).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (3).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="comment">// .right 盒子 元素移入  颜色高亮 </span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragenter = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// this.style.background = 'lightgray';</span></div><div class="line">    <span class="keyword">this</span>.classList.add(<span class="string">'active'</span>);</div><div class="line">    <span class="comment">// $(this).addClass('active');</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// .right 移出 颜色还原 </span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragleave = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//  颜色 就是 直接设置透明 </span></div><div class="line">    <span class="comment">// this.style.background = 'transparent';</span></div><div class="line">    <span class="comment">// this.style.background = 'rgba(0,0,0,0)';</span></div><div class="line">    <span class="keyword">this</span>.classList.remove(<span class="string">'active'</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 为了能够触发drop 必须设置如下代码,给目标元素设置阻止默认处理方式，允许元素可以被放置</span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragover = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</div><div class="line">    event.preventDefault();</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//  drop  .right盒子绑定</span></div><div class="line">  <span class="comment">//  img 拖拽开始的 时候 保存为 全局变量</span></div><div class="line">  <span class="keyword">var</span> imgs = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.left&gt;img'</span>);</div><div class="line">  <span class="comment">// 当前移动的 img</span></div><div class="line">  <span class="keyword">var</span> moveImg = <span class="literal">undefined</span>;</div><div class="line">  <span class="comment">// 循环绑定，给每个拖拽元素设置拖拽事件，每个元素被拖拽时触发该事件</span></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;imgs.length;i++)&#123;</div><div class="line">    imgs[i].ondragstart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">      <span class="comment">// 保存为全局变量</span></div><div class="line">      moveImg = <span class="keyword">this</span>;</div><div class="line">      <span class="comment">// 打印是否保存</span></div><div class="line">      <span class="built_in">console</span>.log(moveImg);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondrop = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line"><span class="comment">//  moveImg.ondrop = function () &#123;</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'进来了'</span>);</div><div class="line">    <span class="comment">// 将 丢进来的 元素 设置为 子元素 </span></div><div class="line">    <span class="comment">// 获取丢进来的元素 在拖拽img的时候 将当前拖拽的img 存起来获取保存的img</span></div><div class="line">    <span class="comment">// 通过全局变量 moveImg  添加给自己</span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).appendChild(moveImg);</div><div class="line">    <span class="comment">//  还原 自己的颜色</span></div><div class="line">    <span class="keyword">this</span>.classList.remove(<span class="string">'active'</span>) </div><div class="line">  &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/08/12HTMl5  file相关API /">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2598,7 +2616,7 @@ document.write( "当前窗口是否在一个框架中："+b );
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/01/13-HTML5 web存储：/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/08/14-HTML5的全屏API拖拽API/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -2620,8 +2638,8 @@ document.write( "当前窗口是否在一个框架中："+b );
             
               
                 
-                <a class="post-title-link" href="/2016/07/01/13-HTML5 web存储：/" itemprop="url">
-                  HTML5 web存储
+                <a class="post-title-link" href="/2016/07/08/14-HTML5的全屏API拖拽API/" itemprop="url">
+                  HTML5 拖拽
                 </a>
               
             
@@ -2637,8 +2655,8 @@ document.write( "当前窗口是否在一个框架中："+b );
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-01T12:36:00+08:00">
-                2016-07-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-08T12:36:00+08:00">
+                2016-07-08
               </time>
             
 
@@ -2697,12 +2715,38 @@ document.write( "当前窗口是否在一个框架中："+b );
       
         
           
-            <p>HTML5 web存储：</p>
-<p>1 window.localStorage.setItem(key[string],data[string]);  可以将数据存储在用户端；</p>
-<p>2 window.localStorage.getItem(key[string]);可以将setItem存储的数据取出来；</p>
-<p>3 window.localStorage.clear(),会将客户端存储的数据全部清空；</p>
-<p>4 window.localStorage.removeItem(key) ; 可以删除客户端指定的已经存储起来的数据；</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>请输入你的名字<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">姓名<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"1"</span>/&gt;</span></div><div class="line">年龄<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"2"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"保存"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">//    用户第一次进来点击保存，将用户输入的内容保存在客户端</span></div><div class="line"><span class="comment">//    获取点击保存按钮，将内容保存在客户端</span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"input[type=button]"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//        获取输入的内容</span></div><div class="line">        <span class="keyword">var</span> inputValue = <span class="built_in">document</span>.querySelector(<span class="string">"input[type=text]"</span>).value ;</div><div class="line">        <span class="built_in">console</span>.log(inputValue);</div><div class="line"><span class="comment">//        如何创建一个HTMl5的WEB存储,将inoutValue 存储在userName中</span></div><div class="line"><span class="comment">//        window.localStorage.setItem(key[string],data[string]);</span></div><div class="line">        <span class="built_in">window</span>.localStorage.setItem(<span class="string">'userName'</span>,inputValue);</div><div class="line">    &#125;</div><div class="line"><span class="comment">//    用户第二次进入的时候，页面加载完毕之后，将第一次输入的内容保存</span></div><div class="line">    <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">window</span>.localStorage.clear()</div><div class="line">        <span class="comment">//可以将所有存储在客户端的数据清除;</span></div><div class="line">        <span class="comment">//window.localStorage.key(2);</span></div><div class="line">        <span class="comment">//将之前web存储的内容取出来</span></div><div class="line"><span class="comment">//        var userName = window.localStorage.getItem(key[string])</span></div><div class="line">        <span class="keyword">var</span> userName = <span class="built_in">window</span>.localStorage.getItem(<span class="string">'userName'</span>);</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"取出来的userName值为"</span>+userName);</div><div class="line">        <span class="keyword">if</span>(userName == <span class="literal">undefined</span> &amp;&amp; userName !== <span class="string">""</span>)&#123;</div><div class="line">            <span class="built_in">document</span>.querySelector(<span class="string">"h1"</span>).innerHTML = <span class="string">'请输入您的名字'</span>;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">          <span class="comment">//        将取出来的内容添加到欢迎行</span></div><div class="line">            <span class="built_in">document</span>.querySelector(<span class="string">"h1"</span>).innerHTML = userName +<span class="string">"欢迎您"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+            <p>HTML5的高级ＡＰＩ</p>
+<p>1,全屏API:DOM元素支持全屏，HTML5的标准写法是   ele.requestFullScreen( ), 即可使DOM元素全屏；但是由于该方法处于不够完善，所以需要写各个浏览器的兼容代码；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">if(this.webkitRequestFullScreen)&#123;</div><div class="line">     this.webkitRequestFullScreen();</div><div class="line">   &#125;else if(this.mozRequestFullScreen)&#123;</div><div class="line">     this.mozRequestFullScreen();</div><div class="line">   &#125;else if(this.requestFullScreen)&#123;</div><div class="line">     this.requestFullScreen();</div><div class="line">   &#125;else if(this.msRequestFullscreen)&#123;</div><div class="line">     //  ie 比较恶心</div><div class="line">     //  去 微软的 开发中中心查询 MSDN</div><div class="line">     // msRequestFullscreen</div><div class="line">     this.msRequestFullscreen();</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>2,拖拽API:拖拉事件(drag&amp;&amp;drop)</p>
+<p>拖拉指的是，用户在某个对象上按下鼠标键不放，拖动它到另一个位置，然后释放鼠标键，将该对象放在那里。</p>
+<p>拖拉的对象有好几种，包括Element节点、图片、链接、选中的文字等等。在HTML网页中，除了Element节点默认不可以拖拉，其他（图片、链接、选中的文字）都是可以直接拖拉的。为了让Element节点可拖拉，可以将该节点的draggable属性设为true。</p>
+<p>draggable属性可用于任何Element节点，但是图片（img元素）和链接（a元素）不加这个属性，就可以拖拉。对于它们，用到这个属性的时候，往往是将其设为false，防止拖拉。</p>
+<p>注意，一旦某个Element节点的draggable属性设为true，就无法再用鼠标选中该节点内部的文字或子节点了</p>
+<p>首先来看有哪些拖放(drag和drop)的事件，如果要是元素可以拖拽，</p>
+<p>首先要给该元素设置  draggable = true 属性，保证该元素可以被拖放.(img标签默认支持拖放，div默认不支持拖放)</p>
+<p>拖拽元素的监听事件如下：</p>
+<ul>
+<li>ondrag   当拖动元素的时候运行脚本被拖动的元素在拖动过程中持续触发</li>
+<li>ondragstart    当元素拖动操作开始时候运行脚本</li>
+<li>ondragend   当拖动操作结束的时候运行脚本</li>
+</ul>
+<p>目标元素的上的监听事件如下：在默认情况下，拖放的目标元素是不允许接受元素的，为了把元素拖放到其中，必须把默认处理给关掉    给目标元素设置  e.preventDefault()  阻止默认事件的发生；使得被拖放元素可以放入目标元素里面。</p>
+<ul>
+<li><p>ondragover   当元素被拖动至有效拖放目标元素上方时持续执行脚本</p>
+</li>
+<li><p>ondragenter  当元素被拖动至有效拖动目标元素时执行脚本</p>
+</li>
+<li><p>ondragleave 当元素离开至有效拖放目标元素时运行脚本</p>
+</li>
+<li><p>ondrop  当被拖动元素正在被放下的时候运行脚本;注意，如果当前节点不允许drop，即使在该节点上方松开鼠标键，也不会触发该事件。如果用户按下Escape键，取消这个操作，也不会触发该事件。该事件的监听函数负责取出拖拉数据，并进行相关处理。<strong>注意：只有鼠标松开才算放下，鼠标松开的时候才会触发该事件</strong> </p>
+<p>dragenter和dragover事件的监听函数，用来指定可以放下（drop）拖拉的数据。由于网页的大部分区域不适合作为drop的目标节点，所以这两个事件的默认设置为当前节点不允许drop。如果想要在目标节点上drop拖拉的数据，首先必须阻止这两个事件的默认行为，或者取消这两个事件。</p>
+</li>
+</ul>
+<p>注意如果想要使目标元素可以被放进来拖放的元素，因为默认地，无法将数据/元素放置到其他元素中。如果需要设置允许放置，我们必须阻止对元素的默认处理方式。此时需要对目标元素进行处理，调用dragover阻止默认事件 的方法：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">目标元素.ondragover = function(event)&#123;</div><div class="line">		event.preventDefault() ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3 代码演示</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-cn"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">    html,</div><div class="line">    body &#123;</div><div class="line">      height: 100%;</div><div class="line">    &#125; </div><div class="line">    body &#123;</div><div class="line">      margin: 0;</div><div class="line">      display: flex;</div><div class="line">      justify-content: space-around;</div><div class="line">      align-items: center;</div><div class="line">    &#125;</div><div class="line">    div &#123;</div><div class="line">      width: 400px;</div><div class="line">      height: 400px;</div><div class="line">      border: 1px solid #000;</div><div class="line">    &#125;</div><div class="line">    .left &#123;</div><div class="line">      display: flex;</div><div class="line">      flex-wrap: wrap;</div><div class="line">      justify-content: space-around;</div><div class="line">      align-items: center;</div><div class="line">    &#125; </div><div class="line">    div&gt;img &#123;</div><div class="line">      width: 70px;</div><div class="line">      height: 70px;</div><div class="line">      margin: 10px;</div><div class="line">      background-color: ;</div><div class="line">    &#125;</div><div class="line">    /* 使用css来修改 定义一个 高亮的颜色 */ </div><div class="line">    .right.active &#123;</div><div class="line">      background-color: lightblue;</div><div class="line">    &#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (1).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (2).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (3).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="comment">// .right 盒子 元素移入  颜色高亮 </span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragenter = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// this.style.background = 'lightgray';</span></div><div class="line">    <span class="keyword">this</span>.classList.add(<span class="string">'active'</span>);</div><div class="line">    <span class="comment">// $(this).addClass('active');</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// .right 移出 颜色还原 </span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragleave = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//  颜色 就是 直接设置透明 </span></div><div class="line">    <span class="comment">// this.style.background = 'transparent';</span></div><div class="line">    <span class="comment">// this.style.background = 'rgba(0,0,0,0)';</span></div><div class="line">    <span class="keyword">this</span>.classList.remove(<span class="string">'active'</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 为了能够触发drop 必须设置如下代码,给目标元素设置阻止默认处理方式，允许元素可以被放置</span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragover = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</div><div class="line">    event.preventDefault();</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//  drop  .right盒子绑定</span></div><div class="line">  <span class="comment">//  img 拖拽开始的 时候 保存为 全局变量</span></div><div class="line">  <span class="keyword">var</span> imgs = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.left&gt;img'</span>);</div><div class="line">  <span class="comment">// 当前移动的 img</span></div><div class="line">  <span class="keyword">var</span> moveImg = <span class="literal">undefined</span>;</div><div class="line">  <span class="comment">// 循环绑定，给每个拖拽元素设置拖拽事件，每个元素被拖拽时触发该事件</span></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;imgs.length;i++)&#123;</div><div class="line">    imgs[i].ondragstart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">      <span class="comment">// 保存为全局变量</span></div><div class="line">      moveImg = <span class="keyword">this</span>;</div><div class="line">      <span class="comment">// 打印是否保存</span></div><div class="line">      <span class="built_in">console</span>.log(moveImg);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondrop = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line"><span class="comment">//  moveImg.ondrop = function () &#123;</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'进来了'</span>);</div><div class="line">    <span class="comment">// 将 丢进来的 元素 设置为 子元素 </span></div><div class="line">    <span class="comment">// 获取丢进来的元素 在拖拽img的时候 将当前拖拽的img 存起来获取保存的img</span></div><div class="line">    <span class="comment">// 通过全局变量 moveImg  添加给自己</span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).appendChild(moveImg);</div><div class="line">    <span class="comment">//  还原 自己的颜色</span></div><div class="line">    <span class="keyword">this</span>.classList.remove(<span class="string">'active'</span>) </div><div class="line">  &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
 
           
         
@@ -2786,7 +2830,7 @@ document.write( "当前窗口是否在一个框架中："+b );
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-count">126</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
