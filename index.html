@@ -1627,6 +1627,155 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/01/120-ES6变量声明 let const/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/01/120-ES6变量声明 let const/" itemprop="url">
+                  ES6 let const
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-01T12:36:00+08:00">
+                2016-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index">
+                    <span itemprop="name">ES6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="ES6变量声明-let-const"><a href="#ES6变量声明-let-const" class="headerlink" title="ES6变量声明 let const"></a>ES6变量声明 let const</h2><h3 id="1-let声明"><a href="#1-let声明" class="headerlink" title="1 let声明"></a>1 let声明</h3><p>1.1 let声明的变量和var声明变量一样，都可以从父级作用域获取变量</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> x = <span class="number">9</span> ;<span class="comment">//全局声明 let x ;</span></div><div class="line">   ~<span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="built_in">console</span>.log(x);<span class="comment">//9 可以访问父作用域内let声明的变量</span></div><div class="line">   &#125;();</div><div class="line">   &#123;</div><div class="line">       x = x + <span class="number">3</span> ; <span class="comment">//</span></div><div class="line">       <span class="built_in">console</span>.log(x);<span class="comment">//12</span></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>1.2  let 声明的变量必须 <strong>先声明</strong> 在  <strong>使用</strong> , 所有在声明之前的使用都会报错; 在同一个作用域内用let声明的变量不允许重复(暂时性死区) var却可以在同一作用域内重复声明同名变量 ;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">       <span class="keyword">var</span> b = <span class="number">8</span> ;</div><div class="line">       <span class="keyword">var</span> b = <span class="number">999</span>;</div><div class="line">       <span class="built_in">console</span>.log(b);<span class="comment">//999  var声明变量可以重复声明名称相同的变量</span></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> x = <span class="number">9</span> ;</div><div class="line">&#123;</div><div class="line">    <span class="keyword">let</span> x = x + <span class="number">3</span> ; <span class="comment">//Uncaught ReferenceError: x is not defined</span></div><div class="line">  <span class="comment">//对于let在一个作用域内，必须先声明在使用,这里需要注意,赋值运算是从右向左进行的,</span></div><div class="line">    <span class="built_in">console</span>.log(x);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2 const声明</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">/* 1 const声明，可以声明一个常量，该常量在声明的同时必须初始化，如果不初始化会报错，</span></div><div class="line">       2 const声明可以声明一个复杂数据类型，同时该复杂数据类型也必须初始化</div><div class="line">        3 const声明本质上其实是保证所声明的变量指向的内存地址是不能变化的，比如声明基本数据类型，声明之后不可改变</div><div class="line">        如果声明一个复杂数据类型，同样不能重新赋值</div><div class="line">    *</div><div class="line">    * */</div><div class="line"><span class="comment">//   -----------------------------</span></div><div class="line"><span class="comment">//    基本数据类型,声明之后不能重新赋值，</span></div><div class="line">    <span class="keyword">const</span> p = <span class="number">9</span> ;</div><div class="line">    p = <span class="number">8</span> ; <span class="comment">//Uncaught TypeError: Assignment to constant variable.</span></div><div class="line"><span class="comment">//    --------------------------------</span></div><div class="line"><span class="comment">//    复杂数据类型，声明后该变量指向内存中的指针不能再修改，但是复杂数据类型内部的数据结构还是可变的</span></div><div class="line">    <span class="keyword">const</span> o = &#123;&#125;;<span class="comment">//指向一个地址，改地址存放一个空的对象</span></div><div class="line">    o.name = <span class="string">"Jhon"</span>;<span class="comment">//内部数据结构是可变的</span></div><div class="line">    <span class="built_in">console</span>.log(o);</div><div class="line">    o = &#123;&#125;;<span class="comment">//Uncaught TypeError: Assignment to constant variable.</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/01/04position()  jquery   DOM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1782,155 +1931,6 @@ console.log(pos.left);//0
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/01/120-ES6变量声明 let const/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/01/120-ES6变量声明 let const/" itemprop="url">
-                  ES6 let const
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-01T12:36:00+08:00">
-                2016-12-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ES6/" itemprop="url" rel="index">
-                    <span itemprop="name">ES6</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="ES6变量声明-let-const"><a href="#ES6变量声明-let-const" class="headerlink" title="ES6变量声明 let const"></a>ES6变量声明 let const</h2><h3 id="1-let声明"><a href="#1-let声明" class="headerlink" title="1 let声明"></a>1 let声明</h3><p>1.1 let声明的变量和var声明变量一样，都可以从父级作用域获取变量</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> x = <span class="number">9</span> ;<span class="comment">//全局声明 let x ;</span></div><div class="line">   ~<span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="built_in">console</span>.log(x);<span class="comment">//9 可以访问父作用域内let声明的变量</span></div><div class="line">   &#125;();</div><div class="line">   &#123;</div><div class="line">       x = x + <span class="number">3</span> ; <span class="comment">//</span></div><div class="line">       <span class="built_in">console</span>.log(x);<span class="comment">//12</span></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>1.2  let 声明的变量必须 <strong>先声明</strong> 在  <strong>使用</strong> , 所有在声明之前的使用都会报错; 在同一个作用域内用let声明的变量不允许重复(暂时性死区) var却可以在同一作用域内重复声明同名变量 ;</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">       <span class="keyword">var</span> b = <span class="number">8</span> ;</div><div class="line">       <span class="keyword">var</span> b = <span class="number">999</span>;</div><div class="line">       <span class="built_in">console</span>.log(b);<span class="comment">//999  var声明变量可以重复声明名称相同的变量</span></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> x = <span class="number">9</span> ;</div><div class="line">&#123;</div><div class="line">    <span class="keyword">let</span> x = x + <span class="number">3</span> ; <span class="comment">//Uncaught ReferenceError: x is not defined</span></div><div class="line">  <span class="comment">//对于let在一个作用域内，必须先声明在使用,这里需要注意,赋值运算是从右向左进行的,</span></div><div class="line">    <span class="built_in">console</span>.log(x);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>2 const声明</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">/* 1 const声明，可以声明一个常量，该常量在声明的同时必须初始化，如果不初始化会报错，</span></div><div class="line">       2 const声明可以声明一个复杂数据类型，同时该复杂数据类型也必须初始化</div><div class="line">        3 const声明本质上其实是保证所声明的变量指向的内存地址是不能变化的，比如声明基本数据类型，声明之后不可改变</div><div class="line">        如果声明一个复杂数据类型，同样不能重新赋值</div><div class="line">    *</div><div class="line">    * */</div><div class="line"><span class="comment">//   -----------------------------</span></div><div class="line"><span class="comment">//    基本数据类型,声明之后不能重新赋值，</span></div><div class="line">    <span class="keyword">const</span> p = <span class="number">9</span> ;</div><div class="line">    p = <span class="number">8</span> ; <span class="comment">//Uncaught TypeError: Assignment to constant variable.</span></div><div class="line"><span class="comment">//    --------------------------------</span></div><div class="line"><span class="comment">//    复杂数据类型，声明后该变量指向内存中的指针不能再修改，但是复杂数据类型内部的数据结构还是可变的</span></div><div class="line">    <span class="keyword">const</span> o = &#123;&#125;;<span class="comment">//指向一个地址，改地址存放一个空的对象</span></div><div class="line">    o.name = <span class="string">"Jhon"</span>;<span class="comment">//内部数据结构是可变的</span></div><div class="line">    <span class="built_in">console</span>.log(o);</div><div class="line">    o = &#123;&#125;;<span class="comment">//Uncaught TypeError: Assignment to constant variable.</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1980,7 +1980,7 @@ console.log(pos.left);//0
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">112</span>
+                <span class="site-state-item-count">113</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
