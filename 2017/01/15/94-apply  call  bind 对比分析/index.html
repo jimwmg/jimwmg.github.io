@@ -1,0 +1,750 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="##apply  call  bind 对比分析
+1 基本语法,第一个参数必须传入一个对象12345fun.bind(thisArg[, arg1[, arg2[, ...]]])fun.call(thisArg[, arg1[, arg2[, ...]]])fun.apply(thisArg[, argsArray])//bind call  apply可以改变原来的 fun 函数以 thisa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="the difference between null and undefined">
+<meta property="og:url" content="http://yoursite.com/2017/01/15/94-apply  call  bind 对比分析/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="##apply  call  bind 对比分析
+1 基本语法,第一个参数必须传入一个对象12345fun.bind(thisArg[, arg1[, arg2[, ...]]])fun.call(thisArg[, arg1[, arg2[, ...]]])fun.apply(thisArg[, argsArray])//bind call  apply可以改变原来的 fun 函数以 thisa">
+<meta property="og:updated_time" content="2017-04-09T11:20:13.003Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="the difference between null and undefined">
+<meta name="twitter:description" content="##apply  call  bind 对比分析
+1 基本语法,第一个参数必须传入一个对象12345fun.bind(thisArg[, arg1[, arg2[, ...]]])fun.call(thisArg[, arg1[, arg2[, ...]]])fun.apply(thisArg[, argsArray])//bind call  apply可以改变原来的 fun 函数以 thisa">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/15/94-apply  call  bind 对比分析/"/>
+
+
+
+
+
+  <title> the difference between null and undefined | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/15/94-apply  call  bind 对比分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                the difference between null and undefined
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-15T12:36:00+08:00">
+                2017-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>##apply  call  bind 对比分析</p>
+<h2 id="1-基本语法-第一个参数必须传入一个对象"><a href="#1-基本语法-第一个参数必须传入一个对象" class="headerlink" title="1 基本语法,第一个参数必须传入一个对象"></a>1 基本语法,第一个参数必须传入一个对象</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">fun.bind(thisArg[, arg1[, arg2[, ...]]])</div><div class="line">fun.call(thisArg[, arg1[, arg2[, ...]]])</div><div class="line">fun.apply(thisArg[, argsArray])</div><div class="line"><span class="comment">//bind call  apply可以改变原来的 fun 函数以 thisarg为对象进行执行</span></div><div class="line"><span class="comment">//第一个参数是代表fun函数执行的this指向</span></div></pre></td></tr></table></figure>
+<h2 id="2-三者之间的区别"><a href="#2-三者之间的区别" class="headerlink" title="2 三者之间的区别"></a>2 三者之间的区别</h2><p>2.1 bind只绑定方法执行的对象，并不执行方法，改变的是函数的this指向；根据bind的这个特性，经常会结合setTimeout执行</p>
+<p>2.2 call apply绑定方法的执行对象的同时，也会直接执行方法；</p>
+<p>2.2.1  fun.apply(thisArg[, argsArray])</p>
+<p>thisArg<br>在 fun 函数运行时指定的 this 值。需要注意的是，指定的 this 值并不一定是该函数执行时真正的 this 值，如果这个函数处于非严格模式下，则指定为 null 或 undefined 时会自动指向全局对象（浏览器中就是window对象），同时值为原始值（数字，字符串，布尔值）的 this 会指向该原始值的自动包装对象。<br>argsArray<br>一个<strong>数组</strong>或者<strong>类数组</strong> 对象，其中的<strong>数组元素将作为单独的参数传给 fun 函数</strong>  。如果该参数的值为null 或 undefined，则表示不需要传入任何参数。从ECMAScript 5 开始可以使用类数组对象。浏览器兼容性请参阅本文底部内容。</p>
+<p>同时除了可以传入一个数组，也可以传入arguments,代表当前函数的参数的一个<strong>类数组</strong> </p>
+<p>如果 argsArray 不是一个有效的数组或者不是 arguments 对象，那么将导致一个 TypeError。<br>如果没有提供 argsArray 和 thisArg 任何一个参数，那么 Global 对象将被用作 thisArg， 并且无法被传递任何参数。</p>
+<p>2.2.2 fun.call(thisArg[, arg1[, arg2[, …]]])</p>
+<p>如果thisArg指定为null<code>和</code>undefined<code>的</code>this值会自动指向全局对象(浏览器中就是window对象)，同时值为原始值(数字，字符串，布尔值)的<code>this</code>会指向该原始值的自动包装对象。</p>
+<p>2.3 主要改变函数体执行的时候，函数体内this的指向；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> name = <span class="string">"Jhon"</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getName</span> (<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> obj = &#123;</div><div class="line">        <span class="attr">name</span>:<span class="string">"JiM"</span></div><div class="line">    &#125;</div><div class="line">    getName();<span class="comment">//Jhon</span></div><div class="line">    getName.apply(obj);<span class="comment">//JiM</span></div><div class="line">    getName.call(obj);<span class="comment">//JiM</span></div><div class="line">    getName.bind(obj);<span class="comment">//不会执行getName函数</span></div><div class="line">    getName.bind(obj)(); <span class="comment">//JiM</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2.3 call方法传入的参数是参数列表形式的，apply传入的参数<strong>必须是数组</strong> 形式的</p>
+<ul>
+<li>apply参数数组化的应用场景：求数组最值</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">	<span class="keyword">var</span> arr= [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">777</span>]</div><div class="line"><span class="comment">//  var max = Math.max.apply(null,arr);//777</span></div><div class="line">    <span class="keyword">var</span> max = <span class="built_in">Math</span>.max.call(<span class="literal">null</span>,arr);<span class="comment">//NaN</span></div><div class="line"> <span class="comment">// var max = Math.max(arr) ; //NaN</span></div><div class="line">    <span class="built_in">console</span>.log(max);</div><div class="line"><span class="comment">//  这是apply方法的特性，apply方法第二个参数为参数的数组，虽然我们传入的是数组参数apply会将一个数组转化为一个参数接一个参数的传递给方法。但是call并不会</span></div></pre></td></tr></table></figure>
+<ul>
+<li>如何将一个数组追加到另外一个数组呢？</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</div><div class="line"><span class="keyword">var</span> arr3 = arr1.concat(arr2);</div><div class="line"><span class="comment">//是的，这种方法可以，但是问题是concat方法并不会改变原来的数组，而是会返回一个新的元素</span></div></pre></td></tr></table></figure>
+<p>或者你也会这么做</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</div><div class="line"><span class="comment">//arr1.push(arr2)//这么做是不行的,push会将arr2整体添加到arr1中</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; arr2.length;i++)&#123;</div><div class="line">  	arr1.push(arr2[i]);</div><div class="line">&#125;</div><div class="line"><span class="comment">//这么做也可以，通过循环，但是挺麻烦</span></div></pre></td></tr></table></figure>
+<p>看看apply参数数组化的优势 apply会将数组拆分，将每个元素传入调用的函数push</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"> <span class="keyword">var</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</div><div class="line"> arr1.push.apply(arr1,arr2)	<span class="comment">//apply起了决定性的作用，将传入的数组或者类数组中的参数一个个的分开</span></div><div class="line"> <span class="comment">//    arr1.push(arr2)  //这么做不行，直接将arr2整体添加给了arr1 </span></div><div class="line"><span class="built_in">console</span>.dir(arr1);</div></pre></td></tr></table></figure>
+<ul>
+<li>如何将一个 类数组对象 添加到另外一个  对象 呢？</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arrLike = &#123;</div><div class="line">     <span class="number">0</span>:<span class="string">"name"</span>,</div><div class="line">     <span class="number">1</span>:<span class="string">"age"</span>,</div><div class="line">     <span class="number">2</span>:<span class="string">"address"</span>,</div><div class="line">     <span class="attr">length</span>:<span class="number">3</span>      </div><div class="line">  <span class="comment">//如果将类数组作为apply的参数传入(因为apply第二个参数必须是数组)，类数组必须有length属性,如果没有该属性，那么类数组中的值不会被push进去;</span></div><div class="line"> &#125;</div><div class="line"> <span class="keyword">var</span> obj = &#123; &#125;;</div><div class="line"> <span class="built_in">Array</span>.prototype.push.apply(obj,arrLike);  <span class="comment">//关键还是apply方法会将传入的类数组元素一个个传递给push，然后push方法就可以将所有的元素以单独的形式添加给obj</span></div><div class="line"> <span class="built_in">console</span>.dir(obj);</div></pre></td></tr></table></figure>
+<p>下面代码可以看下，看下apply的参数对于数组以及类数组的要求</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">var</span> obj1 = &#123;</div><div class="line">        <span class="attr">name</span>:<span class="string">"Jhon"</span>,</div><div class="line">        <span class="attr">age</span>:<span class="number">13</span>,</div><div class="line">        <span class="attr">address</span>:<span class="string">"American"</span>,</div><div class="line">        <span class="number">1</span>:<span class="string">"JiM"</span>,</div><div class="line">        <span class="attr">other</span>:&#123;</div><div class="line">            <span class="attr">gender</span>:<span class="string">"man"</span></div><div class="line">        &#125;,</div><div class="line"><span class="comment">//      length:4	</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> obj2 = &#123;&#125;;</div><div class="line">    <span class="built_in">Array</span>.prototype.push.apply(obj2,obj1)</div><div class="line">    <span class="built_in">console</span>.dir(obj2);</div></pre></td></tr></table></figure>
+<ul>
+<li>apply操作DOM元素   NodeList类数组</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> divs = <span class="built_in">document</span>.querySelectorAll(<span class="string">"div"</span>);</div><div class="line">     <span class="built_in">console</span>.dir(divs);<span class="comment">//这是一个类数组</span></div><div class="line"> 	<span class="built_in">console</span>.dir(divs[<span class="number">0</span>]);</div><div class="line">    <span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line">     <span class="built_in">Array</span>.prototype.push.apply(obj,divs);<span class="comment">//push+obj+apply可以将DOM NodeList转化为对象</span></div><div class="line">     <span class="built_in">console</span>.dir(obj);</div><div class="line">     <span class="built_in">console</span>.dir(obj[<span class="number">0</span>]);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>bind</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span>(<span class="params">fn, obj</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> fn.apply(obj, <span class="built_in">arguments</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">    <span class="attr">a</span>: <span class="number">20</span>,</div><div class="line">    <span class="attr">getA</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        setTimeout(bind(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</div><div class="line">        &#125;, <span class="keyword">this</span>), <span class="number">1000</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">obj.getA();</div><div class="line"><span class="comment">//---------------------------------</span></div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">    <span class="attr">a</span>: <span class="number">20</span>,</div><div class="line">    <span class="attr">getA</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</div><div class="line">        &#125;.bind(<span class="keyword">this</span>), <span class="number">1000</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="3-this的指向"><a href="#3-this的指向" class="headerlink" title="3  this的指向"></a>3  this的指向</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1 非严格模式下，this默认指向全局对象，call/apply显式指定this参数时也会强制转换参数为对象（如果不是对象）。其中，null/undefined被替换为全局对象，基础类型被转换为包装对象。</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">nsm</span>(<span class="params"></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="keyword">this</span>);&#125;</div><div class="line">    nsm(); <span class="comment">// Window&#123;top: xxxx&#125;</span></div><div class="line">    nsm.call(<span class="literal">null</span>/<span class="literal">undefined</span>); <span class="comment">// Window&#123;top: xxxx&#125;</span></div><div class="line">    nsm.call(<span class="number">1</span>); <span class="comment">// Number &#123;[[PrimitiveValue]]: 1&#125;</span></div><div class="line">    nsm.call(<span class="string">'str'</span>); <span class="comment">// String &#123;0: "s", 1: "t", 2: "r", length: 3, [[PrimitiveValue]]: "str"&#125;</span></div><div class="line">    nsm.call(<span class="literal">true</span>); <span class="comment">// Boolean &#123;[[PrimitiveValue]]: true&#125;</span></div><div class="line"></div><div class="line"><span class="comment">//----------------------------------------------------------------------------------------</span></div><div class="line"></div><div class="line"><span class="comment">//2 严格模式下，this默认为undefined，且call/apply显式指定this参数时也不会有强制转换</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">sm</span>(<span class="params"></span>) </span>&#123;<span class="string">'use strict'</span>; <span class="built_in">console</span>.log(<span class="keyword">this</span>);&#125;</div><div class="line">    sm(); <span class="comment">// undefined</span></div><div class="line">    sm.call(<span class="literal">null</span>); <span class="comment">// null</span></div><div class="line">    sm.call(<span class="literal">undefined</span>); <span class="comment">// undefined</span></div><div class="line">    sm.call(<span class="number">1</span>); <span class="comment">// 1</span></div><div class="line">    sm.call(<span class="string">'str'</span>); <span class="comment">// str</span></div><div class="line">    sm.call(<span class="literal">true</span>); <span class="comment">// true</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/22/20-封装函数   innerText   textContent  innerHTML /" rel="next" title="封装函数   innerText   textContent  innerHTML">
+                <i class="fa fa-chevron-left"></i> 封装函数   innerText   textContent  innerHTML
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/09/111-浏览器行为总结/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">90</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-基本语法-第一个参数必须传入一个对象"><span class="nav-number">1.</span> <span class="nav-text">1 基本语法,第一个参数必须传入一个对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-三者之间的区别"><span class="nav-number">2.</span> <span class="nav-text">2 三者之间的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-this的指向"><span class="nav-number">3.</span> <span class="nav-text">3  this的指向</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

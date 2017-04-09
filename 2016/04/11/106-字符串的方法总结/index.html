@@ -1,0 +1,746 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="array," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="字符串的方法总结(注意字符串的不可变性)1 str.charAt(index) : 返回位于index处的字符 ；如果index不在0和str.length-1之间那么返回一个空字符 ；
+2 str.charCodeAt(index): 返回位于index处的字符的Unicode编码，如果index不在0和str.length-1之间，那么返回NaN ；
+3 str.indexOf(searchv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="the Methods of String">
+<meta property="og:url" content="http://yoursite.com/2016/04/11/106-字符串的方法总结/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="字符串的方法总结(注意字符串的不可变性)1 str.charAt(index) : 返回位于index处的字符 ；如果index不在0和str.length-1之间那么返回一个空字符 ；
+2 str.charCodeAt(index): 返回位于index处的字符的Unicode编码，如果index不在0和str.length-1之间，那么返回NaN ；
+3 str.indexOf(searchv">
+<meta property="og:updated_time" content="2017-04-09T10:44:23.048Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="the Methods of String">
+<meta name="twitter:description" content="字符串的方法总结(注意字符串的不可变性)1 str.charAt(index) : 返回位于index处的字符 ；如果index不在0和str.length-1之间那么返回一个空字符 ；
+2 str.charCodeAt(index): 返回位于index处的字符的Unicode编码，如果index不在0和str.length-1之间，那么返回NaN ；
+3 str.indexOf(searchv">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/04/11/106-字符串的方法总结/"/>
+
+
+
+
+
+  <title> the Methods of String | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/11/106-字符串的方法总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                the Methods of String
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-11T12:36:00+08:00">
+                2016-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="字符串的方法总结-注意字符串的不可变性"><a href="#字符串的方法总结-注意字符串的不可变性" class="headerlink" title="字符串的方法总结(注意字符串的不可变性)"></a>字符串的方法总结(注意字符串的不可变性)</h3><p>1 str.charAt(index) : 返回位于index处的<strong>字符</strong> ；如果index不在0和str.length-1之间那么返回一个<strong>空字符</strong> ；</p>
+<p>2 str.charCodeAt(index): 返回位于index处的字符的Unicode编码，如果index不在0和str.length-1之间，那么返回<strong>NaN</strong> ；</p>
+<p>3 str.indexOf(searchvalue,fromindex) : 返回被检索字符串第一次出现的<strong>位置值</strong>，如果找不到返回  <strong>-1,注意对大小写敏感</strong></p>
+<p><strong>正则</strong>  str.search(refexp) 不执行全局匹配，返回被检索字符第一次出现的<strong>位置值</strong> 如果找不到，返回-1 ;</p>
+<p>4 str.slice(start,end) <strong>不改变原字符串</strong>，返回一个<strong>新的字符串</strong> ，包括起始位置，不包括end位置，end省略则直到字符串末尾；-1表示最后一个字符；和substr(start,end)  substring(start,stop)效果类似</p>
+<p><strong>注意索引值从0 开始</strong> 包括起始位置字符，不包括结尾的字符</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">"abcdef"</span>;</div><div class="line">   <span class="built_in">console</span>.log(str.substring(<span class="number">1</span>));<span class="comment">//bcd</span></div><div class="line">   <span class="built_in">console</span>.log(str.slice(<span class="number">1</span>));<span class="comment">//bcd</span></div></pre></td></tr></table></figure>
+<p>5 str.split(seperate,howmany) : <strong>不改变原字符串，</strong>返回一个<strong>数组</strong> ，该数组中保存了被分割的字符串，howmany设置数组中的元素的个数；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">'www.baidu.com?name=Jhon&amp;age=15'</span>;</div><div class="line">  <span class="built_in">console</span>.log(str.indexOf(<span class="string">'?'</span>));</div><div class="line">  <span class="keyword">var</span> newArr = str.slice(str.indexOf(<span class="string">'?'</span>)+<span class="number">1</span>).split(<span class="string">'&amp;'</span>);</div><div class="line">  <span class="built_in">console</span>.log(newArr);</div><div class="line">  <span class="built_in">console</span>.log(newArr[<span class="number">0</span>].substring(<span class="number">0</span>,<span class="number">4</span>));</div><div class="line">  <span class="built_in">console</span>.log(newArr[<span class="number">0</span>].substring(<span class="number">5</span>,<span class="number">9</span>));</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; newArr.length ; i++)&#123;</div><div class="line">      <span class="keyword">if</span>(newArr[i].substring(<span class="number">0</span>,<span class="number">5</span>) == <span class="string">'name='</span>)&#123;</div><div class="line">          <span class="built_in">document</span>.write(<span class="string">'&lt;p&gt;welcome '</span>+newArr[i].substring(<span class="number">5</span>,<span class="number">9</span>)+<span class="string">'&lt;/p&gt;'</span>)</div><div class="line">      &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>6 str.concat(str1,str2····) :  <strong>不改变原字符串</strong>，返回一个新的字符串；</p>
+<p>7 <strong>正则</strong> str.match(value)     str.match(regexp) <strong>不改变原来的字符串</strong>，找到匹配则返回匹配的<strong>数组</strong> ，找不到匹配则返回<strong>null </strong> </p>
+<p>match() 方法将检索字符串 stringObject，以找到一个或多个与 regexp 匹配的文本。这个方法的行为在很大程度上有赖于 regexp 是否具有标志 g。</p>
+<p>如果 regexp 没有标志 g，那么 match() 方法就只能在 stringObject 中执行一次匹配。如果没有找到任何匹配的文本， match() 将返回 null。否则，它将返回一个数组，其中存放了与它找到的匹配文本有关的信息。该数组的第 0 个元素存放的是匹配文本，而其余的元素存放的是与正则表达式的子表达式匹配的文本。除了这些常规的数组元素之外，返回的数组还含有两个对象属性。index 属性声明的是匹配文本的起始字符在 stringObject 中的位置，input 属性声明的是对 stringObject 的引用。</p>
+<p>如果 regexp 具有标志 g，则 match() 方法将执行全局检索，找到 stringObject 中的所有匹配子字符串。若没有找到任何匹配的子串，则返回 null。如果找到了一个或多个匹配子串，则返回一个数组。不过全局匹配返回的数组的内容与前者大不相同，它的数组元素中存放的是 stringObject 中所有的匹配子串，而且也没有 index 属性或 input 属性。</p>
+<p>注意：<strong>在全局检索模式下，match() 即不提供与子表达式匹配的文本的信息，也不声明每个匹配子串的位置。</strong> 如果需要这些全局检索的信息，可以使用 RegExp.exec()。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">'av fgf df'</span>;</div><div class="line">  <span class="built_in">console</span>.log(str.match(<span class="string">'f'</span>));<span class="comment">//["f", index: 3, input: "av fgf df"] 返回一个数组，包含匹配字符的详细信息</span></div><div class="line">  <span class="built_in">console</span>.log(str.match(<span class="string">'f'</span>)[<span class="number">0</span>]);<span class="comment">//f  </span></div><div class="line">  <span class="built_in">console</span>.log(str.match(<span class="string">'f'</span>).index);<span class="comment">//3 </span></div><div class="line">  <span class="built_in">console</span>.log(str.match(<span class="regexp">/f/g</span>));<span class="comment">//["f", "f", "f"]</span></div></pre></td></tr></table></figure>
+<p>8 <strong>正则</strong>  str.replace(str/regexp , replacement | function)  ; <strong>不改变原字符串</strong>，返回一个<strong>新的字符串</strong>；</p>
+<p>8.1 如果 regexp 具有全局标志 g，那么 replace() 方法将替换所有匹配的子串。否则，它只替换第一个匹配子串。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">"Jhon Jim"</span>;</div><div class="line"><span class="keyword">var</span> newStr =  str.replace(<span class="regexp">/J/</span>,<span class="string">'G'</span>)</div><div class="line"><span class="built_in">console</span>.log(str);<span class="comment">//"Jhon Jim"</span></div><div class="line"><span class="built_in">console</span>.log(newStr);<span class="comment">//"Ghon Jim"</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">"Jhon Jim"</span>;</div><div class="line"><span class="keyword">var</span> newStr =  str.replace(<span class="regexp">/J/g</span>,<span class="string">'G'</span>)</div><div class="line"><span class="built_in">console</span>.log(str);<span class="comment">//"Jhon Jim"</span></div><div class="line"><span class="built_in">console</span>.log(newStr);<span class="comment">//"Ghon Gim"</span></div></pre></td></tr></table></figure>
+<p>8.2  $ 1,2,3,4……99   表示与正则表达式第1 到99个子表达式相匹配的文本；子表达式是用( )括起来的那部分</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> name = <span class="string">"Doe, John"</span>;</div><div class="line"><span class="keyword">var</span> newName = name.replace(<span class="regexp">/(\w+)\s*, \s*(\w+)/</span>, <span class="string">"$2 $1"</span>);</div><div class="line"><span class="built_in">console</span>.log(newName);<span class="comment">//John Doe</span></div></pre></td></tr></table></figure>
+<p>9 str.trim( )  方法可以用来去掉字符串中的前面和后面的空格，底层实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">String</span>.prototype.trim = <span class="built_in">String</span>.prototype.trim || <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">               <span class="keyword">if</span>(!<span class="keyword">this</span>) <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">               <span class="keyword">return</span> <span class="keyword">this</span>.replace(<span class="regexp">/^\s+|\s+$/g</span>,<span class="string">""</span>);<span class="comment">//使用正则表达式将空格替换为空字符串</span></div><div class="line">           &#125;</div></pre></td></tr></table></figure>
+<p>记住，String 对象的所有属性和方法都可应用于 String 原始值上，因为它们是伪对象。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/array/" rel="tag"># array</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/11/91-hasOwnProperty(property)和in的区别/" rel="next" title="hasOwnProperty和in的区别">
+                <i class="fa fa-chevron-left"></i> hasOwnProperty和in的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/11/92-Javasript垃圾回收机制/" rel="prev" title="javascript GC 垃圾回收机制">
+                javascript GC 垃圾回收机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">90</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串的方法总结-注意字符串的不可变性"><span class="nav-number">1.</span> <span class="nav-text">字符串的方法总结(注意字符串的不可变性)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
