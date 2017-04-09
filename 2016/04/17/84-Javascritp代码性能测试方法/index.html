@@ -1,0 +1,773 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="http," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Javascritp代码性能优化1 代码性能测试 : 简单方法 根据运行前后的时间来判断1234567891011121314151617181920212223242526272829303132333435363738394041424344454647&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;&amp;lt;head lang=&quot;en&quot;&amp;gt;    &amp;lt;meta cha">
+<meta property="og:type" content="article">
+<meta property="og:title" content="the performance optimization of the JS code">
+<meta property="og:url" content="http://yoursite.com/2016/04/17/84-Javascritp代码性能测试方法/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="Javascritp代码性能优化1 代码性能测试 : 简单方法 根据运行前后的时间来判断1234567891011121314151617181920212223242526272829303132333435363738394041424344454647&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;&amp;lt;head lang=&quot;en&quot;&amp;gt;    &amp;lt;meta cha">
+<meta property="og:updated_time" content="2017-04-09T11:08:02.622Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="the performance optimization of the JS code">
+<meta name="twitter:description" content="Javascritp代码性能优化1 代码性能测试 : 简单方法 根据运行前后的时间来判断1234567891011121314151617181920212223242526272829303132333435363738394041424344454647&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;&amp;lt;head lang=&quot;en&quot;&amp;gt;    &amp;lt;meta cha">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/04/17/84-Javascritp代码性能测试方法/"/>
+
+
+
+
+
+  <title> the performance optimization of the JS code | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/17/84-Javascritp代码性能测试方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                the performance optimization of the JS code
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-17T12:36:00+08:00">
+                2016-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/http/" itemprop="url" rel="index">
+                    <span itemprop="name">http</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Javascritp代码性能优化"><a href="#Javascritp代码性能优化" class="headerlink" title="Javascritp代码性能优化"></a>Javascritp代码性能优化</h2><h3 id="1-代码性能测试-简单方法-根据运行前后的时间来判断"><a href="#1-代码性能测试-简单方法-根据运行前后的时间来判断" class="headerlink" title="1 代码性能测试 : 简单方法 根据运行前后的时间来判断"></a>1 代码性能测试 : 简单方法 根据运行前后的时间来判断</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="comment">//先定义一个数组</span></div><div class="line">    <span class="keyword">var</span> arr = [];</div><div class="line"><span class="comment">//    console.log(Boolean(arr));</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>,len = <span class="number">10000</span> ;i &lt;　len ; i++)&#123;</div><div class="line">        arr.push(i);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//定义一个函数累加求和</span></div><div class="line">    <span class="keyword">var</span> sum = <span class="number">0</span> ;<span class="comment">//全局的sum变量</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">loopFor</span> (<span class="params">arr</span>)</span>&#123;</div><div class="line">         <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; arr.length ; i++)&#123;</div><div class="line">            sum += arr[i]</div><div class="line">         &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    <span class="comment">//定义一个递归方法删除数组,shift()函数删除数组第一个函数，并返回删除元素</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">loopShift</span>(<span class="params">arr</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!!arr.length) &#123;</div><div class="line">            sum += arr.shift();</div><div class="line">            <span class="built_in">arguments</span>.callee(arr);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//定义一个测试性能的函数</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params">fn,param</span>)</span>&#123;</div><div class="line">        <span class="comment">//记录开始执行函数的时间</span></div><div class="line">        <span class="keyword">var</span> start = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime();</div><div class="line">        <span class="comment">//开始执行函数</span></div><div class="line">        fn(param);</div><div class="line">        <span class="comment">//记录结束执行函数的时间</span></div><div class="line">        <span class="keyword">var</span> end = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime();</div><div class="line">        <span class="comment">//输出执行结果</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"sum="</span>+sum+<span class="string">";"</span>+<span class="string">"执行时间是"</span>+(end - start)+<span class="string">"ms"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//分贝执行，看下效果</span></div><div class="line"><span class="comment">//    test(loopFor,arr); //我电脑上大概0~1 ms</span></div><div class="line">    test(loopShift,arr);<span class="comment">//这个大概10ms</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>综合来看，递归这种方法还是十分消耗性能的</p>
+<h3 id="2-浏览器开发者工具提供性能分析"><a href="#2-浏览器开发者工具提供性能分析" class="headerlink" title="2 浏览器开发者工具提供性能分析"></a>2 浏览器开发者工具提供性能分析</h3><p>开发者工具—-profiles —-Record Javascript CPU Profile</p>
+<h3 id="3-javascript性能优化"><a href="#3-javascript性能优化" class="headerlink" title="3 javascript性能优化"></a>3 javascript性能优化</h3><table>
+<thead>
+<tr>
+<th>async</th>
+<th>设置或返回是否脚本一旦可用，就应异步执行。</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>charset</td>
+<td>设置或返回脚本的 charset 属性值。</td>
+</tr>
+<tr>
+<td>cross Origin</td>
+<td>设置或返回脚本的 CORS 设置。</td>
+</tr>
+<tr>
+<td>defer</td>
+<td>设置或返回当页面完成解析后是否执行脚本。</td>
+</tr>
+<tr>
+<td>src</td>
+<td>设置或返回脚本的 src 属性值。</td>
+</tr>
+<tr>
+<td>text</td>
+<td>设置或返回属于脚本子节点的所有文本节点的内容。</td>
+</tr>
+<tr>
+<td>type</td>
+<td>设置或返回脚本的 type 属性值。</td>
+</tr>
+</tbody>
+</table>
+<p>当浏览器解析页面的时候，遇到了javascript代码，无论该代码是在内嵌式文件中还是在外链式文件中，页面的加载和渲染都必须停止下来等待脚本执行完毕，因为脚本可能改变页面或者javascript的命名空间；</p>
+<p>改善性能的方法：</p>
+<p>3.1 为了不影响页面的渲染，尽量将script标签放在body的底部</p>
+<p>3.2 每个script标签在加载的时候，都会阻塞页面渲染，所以减少页面包含的script标签数量有助于改善这一情况；包括减少内嵌式或者外链式的script标签；async 属性规定一旦脚本可用，则会异步执行。类似于告诉浏览器链接进来的脚本不糊生成文档内容，因此浏览器可以在下载脚本的时候继续解析和渲染文档；</p>
+<p>注释：async 属性仅适用于外部脚本（只有在使用 src 属性时）。</p>
+<p>注释：有多种执行外部脚本的方法：</p>
+<ul>
+<li>如果 async=”async”：脚本相对于页面的其余部分异步地执行（当页面继续进行解析时，脚本将被执行） </li>
+<li>如果不使用 async 且 defer=”defer”：脚本将在页面完成解析时执行 </li>
+<li>如果既不使用 async 也不使用 defer：在浏览器继续解析页面之前，立即读取并执行脚本 </li>
+</ul>
+<p>3.3 动态创建脚本</p>
+<p>文档对象模型允许我们使用javascript动态创建HTML的几乎全部文档内容，script标签和页面中的其他元素一样，很容易被创建；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> script =<span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</div><div class="line">script.type = <span class="string">"text/javascript"</span>;</div><div class="line">script.src = <span class="string">'script1.js'</span>;</div><div class="line"><span class="built_in">document</span>.getElementsByTagName(<span class="string">"head"</span>)[<span class="number">0</span>].appendChild(script);</div><div class="line"><span class="comment">//getElementsByTagName获取到的是一个nodeList(一个伪数组)</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">var</span> script =<span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</div><div class="line">	script.type = <span class="string">"text/javascript"</span>;</div><div class="line">    script.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"script is loaded"</span>);</div><div class="line">    &#125;</div><div class="line">    script.src = <span class="string">'script1.js'</span>;</div><div class="line">    <span class="built_in">document</span>.getElementsByTagName(<span class="string">"head"</span>)[<span class="number">0</span>].appendChild(script);</div><div class="line"><span class="comment">//通过监听onload事件加载script脚本</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//对于比较** 的IE有着另外一种实现方式 script有一个属性  readyState </span></div><div class="line"><span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</div><div class="line">script.type = <span class="string">"text/javascript"</span>;</div><div class="line">script.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">if</span>(script.readyState == <span class="string">'loaded'</span> || script.readyState == <span class="string">"complete"</span>)&#123;</div><div class="line">    script.onreadystatechange = <span class="literal">null</span>;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"script is loaded"</span>);</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line">script.src = <span class="string">"script1.js"</span>;</div><div class="line"><span class="comment">//script的readyState的属性值随着外部下载文件的过程而改变；</span></div><div class="line"><span class="comment">//uninitialized  loading loaded interactive complete</span></div></pre></td></tr></table></figure>
+<p>如果想要实现兼容，我们需要封装一个代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span> (<span class="params">url,callback</span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> script = <span class="built_in">document</span>.createELement(<span class="string">"script"</span>);</div><div class="line">        script.type = <span class="string">"text/javascript"</span>;</div><div class="line">        <span class="keyword">if</span>(script.readyState )&#123;	<span class="comment">//表示是IE</span></div><div class="line">            script.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="keyword">if</span>(script.readyState == <span class="string">'loaded'</span> || script.readyState == <span class="string">"complete"</span>)&#123;</div><div class="line">                    script.onreadystatechange = <span class="literal">null</span>;<span class="comment">//不在使用的函数需要清除掉，减少对内存的占用</span></div><div class="line">                    callback();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            script.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                callback();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        script.src = url ;</div><div class="line">        <span class="built_in">document</span>.getElementsByTagName(<span class="string">"head"</span>)[<span class="number">0</span>].appendChild(script);</div><div class="line"> &#125;</div><div class="line">loadScript(<span class="string">'script1.js'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"script1.js is loaded"</span>);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>3.4 通过对XHR发送请求，加载javascript脚本</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">xhr.open(<span class="string">'get'</span>,<span class="string">'script1.js'</span>,<span class="string">'true'</span>);</div><div class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">if</span>(xhr.status &gt;=<span class="number">200</span> &amp;&amp; xhr.status &lt;<span class="number">300</span> || xhr.status == <span class="number">304</span>)&#123;</div><div class="line">    <span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</div><div class="line">    script.type = <span class="string">"text/javascript"</span>;</div><div class="line">    script.text = xhr.responseText;</div><div class="line">    <span class="built_in">document</span>.body.appendChild(script);</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//有个缺点就是javascript文件必须与页面同域，不能从CDN(Content Delivery Network)下载</span></div></pre></td></tr></table></figure>
+<h3 id="4-内存管理"><a href="#4-内存管理" class="headerlink" title="4 内存管理"></a>4 内存管理</h3><p>虽然javascript具有垃圾回收机制，但是为了让页面具有更好地性能，还是需要进行内存的优化；对于局部变量，在其执行完毕之后，会被自动清除(闭包除外)，但是对于全局变量以及全局的函数，如果数据不再使用，最好通过设置为null的形式进行手动接触占用</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/http/" rel="tag"># http</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/11/90-js中原型prototype属性   _ _ proto_ _ 属性 以及原型链的总结/" rel="next" title="prototype 浅析">
+                <i class="fa fa-chevron-left"></i> prototype 浅析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/17/65js和jQuery的  AJAX  底层实现/" rel="prev" title="Ajax(Asynchronous JavaScript and XML)">
+                Ajax(Asynchronous JavaScript and XML) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">64</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Javascritp代码性能优化"><span class="nav-number">1.</span> <span class="nav-text">Javascritp代码性能优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-代码性能测试-简单方法-根据运行前后的时间来判断"><span class="nav-number">1.1.</span> <span class="nav-text">1 代码性能测试 : 简单方法 根据运行前后的时间来判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-浏览器开发者工具提供性能分析"><span class="nav-number">1.2.</span> <span class="nav-text">2 浏览器开发者工具提供性能分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-javascript性能优化"><span class="nav-number">1.3.</span> <span class="nav-text">3 javascript性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-内存管理"><span class="nav-number">1.4.</span> <span class="nav-text">4 内存管理</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
