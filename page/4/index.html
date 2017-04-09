@@ -419,7 +419,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/127RegExpReview/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/146NodeJsBuffer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -441,8 +441,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/22/127RegExpReview/" itemprop="url">
-                  RegExp Review
+                <a class="post-title-link" href="/2016/10/22/146NodeJsBuffer/" itemprop="url">
+                  NodeJs Buffer
                 </a>
               
             
@@ -481,8 +481,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
+                  <a href="/categories/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
                   </a>
                 </span>
 
@@ -518,141 +518,245 @@
       
         
           
-            <p>先来看下正则中的特殊字符</p>
-<table>
-<thead>
-<tr>
-<th><strong>特别字符</strong></th>
-<th><strong>说明</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$</td>
-<td>匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 ‘\n’ 或 ‘\r’。要匹配 $ 字符本身，请使用 \$。</td>
-</tr>
-<tr>
-<td>( )</td>
-<td>标记一个子表达式的开始和结束位置。子表达式可以获取供以后使用。要匹配这些字符，请使用 \( 和 \)。</td>
-</tr>
-<tr>
-<td>*</td>
-<td>匹配前面的子表达式零次或多次。要匹配 <em> 字符，请使用 \</em>。</td>
-</tr>
-<tr>
-<td>+</td>
-<td>匹配前面的子表达式一次或多次。要匹配 + 字符，请使用 +。</td>
-</tr>
-<tr>
-<td>.</td>
-<td>匹配除换行符 \n之外的任何单字符。要匹配 .，请使用 \。</td>
-</tr>
-<tr>
-<td>[ ]</td>
-<td>标记一个中括号表达式的开始。要匹配 [，请使用 [。</td>
-</tr>
-<tr>
-<td>?</td>
-<td>匹配前面的子表达式零次或一次，或指明一个非贪婪限定符。要匹配 ? 字符，请使用 \?。</td>
-</tr>
-<tr>
-<td>\</td>
-<td>将下一个字符标记为或特殊字符、或原义字符、或向后引用、或八进制转义符。例如， ‘n’ 匹配字符‘n’。’\n’ 匹配换行符。序列 ‘\‘ 匹配 “\”，而 ‘(‘ 则匹配 “(”。</td>
-</tr>
-<tr>
-<td>^</td>
-<td>匹配输入字符串的开始位置，除非在方括号表达式中使用，此时它表示不接受该字符集合。要匹配 ^ 字符本身，请使用 \^。</td>
-</tr>
-<tr>
-<td>{ }</td>
-<td>标记限定符表达式的开始。要匹配 {，请使用 {。</td>
-</tr>
-<tr>
-<td>\</td>
-<td></td>
-<td>指明两项之间的一个选择。要匹配 \</td>
-<td>，请使用 \</td>
-<td>。</td>
-</tr>
-</tbody>
-</table>
-<p>正则中的限定符</p>
-<table>
-<thead>
-<tr>
-<th>字符</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>*</td>
-<td>匹配前面的子表达式零次或多次。例如，zo<em> 能匹配 “z” 以及 “zoo”。</em> 等价于{0,}。</td>
-</tr>
-<tr>
-<td>+</td>
-<td>匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
-</tr>
-<tr>
-<td>?</td>
-<td>匹配前面的子表达式零次或一次。例如，”do(es)?” 可以匹配 “do” 或 “does” 中的”do” 。? 等价于 {0,1}。</td>
-</tr>
-<tr>
-<td>{n}</td>
-<td>n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</td>
-</tr>
-<tr>
-<td>{n,}</td>
-<td>n 是一个非负整数。至少匹配n 次。例如，’o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。’o{1,}’ 等价于 ‘o+’。’o{0,}’ 则等价于 ‘o*’。</td>
-</tr>
-<tr>
-<td>{n,m}</td>
-<td>m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，”o{1,3}” 将匹配 “fooooood” 中的前三个 o。’o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。</td>
-</tr>
-</tbody>
-</table>
-<p>正则中的操作符优先级</p>
-<table>
-<thead>
-<tr>
-<th>操作符</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>\</td>
-<td>转义符</td>
-</tr>
-<tr>
-<td>(), (?:), (?=), [ ]</td>
-<td>圆括号和方括号</td>
-</tr>
-<tr>
-<td>*, +, ?, {n}, {n,}, {n,m}</td>
-<td>限定符</td>
-</tr>
-<tr>
-<td>^, $, \anymetacharacter</td>
-<td>位置和顺序</td>
-</tr>
-<tr>
-<td>\</td>
-<td></td>
-<td>“或”操作</td>
-</tr>
-</tbody>
-</table>
-<p>1  单词字符包括 0-9 a-z A-Z  _   下划线</p>
-<p>元字符 \w 查找单词字符   \W 查找非单词字符</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/\byou/g</span>; <span class="comment">//  \b可以匹配单词的边界,单词中以you开头的you将会被匹配到</span></div><div class="line"><span class="keyword">var</span> result ;</div><div class="line"><span class="keyword">while</span>((result = reg.exec(str)) != <span class="literal">null</span>)&#123;</div><div class="line">  <span class="built_in">console</span>.log(result);</div><div class="line">  <span class="built_in">console</span>.log(reg.lastIndex);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>2 \b  元字符匹配单词边界  在单词边界匹配的位置，单词字符后面或前面不与另一个单词字符直接相邻</p>
-<p>\B 元字符匹配非单词边界  通常用于查找不处在单词的开头或结尾的匹配</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">'hello youthereyou yourighthere '</span>;</div><div class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/\Bthere/g</span>  ;<span class="comment">//用来匹配 不在单词开头的there</span></div><div class="line"><span class="keyword">var</span> result ;</div><div class="line"><span class="keyword">while</span>((result = reg2.exec(str)) != <span class="literal">null</span>)&#123;</div><div class="line">  <span class="built_in">console</span>.log(result);</div><div class="line">  <span class="built_in">console</span>.log(reg2.lastIndex);</div><div class="line">&#125;</div><div class="line"><span class="comment">//---------------------------------------------</span></div><div class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/there\B/g</span> ;<span class="comment">//匹配不在单词结尾的there</span></div></pre></td></tr></table></figure>
-<p>3       .  元字符用于查找单个字符，除了换行和行结束符。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//exec() 方法用于检索字符串中的正则表达式的匹配。如果找不到，则返回null</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'that is hot'</span>;</div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/h.t/g</span>;</div><div class="line"><span class="keyword">var</span> ret ;</div><div class="line"><span class="keyword">while</span>( (ret = reg.exec(str) ) != <span class="literal">null</span>)&#123;</div><div class="line">  <span class="built_in">console</span>.log(ret);<span class="comment">// Array[1][0:"hat"index:1,input:"that is hot",length:1]</span></div><div class="line">  <span class="comment">//Array[1][0:"hot"index:8,input:"that is hot",length:1]</span></div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log(reg.lastIndex);<span class="comment">// 4 11  exec()方法 RegExpObject 的 lastIndex 属性设置为匹配文本的最后一个字符的下一个位置</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。返回匹配结果的数组，如果找不到返回null</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'that is hot'</span>;</div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/h.t/g</span>;</div><div class="line"><span class="keyword">var</span> ret = str.match(reg);</div><div class="line"><span class="built_in">console</span>.log(ret1);<span class="comment">//["hat", "hot"]</span></div></pre></td></tr></table></figure>
-<p>4 \s</p>
+            <p>1 Buffer类的定义:本质上是创建了一块专门存放二进制数据的缓存区</p>
+<p>JavaScript 语言自身只有字符串数据类型，没有二进制数据类型。</p>
+<p>但在处理像TCP流或文件流时，必须使用到二进制数据。因此在 Node.js中，定义了一个 Buffer 类，该类用来创建一个专门存放二进制数据的缓存区。</p>
+<p>在 Node.js 中，Buffer 类是随 Node 内核一起发布的核心库。Buffer 库为 Node.js 带来了一种存储原始数据的方法，可以让 Node.js 处理二进制数据，每当需要在 Node.js 中处理I/O操作中移动的数据时，就有可能使用 Buffer 库。原始数据存储在 Buffer 类的实例中。一个 Buffer 类似于一个整数数组，但它对应于 V8 堆内存之外的一块原始内存。</p>
+<p>2 如何创建Buffer实例 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(arg) <span class="comment">//1 必须传入参数 2  传入的参数类型 string, Buffer, ArrayBuffer, Array, or array-like object.</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf1 = <span class="keyword">new</span> Buffer(<span class="number">10</span>);<span class="comment">//这个是指定Buffer实例的长度，区分 var buf1 = new Buffer('10');</span></div><div class="line"><span class="built_in">console</span>.log(buf1);</div><div class="line"><span class="built_in">console</span>.log(buf1.length);</div><div class="line"><span class="built_in">console</span>.log(buf1.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf2 = <span class="keyword">new</span> Buffer([<span class="number">10</span>, <span class="number">40</span>, <span class="number">30</span>]);<span class="comment">//数组的长度 作为Buffer实例的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf2);</div><div class="line"><span class="built_in">console</span>.log(buf2.length);</div><div class="line"><span class="comment">//buf2.write('hahhahahahhah')</span></div><div class="line"><span class="built_in">console</span>.log(buf2.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf3 = <span class="keyword">new</span> Buffer(&#123;<span class="attr">length</span>:<span class="number">12</span>&#125;);<span class="comment">//类数组对象 的长度作为Buffer的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf3);</div><div class="line"><span class="built_in">console</span>.log(buf3.length);</div><div class="line"><span class="built_in">console</span>.log(buf3.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf4 = <span class="keyword">new</span> Buffer(<span class="string">'this is it yeah'</span>); <span class="comment">//直接将字符串写入Buffer实例，长度等于字符串的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf4);</div><div class="line"><span class="built_in">console</span>.log(buf4.length);</div><div class="line"><span class="built_in">console</span>.log(buf4.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf5 = <span class="keyword">new</span> Buffer(buf4);<span class="comment">//将Buffer实例直接作为参数传入</span></div><div class="line"><span class="built_in">console</span>.log(buf5);</div><div class="line"><span class="built_in">console</span>.log(buf5.length);</div><div class="line"><span class="built_in">console</span>.log(buf5.toString());</div></pre></td></tr></table></figure>
+<p>3 向缓冲区写入数据以及读取数据</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">buf.write(string[, offset[, length]][, encoding])</div><div class="line">参数描述如下：</div><div class="line">    string - 写入缓冲区的字符串。</div><div class="line">    offset - 缓冲区开始写入的索引值，默认为 <span class="number">0</span> 。</div><div class="line">    length - 写入的字节数，默认为 buffer.length</div><div class="line">    encoding - 使用的编码。默认为 <span class="string">'utf8'</span> 。</div><div class="line">返回值</div><div class="line">	返回实际写入的大小。如果 buffer 空间不足， 则只会写入部分字符串。</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">buf.toString([encoding[, start[, end]]])</div><div class="line">参数描述如下：</div><div class="line">    encoding - 使用的编码。默认为 <span class="string">'utf8'</span> 。</div><div class="line">    start - 指定开始读取的索引位置，默认为 <span class="number">0</span>。</div><div class="line">    end - 结束位置，默认为缓冲区的末尾。</div><div class="line">返回值</div><div class="line">	解码缓冲区数据并使用指定的编码返回字符串。</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.length;  返回Buffer实例实际所占据的内存的长度</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.toJSON();将Buffer实例转化为<span class="built_in">JSON</span>对象</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">buf.slice(start,end);默认start <span class="number">0</span> end 为buf.length </div><div class="line">返回一个新的缓冲区，它和旧缓冲区指向同一块内存，但是从索引 start 到 end 的位置剪切。</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Buffer.concat(list[, totalLength]) 返回一个多个成员合并的新 Buffer 对象。</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//console.log(Buffer) 可以尝试着输入下Buffer类，看下其属性和方法</span></div><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(<span class="string">'this is it yeah'</span>);</div><div class="line"><span class="built_in">console</span>.log(buf);</div><div class="line"><span class="built_in">console</span>.log(buf.length);<span class="comment">//15</span></div><div class="line"><span class="built_in">console</span>.log(buf.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> wLen = buf.write(<span class="string">'changed?'</span>);</div><div class="line"><span class="built_in">console</span>.log(buf.toString());<span class="comment">//changed?it yeah</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(wLen);<span class="comment">//8</span></div><div class="line"><span class="built_in">console</span>.log(buf.toJSON());</div><div class="line"><span class="comment">/*&#123;</span></div><div class="line">	type: 'Buffer',</div><div class="line"> 	data: [ 99, 104, 97, 110, 103, 101, 100, 63, 105, 116, 32, 121, 101, 97, 104 ] </div><div class="line"> &#125;</div><div class="line"> */</div><div class="line"><span class="keyword">var</span> sliceBuf = buf.slice(<span class="number">2</span>,<span class="number">5</span>);</div><div class="line"><span class="built_in">console</span>.log(sliceBuf);</div><div class="line"><span class="built_in">console</span>.log(sliceBuf.length);<span class="comment">//3</span></div><div class="line"><span class="built_in">console</span>.log(sliceBuf.toString());<span class="comment">//ang</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> con = Buffer.concat ([buf,sliceBuf]);</div><div class="line"><span class="built_in">console</span>.log(con);</div><div class="line"><span class="built_in">console</span>.log(con.length);<span class="comment">//18</span></div><div class="line"><span class="built_in">console</span>.log(con.toString());<span class="comment">//changed?it yeahang</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/21/162AngularJsdirective/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/21/162AngularJsdirective/" itemprop="url">
+                  Angular Js directive
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-21T00:00:00+08:00">
+                2016-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-Angular/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript Angular</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1 angular directive的自定义用法    我们在定义一个指令的时候使用驼峰法来命名一个指令，例如 <strong>runoobDirective</strong>, 但在使用它时需要以 <code>-</code>分割, <strong>runoob-directive</strong>；</p>
+<p>先来看下自定义指令的语法结构</p>
+<p>首先定义指令前需要首先定义一个模块</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'app'</span>,[]);<span class="comment">//定义一个模块</span></div></pre></td></tr></table></figure>
+<p>在定义了模块之后，可以在定义指令</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">'directiveName'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> config</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>return的配置参数有很多，接下来一一进行分析</p>
+<p>1.1 限制使用  restrict  值为字符串  可以的值有  ECMA  E设置指令可以通过元素的形式进行调用 A 设置指令可以通过属性的形式调用 M设置指令可以通过注释的形式调用 C设置指令可以通过类名进行调用；</p>
+<p><strong>默认值是EA</strong> ，表示我们定义的指令可以通过元素名或者属性的形式进行调用</p>
+<p>你可以限制你的指令只能通过特定的方式来调用。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- E (element) --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">directiveName</span>&gt;</span><span class="tag">&lt;/<span class="name">directiveName</span>&gt;</span></div><div class="line">比如<span class="tag">&lt;<span class="name">ng-view</span>&gt;</span><span class="tag">&lt;/<span class="name">ng-view</span>&gt;</span>等</div><div class="line"></div><div class="line"><span class="comment">&lt;!-- A (attribute) --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">directiveName</span>=<span class="string">"expression"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">比如<span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-init</span>=<span class="string">"name= 'Jhon'"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-hide</span>=<span class="string">"name= 'Jhon'"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span> 等</div><div class="line"></div><div class="line"><span class="comment">&lt;!-- C (class) --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"directiveName"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- M(comment) --&gt;</span></div><div class="line"><span class="comment">&lt;!--directive:directiveName expression--&gt;</span></div></pre></td></tr></table></figure>
+<p>1.2 2. priority 默认值为0 </p>
+<p>数字，可选参数，致命指令的优先级，若在单个DOM元素上有多个指令，则优先级高的先执行。</p>
+<p>当然，设置指令的优先级不太常用，但是比较特殊的例子是，内置指令ng-repeat的优先级为1000，而ng-init的优先级为 450。</p>
+<p>1.3 terminal</p>
+<p>布尔型，可选参数，可以被设置为true或者false，若设置为true，则优先级低于此指令的其他指令则无效，不会被调用优先级相同任然会执行。</p>
+<p>1.4. template</p>
+<p>字符串或者函数，可选参数。</p>
+<ul>
+<li>如下栗子我们简单的定义了一个指令，template是字符串的形式</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">'hello'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="comment">//默认restrict是EA</span></div><div class="line">    template:<span class="string">'&lt;div&gt;try your best&lt;/div&gt;'</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>然后可以使用该指令，通过属性或者元素的方式进行指令的使用</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">hello</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">hello</span>&gt;</span><span class="tag">&lt;/<span class="name">hello</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>显示结果如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">try your best</div><div class="line">try your best</div></pre></td></tr></table></figure>
+<ul>
+<li>如下栗子我们定义的一个指令，template是函数的形式，function函数接受两个参数，第一个是element,表示使用此指令的元素，attrs是 实例的属性，它右一个元素上所有的属性组成集合</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">'hello1'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">template</span>:<span class="function"><span class="keyword">function</span>(<span class="params">ele,attr</span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">      <span class="comment">//为了便于说明函数传入的参数ele和attr到底代表的是哪些，我们可以打印出来看下具体的结果</span></div><div class="line">      <span class="keyword">return</span> <span class="string">'&lt;div&gt;'</span>+<span class="string">'hello '</span>+attr.info+<span class="string">'&lt;/div&gt;'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>然后可以使用该指令，通过属性或者元素的方式进行指令的调用，可以发现第一个调用输出arguments，ele参数代表hello1元素，attr参数代表hello1上面的属性的集合 ，第二次输出arguments,ele代表div元素，attr参数代表div上面的所有的属性的集合</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hello1</span> <span class="attr">info</span> = <span class="string">'Jhon'</span>&gt;</span><span class="tag">&lt;/<span class="name">hello1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">hello1</span> <span class="attr">info</span>=<span class="string">'JiM'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>显示结果如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hello Jhon</div><div class="line">hello JiM</div></pre></td></tr></table></figure>
+<p>html的结构如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hello1</span> <span class="attr">info</span> = <span class="string">'Jhon'</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span>hello Jhon<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">hello1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">hello1</span> <span class="attr">info</span>=<span class="string">'JiM'</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span>hello JiM<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.5 replace  布尔型，<strong>默认值为false</strong>，设置为true的时候，表示可以用自定义的模板<strong>内容的标签</strong>替换自定义的<strong>元素标签</strong>。在上例子的基础上，变化如下，大家可以对比下上述两者html的结构的区别</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">'hello1'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">replace</span>:<span class="literal">true</span>,</div><div class="line">    <span class="attr">template</span>:<span class="function"><span class="keyword">function</span>(<span class="params">ele,attr</span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">      <span class="keyword">return</span> <span class="string">'&lt;div&gt;'</span>+<span class="string">'hello '</span>+attr.info+<span class="string">'&lt;/div&gt;'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>html结构</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">hello1</span>=<span class="string">""</span> <span class="attr">info</span>=<span class="string">"JiM"</span>&gt;</span>hello JiM<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">info</span>=<span class="string">"Jhon"</span>&gt;</span>hello Jhon<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.6 templateUrl <strong>（字符串或者函数），可选参数，可以是</strong></p>
+<p>（1）一个代表HTML文件路径的字符串</p>
+<p>（2）一个函数，可接受两个参数tElement和tAttrs（大致同上）</p>
+<p>index.html页面中有如下代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/ng-template'</span> <span class="attr">id</span>=<span class="string">'courage.html'</span>&gt;</span><span class="xml"></span></div><div class="line">//注意，模板文件的type属性必须是  ng-template ,表示以angular的规则进行模板的解析</div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>that is awesome to learn more about IT <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>我们可以定义一个指令</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">'courage'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">templateUrl</span>:<span class="string">"courage.html"</span>,</div><div class="line">    <span class="attr">replace</span>:<span class="literal">true</span>,</div><div class="line">    <span class="attr">restrict</span>:<span class="string">'E'</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>调用指令</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">conrage</span>&gt;</span><span class="tag">&lt;/<span class="name">conrage</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>页面显示的html结构如下(注意restrict和replace属性的设置对于显示的影响)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>this is awesome to learn more about IT <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.7 scope <strong>默认值是false</strong></p>
+<p>false表示继承父作用域的值，<strong>且不进行隔离</strong>，子作用域和父作用域的改变都将影响变量的值；</p>
+<p>true表示继承父作用域的值，但是进行隔离，这种效果和设置两个控制器的效果是一样的；改变父作用域的值，子作用域在没有</p>
+<p><code>{}</code>：没有继承父亲的值，所以儿子的值为空，改变任何一方的值都不会影响另一方，这就是不继承且隔离;</p>
+<p>当想要创建一个可重用的组件时，隔离作用域是一个很好的选择，通过隔离作用域，我们可以确保指令是独立的，并且可以轻松的插入到任何HTML APP中，并且这种做法防止了父作用域被污染。</p>
+<p>先来看下作用域，我们知道，每定义一个控制器就会形成一个scope对象，该对象可以表示一个作用域，并且继承了父作用域的数据；我们从下面的例子可以改变输入的名字，</p>
+<ul>
+<li>子作用域继承了父作用域的变量</li>
+<li>子作用域和父作用域的变量的改变是相互独立的，也就是说子作用域是继承且隔离的</li>
+</ul>
+<p>1.7.1 先来看下controller控制器下面的作用的效果，子作用域和父作用域是继承且隔离的效果，子作用域的变量的变化不会污染到父作用域；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'app'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'parent'</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'name'</span> <span class="attr">placeholder</span>=<span class="string">'please input your name'</span>/&gt;</span></div><div class="line">    parent:`&#123;&#123;name&#125;&#125;`</div><div class="line">    age:`&#123;&#123;age&#125;&#125;`</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'child'</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'name'</span> <span class="attr">placeholder</span>=<span class="string">'please input your name'</span>/&gt;</span></div><div class="line">        child:`&#123;&#123;name&#125;&#125;`</div><div class="line">        age :`&#123;&#123;age&#125;&#125;`</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> app = angular.module(<span class="string">'app'</span>,[]);</div><div class="line">    app.controller(<span class="string">'parent'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.name = <span class="string">"Jhon"</span>;</div><div class="line">        $scope.age = <span class="number">19</span> ;</div><div class="line">    &#125;]);</div><div class="line">    app.controller(<span class="string">'child'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.name = <span class="string">"JiM"</span>;</div><div class="line">    &#125;]);</div><div class="line"></div><div class="line">    <span class="comment">//这种情势下的scope作用域是继承且隔离的，子作用域内的变量的改变不会对父作用域内的变量有任何的影响</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.7.2 再来看下我们自定义directive的时候的scope不同的设置情况的效果</p>
+<p>false的情况(或者没有设置的时候默认的情况)，子作用域会污染父作用域的变量，<strong>继承且不隔离</strong></p>
+<p>true的情况，和1.7.1controller的效果一样，<strong>继承且隔离</strong>，这种情况下也就是一般的原型继承的情况</p>
+<p><code>{ }</code> 的情况，表示<strong>不继承且隔离</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'app'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'parent'</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'name'</span>/&gt;</span></div><div class="line">    parent:`&#123;&#123;name&#125;&#125;`</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">child</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> app = angular.module(<span class="string">'app'</span>,[]);</div><div class="line">    app.controller(<span class="string">'parent'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.name = <span class="string">"Jhon"</span>;</div><div class="line">    &#125;]);</div><div class="line">    app.directive(<span class="string">'child'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="keyword">return</span> &#123;</div><div class="line">           <span class="attr">replace</span>:<span class="literal">true</span> ,<span class="comment">//默认值是false</span></div><div class="line">           restrict:<span class="string">'EA'</span>,</div><div class="line">           <span class="attr">scope</span>:<span class="literal">false</span>,</div><div class="line">           <span class="attr">template</span>:<span class="string">''</span>+</div><div class="line">           <span class="string">'&lt;div&gt;'</span>+</div><div class="line">                <span class="string">'&lt;input type="text" ng-model = "name"/&gt;'</span>+</div><div class="line">                <span class="string">`'child:&#123;&#123;name&#125;&#125;'`</span>+</div><div class="line">           <span class="string">'&lt;/div&gt;'</span></div><div class="line">       &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">//这种情势下的scope作用域是继承且隔离的，子作用域内的变量的改变不会对父作用域内的变量有任何的影响</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.7.3  当我们将scope设置为{ }  的时候，此时子作用域无法再访问父作用域的变量值，这个时候需要我们做出一些调整，让子作用域可以访问父作用域的变量，但是不会污染父作用域</p>
+<ul>
+<li>采用 @ 进行单向绑定，也就是说，改变父作用域的name的值，directive里面的name也会改变，但是改变隔离区directive里面的name,父作用域里面的name是不会发生改变的;也就是达到<strong>继承且隔离</strong>的效果</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'app'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'parent'</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'name'</span>/&gt;</span></div><div class="line">    parent:`&#123;&#123;name&#125;&#125;`</div><div class="line"></div><div class="line">    <span class="comment">&lt;!--&lt;child name="&#123;&#123;name&#125;&#125;"&gt;&lt;/child&gt;--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">child</span> <span class="attr">your-name</span>=`"&#123;&#123;<span class="attr">name</span>&#125;&#125;"`&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> app = angular.module(<span class="string">'app'</span>,[]);</div><div class="line">    app.controller(<span class="string">'parent'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.name = <span class="string">"Jhon"</span>;</div><div class="line">    &#125;]);</div><div class="line">    app.directive(<span class="string">'child'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">replace</span>:<span class="literal">true</span> ,<span class="comment">//默认值是false</span></div><div class="line">            restrict:<span class="string">'EA'</span>,</div><div class="line">            <span class="attr">scope</span>:&#123;</div><div class="line">              <span class="comment">//如果绑定的隔离作用域属性名与元素的属性名相同，则可以采用缺省写法</span></div><div class="line"><span class="comment">//                name:'@'   //对应&lt;child name="&#123;&#123;name&#125;&#125;"&gt;&lt;/child&gt; </span></div><div class="line">                name:<span class="string">"@yourName"</span></div><div class="line">            &#125;,</div><div class="line">            <span class="attr">template</span>:<span class="string">''</span>+</div><div class="line">            <span class="string">'&lt;div&gt;'</span>+</div><div class="line">            <span class="string">'&lt;input type="text" ng-model = "name"/&gt;'</span>+</div><div class="line">            <span class="string">`'child:&#123;&#123;name&#125;&#125;'`</span>+</div><div class="line">            <span class="string">'&lt;/div&gt;'</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    <span class="comment">//这种情势下的scope作用域是继承且隔离的，子作用域内的变量的改变不会对父作用域内的变量有任何的影响</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>此时template生成的html结构如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">your-name</span>=<span class="string">"Jhon"</span> <span class="attr">class</span>=<span class="string">"ng-binding ng-isolate-scope"</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span>=<span class="string">"name"</span> <span class="attr">class</span>=<span class="string">"ng-valid ng-not-empty ng-dirty ng-touched"</span>&gt;</span>child:Jhon</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//我们可以大致的模拟下ng-controller的实现原理</span></div><div class="line">app.directive(<span class="string">"myController"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;    </div><div class="line">  <span class="keyword">return</span> &#123;        </div><div class="line">    <span class="attr">scope</span>: <span class="literal">true</span>,   <span class="comment">//scope设置为true，     </span></div><div class="line">    controller: <span class="string">'@'</span>   </div><div class="line">  &#125;&#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li>采用 = 进行双向绑定，也就是说，改变父作用域的name的值，directive里面的name也会改变，同样改变隔离区directive里面的name,父作用域里面的name是也会发生改变的;此时达到了 <strong>继承且不隔离</strong>的效果</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'app'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'parent'</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'name'</span>/&gt;</span></div><div class="line">    parent:`&#123;&#123;name&#125;&#125;`</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">child</span> <span class="attr">name</span>=<span class="string">"name"</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!--需要注意的一点是和&lt;child name="&#123;&#123;name&#125;&#125;"&gt;&lt;/child&gt;的写法不同，不然效果出不来--&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> app = angular.module(<span class="string">'app'</span>,[]);</div><div class="line">    app.controller(<span class="string">'parent'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.name = <span class="string">"Jhon"</span>;</div><div class="line">    &#125;]);</div><div class="line">    app.directive(<span class="string">'child'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">replace</span>:<span class="literal">true</span> ,<span class="comment">//默认值是false</span></div><div class="line">            restrict:<span class="string">'EA'</span>,</div><div class="line">            <span class="attr">scope</span>:&#123;</div><div class="line"><span class="comment">//</span></div><div class="line">                name:<span class="string">'='</span></div><div class="line">            &#125;,</div><div class="line">            <span class="attr">template</span>:<span class="string">''</span>+</div><div class="line">            <span class="string">'&lt;div&gt;'</span>+</div><div class="line">            <span class="string">'&lt;input type="text" ng-model = "name"/&gt;'</span>+</div><div class="line">            <span class="string">`'child:&#123;&#123;name&#125;&#125; '`</span>+</div><div class="line">            <span class="string">'&lt;/div&gt;'</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">//这种情势下的scope作用域是继承且隔离的，子作用域内的变量的改变不会对父作用域内的变量有任何的影响</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>此时template生成的html结构如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">class</span>=<span class="string">"ng-binding ng-isolate-scope"</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span>=<span class="string">"name"</span> <span class="attr">class</span>=<span class="string">"ng-valid ng-not-empty ng-dirty ng-touched ng-valid-parse"</span>&gt;</span>child:Jhon</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
 
           
         
@@ -860,160 +964,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/17/161AngularjsModule/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/17/161AngularjsModule/" itemprop="url">
-                  Angular Js angularModule
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-17T12:36:00+08:00">
-                2016-10-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript-Angular/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript Angular</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1 模块的定义</p>
-<p>module是angular中重要的模块组织方式，它提供了将一组内聚的业务组件（controller、service、filter、directive…）封装在一起的能力。这样做可以将代码按照业务领域问题分module的封装，然后利用module的依赖注入其关联的模块内容，使得我们能够更好的”分离关注点“，达到更好的”高内聚低耦合“。”高内聚低耦合“是来自面向对象设计原则。内聚是指模块或者对象内部的完整性，一组紧密联系的逻辑应该被封装在同一模块、对象等代码单元中，而不是分散在各处；耦合则指模块、对象等代码单元之间的依赖程度，如果一个模块的修改，会影响到另一个模块，则说明这两模块之间是相互依赖紧耦合的。</p>
-<p>同时module也是我们angular代码的入口，首先需要声明module，然后才能定义angular中的其他组件元素，如controller、service、filter、directive、config代码块、run代码块等。</p>
-<p>关于module的定义为：angular.module(‘com.ngbook.demo’, [])。关于module函数可以传递3个参数，它们分别为：</p>
-<ol>
-<li>name：模块定义的名称，它应该是一个唯一的必选参数，它会在后边被其他模块注入或者是在ngAPP指令中声明应用程序主模块；</li>
-<li>requires：模块的依赖，它是声明本模块需要依赖的其他模块的参数。特别注意：如果在这里没有声明模块的依赖，则我们是无法在模块中使用依赖模块的任何组件的；它是个可选参数。</li>
-<li>configFn： 模块的启动配置函数，在angular config阶段会调用该函数，对模块中的组件进行实例化对象实例之前的特定配置，如我们常见的对$routeProvider配置应用程序的路由信息。它等同于”module.config“函数，建议用”module.config“函数替换它。这也是个可选参数。</li>
-</ol>
-<p>我们可以打印出来angular全局对象和angular.module()这个方法返回的对象来更深入的了解它们之间的关系</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>mudule submit<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./bower_components/angular/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> &gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    console.dir(angular);</div><div class="line">    console.dir(angular.module("myModule",[]));</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>2 声明module之后，其他组件元素，如controller、service、filter、directive、config代码块、run代码块也就可以在对应的模块上使用了。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/17/03opacity/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1128,6 +1078,160 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">       div&#123;</div><div class="line">           width: 500px;</div><div class="line">           height: 100px;</div><div class="line">           background-color:  rgba(344,24,67,.3);</div><div class="line"></div><div class="line">       &#125;</div><div class="line">   <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>这一段话是div里面的文字,opacity 透明度会改变字体的透明度 ，rgba  则不会</div><div class="line">  		<span class="tag">&lt;<span class="name">p</span>&gt;</span>这一段话是p里面的文字，如果对div设置透明度的时候，用opacity那么将会被继承，如果用rgba设置			透明度的时候，则不会被继承</div><div class="line">     	<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">      div&#123;</div><div class="line">          width: 500px;</div><div class="line">          height: 100px;</div><div class="line">          background-color:  rgb(344,24,67);</div><div class="line">          opacity: 0.3;  </div><div class="line">      &#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>三  总结：在做项目的时候，尽量用rgba 来改变透明度，因为opacity透明度具有继承性，并且还会改变文本的透明度，会造成一些影响</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/17/161AngularjsModule/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/17/161AngularjsModule/" itemprop="url">
+                  Angular Js angularModule
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-17T12:36:00+08:00">
+                2016-10-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-Angular/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript Angular</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1 模块的定义</p>
+<p>module是angular中重要的模块组织方式，它提供了将一组内聚的业务组件（controller、service、filter、directive…）封装在一起的能力。这样做可以将代码按照业务领域问题分module的封装，然后利用module的依赖注入其关联的模块内容，使得我们能够更好的”分离关注点“，达到更好的”高内聚低耦合“。”高内聚低耦合“是来自面向对象设计原则。内聚是指模块或者对象内部的完整性，一组紧密联系的逻辑应该被封装在同一模块、对象等代码单元中，而不是分散在各处；耦合则指模块、对象等代码单元之间的依赖程度，如果一个模块的修改，会影响到另一个模块，则说明这两模块之间是相互依赖紧耦合的。</p>
+<p>同时module也是我们angular代码的入口，首先需要声明module，然后才能定义angular中的其他组件元素，如controller、service、filter、directive、config代码块、run代码块等。</p>
+<p>关于module的定义为：angular.module(‘com.ngbook.demo’, [])。关于module函数可以传递3个参数，它们分别为：</p>
+<ol>
+<li>name：模块定义的名称，它应该是一个唯一的必选参数，它会在后边被其他模块注入或者是在ngAPP指令中声明应用程序主模块；</li>
+<li>requires：模块的依赖，它是声明本模块需要依赖的其他模块的参数。特别注意：如果在这里没有声明模块的依赖，则我们是无法在模块中使用依赖模块的任何组件的；它是个可选参数。</li>
+<li>configFn： 模块的启动配置函数，在angular config阶段会调用该函数，对模块中的组件进行实例化对象实例之前的特定配置，如我们常见的对$routeProvider配置应用程序的路由信息。它等同于”module.config“函数，建议用”module.config“函数替换它。这也是个可选参数。</li>
+</ol>
+<p>我们可以打印出来angular全局对象和angular.module()这个方法返回的对象来更深入的了解它们之间的关系</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>mudule submit<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./bower_components/angular/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> &gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    console.dir(angular);</div><div class="line">    console.dir(angular.module("myModule",[]));</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2 声明module之后，其他组件元素，如controller、service、filter、directive、config代码块、run代码块也就可以在对应的模块上使用了。</p>
 
           
         
@@ -1323,171 +1427,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/13/138Object-assign/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/13/138Object-assign/" itemprop="url">
-                  Object assign
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-13T12:36:00+08:00">
-                2016-10-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript-object/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript object</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1 先来看下字符串，数字和布尔类型转化为对象包装类</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"> <span class="built_in">console</span>.log(<span class="built_in">Object</span>(<span class="string">'abc'</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">Object</span>(<span class="string">'abc'</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>(<span class="number">1</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span>  <span class="built_in">Object</span>(<span class="number">1</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>(<span class="literal">true</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">Object</span>(<span class="literal">true</span>));</div></pre></td></tr></table></figure>
-<p>2 Object.assign(target,source1,source2,······)；该方法会将source1,2对象的 <strong>可枚举的</strong>属性复制到target对象上，然后返回target对象</p>
-<p>2.1  如果只传了一个参数，那么直接返回该参数，(如果传的是基本数据类型null和undefined会报错)，基本数据类型转化为包装对象，复杂数据类型直接返回</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.assign(<span class="literal">undefined</span>) <span class="comment">// 报错</span></div><div class="line"><span class="built_in">Object</span>.assign(<span class="literal">null</span>) <span class="comment">// 报错</span></div><div class="line"><span class="keyword">typeof</span> <span class="built_in">Object</span>.assign(<span class="number">2</span>) <span class="comment">// "object"</span></div><div class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">a</span>: <span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">Object</span>.assign(obj) === obj <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<p>2.2 如果传递了多个参数，那么进行赋值拷贝，注意assign方法执行的是浅拷贝，也就是说如果键值的值是复杂数据类型，那么复制的是地址,如果source有包装类型字符串可以进行赋值，null undefined 数字以及布尔类型会跳过</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj1 = &#123;<span class="attr">a</span>: &#123;<span class="attr">b</span>: <span class="number">1</span>&#125;&#125;;</div><div class="line"><span class="keyword">var</span> obj2 = <span class="built_in">Object</span>.assign(&#123;&#125;, obj1);</div><div class="line"></div><div class="line">obj1.a.b = <span class="number">2</span>;</div><div class="line">obj2.a.b <span class="comment">// 2</span></div></pre></td></tr></table></figure>
-<p>2.3 如果对象target的属性和source的属性名有重复的，那么会进行合并覆盖</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> target = &#123; <span class="attr">a</span>: &#123; <span class="attr">b</span>: <span class="string">'c'</span>, <span class="attr">d</span>: <span class="string">'e'</span> &#125; &#125;</div><div class="line"><span class="keyword">var</span> source = &#123; <span class="attr">a</span>: &#123; <span class="attr">b</span>: <span class="string">'hello'</span> &#125; &#125;</div><div class="line"><span class="built_in">Object</span>.assign(target, source)</div><div class="line"><span class="comment">// &#123; a: &#123; b: 'hello' &#125; &#125;</span></div></pre></td></tr></table></figure>
-<p>2.4 <strong>原型上的属性</strong>以及<strong>不可枚举</strong>的属性不会被复制</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = <span class="built_in">Object</span>.create(&#123; <span class="attr">foo</span>: <span class="number">1</span> &#125;, &#123; <span class="comment">// foo is on obj's prototype chain.</span></div><div class="line">  bar: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="number">2</span>  <span class="comment">// bar is a non-enumerable property.默认emunerable属性值是false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">baz</span>: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="number">3</span>,</div><div class="line">    <span class="attr">enumerable</span>: <span class="literal">true</span>  <span class="comment">// baz is an own enumerable property.</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> copy = <span class="built_in">Object</span>.assign(&#123;&#125;, obj);</div><div class="line"><span class="built_in">console</span>.log(copy); <span class="comment">// &#123; baz: 3 &#125;</span></div></pre></td></tr></table></figure>
-<p>3 assign经常的用法,以下代码都是有联系的</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> x = <span class="string">'jhon'</span>;</div><div class="line"><span class="keyword">let</span> y = <span class="string">'jim'</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.assign(&#123;&#125;,&#123;x,y&#125;));<span class="comment">//ES6对象的属性简写，如果x y未定义会报错</span></div></pre></td></tr></table></figure>
-<p>3.1 为对象添加属性</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//第一用法添加对象的属性</span></div><div class="line">   <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</div><div class="line">       <span class="keyword">constructor</span>()&#123;</div><div class="line">           <span class="built_in">Object</span>.assign(<span class="keyword">this</span>,&#123;x,y&#125;);<span class="comment">//这里是对象的简写</span></div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>3.2 为对象添加方法</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//第二个用法，添加对象的方法</span></div><div class="line">  <span class="built_in">Object</span>.assign(test.prototype,&#123;</div><div class="line">      method1()&#123;</div><div class="line">          <span class="built_in">console</span>.log(<span class="string">"this is method one"</span>);</div><div class="line">      &#125;,</div><div class="line">      method2()&#123;</div><div class="line">          <span class="built_in">console</span>.log(<span class="string">"this is method two"</span>);</div><div class="line">      &#125;</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  <span class="keyword">var</span> t = <span class="keyword">new</span> test();</div><div class="line">  <span class="built_in">console</span>.log(t);</div></pre></td></tr></table></figure>
-<p>3.3 克隆对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">origin</span>)</span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;,origin);</div><div class="line">  &#125;;</div><div class="line">  <span class="comment">//如果想要克隆原型上的属性</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">perfectClone</span>(<span class="params">origin</span>)</span>&#123;</div><div class="line">      <span class="keyword">let</span> originPrototype = <span class="built_in">Object</span>.getPrototypeOf(origin);</div><div class="line">      <span class="keyword">return</span> <span class="built_in">Object</span>.assign(originPrototype,origin);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> c = clone(t);</div><div class="line">  <span class="built_in">console</span>.log(c);</div><div class="line">  <span class="keyword">var</span> pc = perfectClone(t);</div><div class="line">  <span class="built_in">console</span>.log(pc);</div></pre></td></tr></table></figure>
-<p>3.4 合并多个对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> merge = <span class="function">(<span class="params">target,source1,source2</span>) =&gt;</span> <span class="built_in">Object</span>.assign(target,source1,source2);</div><div class="line"><span class="keyword">var</span> M = merge(t,c,pc);</div><div class="line"><span class="built_in">console</span>.log(M);</div></pre></td></tr></table></figure>
-<p>3.5 为属性指定默认值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> DEFAULTS = &#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>,<span class="attr">psw</span>:<span class="string">"123456"</span>&#125;;</div><div class="line"><span class="keyword">let</span> loginIn = <span class="function">(<span class="params">option</span>) =&gt;</span> &#123;option = <span class="built_in">Object</span>.assign(&#123;&#125;,DEFAULTS,option)&#125;;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/13/150Arrayfrom API/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1612,6 +1551,171 @@
 <p>然后同样调用Object.keys(obj)方法即可；</p>
 <p>2 将类数组转化的数组实例通过mapFn函数加工，返回一个加工后的数组</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arrayLike = &#123;<span class="number">0</span>:<span class="number">11</span>,<span class="number">1</span>:<span class="number">12</span>,<span class="number">2</span>:<span class="number">13</span>,<span class="attr">length</span>:<span class="number">3</span>&#125;;</div><div class="line"><span class="keyword">var</span> newArr = <span class="built_in">Array</span>.from(arrayLike,item =&gt; item*<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(newArr);<span class="comment">//[22,24,26]</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/13/138Object-assign/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/13/138Object-assign/" itemprop="url">
+                  Object assign
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-13T12:36:00+08:00">
+                2016-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-object/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript object</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1 先来看下字符串，数字和布尔类型转化为对象包装类</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"> <span class="built_in">console</span>.log(<span class="built_in">Object</span>(<span class="string">'abc'</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">Object</span>(<span class="string">'abc'</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>(<span class="number">1</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span>  <span class="built_in">Object</span>(<span class="number">1</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>(<span class="literal">true</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">Object</span>(<span class="literal">true</span>));</div></pre></td></tr></table></figure>
+<p>2 Object.assign(target,source1,source2,······)；该方法会将source1,2对象的 <strong>可枚举的</strong>属性复制到target对象上，然后返回target对象</p>
+<p>2.1  如果只传了一个参数，那么直接返回该参数，(如果传的是基本数据类型null和undefined会报错)，基本数据类型转化为包装对象，复杂数据类型直接返回</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.assign(<span class="literal">undefined</span>) <span class="comment">// 报错</span></div><div class="line"><span class="built_in">Object</span>.assign(<span class="literal">null</span>) <span class="comment">// 报错</span></div><div class="line"><span class="keyword">typeof</span> <span class="built_in">Object</span>.assign(<span class="number">2</span>) <span class="comment">// "object"</span></div><div class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">a</span>: <span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">Object</span>.assign(obj) === obj <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>2.2 如果传递了多个参数，那么进行赋值拷贝，注意assign方法执行的是浅拷贝，也就是说如果键值的值是复杂数据类型，那么复制的是地址,如果source有包装类型字符串可以进行赋值，null undefined 数字以及布尔类型会跳过</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj1 = &#123;<span class="attr">a</span>: &#123;<span class="attr">b</span>: <span class="number">1</span>&#125;&#125;;</div><div class="line"><span class="keyword">var</span> obj2 = <span class="built_in">Object</span>.assign(&#123;&#125;, obj1);</div><div class="line"></div><div class="line">obj1.a.b = <span class="number">2</span>;</div><div class="line">obj2.a.b <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<p>2.3 如果对象target的属性和source的属性名有重复的，那么会进行合并覆盖</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> target = &#123; <span class="attr">a</span>: &#123; <span class="attr">b</span>: <span class="string">'c'</span>, <span class="attr">d</span>: <span class="string">'e'</span> &#125; &#125;</div><div class="line"><span class="keyword">var</span> source = &#123; <span class="attr">a</span>: &#123; <span class="attr">b</span>: <span class="string">'hello'</span> &#125; &#125;</div><div class="line"><span class="built_in">Object</span>.assign(target, source)</div><div class="line"><span class="comment">// &#123; a: &#123; b: 'hello' &#125; &#125;</span></div></pre></td></tr></table></figure>
+<p>2.4 <strong>原型上的属性</strong>以及<strong>不可枚举</strong>的属性不会被复制</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = <span class="built_in">Object</span>.create(&#123; <span class="attr">foo</span>: <span class="number">1</span> &#125;, &#123; <span class="comment">// foo is on obj's prototype chain.</span></div><div class="line">  bar: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="number">2</span>  <span class="comment">// bar is a non-enumerable property.默认emunerable属性值是false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">baz</span>: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="number">3</span>,</div><div class="line">    <span class="attr">enumerable</span>: <span class="literal">true</span>  <span class="comment">// baz is an own enumerable property.</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> copy = <span class="built_in">Object</span>.assign(&#123;&#125;, obj);</div><div class="line"><span class="built_in">console</span>.log(copy); <span class="comment">// &#123; baz: 3 &#125;</span></div></pre></td></tr></table></figure>
+<p>3 assign经常的用法,以下代码都是有联系的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> x = <span class="string">'jhon'</span>;</div><div class="line"><span class="keyword">let</span> y = <span class="string">'jim'</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.assign(&#123;&#125;,&#123;x,y&#125;));<span class="comment">//ES6对象的属性简写，如果x y未定义会报错</span></div></pre></td></tr></table></figure>
+<p>3.1 为对象添加属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//第一用法添加对象的属性</span></div><div class="line">   <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</div><div class="line">       <span class="keyword">constructor</span>()&#123;</div><div class="line">           <span class="built_in">Object</span>.assign(<span class="keyword">this</span>,&#123;x,y&#125;);<span class="comment">//这里是对象的简写</span></div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>3.2 为对象添加方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//第二个用法，添加对象的方法</span></div><div class="line">  <span class="built_in">Object</span>.assign(test.prototype,&#123;</div><div class="line">      method1()&#123;</div><div class="line">          <span class="built_in">console</span>.log(<span class="string">"this is method one"</span>);</div><div class="line">      &#125;,</div><div class="line">      method2()&#123;</div><div class="line">          <span class="built_in">console</span>.log(<span class="string">"this is method two"</span>);</div><div class="line">      &#125;</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  <span class="keyword">var</span> t = <span class="keyword">new</span> test();</div><div class="line">  <span class="built_in">console</span>.log(t);</div></pre></td></tr></table></figure>
+<p>3.3 克隆对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">origin</span>)</span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;,origin);</div><div class="line">  &#125;;</div><div class="line">  <span class="comment">//如果想要克隆原型上的属性</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">perfectClone</span>(<span class="params">origin</span>)</span>&#123;</div><div class="line">      <span class="keyword">let</span> originPrototype = <span class="built_in">Object</span>.getPrototypeOf(origin);</div><div class="line">      <span class="keyword">return</span> <span class="built_in">Object</span>.assign(originPrototype,origin);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> c = clone(t);</div><div class="line">  <span class="built_in">console</span>.log(c);</div><div class="line">  <span class="keyword">var</span> pc = perfectClone(t);</div><div class="line">  <span class="built_in">console</span>.log(pc);</div></pre></td></tr></table></figure>
+<p>3.4 合并多个对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> merge = <span class="function">(<span class="params">target,source1,source2</span>) =&gt;</span> <span class="built_in">Object</span>.assign(target,source1,source2);</div><div class="line"><span class="keyword">var</span> M = merge(t,c,pc);</div><div class="line"><span class="built_in">console</span>.log(M);</div></pre></td></tr></table></figure>
+<p>3.5 为属性指定默认值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> DEFAULTS = &#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>,<span class="attr">psw</span>:<span class="string">"123456"</span>&#125;;</div><div class="line"><span class="keyword">let</span> loginIn = <span class="function">(<span class="params">option</span>) =&gt;</span> &#123;option = <span class="built_in">Object</span>.assign(&#123;&#125;,DEFAULTS,option)&#125;;</div></pre></td></tr></table></figure>
 
           
         
@@ -1864,165 +1968,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/02/104-数组的sort方法-原理详解！/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/02/104-数组的sort方法-原理详解！/" itemprop="url">
-                  Array Sort
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-02T12:36:00+08:00">
-                2016-10-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="数组的sort方法—-改变原数组"><a href="#数组的sort方法—-改变原数组" class="headerlink" title="数组的sort方法—-改变原数组"></a>数组的sort方法—-改变原数组</h2><p>简单粗暴直接上代码咯(sort方法的定义请查阅W3C或者搜索)</p>
-<p><strong>注意:sort(fn) 方法可以接受一个 方法为参数 ，这个方法有两个参数。分别代表每次排序比较时的两个数组项。sort()排序时每次比较两个数组项都回执行这个参数，并把两个比较的数组项作为参数传递 给这个函数。</strong></p>
-<h3 id="当函数返回值为-1-的时候就交换两个数组项的顺序，否则就不交换。"><a href="#当函数返回值为-1-的时候就交换两个数组项的顺序，否则就不交换。" class="headerlink" title="当函数返回值为  1  的时候就交换两个数组项的顺序，否则就不交换。　"></a><strong>当函数返回值为  1  的时候就交换两个数组项的顺序，否则就不交换。</strong>　</h3><p>sort方法排序的关键是在于传入函数的返回值;改变原数组，并不产生新的数组；如果fn这个参数被省略，那么元素将按照 ASCII 字符顺序进行升序排列。</p>
-<h3 id="一-数字类型数组排序"><a href="#一-数字类型数组排序" class="headerlink" title="一  数字类型数组排序"></a>一  数字类型数组排序</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">21</span>,<span class="number">35</span>,<span class="number">24</span>,<span class="number">12</span>,<span class="number">15</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">65</span>,<span class="number">64</span>]</div><div class="line"> arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">      <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">  &#125;)</div><div class="line"> </div><div class="line"> <span class="comment">//从控制台结果可以看出sort传递的函数默认有两个参数，这两个参数就是要排序的数组里面的两项</span></div><div class="line"> <span class="comment">//函数执行的this指向window;</span></div><div class="line"> <span class="comment">//如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序，是按照字符编码的顺序进行排序。</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">var</span> arr = [<span class="number">21</span>,<span class="number">35</span>,<span class="number">24</span>,<span class="number">12</span>,<span class="number">15</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">65</span>,<span class="number">64</span>]</div><div class="line">    arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> a - b ;</div><div class="line">    &#125;)</div><div class="line">    <span class="comment">//这种方法可以排序数字数组，却不能排序字符串数组，如下有代码案例</span></div><div class="line">    <span class="built_in">console</span>.log(arr);</div><div class="line"><span class="comment">//注意 - 操作符的运算，对于数字类型的运算数，结果返回数字  </span></div><div class="line"><span class="comment">//a-b输出从小到大排序，b-a输出从大到小排序。</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'eca'</span>,<span class="string">'bda'</span>,<span class="string">'acf'</span>,<span class="string">'dfe'</span>];</div><div class="line">arr.sort()</div><div class="line"><span class="built_in">console</span>.log(arr);</div><div class="line"><span class="comment">//["acf", "bda", "dfe", "eca"]</span></div><div class="line"><span class="comment">//如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序，说得更精确点，是按照字符编码的顺序进行排序。要实现这一点，首先应把数组的元素都转换成字符串（如有必要），以便进行比较</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'eca'</span>,<span class="string">'bda'</span>,<span class="string">'acf'</span>,<span class="string">'dfe'</span>];</div><div class="line">    arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> a - b ;</div><div class="line">    &#125;)</div><div class="line">    <span class="comment">//这种方法不能排序字符串</span></div><div class="line"><span class="built_in">console</span>.log(arr);</div><div class="line"><span class="comment">//["eca", "bda", "acf", "dfe"]</span></div><div class="line"><span class="comment">//这个排序功能就没有了，因为 - 运算符操作的运算数如果有一个不是数字，那么就会返回NaN，没有返回1 -1 或者0任意一个;</span></div></pre></td></tr></table></figure>
-<h3 id="二-字符串数组排序"><a href="#二-字符串数组排序" class="headerlink" title="二  字符串数组排序"></a>二  字符串数组排序</h3><p>那么如何才能排序字符串呢？这个之前需要先了解，字符串的比较 &lt; &lt;= &gt; &gt;= 返回一个布尔类型的值</p>
-<p>对于字符串，第一个字符串中每个字符的代码都与会第二个字符串中对应位置的字符的代码进行数值比较。完成这种比较操作后，返回一个 Boolean 值。</p>
-<p>所以对于字符串的排序，需要进行比较运算的运用，判断字符代码的大小，然后选择返回 1  -1  还是 0 </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'eca'</span>,<span class="string">'bda'</span>,<span class="string">'acf'</span>,<span class="string">'dfe'</span>];</div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">sortStr</span> (<span class="params">str1,str2</span>)</span>&#123;</div><div class="line">       <span class="keyword">if</span>(str1 &gt; str2)&#123;    <span class="comment">//如果str1 &gt; str2 交换二者的位置</span></div><div class="line">           <span class="keyword">return</span> <span class="number">1</span> ;</div><div class="line">       &#125;<span class="keyword">else</span> <span class="keyword">if</span> (str1 &lt; str2 )&#123; <span class="comment">//如果str1 &lt; str2 则不交换</span></div><div class="line">           <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">       &#125;<span class="keyword">else</span>&#123;</div><div class="line">           <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line">   </div><div class="line">   arr.sort(sortStr);</div><div class="line">   <span class="built_in">console</span>.log(arr);</div><div class="line">   <span class="comment">//["acf", "bda", "dfe", "eca"]  按字母升序排列</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'eca'</span>,<span class="string">'bda'</span>,<span class="string">'acf'</span>,<span class="string">'dfe'</span>];</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sortStr</span> (<span class="params">str1,str2</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(str1 &gt; str2)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span> ;<span class="comment">//1  变为-1 </span></div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (str1 &lt; str2 )&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span>;<span class="comment">// -1 变为1 </span></div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">arr.sort(sortStr);</div><div class="line"><span class="built_in">console</span>.log(arr);</div><div class="line"><span class="comment">//["eca", "dfe", "bda", "acf"]  按字母降序排列</span></div></pre></td></tr></table></figure>
-<p>此方法通用数字数组</p>
-<h3 id="三-如果数组里面存放一组对象呢？如何按照对象的某一个数据进行排序？"><a href="#三-如果数组里面存放一组对象呢？如何按照对象的某一个数据进行排序？" class="headerlink" title="三  如果数组里面存放一组对象呢？如何按照对象的某一个数据进行排序？"></a>三  如果数组里面存放一组对象呢？如何按照对象的某一个数据进行排序？</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"> <span class="function"><span class="keyword">function</span>  <span class="title">sortByProperty</span>(<span class="params">sortName</span>)</span>&#123;</div><div class="line">       <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">o1,o2</span>)</span>&#123;</div><div class="line">           <span class="keyword">if</span>(o1[sortName] &gt; o2[sortName] )&#123;</div><div class="line">               <span class="keyword">return</span> <span class="number">1</span> ;</div><div class="line">           &#125;<span class="keyword">else</span> <span class="keyword">if</span>(o1[sortName] &lt; o2[sortName])&#123;</div><div class="line">               <span class="keyword">return</span> <span class="number">-1</span> ;</div><div class="line">           &#125;<span class="keyword">else</span>&#123;</div><div class="line">               <span class="keyword">return</span> <span class="number">0</span> ;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line">    arr.sort(sortByProperty(<span class="string">"id"</span>))</div><div class="line">    <span class="built_in">console</span>.log(arr);</div><div class="line"><span class="comment">//同样，可以按照不同的属性进行排序</span></div></pre></td></tr></table></figure>
-<h3 id="四-如何打乱一个随机数组"><a href="#四-如何打乱一个随机数组" class="headerlink" title="四 如何打乱一个随机数组"></a>四 如何打乱一个随机数组</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">randomsort</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Math</span>.random()&gt;<span class="number">.5</span> ? <span class="number">-1</span> : <span class="number">1</span>;</div><div class="line">  <span class="comment">//用Math.random()函数生成0~1之间的随机数与0.5比较，返回-1或1</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</div><div class="line">arr.sort(randomsort);</div><div class="line"><span class="built_in">console</span>.log(arr);</div></pre></td></tr></table></figure>
-<p>或者更简洁</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.random() - <span class="number">0.5</span>;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2072,7 +2017,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">128</span>
+                <span class="site-state-item-count">129</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

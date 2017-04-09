@@ -1,0 +1,784 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Angular," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1 angular directive的自定义用法    我们在定义一个指令的时候使用驼峰法来命名一个指令，例如 runoobDirective, 但在使用它时需要以 -分割, runoob-directive；
+先来看下自定义指令的语法结构
+首先定义指令前需要首先定义一个模块
+1var app = angular.module(&apos;app&apos;,[]);//定义一个模块
+在定义了模块之后，可以在定义指">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular Js directive">
+<meta property="og:url" content="http://yoursite.com/2016/10/21/162AngularJsdirective/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="1 angular directive的自定义用法    我们在定义一个指令的时候使用驼峰法来命名一个指令，例如 runoobDirective, 但在使用它时需要以 -分割, runoob-directive；
+先来看下自定义指令的语法结构
+首先定义指令前需要首先定义一个模块
+1var app = angular.module(&apos;app&apos;,[]);//定义一个模块
+在定义了模块之后，可以在定义指">
+<meta property="og:updated_time" content="2017-04-09T13:00:37.393Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular Js directive">
+<meta name="twitter:description" content="1 angular directive的自定义用法    我们在定义一个指令的时候使用驼峰法来命名一个指令，例如 runoobDirective, 但在使用它时需要以 -分割, runoob-directive；
+先来看下自定义指令的语法结构
+首先定义指令前需要首先定义一个模块
+1var app = angular.module(&apos;app&apos;,[]);//定义一个模块
+在定义了模块之后，可以在定义指">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/10/21/162AngularJsdirective/"/>
+
+
+
+
+
+  <title> Angular Js directive | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/21/162AngularJsdirective/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Angular Js directive
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-21T00:00:00+08:00">
+                2016-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-Angular/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript Angular</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>1 angular directive的自定义用法    我们在定义一个指令的时候使用驼峰法来命名一个指令，例如 <strong>runoobDirective</strong>, 但在使用它时需要以 <code>-</code>分割, <strong>runoob-directive</strong>；</p>
+<p>先来看下自定义指令的语法结构</p>
+<p>首先定义指令前需要首先定义一个模块</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'app'</span>,[]);<span class="comment">//定义一个模块</span></div></pre></td></tr></table></figure>
+<p>在定义了模块之后，可以在定义指令</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">'directiveName'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> config</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>return的配置参数有很多，接下来一一进行分析</p>
+<p>1.1 限制使用  restrict  值为字符串  可以的值有  ECMA  E设置指令可以通过元素的形式进行调用 A 设置指令可以通过属性的形式调用 M设置指令可以通过注释的形式调用 C设置指令可以通过类名进行调用；</p>
+<p><strong>默认值是EA</strong> ，表示我们定义的指令可以通过元素名或者属性的形式进行调用</p>
+<p>你可以限制你的指令只能通过特定的方式来调用。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- E (element) --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">directiveName</span>&gt;</span><span class="tag">&lt;/<span class="name">directiveName</span>&gt;</span></div><div class="line">比如<span class="tag">&lt;<span class="name">ng-view</span>&gt;</span><span class="tag">&lt;/<span class="name">ng-view</span>&gt;</span>等</div><div class="line"></div><div class="line"><span class="comment">&lt;!-- A (attribute) --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">directiveName</span>=<span class="string">"expression"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">比如<span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-init</span>=<span class="string">"name= 'Jhon'"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-hide</span>=<span class="string">"name= 'Jhon'"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span> 等</div><div class="line"></div><div class="line"><span class="comment">&lt;!-- C (class) --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"directiveName"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- M(comment) --&gt;</span></div><div class="line"><span class="comment">&lt;!--directive:directiveName expression--&gt;</span></div></pre></td></tr></table></figure>
+<p>1.2 2. priority 默认值为0 </p>
+<p>数字，可选参数，致命指令的优先级，若在单个DOM元素上有多个指令，则优先级高的先执行。</p>
+<p>当然，设置指令的优先级不太常用，但是比较特殊的例子是，内置指令ng-repeat的优先级为1000，而ng-init的优先级为 450。</p>
+<p>1.3 terminal</p>
+<p>布尔型，可选参数，可以被设置为true或者false，若设置为true，则优先级低于此指令的其他指令则无效，不会被调用优先级相同任然会执行。</p>
+<p>1.4. template</p>
+<p>字符串或者函数，可选参数。</p>
+<ul>
+<li>如下栗子我们简单的定义了一个指令，template是字符串的形式</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">'hello'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="comment">//默认restrict是EA</span></div><div class="line">    template:<span class="string">'&lt;div&gt;try your best&lt;/div&gt;'</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>然后可以使用该指令，通过属性或者元素的方式进行指令的使用</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">hello</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">hello</span>&gt;</span><span class="tag">&lt;/<span class="name">hello</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>显示结果如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">try your best</div><div class="line">try your best</div></pre></td></tr></table></figure>
+<ul>
+<li>如下栗子我们定义的一个指令，template是函数的形式，function函数接受两个参数，第一个是element,表示使用此指令的元素，attrs是 实例的属性，它右一个元素上所有的属性组成集合</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">'hello1'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">template</span>:<span class="function"><span class="keyword">function</span>(<span class="params">ele,attr</span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">      <span class="comment">//为了便于说明函数传入的参数ele和attr到底代表的是哪些，我们可以打印出来看下具体的结果</span></div><div class="line">      <span class="keyword">return</span> <span class="string">'&lt;div&gt;'</span>+<span class="string">'hello '</span>+attr.info+<span class="string">'&lt;/div&gt;'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>然后可以使用该指令，通过属性或者元素的方式进行指令的调用，可以发现第一个调用输出arguments，ele参数代表hello1元素，attr参数代表hello1上面的属性的集合 ，第二次输出arguments,ele代表div元素，attr参数代表div上面的所有的属性的集合</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hello1</span> <span class="attr">info</span> = <span class="string">'Jhon'</span>&gt;</span><span class="tag">&lt;/<span class="name">hello1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">hello1</span> <span class="attr">info</span>=<span class="string">'JiM'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>显示结果如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hello Jhon</div><div class="line">hello JiM</div></pre></td></tr></table></figure>
+<p>html的结构如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hello1</span> <span class="attr">info</span> = <span class="string">'Jhon'</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span>hello Jhon<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">hello1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">hello1</span> <span class="attr">info</span>=<span class="string">'JiM'</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span>hello JiM<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.5 replace  布尔型，<strong>默认值为false</strong>，设置为true的时候，表示可以用自定义的模板<strong>内容的标签</strong>替换自定义的<strong>元素标签</strong>。在上例子的基础上，变化如下，大家可以对比下上述两者html的结构的区别</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">'hello1'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">replace</span>:<span class="literal">true</span>,</div><div class="line">    <span class="attr">template</span>:<span class="function"><span class="keyword">function</span>(<span class="params">ele,attr</span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">      <span class="keyword">return</span> <span class="string">'&lt;div&gt;'</span>+<span class="string">'hello '</span>+attr.info+<span class="string">'&lt;/div&gt;'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>html结构</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">hello1</span>=<span class="string">""</span> <span class="attr">info</span>=<span class="string">"JiM"</span>&gt;</span>hello JiM<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">info</span>=<span class="string">"Jhon"</span>&gt;</span>hello Jhon<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.6 templateUrl <strong>（字符串或者函数），可选参数，可以是</strong></p>
+<p>（1）一个代表HTML文件路径的字符串</p>
+<p>（2）一个函数，可接受两个参数tElement和tAttrs（大致同上）</p>
+<p>index.html页面中有如下代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/ng-template'</span> <span class="attr">id</span>=<span class="string">'courage.html'</span>&gt;</span><span class="xml"></span></div><div class="line">//注意，模板文件的type属性必须是  ng-template ,表示以angular的规则进行模板的解析</div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>that is awesome to learn more about IT <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>我们可以定义一个指令</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">'courage'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">templateUrl</span>:<span class="string">"courage.html"</span>,</div><div class="line">    <span class="attr">replace</span>:<span class="literal">true</span>,</div><div class="line">    <span class="attr">restrict</span>:<span class="string">'E'</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>调用指令</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">conrage</span>&gt;</span><span class="tag">&lt;/<span class="name">conrage</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>页面显示的html结构如下(注意restrict和replace属性的设置对于显示的影响)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>this is awesome to learn more about IT <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.7 scope <strong>默认值是false</strong></p>
+<p>false表示继承父作用域的值，<strong>且不进行隔离</strong>，子作用域和父作用域的改变都将影响变量的值；</p>
+<p>true表示继承父作用域的值，但是进行隔离，这种效果和设置两个控制器的效果是一样的；改变父作用域的值，子作用域在没有</p>
+<p><code>{}</code>：没有继承父亲的值，所以儿子的值为空，改变任何一方的值都不会影响另一方，这就是不继承且隔离;</p>
+<p>当想要创建一个可重用的组件时，隔离作用域是一个很好的选择，通过隔离作用域，我们可以确保指令是独立的，并且可以轻松的插入到任何HTML APP中，并且这种做法防止了父作用域被污染。</p>
+<p>先来看下作用域，我们知道，每定义一个控制器就会形成一个scope对象，该对象可以表示一个作用域，并且继承了父作用域的数据；我们从下面的例子可以改变输入的名字，</p>
+<ul>
+<li>子作用域继承了父作用域的变量</li>
+<li>子作用域和父作用域的变量的改变是相互独立的，也就是说子作用域是继承且隔离的</li>
+</ul>
+<p>1.7.1 先来看下controller控制器下面的作用的效果，子作用域和父作用域是继承且隔离的效果，子作用域的变量的变化不会污染到父作用域；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'app'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'parent'</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'name'</span> <span class="attr">placeholder</span>=<span class="string">'please input your name'</span>/&gt;</span></div><div class="line">    parent:`&#123;&#123;name&#125;&#125;`</div><div class="line">    age:`&#123;&#123;age&#125;&#125;`</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'child'</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'name'</span> <span class="attr">placeholder</span>=<span class="string">'please input your name'</span>/&gt;</span></div><div class="line">        child:`&#123;&#123;name&#125;&#125;`</div><div class="line">        age :`&#123;&#123;age&#125;&#125;`</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> app = angular.module(<span class="string">'app'</span>,[]);</div><div class="line">    app.controller(<span class="string">'parent'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.name = <span class="string">"Jhon"</span>;</div><div class="line">        $scope.age = <span class="number">19</span> ;</div><div class="line">    &#125;]);</div><div class="line">    app.controller(<span class="string">'child'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.name = <span class="string">"JiM"</span>;</div><div class="line">    &#125;]);</div><div class="line"></div><div class="line">    <span class="comment">//这种情势下的scope作用域是继承且隔离的，子作用域内的变量的改变不会对父作用域内的变量有任何的影响</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.7.2 再来看下我们自定义directive的时候的scope不同的设置情况的效果</p>
+<p>false的情况(或者没有设置的时候默认的情况)，子作用域会污染父作用域的变量，<strong>继承且不隔离</strong></p>
+<p>true的情况，和1.7.1controller的效果一样，<strong>继承且隔离</strong>，这种情况下也就是一般的原型继承的情况</p>
+<p><code>{ }</code> 的情况，表示<strong>不继承且隔离</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'app'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'parent'</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'name'</span>/&gt;</span></div><div class="line">    parent:`&#123;&#123;name&#125;&#125;`</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">child</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> app = angular.module(<span class="string">'app'</span>,[]);</div><div class="line">    app.controller(<span class="string">'parent'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.name = <span class="string">"Jhon"</span>;</div><div class="line">    &#125;]);</div><div class="line">    app.directive(<span class="string">'child'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="keyword">return</span> &#123;</div><div class="line">           <span class="attr">replace</span>:<span class="literal">true</span> ,<span class="comment">//默认值是false</span></div><div class="line">           restrict:<span class="string">'EA'</span>,</div><div class="line">           <span class="attr">scope</span>:<span class="literal">false</span>,</div><div class="line">           <span class="attr">template</span>:<span class="string">''</span>+</div><div class="line">           <span class="string">'&lt;div&gt;'</span>+</div><div class="line">                <span class="string">'&lt;input type="text" ng-model = "name"/&gt;'</span>+</div><div class="line">                <span class="string">`'child:&#123;&#123;name&#125;&#125;'`</span>+</div><div class="line">           <span class="string">'&lt;/div&gt;'</span></div><div class="line">       &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">//这种情势下的scope作用域是继承且隔离的，子作用域内的变量的改变不会对父作用域内的变量有任何的影响</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.7.3  当我们将scope设置为{ }  的时候，此时子作用域无法再访问父作用域的变量值，这个时候需要我们做出一些调整，让子作用域可以访问父作用域的变量，但是不会污染父作用域</p>
+<ul>
+<li>采用 @ 进行单向绑定，也就是说，改变父作用域的name的值，directive里面的name也会改变，但是改变隔离区directive里面的name,父作用域里面的name是不会发生改变的;也就是达到<strong>继承且隔离</strong>的效果</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'app'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'parent'</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'name'</span>/&gt;</span></div><div class="line">    parent:`&#123;&#123;name&#125;&#125;`</div><div class="line"></div><div class="line">    <span class="comment">&lt;!--&lt;child name="&#123;&#123;name&#125;&#125;"&gt;&lt;/child&gt;--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">child</span> <span class="attr">your-name</span>=`"&#123;&#123;<span class="attr">name</span>&#125;&#125;"`&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> app = angular.module(<span class="string">'app'</span>,[]);</div><div class="line">    app.controller(<span class="string">'parent'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.name = <span class="string">"Jhon"</span>;</div><div class="line">    &#125;]);</div><div class="line">    app.directive(<span class="string">'child'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">replace</span>:<span class="literal">true</span> ,<span class="comment">//默认值是false</span></div><div class="line">            restrict:<span class="string">'EA'</span>,</div><div class="line">            <span class="attr">scope</span>:&#123;</div><div class="line">              <span class="comment">//如果绑定的隔离作用域属性名与元素的属性名相同，则可以采用缺省写法</span></div><div class="line"><span class="comment">//                name:'@'   //对应&lt;child name="&#123;&#123;name&#125;&#125;"&gt;&lt;/child&gt; </span></div><div class="line">                name:<span class="string">"@yourName"</span></div><div class="line">            &#125;,</div><div class="line">            <span class="attr">template</span>:<span class="string">''</span>+</div><div class="line">            <span class="string">'&lt;div&gt;'</span>+</div><div class="line">            <span class="string">'&lt;input type="text" ng-model = "name"/&gt;'</span>+</div><div class="line">            <span class="string">`'child:&#123;&#123;name&#125;&#125;'`</span>+</div><div class="line">            <span class="string">'&lt;/div&gt;'</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    <span class="comment">//这种情势下的scope作用域是继承且隔离的，子作用域内的变量的改变不会对父作用域内的变量有任何的影响</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>此时template生成的html结构如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">your-name</span>=<span class="string">"Jhon"</span> <span class="attr">class</span>=<span class="string">"ng-binding ng-isolate-scope"</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span>=<span class="string">"name"</span> <span class="attr">class</span>=<span class="string">"ng-valid ng-not-empty ng-dirty ng-touched"</span>&gt;</span>child:Jhon</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//我们可以大致的模拟下ng-controller的实现原理</span></div><div class="line">app.directive(<span class="string">"myController"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;    </div><div class="line">  <span class="keyword">return</span> &#123;        </div><div class="line">    <span class="attr">scope</span>: <span class="literal">true</span>,   <span class="comment">//scope设置为true，     </span></div><div class="line">    controller: <span class="string">'@'</span>   </div><div class="line">  &#125;&#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li>采用 = 进行双向绑定，也就是说，改变父作用域的name的值，directive里面的name也会改变，同样改变隔离区directive里面的name,父作用域里面的name是也会发生改变的;此时达到了 <strong>继承且不隔离</strong>的效果</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'app'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'parent'</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'name'</span>/&gt;</span></div><div class="line">    parent:`&#123;&#123;name&#125;&#125;`</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">child</span> <span class="attr">name</span>=<span class="string">"name"</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!--需要注意的一点是和&lt;child name="&#123;&#123;name&#125;&#125;"&gt;&lt;/child&gt;的写法不同，不然效果出不来--&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> app = angular.module(<span class="string">'app'</span>,[]);</div><div class="line">    app.controller(<span class="string">'parent'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.name = <span class="string">"Jhon"</span>;</div><div class="line">    &#125;]);</div><div class="line">    app.directive(<span class="string">'child'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">replace</span>:<span class="literal">true</span> ,<span class="comment">//默认值是false</span></div><div class="line">            restrict:<span class="string">'EA'</span>,</div><div class="line">            <span class="attr">scope</span>:&#123;</div><div class="line"><span class="comment">//</span></div><div class="line">                name:<span class="string">'='</span></div><div class="line">            &#125;,</div><div class="line">            <span class="attr">template</span>:<span class="string">''</span>+</div><div class="line">            <span class="string">'&lt;div&gt;'</span>+</div><div class="line">            <span class="string">'&lt;input type="text" ng-model = "name"/&gt;'</span>+</div><div class="line">            <span class="string">`'child:&#123;&#123;name&#125;&#125; '`</span>+</div><div class="line">            <span class="string">'&lt;/div&gt;'</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">//这种情势下的scope作用域是继承且隔离的，子作用域内的变量的改变不会对父作用域内的变量有任何的影响</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>此时template生成的html结构如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">class</span>=<span class="string">"ng-binding ng-isolate-scope"</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span>=<span class="string">"name"</span> <span class="attr">class</span>=<span class="string">"ng-valid ng-not-empty ng-dirty ng-touched ng-valid-parse"</span>&gt;</span>child:Jhon</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Angular/" rel="tag"># Angular</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/18/37-如何解决移动端两栏自适应的问题？/" rel="next" title="如何解决移动端两栏自适应的问题">
+                <i class="fa fa-chevron-left"></i> 如何解决移动端两栏自适应的问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/22/146NodeJsBuffer/" rel="prev" title="NodeJs Buffer">
+                NodeJs Buffer <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">129</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

@@ -257,6 +257,160 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/22/139遍历对象的属性/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/22/139遍历对象的属性/" itemprop="url">
+                  遍历对象的属性
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-22T22:00:00+08:00">
+                2016-09-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>遍历对象的属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = <span class="built_in">Object</span>.create(&#123;<span class="attr">foo</span>:<span class="number">0</span>&#125;,&#123;</div><div class="line">  <span class="attr">bar1</span>:&#123;</div><div class="line">    <span class="attr">value</span>:<span class="number">1</span><span class="comment">//descriptor默认值 enumerable fasle configurable false writable false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">bar2</span>:&#123;</div><div class="line">    <span class="attr">value</span>:<span class="number">2</span>,</div><div class="line">    <span class="attr">enumerable</span>:<span class="literal">true</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(obj);<span class="comment">//Object &#123;bar2: 2, bar1: 1&#125;</span></div></pre></td></tr></table></figure>
+<p>for in 可以遍历属性和原型属性 中可以枚举的 ，包括原型上的属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> obj)&#123;</div><div class="line">  <span class="built_in">console</span>.log(key);  <span class="comment">// bar2  foo</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Object.keys(obj)  返回所有可以枚举的属性组成的数组，不包括原型上的属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(obj));<span class="comment">//["bar2"]</span></div></pre></td></tr></table></figure>
+<p>Object.getOwnPropertyNames(obj)  返回可以枚举以及不可枚举的属性组成的数组，不包括原型上的属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyNames(obj));<span class="comment">//["bar1", "bar2"]</span></div></pre></td></tr></table></figure>
+<p>Object.assign()方法只能复制可以枚举的属性，不能复制不可枚举以及原型上的属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.assign(&#123;&#125;,obj));<span class="comment">//Object &#123;bar2: 2&#125;</span></div></pre></td></tr></table></figure>
+<p>JSON.stringify(obj) 只能将对象可枚举的属性转化</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(obj));<span class="comment">//'&#123;"bar2":2&#125;'</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span>  <span class="built_in">JSON</span>.stringify(obj));<span class="comment">//string</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/21/82-HTML5  Storage 本地存储/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1564,165 +1718,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/155AMD-语法规范/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/10/155AMD-语法规范/" itemprop="url">
-                  AMD and CMD
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-10T12:36:00+08:00">
-                2016-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript-requirejs/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript  requirejs</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>CMD([Common Module Definition])   AMD</p>
-<p>SeaJS 遵循 CMD 规范，RequireJS 遵循 AMD 规范。</p>
-<p><strong>CMD 模块依赖声明方式：</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params">require</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</div><div class="line">    <span class="keyword">var</span> b = <span class="built_in">require</span>(<span class="string">'./b'</span>);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p><strong>CMD 规范的弊端</strong></p>
-<ol>
-<li>不能直接压缩：<code>require</code>是局部变量，意味着不能直接的通过压缩工具进行压缩，若<code>require</code>这个变量被替换，加载器与自动化工具将无法获取模块的依赖。</li>
-<li>模块书写有额外约定：路径参数不能进行字符串运算，不能使用变量代替，否则加载器与自动化工具无法正确提取路径。</li>
-</ol>
-<p><strong>AMD 模块依赖声明方式：</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'./a'</span>, <span class="string">'./b'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</div><div class="line">    <span class="comment">// more code ..</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p><strong>AMD 规范的弊端</strong></p>
-<ol>
-<li>依赖提前声明在代码书写上不是那么友好</li>
-<li>模块内部与 NodeJS 的 Modules 有一定的差异</li>
-</ol>
-<p>其实无论是 CMD 还是 AMD 的异步模块，都无法与同步模块规范保持一致（NodeJS 的 Modules），<br>只有谁比谁更像同步模块而已。AMD 要转换为同步模块，除了去掉define函数的包裹外，<br>需要在头部使用require把依赖声明好，而 CMD 只需要去掉define函数的包裹即可。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/143requirejs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1980,7 +1975,7 @@ require([&apos;c&apos;], function(c) {...});
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">128</span>
+                <span class="site-state-item-count">129</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -550,6 +550,165 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/02/104-数组的sort方法-原理详解！/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/02/104-数组的sort方法-原理详解！/" itemprop="url">
+                  Array Sort
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-02T12:36:00+08:00">
+                2016-10-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="数组的sort方法—-改变原数组"><a href="#数组的sort方法—-改变原数组" class="headerlink" title="数组的sort方法—-改变原数组"></a>数组的sort方法—-改变原数组</h2><p>简单粗暴直接上代码咯(sort方法的定义请查阅W3C或者搜索)</p>
+<p><strong>注意:sort(fn) 方法可以接受一个 方法为参数 ，这个方法有两个参数。分别代表每次排序比较时的两个数组项。sort()排序时每次比较两个数组项都回执行这个参数，并把两个比较的数组项作为参数传递 给这个函数。</strong></p>
+<h3 id="当函数返回值为-1-的时候就交换两个数组项的顺序，否则就不交换。"><a href="#当函数返回值为-1-的时候就交换两个数组项的顺序，否则就不交换。" class="headerlink" title="当函数返回值为  1  的时候就交换两个数组项的顺序，否则就不交换。　"></a><strong>当函数返回值为  1  的时候就交换两个数组项的顺序，否则就不交换。</strong>　</h3><p>sort方法排序的关键是在于传入函数的返回值;改变原数组，并不产生新的数组；如果fn这个参数被省略，那么元素将按照 ASCII 字符顺序进行升序排列。</p>
+<h3 id="一-数字类型数组排序"><a href="#一-数字类型数组排序" class="headerlink" title="一  数字类型数组排序"></a>一  数字类型数组排序</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">21</span>,<span class="number">35</span>,<span class="number">24</span>,<span class="number">12</span>,<span class="number">15</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">65</span>,<span class="number">64</span>]</div><div class="line"> arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">      <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">  &#125;)</div><div class="line"> </div><div class="line"> <span class="comment">//从控制台结果可以看出sort传递的函数默认有两个参数，这两个参数就是要排序的数组里面的两项</span></div><div class="line"> <span class="comment">//函数执行的this指向window;</span></div><div class="line"> <span class="comment">//如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序，是按照字符编码的顺序进行排序。</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">var</span> arr = [<span class="number">21</span>,<span class="number">35</span>,<span class="number">24</span>,<span class="number">12</span>,<span class="number">15</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">65</span>,<span class="number">64</span>]</div><div class="line">    arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> a - b ;</div><div class="line">    &#125;)</div><div class="line">    <span class="comment">//这种方法可以排序数字数组，却不能排序字符串数组，如下有代码案例</span></div><div class="line">    <span class="built_in">console</span>.log(arr);</div><div class="line"><span class="comment">//注意 - 操作符的运算，对于数字类型的运算数，结果返回数字  </span></div><div class="line"><span class="comment">//a-b输出从小到大排序，b-a输出从大到小排序。</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'eca'</span>,<span class="string">'bda'</span>,<span class="string">'acf'</span>,<span class="string">'dfe'</span>];</div><div class="line">arr.sort()</div><div class="line"><span class="built_in">console</span>.log(arr);</div><div class="line"><span class="comment">//["acf", "bda", "dfe", "eca"]</span></div><div class="line"><span class="comment">//如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序，说得更精确点，是按照字符编码的顺序进行排序。要实现这一点，首先应把数组的元素都转换成字符串（如有必要），以便进行比较</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'eca'</span>,<span class="string">'bda'</span>,<span class="string">'acf'</span>,<span class="string">'dfe'</span>];</div><div class="line">    arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> a - b ;</div><div class="line">    &#125;)</div><div class="line">    <span class="comment">//这种方法不能排序字符串</span></div><div class="line"><span class="built_in">console</span>.log(arr);</div><div class="line"><span class="comment">//["eca", "bda", "acf", "dfe"]</span></div><div class="line"><span class="comment">//这个排序功能就没有了，因为 - 运算符操作的运算数如果有一个不是数字，那么就会返回NaN，没有返回1 -1 或者0任意一个;</span></div></pre></td></tr></table></figure>
+<h3 id="二-字符串数组排序"><a href="#二-字符串数组排序" class="headerlink" title="二  字符串数组排序"></a>二  字符串数组排序</h3><p>那么如何才能排序字符串呢？这个之前需要先了解，字符串的比较 &lt; &lt;= &gt; &gt;= 返回一个布尔类型的值</p>
+<p>对于字符串，第一个字符串中每个字符的代码都与会第二个字符串中对应位置的字符的代码进行数值比较。完成这种比较操作后，返回一个 Boolean 值。</p>
+<p>所以对于字符串的排序，需要进行比较运算的运用，判断字符代码的大小，然后选择返回 1  -1  还是 0 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'eca'</span>,<span class="string">'bda'</span>,<span class="string">'acf'</span>,<span class="string">'dfe'</span>];</div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">sortStr</span> (<span class="params">str1,str2</span>)</span>&#123;</div><div class="line">       <span class="keyword">if</span>(str1 &gt; str2)&#123;    <span class="comment">//如果str1 &gt; str2 交换二者的位置</span></div><div class="line">           <span class="keyword">return</span> <span class="number">1</span> ;</div><div class="line">       &#125;<span class="keyword">else</span> <span class="keyword">if</span> (str1 &lt; str2 )&#123; <span class="comment">//如果str1 &lt; str2 则不交换</span></div><div class="line">           <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">       &#125;<span class="keyword">else</span>&#123;</div><div class="line">           <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line">   </div><div class="line">   arr.sort(sortStr);</div><div class="line">   <span class="built_in">console</span>.log(arr);</div><div class="line">   <span class="comment">//["acf", "bda", "dfe", "eca"]  按字母升序排列</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'eca'</span>,<span class="string">'bda'</span>,<span class="string">'acf'</span>,<span class="string">'dfe'</span>];</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sortStr</span> (<span class="params">str1,str2</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(str1 &gt; str2)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span> ;<span class="comment">//1  变为-1 </span></div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (str1 &lt; str2 )&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span>;<span class="comment">// -1 变为1 </span></div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">arr.sort(sortStr);</div><div class="line"><span class="built_in">console</span>.log(arr);</div><div class="line"><span class="comment">//["eca", "dfe", "bda", "acf"]  按字母降序排列</span></div></pre></td></tr></table></figure>
+<p>此方法通用数字数组</p>
+<h3 id="三-如果数组里面存放一组对象呢？如何按照对象的某一个数据进行排序？"><a href="#三-如果数组里面存放一组对象呢？如何按照对象的某一个数据进行排序？" class="headerlink" title="三  如果数组里面存放一组对象呢？如何按照对象的某一个数据进行排序？"></a>三  如果数组里面存放一组对象呢？如何按照对象的某一个数据进行排序？</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"> <span class="function"><span class="keyword">function</span>  <span class="title">sortByProperty</span>(<span class="params">sortName</span>)</span>&#123;</div><div class="line">       <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">o1,o2</span>)</span>&#123;</div><div class="line">           <span class="keyword">if</span>(o1[sortName] &gt; o2[sortName] )&#123;</div><div class="line">               <span class="keyword">return</span> <span class="number">1</span> ;</div><div class="line">           &#125;<span class="keyword">else</span> <span class="keyword">if</span>(o1[sortName] &lt; o2[sortName])&#123;</div><div class="line">               <span class="keyword">return</span> <span class="number">-1</span> ;</div><div class="line">           &#125;<span class="keyword">else</span>&#123;</div><div class="line">               <span class="keyword">return</span> <span class="number">0</span> ;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line">    arr.sort(sortByProperty(<span class="string">"id"</span>))</div><div class="line">    <span class="built_in">console</span>.log(arr);</div><div class="line"><span class="comment">//同样，可以按照不同的属性进行排序</span></div></pre></td></tr></table></figure>
+<h3 id="四-如何打乱一个随机数组"><a href="#四-如何打乱一个随机数组" class="headerlink" title="四 如何打乱一个随机数组"></a>四 如何打乱一个随机数组</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">randomsort</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Math</span>.random()&gt;<span class="number">.5</span> ? <span class="number">-1</span> : <span class="number">1</span>;</div><div class="line">  <span class="comment">//用Math.random()函数生成0~1之间的随机数与0.5比较，返回-1或1</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</div><div class="line">arr.sort(randomsort);</div><div class="line"><span class="built_in">console</span>.log(arr);</div></pre></td></tr></table></figure>
+<p>或者更简洁</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.random() - <span class="number">0.5</span>;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/30/132GitCommandDetailReset/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -952,6 +1111,289 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/27/10GitandCMDcommand/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/27/10GitandCMDcommand/" itemprop="url">
+                  Git Cmd Command Enhence Memory
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-27T12:36:00+08:00">
+                2016-09-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Bash 命令</p>
+<ul>
+<li>$ cd ../  可以进入上层目录</li>
+<li>$ cd ./目录名  可以进入下层目录</li>
+<li>$ cd mkdir  创建一个目录</li>
+<li>$ touch + 文件名 可以创建某个文件  \$ touch index / index.js / index.html etc</li>
+<li>$ cat + 文件名可以查看文件内容,工作区的文件内容；\$ cat index / index.js /index.html etc</li>
+<li>$ echo + content + &gt; 文件  <ul>
+<li>$ echo hello you &gt; index.html       //会清空之前的内容</li>
+<li>$ echo good bye &gt;&gt; index.html    //新添加内容，不会</li>
+</ul>
+</li>
+<li>$ cat index.html   可以查看文件</li>
+<li>$ less index.html  全屏查看文件</li>
+<li>$ tail -f  可以实时监看文件后面几行的内容变化</li>
+<li>q    全屏查看之后可以通过q退出</li>
+<li>$ rm index.html  (remove)可以删除文件</li>
+<li>$ vi  index.html   可以打开文件，直接进行编辑</li>
+<li>tab键可以自动补全</li>
+<li>|  管道操作符   </li>
+<li>​</li>
+</ul>
+<p>VI 命令模式</p>
+<ul>
+<li>$ vi index.html  进入命令模式</li>
+<li>之后</li>
+<li>a  A    i   I  o   O  s可以进入编辑模式,可以直接编辑文件，esc可以退出编辑模式</li>
+<li>退出(ESC)编辑模式之后进入命令模式，以下操作都在命令模式</li>
+<li>ZZ  可以直接保存并退出当前文件</li>
+<li>dd  可以直接删除当前行，还在命令模式</li>
+<li>大写S  可以直接删除当前光标所在行，并直接进入编辑模式</li>
+<li>大写C 可以直接删除当前光标后面的所有的字符，然后直接进入编辑模式</li>
+<li>x  可以直接删除当前光标的后面一个字符串</li>
+<li>gg  将光标移动到文件首部</li>
+<li>p 直接复制一整行</li>
+<li>u  后退上次编辑</li>
+<li>h j k l  左下上右移动</li>
+<li>: 0 定位光标至行首</li>
+<li>: $ 定位光标至行尾</li>
+<li>: q !  可以直接退出命令模式</li>
+<li>: wq  可以直接退出命令模式</li>
+</ul>
+<p>Git  命令</p>
+<p><strong>工作区</strong> ——&gt;git add  将工作区的文件添加到   <strong>暂存区</strong>—— &gt; git commit 将暂存区的文件添加到  <strong>分支</strong></p>
+<p><strong>git 版本库</strong>(工作区有一个.git文件夹)管理的是所在目录的文件的<strong>修改</strong>， 而不是文件，也就是说，</p>
+<p>当  文件修改 1  —— git add  将文件修改1提交到暂存区——再接着 文件修改2 —— git commit 提交到分支，这个时候提交的只有修改1 ，修改2 并未被提交到分支；</p>
+<p>git add 命令实际上做的工作是提交的<strong>文件的修改</strong>到暂存区，不是提交的文件本身，这个对于git版本库管理工具理解至关重要；</p>
+<p>git status 可以随时查看  工作区  暂存区 以及分支的状态</p>
+<p>工作区<strong>文件</strong>的状态:未跟踪 untracked    已暂存staged    已提交 committed    已修改 modefied</p>
+<ul>
+<li><p>$ git   用于检测是否安装了了git\</p>
+</li>
+<li><p>$ mkdir learngit (Make Directory)   //创建一个新的目录</p>
+</li>
+<li><p>\$ cd learngit (Change Directory)    //进入一个目录</p>
+</li>
+<li><p>$ pwd(Print Working Directory)  //打印当前工作目录</p>
+</li>
+<li><p>$ git init  命令可以将<strong>该目录</strong>变成git可以管理的仓库，初始化git仓库(initial:初始化)</p>
+</li>
+<li><p>创建一个文件   比如    “readme.txt” 创建文件之后，如果没有add命令，那么文件属于为被跟踪状态</p>
+</li>
+<li><p>$ git add readme.txt   将创建的文件添加到仓库,或者将文件的修改提交到暂存区</p>
+</li>
+<li><p>$ git commit -m “ 文件说明”   将添加的文件的修改提交到仓库(commit:提交)</p>
+</li>
+<li><p>$ git status  命令可以让我们时刻掌握仓库当前的状态，上面的命令告诉我们，readme.txt被修改过了，但还没有准备提交的修改。但是我们无法知道什么内容被修改了</p>
+</li>
+<li><p>$ git diff   可以查看那些内容被修改了，被修改的一列最前面会有   +   号(difference:不同)</p>
+</li>
+<li><p>$ git add readme.txt   再次添加给仓库，不要commit提交</p>
+</li>
+<li><p>$ git add -A     表示将文件全部提交到仓库暂存区</p>
+</li>
+<li><p>$ git add *  表示将工作区全部文件提交到暂存区</p>
+</li>
+<li><p>$ git rm –cached  readme.txt 将提交到缓存区的文件移除</p>
+</li>
+<li><p>$ git status  查看下状态</p>
+</li>
+<li><p>$ git  commit -m “文档说明”   commit之后会在git仓库object文件夹下新建一个文件夹，保存了commit的信息</p>
+<p>   版本退回</p>
+</li>
+<li><p>$ git log   可以获取文档被修改的过程</p>
+</li>
+<li><p>$ git log –pretty=oneline   可以让显示更加优雅</p>
+</li>
+<li><p>$ git reset –hard HEAD^    其中  ^  代表回退到上一个版本，^^ 代表回退到倒数第二个版本，HEAD~100  回退到地一百个版本。工作区 暂存区 本地仓库都会改变</p>
+</li>
+<li><p>$ git reset hard 4444   如果我们退回以后后悔了，又想回去怎么办？可以回到某个特定的版本，只需要知道某个版本号即可，部分内容，系统会自动去匹配</p>
+</li>
+<li><p>$ git reset soft  只会改变历史HEAD指向</p>
+</li>
+<li><p>$ git reflog  可以查看历史命令</p>
+</li>
+<li><p>$ git ls  (list)   查看当前目录下的内容和 \$ ll 命令功能类似</p>
+</li>
+<li><p>$ git branch 可以查看当前分支  </p>
+<pre><code>branch     List, create, or delete branches
+</code></pre></li>
+<li><p>$ git branch myMaster  可以添加一个myMaster分支 </p>
+</li>
+<li><p>$ git branch  可以查看分支，有了新增的分支</p>
+</li>
+<li><p>$ git checkout myMaster  可以切换到该分支</p>
+<pre><code>checkout   Switch branches or restore working tree files
+</code></pre></li>
+<li><p>$ git checkout -b myMaster <strong>等价于</strong>  \$ git branch myMaster  \$git checkout myMaster</p>
+</li>
+<li><p>$ git branch -d  删除分支</p>
+</li>
+<li><p>$ git branch -d myMaster ;</p>
+</li>
+<li><p>$ git clone + 地址  可以直接从github上下载文件</p>
+</li>
+<li><p>$ git push   可以将本地文件推送到服务器</p>
+</li>
+<li><p>$ git stash 可以保存当前的工作内容</p>
+</li>
+</ul>
+<p>创建共享仓库</p>
+<ul>
+<li>$ git init –bare    创建共享仓库</li>
+<li>$ git push 远程仓库的地址 本地分支:远程分支</li>
+<li>$ git push 远程仓库的地址 本地分支</li>
+<li>$ git pull 远程仓库的地址 远程分支 : 本地分支</li>
+<li>$ git pull 远程仓库的地址 远程分支 </li>
+<li>$ git clone 远程仓库的地址 文件名称</li>
+<li>$ git fecth  从远程仓库获取分支内容，但是不会合并分支</li>
+<li>$ git merge  然后可以通过git merge进行合并</li>
+</ul>
+<p>分支操作</p>
+<ul>
+<li>git branch myMaster  新建分支</li>
+<li>git branch -r  查看远程分支</li>
+<li>git branch -a 查看所有分支</li>
+<li>git branch -d 删除本地分支</li>
+<li><p>git push origin : 分支名称   删除远程仓库分支</p>
+<p>​</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/27/159AngularJs-ngRoute/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1208,289 +1650,6 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line"> //--------------------------------------------------</div><div class="line">  //通过字符串，这种方法有一个很大的弊端，就是字符串的不可变性，导致每次都会重新给字符串分配内存空间，特别耗费内存</div><div class="line">	var table = document.querySelector("table");</div><div class="line">    var str = "";</div><div class="line">    for(var i = 0 ; i &lt; data.length ; i++)&#123;</div><div class="line">        var item = data[i];</div><div class="line">         console.dir(item);</div><div class="line">        str += '&lt;tr&gt;' +</div><div class="line">                '&lt;td&gt;'+item['id']+'&lt;/td&gt;' +</div><div class="line">                '&lt;td&gt;'+item['name']+'&lt;/td&gt;' +</div><div class="line">                '&lt;td&gt;'+item['author']+'&lt;/td&gt;' +</div><div class="line">                '&lt;td&gt;'+item['price']+'&lt;/td&gt;' +</div><div class="line">                '&lt;td&gt;'+item['desc']+'&lt;/td&gt;' +</div><div class="line">                '&lt;/tr&gt;'</div><div class="line">    &#125;</div><div class="line">    table.innerHTML = str ;</div><div class="line">//-----------------------------------------------------</div><div class="line">    var table = document.querySelector("table");</div><div class="line">    var arr = [];</div><div class="line">    for(var i = 0 ; i &lt; data.length ; i++)&#123;</div><div class="line">        var item = data[i];</div><div class="line">        console.dir(item);</div><div class="line">        arr.push(</div><div class="line"></div><div class="line">                '&lt;tr&gt;' +</div><div class="line">                '&lt;td&gt;'+item['id']+'&lt;/td&gt;' +</div><div class="line">                '&lt;td&gt;'+item['name']+'&lt;/td&gt;' +</div><div class="line">                '&lt;td&gt;'+item['author']+'&lt;/td&gt;' +</div><div class="line">                '&lt;td&gt;'+item['price']+'&lt;/td&gt;' +</div><div class="line">                '&lt;td&gt;'+item['desc']+'&lt;/td&gt;' +</div><div class="line">                '&lt;/tr&gt;'</div><div class="line">        )</div><div class="line">    &#125;</div><div class="line">    var html = arr.join("");</div><div class="line">    table.innerHTML = html ;</div><div class="line">//---------------------------------------------------------------</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>1.2 模板引擎创建，传入数据</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"template-native.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">//    模板引擎的使用，第一步，改变script标签的type属性 = text/html  或者text/template，编写模板</div><div class="line">//    第二步，调用模板，传入数据和模板的id</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/template"</span> <span class="attr">id</span>=<span class="string">"tempalteId"</span>&gt;</span><span class="undefined"></span></div><div class="line">    &lt;% for(var i = 0 ;i &lt; list.length; i++)&#123; %&gt;</div><div class="line">    &lt;tr&gt;</div><div class="line">        &lt;td&gt; `&lt;%=list[i].id%&gt;` &lt;/td&gt;</div><div class="line">        &lt;td&gt; `&lt;%=list[i].name%&gt;` &lt;/td&gt;</div><div class="line">        &lt;td&gt; `&lt;%=list[i].author%&gt; `&lt;/td&gt;</div><div class="line">        &lt;td&gt; `&lt;%=list[i].price%&gt; `&lt;/td&gt;</div><div class="line">        &lt;td&gt;`&lt;%=list[i].desc%&gt;`&lt;/td&gt;</div><div class="line">    &lt;/tr&gt;</div><div class="line">    &lt;% &#125; %&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    var tepData = &#123; list: data &#125; //这个位置要传入对象形式的数据</div><div class="line"></div><div class="line">    var html = template("tempalteId",tepData); //注意第一个参数传入的是id ,引号勿忘</div><div class="line">    var table = document.querySelector("table")</div><div class="line">    table.innerHTML = html;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/27/10GitandCMDcommand/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/27/10GitandCMDcommand/" itemprop="url">
-                  Git Cmd Command Enhence Memory
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-27T12:36:00+08:00">
-                2016-09-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Bash 命令</p>
-<ul>
-<li>$ cd ../  可以进入上层目录</li>
-<li>$ cd ./目录名  可以进入下层目录</li>
-<li>$ cd mkdir  创建一个目录</li>
-<li>$ touch + 文件名 可以创建某个文件  \$ touch index / index.js / index.html etc</li>
-<li>$ cat + 文件名可以查看文件内容,工作区的文件内容；\$ cat index / index.js /index.html etc</li>
-<li>$ echo + content + &gt; 文件  <ul>
-<li>$ echo hello you &gt; index.html       //会清空之前的内容</li>
-<li>$ echo good bye &gt;&gt; index.html    //新添加内容，不会</li>
-</ul>
-</li>
-<li>$ cat index.html   可以查看文件</li>
-<li>$ less index.html  全屏查看文件</li>
-<li>$ tail -f  可以实时监看文件后面几行的内容变化</li>
-<li>q    全屏查看之后可以通过q退出</li>
-<li>$ rm index.html  (remove)可以删除文件</li>
-<li>$ vi  index.html   可以打开文件，直接进行编辑</li>
-<li>tab键可以自动补全</li>
-<li>|  管道操作符   </li>
-<li>​</li>
-</ul>
-<p>VI 命令模式</p>
-<ul>
-<li>$ vi index.html  进入命令模式</li>
-<li>之后</li>
-<li>a  A    i   I  o   O  s可以进入编辑模式,可以直接编辑文件，esc可以退出编辑模式</li>
-<li>退出(ESC)编辑模式之后进入命令模式，以下操作都在命令模式</li>
-<li>ZZ  可以直接保存并退出当前文件</li>
-<li>dd  可以直接删除当前行，还在命令模式</li>
-<li>大写S  可以直接删除当前光标所在行，并直接进入编辑模式</li>
-<li>大写C 可以直接删除当前光标后面的所有的字符，然后直接进入编辑模式</li>
-<li>x  可以直接删除当前光标的后面一个字符串</li>
-<li>gg  将光标移动到文件首部</li>
-<li>p 直接复制一整行</li>
-<li>u  后退上次编辑</li>
-<li>h j k l  左下上右移动</li>
-<li>: 0 定位光标至行首</li>
-<li>: $ 定位光标至行尾</li>
-<li>: q !  可以直接退出命令模式</li>
-<li>: wq  可以直接退出命令模式</li>
-</ul>
-<p>Git  命令</p>
-<p><strong>工作区</strong> ——&gt;git add  将工作区的文件添加到   <strong>暂存区</strong>—— &gt; git commit 将暂存区的文件添加到  <strong>分支</strong></p>
-<p><strong>git 版本库</strong>(工作区有一个.git文件夹)管理的是所在目录的文件的<strong>修改</strong>， 而不是文件，也就是说，</p>
-<p>当  文件修改 1  —— git add  将文件修改1提交到暂存区——再接着 文件修改2 —— git commit 提交到分支，这个时候提交的只有修改1 ，修改2 并未被提交到分支；</p>
-<p>git add 命令实际上做的工作是提交的<strong>文件的修改</strong>到暂存区，不是提交的文件本身，这个对于git版本库管理工具理解至关重要；</p>
-<p>git status 可以随时查看  工作区  暂存区 以及分支的状态</p>
-<p>工作区<strong>文件</strong>的状态:未跟踪 untracked    已暂存staged    已提交 committed    已修改 modefied</p>
-<ul>
-<li><p>$ git   用于检测是否安装了了git\</p>
-</li>
-<li><p>$ mkdir learngit (Make Directory)   //创建一个新的目录</p>
-</li>
-<li><p>\$ cd learngit (Change Directory)    //进入一个目录</p>
-</li>
-<li><p>$ pwd(Print Working Directory)  //打印当前工作目录</p>
-</li>
-<li><p>$ git init  命令可以将<strong>该目录</strong>变成git可以管理的仓库，初始化git仓库(initial:初始化)</p>
-</li>
-<li><p>创建一个文件   比如    “readme.txt” 创建文件之后，如果没有add命令，那么文件属于为被跟踪状态</p>
-</li>
-<li><p>$ git add readme.txt   将创建的文件添加到仓库,或者将文件的修改提交到暂存区</p>
-</li>
-<li><p>$ git commit -m “ 文件说明”   将添加的文件的修改提交到仓库(commit:提交)</p>
-</li>
-<li><p>$ git status  命令可以让我们时刻掌握仓库当前的状态，上面的命令告诉我们，readme.txt被修改过了，但还没有准备提交的修改。但是我们无法知道什么内容被修改了</p>
-</li>
-<li><p>$ git diff   可以查看那些内容被修改了，被修改的一列最前面会有   +   号(difference:不同)</p>
-</li>
-<li><p>$ git add readme.txt   再次添加给仓库，不要commit提交</p>
-</li>
-<li><p>$ git add -A     表示将文件全部提交到仓库暂存区</p>
-</li>
-<li><p>$ git add *  表示将工作区全部文件提交到暂存区</p>
-</li>
-<li><p>$ git rm –cached  readme.txt 将提交到缓存区的文件移除</p>
-</li>
-<li><p>$ git status  查看下状态</p>
-</li>
-<li><p>$ git  commit -m “文档说明”   commit之后会在git仓库object文件夹下新建一个文件夹，保存了commit的信息</p>
-<p>   版本退回</p>
-</li>
-<li><p>$ git log   可以获取文档被修改的过程</p>
-</li>
-<li><p>$ git log –pretty=oneline   可以让显示更加优雅</p>
-</li>
-<li><p>$ git reset –hard HEAD^    其中  ^  代表回退到上一个版本，^^ 代表回退到倒数第二个版本，HEAD~100  回退到地一百个版本。工作区 暂存区 本地仓库都会改变</p>
-</li>
-<li><p>$ git reset hard 4444   如果我们退回以后后悔了，又想回去怎么办？可以回到某个特定的版本，只需要知道某个版本号即可，部分内容，系统会自动去匹配</p>
-</li>
-<li><p>$ git reset soft  只会改变历史HEAD指向</p>
-</li>
-<li><p>$ git reflog  可以查看历史命令</p>
-</li>
-<li><p>$ git ls  (list)   查看当前目录下的内容和 \$ ll 命令功能类似</p>
-</li>
-<li><p>$ git branch 可以查看当前分支  </p>
-<pre><code>branch     List, create, or delete branches
-</code></pre></li>
-<li><p>$ git branch myMaster  可以添加一个myMaster分支 </p>
-</li>
-<li><p>$ git branch  可以查看分支，有了新增的分支</p>
-</li>
-<li><p>$ git checkout myMaster  可以切换到该分支</p>
-<pre><code>checkout   Switch branches or restore working tree files
-</code></pre></li>
-<li><p>$ git checkout -b myMaster <strong>等价于</strong>  \$ git branch myMaster  \$git checkout myMaster</p>
-</li>
-<li><p>$ git branch -d  删除分支</p>
-</li>
-<li><p>$ git branch -d myMaster ;</p>
-</li>
-<li><p>$ git clone + 地址  可以直接从github上下载文件</p>
-</li>
-<li><p>$ git push   可以将本地文件推送到服务器</p>
-</li>
-<li><p>$ git stash 可以保存当前的工作内容</p>
-</li>
-</ul>
-<p>创建共享仓库</p>
-<ul>
-<li>$ git init –bare    创建共享仓库</li>
-<li>$ git push 远程仓库的地址 本地分支:远程分支</li>
-<li>$ git push 远程仓库的地址 本地分支</li>
-<li>$ git pull 远程仓库的地址 远程分支 : 本地分支</li>
-<li>$ git pull 远程仓库的地址 远程分支 </li>
-<li>$ git clone 远程仓库的地址 文件名称</li>
-<li>$ git fecth  从远程仓库获取分支内容，但是不会合并分支</li>
-<li>$ git merge  然后可以通过git merge进行合并</li>
-</ul>
-<p>分支操作</p>
-<ul>
-<li>git branch myMaster  新建分支</li>
-<li>git branch -r  查看远程分支</li>
-<li>git branch -a 查看所有分支</li>
-<li>git branch -d 删除本地分支</li>
-<li><p>git push origin : 分支名称   删除远程仓库分支</p>
-<p>​</p>
-</li>
-</ul>
 
           
         
@@ -2010,160 +2169,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/22/139遍历对象的属性/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/22/139遍历对象的属性/" itemprop="url">
-                  遍历对象的属性
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-22T22:00:00+08:00">
-                2016-09-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>遍历对象的属性</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = <span class="built_in">Object</span>.create(&#123;<span class="attr">foo</span>:<span class="number">0</span>&#125;,&#123;</div><div class="line">  <span class="attr">bar1</span>:&#123;</div><div class="line">    <span class="attr">value</span>:<span class="number">1</span><span class="comment">//descriptor默认值 enumerable fasle configurable false writable false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">bar2</span>:&#123;</div><div class="line">    <span class="attr">value</span>:<span class="number">2</span>,</div><div class="line">    <span class="attr">enumerable</span>:<span class="literal">true</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(obj);<span class="comment">//Object &#123;bar2: 2, bar1: 1&#125;</span></div></pre></td></tr></table></figure>
-<p>for in 可以遍历属性和原型属性 中可以枚举的 ，包括原型上的属性</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> obj)&#123;</div><div class="line">  <span class="built_in">console</span>.log(key);  <span class="comment">// bar2  foo</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Object.keys(obj)  返回所有可以枚举的属性组成的数组，不包括原型上的属性</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(obj));<span class="comment">//["bar2"]</span></div></pre></td></tr></table></figure>
-<p>Object.getOwnPropertyNames(obj)  返回可以枚举以及不可枚举的属性组成的数组，不包括原型上的属性</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyNames(obj));<span class="comment">//["bar1", "bar2"]</span></div></pre></td></tr></table></figure>
-<p>Object.assign()方法只能复制可以枚举的属性，不能复制不可枚举以及原型上的属性</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.assign(&#123;&#125;,obj));<span class="comment">//Object &#123;bar2: 2&#125;</span></div></pre></td></tr></table></figure>
-<p>JSON.stringify(obj) 只能将对象可枚举的属性转化</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(obj));<span class="comment">//'&#123;"bar2":2&#125;'</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span>  <span class="built_in">JSON</span>.stringify(obj));<span class="comment">//string</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2213,7 +2218,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">128</span>
+                <span class="site-state-item-count">129</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
