@@ -1,0 +1,729 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="事件冒泡一、什么是事件冒泡在一个对象上触发某类事件（比如单击onclick事件，那么会一直冒泡直到document元素找click事件，然后执行处理程序，如果都没有绑定，那就算咯；比如onmouseover事件，也是会执行这样的过程），如果此对象定义了此事件的处理程序，那么此事件就会调用这个处理程序，如果没有定义此事件处理程序或者事件返回true，那么这个事件会向这个对象的父级对象传播，从里到外，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="eventBubble">
+<meta property="og:url" content="http://yoursite.com/2015/12/01/56-事件冒泡/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="事件冒泡一、什么是事件冒泡在一个对象上触发某类事件（比如单击onclick事件，那么会一直冒泡直到document元素找click事件，然后执行处理程序，如果都没有绑定，那就算咯；比如onmouseover事件，也是会执行这样的过程），如果此对象定义了此事件的处理程序，那么此事件就会调用这个处理程序，如果没有定义此事件处理程序或者事件返回true，那么这个事件会向这个对象的父级对象传播，从里到外，">
+<meta property="og:updated_time" content="2017-04-09T10:35:31.889Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="eventBubble">
+<meta name="twitter:description" content="事件冒泡一、什么是事件冒泡在一个对象上触发某类事件（比如单击onclick事件，那么会一直冒泡直到document元素找click事件，然后执行处理程序，如果都没有绑定，那就算咯；比如onmouseover事件，也是会执行这样的过程），如果此对象定义了此事件的处理程序，那么此事件就会调用这个处理程序，如果没有定义此事件处理程序或者事件返回true，那么这个事件会向这个对象的父级对象传播，从里到外，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/12/01/56-事件冒泡/"/>
+
+
+
+
+
+  <title> eventBubble | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/01/56-事件冒泡/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                eventBubble
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-01T00:00:00+08:00">
+                2015-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h2><h3 id="一、什么是事件冒泡"><a href="#一、什么是事件冒泡" class="headerlink" title="一、什么是事件冒泡"></a>一、什么是事件冒泡</h3><p>在一个对象上触发某类事件（比如单击onclick事件，那么会一直冒泡直到document元素找click事件，然后执行处理程序，如果都没有绑定，那就算咯；比如onmouseover事件，也是会执行这样的过程），如果此对象定义了此事件的处理程序，那么此事件就会调用这个处理程序，如果没有定义此事件处理程序或者事件返回true，那么这个事件会向这个对象的父级对象传播，从里到外，直至它被处理（父级对象所有同类事件都将被激活），或者它到达了对象层次的最顶层，即document对象（有些浏览器是window）。</p>
+<h3 id="二、事件冒泡有什么作用"><a href="#二、事件冒泡有什么作用" class="headerlink" title="二、事件冒泡有什么作用"></a>二、事件冒泡有什么作用</h3><p>（1）事件冒泡允许<strong>多个操作被集中处理</strong>（把事件处理器添加到一个父级元素上，避免把事件处理器添加到多个子级元素上），它还可以让你<strong>在对象层的不同级别捕获事件</strong>。</p>
+<p><strong>【集中处理例子】</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"eventHandle(event)"</span> <span class="attr">id</span>=<span class="string">"outSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#000; padding:50px"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"inSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#CCC"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line">//本例子只在外面盒子定义了处理方法，而这个方法一样可以捕获到子元素点击行为并处理它。假设有成千上万子元素要处理，难道我们要为每个元素加“onclick="eventHandle(event)"”？显然没有这种集中处理的方法来的简单，同时它的性能也是更高的。</div><div class="line">function eventHandle(e)</div><div class="line">&#123;</div><div class="line">    var e=e||window.event;</div><div class="line">    var obj=e.target||e.srcElement;</div><div class="line">    alert(obj.id+' was click')</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">复制代码</div></pre></td></tr></table></figure>
+<p>（2）让<strong>不同的对象同时捕获同一事件</strong>，并调用自己的专属处理程序做自己的事情，就像老板一下命令，各自员工做自己岗位上的工作去了。</p>
+<p><strong>【同时捕获同一事件例子】</strong> </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"outSideWork()"</span> <span class="attr">id</span>=<span class="string">"outSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#000; padding:50px"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"inSideWork()"</span> <span class="attr">id</span>=<span class="string">"inSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#CCC"</span>&gt;</span>		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line">function outSideWork()</div><div class="line">&#123;</div><div class="line">    alert('My name is outSide,I was working...');</div><div class="line">&#125;</div><div class="line"></div><div class="line">function inSideWork()</div><div class="line">&#123;</div><div class="line">    alert('My name is inSide,I was working...');</div><div class="line">&#125;</div><div class="line"></div><div class="line">//因为下面程序自动激活单击事件，有些浏览器不允许，所以请单击灰色盒子，从这里开始下命令，这样因为冒泡的原因，黑色大盒子也会收到单击事件，并调用了自己的处理程序。如果还有更多盒子嵌套，一样道理。</div><div class="line"></div><div class="line">/*</div><div class="line">function bossOrder()</div><div class="line">&#123;</div><div class="line">    document.getElmentById('inSide').click();</div><div class="line">&#125;</div><div class="line">bossOrder();</div><div class="line">*/</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="三、需要注意什么"><a href="#三、需要注意什么" class="headerlink" title="三、需要注意什么"></a>三、需要注意什么</h3><p>●事件捕获其实有三种方式，事件冒泡只是其中的一种：（1）IE从里到外（inside→outside）的冒泡型事件。（2）Netscape4.0从外到里（outside→inside）的捕获型事件。（3）DOM事件流，先从外到里，再从里到外回到原点（outside→inside→outside）的事件捕获方法（似乎对象将触发两次事件处理，这有什么作用？鄙人不懂！）。</p>
+<p>●不是所有的事件都能冒泡。以下事件不冒泡：blur、focus、load、unload。</p>
+<p>●事件捕获方式在不同浏览器，甚至同种浏览器的不同版本中是有所区别的。如Netscape4.0采用捕获型事件解决方案，其它多数浏览器则支持冒泡型事件解决方案，另外DOM事件流还支持文本节点事件冒泡。</p>
+<p>●事件捕获到达顶层的目标在不同浏览器或不同浏览器版本也是有区别的。在IE6中HTML是接收事件冒泡的，另外大部分浏览器将冒泡延续到window对象，即……body→documen→window。</p>
+<p>●阻止冒泡并不能阻止对象默认行为。比如submit按钮被点击后会提交表单数据，这种行为无须我们写程序定制。</p>
+<h3 id="四、阻止事件冒泡"><a href="#四、阻止事件冒泡" class="headerlink" title="四、阻止事件冒泡"></a>四、阻止事件冒泡</h3><p>通常情况下我们都是一步到位，明确自己的事件触发源，并不希望浏览器自作聪明、漫无目的地去帮我们找合适的事件处理程序，即我们明确最精准目标，这种情况下我们不需要事件冒泡。另外通过对事件冒泡的理解，我们知道程序将做多较多额外的事情，这必然增大程序开销。还有一个重要的问题是：事件冒泡处理可能会激活我们本来不想激活的事件，导致程序错乱，甚至无从下手调试，这常成为对事件冒泡不熟悉程序员的棘手问题。所以必要时，我们要阻止事件冒泡。</p>
+<p><strong>【不想激活的事件被激活例子】</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"openWin('http://www.baidu.com')"</span> <span class="attr">id</span>=<span class="string">"outSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#000; padding:50px"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"openWin('http://www.google.com')"</span> <span class="attr">id</span>=<span class="string">"inSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#CCC"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line">//本例你实际希望点击灰色盒子打开google首页，而点击黑色盒子打开baidu首页，但结果你点击灰色盒子的时候，却是同时打开了两个网页。其实在实际设计中较少遇到此问题，你可能会想如果我在页面不同DOM深处安置了不同的按钮或链接，深层处的事件触发会不会波及顶层的按钮呢？不会，因为按钮不能形成嵌套关系。</div><div class="line">function openWin(url)</div><div class="line">&#123;</div><div class="line">    window.open(url);</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>本例你实际希望点击灰色盒子打开google首页，而点击黑色盒子打开baidu首页，但结果你点击灰色盒子的时候，却是同时打开了两个网页。其实在实际设计中较少遇到此问题，你可能会想如果我在页面不同DOM深处安置了不同的按钮或链接，深层处的事件触发会不会波及顶层的按钮呢？不会，因为按钮不能形成嵌套关系。</p>
+<p><strong>【阻止事件冒泡例子】</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"showMsg(this,event)"</span> <span class="attr">id</span>=<span class="string">"outSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#000; padding:50px"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"showMsg(this,event)"</span> <span class="attr">id</span>=<span class="string">"inSide"</span> <span class="attr">style</span>=<span class="string">"width:100px; height:100px; background:#CCC"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line">//阻止事件冒泡后，你点击灰色盒子，整个过程只弹一次对话框了（注意与默认情况对比）</div><div class="line">function showMsg(obj,e)</div><div class="line">&#123;</div><div class="line">    alert(obj.id);</div><div class="line">    stopBubble(e)</div><div class="line">&#125;</div><div class="line"></div><div class="line">//阻止事件冒泡函数</div><div class="line">function stopBubble(e)</div><div class="line">&#123;</div><div class="line">    if (e &amp;&amp; e.stopPropagation)</div><div class="line">        e.stopPropagation()</div><div class="line">    else</div><div class="line">        window.event.cancelBubble=true;</div><div class="line">  //或者如下</div><div class="line">  e&amp;&amp;e.stopPropagation ? e.stopPropagation : window.event.cancelBubble = true ;</div><div class="line">&#125;</div><div class="line">  //或者在事件处理函数  return false也可以阻止事件冒泡，同时会取消对应的默认行为</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>【阻止事件默认行为】</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">e = e ? e : <span class="built_in">window</span>.event ;</div><div class="line">e.preventDefault()</div><div class="line"></div><div class="line"><span class="comment">//或者</span></div><div class="line"><span class="keyword">return</span> <span class="literal">false</span>;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/14/62-HTTP协议/" rel="next" title="HTTP(HyperText Transfer Protocol)">
+                <i class="fa fa-chevron-left"></i> HTTP(HyperText Transfer Protocol)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/22/08DOM元素和jquery对象的互相转化/" rel="prev" title="DOM元素和jquery对象的互相转化">
+                DOM元素和jquery对象的互相转化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#事件冒泡"><span class="nav-number">1.</span> <span class="nav-text">事件冒泡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、什么是事件冒泡"><span class="nav-number">1.1.</span> <span class="nav-text">一、什么是事件冒泡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、事件冒泡有什么作用"><span class="nav-number">1.2.</span> <span class="nav-text">二、事件冒泡有什么作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、需要注意什么"><span class="nav-number">1.3.</span> <span class="nav-text">三、需要注意什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、阻止事件冒泡"><span class="nav-number">1.4.</span> <span class="nav-text">四、阻止事件冒泡</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
