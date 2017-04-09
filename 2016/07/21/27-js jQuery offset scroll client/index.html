@@ -1,0 +1,783 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="html," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一   js   offset1 :如果父元素没有定位，那么offsetLeft   offsetTop是元素自身border 边界左上角相对于body边界 的距离  
+2 :如果父元素有定位，那么offsetLeft   offsetTop是元素自身border 边界左上角相对于父元素的border边界 
+3 offsetWidth  offsetHeight 是一个只读属性，该属性的宽高包括">
+<meta property="og:type" content="article">
+<meta property="og:title" content="offset scroll client">
+<meta property="og:url" content="http://yoursite.com/2016/07/21/27-js jQuery offset scroll client/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="一   js   offset1 :如果父元素没有定位，那么offsetLeft   offsetTop是元素自身border 边界左上角相对于body边界 的距离  
+2 :如果父元素有定位，那么offsetLeft   offsetTop是元素自身border 边界左上角相对于父元素的border边界 
+3 offsetWidth  offsetHeight 是一个只读属性，该属性的宽高包括">
+<meta property="og:updated_time" content="2017-04-03T15:29:40.949Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="offset scroll client">
+<meta name="twitter:description" content="一   js   offset1 :如果父元素没有定位，那么offsetLeft   offsetTop是元素自身border 边界左上角相对于body边界 的距离  
+2 :如果父元素有定位，那么offsetLeft   offsetTop是元素自身border 边界左上角相对于父元素的border边界 
+3 offsetWidth  offsetHeight 是一个只读属性，该属性的宽高包括">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/07/21/27-js jQuery offset scroll client/"/>
+
+
+
+
+
+  <title> offset scroll client | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/21/27-js jQuery offset scroll client/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                offset scroll client
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-21T12:36:00+08:00">
+                2016-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/html/" itemprop="url" rel="index">
+                    <span itemprop="name">html</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一-js-offset"><a href="#一-js-offset" class="headerlink" title="一   js   offset"></a>一   js   offset</h3><p>1 :如果父元素没有定位，那么offsetLeft   offsetTop是元素自身<strong>border</strong> 边界左上角相对于<strong>body边界</strong> 的距离  </p>
+<p>2 :如果父元素有定位，那么offsetLeft   offsetTop是元素自身<strong>border</strong> 边界左上角相对于<strong>父元素的border边界</strong> </p>
+<p>3 offsetWidth  offsetHeight 是一个只读属性，该属性的宽高包括  内容区+padding+border；返回它的屏幕尺寸；</p>
+<ul>
+<li>通过ele.offsetWidth ele.offsetHeight可以获取元素的宽高 ; <strong>包括padding值和border值</strong> </li>
+</ul>
+<ul>
+<li>ele.offsetLeft  和  ele.offsetTop  指的是相对于文档或者定位父节点的左边距和上边距，是一个<strong>只读</strong> 属性</li>
+<li>offset系列的属性值是数字类型，只可读，不能设置</li>
+</ul>
+<p>4 所有的HTML元素都有offsetHeight offsetWidth属性，offsetTop  offsetLeft 可以获取当前元素相对于  <strong>文档坐标系统</strong>的x   y   坐标值;</p>
+<ul>
+<li>对于很多元素，都是相对于文档坐标系统的值；</li>
+<li>但是对于<strong>已经定位的元素</strong>的<strong>后代元素和一些其他 元素</strong>(表格元素)，这些属性返回的坐标是相对于祖先元素定位的的而非文档；offsetParent属性指定这些属性所相对的父元素，如果offsetParent为null,这些属性都是文档坐标； </li>
+</ul>
+<h3 id="js-scroll"><a href="#js-scroll" class="headerlink" title="js  scroll"></a>js  scroll</h3><p>1 ele.scrollHeight ele.scrollWidth  用来获取元素的内容的宽高，包括padding,不包括 border(<strong>如果产生了滚动条，则不包括滚动条的宽度</strong>)，是一个<strong>只读</strong> 属性，包括内容区，内边距以及任何溢出的内容，当么有溢出的时候，等于clientHeight he clientWidth ，当有溢出的时候，大于它们；</p>
+<p>2 ele.scrollTop  ele.scorllLeft  用来获取元素自身(比如当元素内容宽高大于元素自身的时候，会产生scroll，经常用来获取body的卷曲距离)内容向上或者向左卷曲出去的距离，也就是元素的内容区相对于滚动条顶部的距离；是一个<strong>可读可写</strong> 的属性；可以设置滚动出去的距离；</p>
+<p>3 如何获取页面的卷曲出去的距离，由于不同的浏览器支持不一样有的支持window.pageXoffset, window.pageYoffset(股和火狐都不支持) 有的支持(html)document.documentElement.scrollLeft  ,document.documentElement.scrollTop(火狐)有的支持(body)document.body.scrollLeft, document.body.scrollTop(谷歌)</p>
+<p>4 封装一个获取相对浏览器窗口偏移的兼容性代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">scrollTop</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="keyword">return</span>  <span class="built_in">window</span>.pageYoffset || <span class="built_in">document</span>.documentElement.scrollTop || <span class="built_in">document</span>.body.scrollTop || <span class="number">0</span> ;</div><div class="line">&#125;</div><div class="line">fuction scrollLeft()&#123;</div><div class="line"> <span class="keyword">return</span> <span class="built_in">window</span>.pageXoffset || <span class="built_in">document</span>.documentElement.scrollLeft || <span class="built_in">document</span>.body.scrollTop || <span class="number">0</span> ;  </div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getScroll</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  	<span class="keyword">return</span>&#123;</div><div class="line">      	<span class="attr">left</span> :  <span class="built_in">window</span>.pageXoffset || <span class="built_in">document</span>.documentElement.scrollLeft || <span class="built_in">document</span>.body.scrollTop || <span class="number">0</span> ;</div><div class="line">	<span class="keyword">return</span> top :  <span class="built_in">window</span>.pageYoffset || <span class="built_in">document</span>.documentElement.scrollTop || <span class="built_in">document</span>.body.scrollTop || <span class="number">0</span> ;</div><div class="line">  	&#125; ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>5 HTML元素并没有像window对象那样的scrollTop( ) 和scrollBy( ) 方法 ；</p>
+<h3 id="js-client"><a href="#js-client" class="headerlink" title="js  client"></a>js  client</h3><p>1 ele.clientHeight  ele.clientWidth  用来获取元素可视区域的宽高，是一个<strong>只读</strong> 属性；<strong>包括padding值，不包括border</strong> ，<strong>不包括滚动条</strong>，对于内联元素只是0 ；</p>
+<p>2 ele.clientTop  ele.clientLeft  用来获取元素的边框的宽度，以像素计；是一个<strong>只读</strong> 属性</p>
+<p>3 如果元素设置了display:none ,不可见，那么无法获取宽高;结果为0；</p>
+<h3 id="Submit"><a href="#Submit" class="headerlink" title="Submit"></a>Submit</h3><ul>
+<li><p>offsetWidth  offsetHeight  获取元素的元素的宽度包括 content+padding+border ,<strong>包括border</strong> ;scrollWidth  scrollHeight  clientWidth clientHeight  获取的元素的宽度仅仅包括content+padding,<strong>不包括border </strong>； </p>
+</li>
+<li><p>offsetTop   offsetLeft  获取<strong>该元素的border外边界</strong> 距离已经定位了了<strong>父元素的border内边界</strong> 的距离，如果没有祖先元素都没有定位，则获取相对于body的边界的距离；scrollLeft  scrollTop  获取元素相对于<strong>滚动条头部</strong> 的距离，clientLeft  clientTop  获取元素的边框的宽度</p>
+</li>
+<li><p>以上所有的属性，只有scrollTop  和 scrollLeft  是一个可读可写的属性，其余仅仅可读 :语法 </p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ele.scrollTop = number ; ele.scrollLeft  = number ;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ele.scrollTop = <span class="number">5</span>  ;ele.scrollLeft = <span class="number">10</span>;</div></pre></td></tr></table></figure>
+<ul>
+<li>所有获取的结果是一个number类型的数字；设置值的时候也仅仅设置数字；</li>
+</ul>
+<p>注意区分事件对象参数里面的 (都是只读属性)</p>
+<ul>
+<li>offsetX  offsetY(偏移) 获取鼠标点击事件源相对于元素(content+padding)的左上角的坐标值,如果点击在border边界上的话，那么值为负数；</li>
+<li>clientX  clientY 获取事件源相对于浏览器窗口的可视区域(不包括滚动条和工具栏)的左上角的坐标值 pageX pageY也是</li>
+<li>screenX  screenY 获取的是鼠标点击点相对于显示屏的屏幕的左上角的坐标值</li>
+</ul>
+<p><strong>滚动条是浏览器添加的，在内边距和边框之间添加了滚动条</strong></p>
+<h3 id="二-jquery-offset-这是jquery中的一个方法"><a href="#二-jquery-offset-这是jquery中的一个方法" class="headerlink" title="二   jquery  offset( )这是jquery中的一个方法"></a>二   jquery  offset( )这是jquery中的一个方法</h3><p>1 如果不传参数，那么可以获取该元素的距离body边界的距离；</p>
+<p>2 如果传了参数，那么可以设置该元素距离body的边界的距离，</p>
+<p>3 注意，无论该元素的<strong>父元素是否定位</strong> ，都是相对于<strong>body</strong> 边界的距离；这点和js不一样；</p>
+<ul>
+<li>jquery对象.offset( )    ;  该方法有两个整形返回值，一个代表left  一个代表top </li>
+<li>jquery对象.offset().left    jquery对象.offset().top   可以获取left和top的值</li>
+<li>jquery对象.offset( { left : 30 ,top : 20 }  )  可以设置该元素距离body边界的距离；</li>
+</ul>
+<h3 id="jquery中如何获取元素的宽高"><a href="#jquery中如何获取元素的宽高" class="headerlink" title="jquery中如何获取元素的宽高"></a>jquery中如何获取元素的宽高</h3><p>1 height( )只可以获取内容高度，也就是原本设置的height高度值，或者由内容撑开的高度值</p>
+<p>2 innerHeight( ) ,获取的高度包括 padding，不包括边框  </p>
+<p>3 outerHeight( ),获取的高度值包括 padding 和border ，不包括margin,outerHeight(false)，里面默认值是false，当设置为outerHeight(true)的时候，可以获取到margin的值；</p>
+<p>3 width( )  innerWidth( )  outerWidth( )也是一样的道理</p>
+<p>4 如果传入了数值参数，那么可以为元素设置宽高；</p>
+<h3 id="jquery-scroll"><a href="#jquery-scroll" class="headerlink" title="jquery  scroll"></a>jquery  scroll</h3><p>1 $(“selector”).scrollTop( )   、\$(“selector”).scrollLeft( )  不传参数的时候，可以获取该对象 相对滚动条顶部和左侧的偏移</p>
+<p>2 $(“selector”).scrollTop( number)  、 \$(“selector”).scrollLeft(number) 传入参数的话，则代表可以设置相对滚动条顶部和左侧的距离</p>
+<h3 id="三-所有的HTML元素都有scroll-client-offset这三组属性；"><a href="#三-所有的HTML元素都有scroll-client-offset这三组属性；" class="headerlink" title="三  所有的HTML元素都有scroll  client offset这三组属性；"></a>三  所有的HTML元素都有scroll  client offset这三组属性；</h3><p>scrollHeight scrollWidth scrollLeft scrollTop       </p>
+<p>offsetHeight offsetWidth offsetLeft offsetTop  offsetParent</p>
+<p>clientHeight clientWidth clientLeft clientTop </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/html/" rel="tag"># html</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/10/43-jQuery核心及源码分析/" rel="next" title="jQuery核心">
+                <i class="fa fa-chevron-left"></i> jQuery核心
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/02/45-js和jQuey的事件对象参数的区别：/" rel="prev" title="js 事件对象参数">
+                js 事件对象参数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-js-offset"><span class="nav-number">1.</span> <span class="nav-text">一   js   offset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#js-scroll"><span class="nav-number">2.</span> <span class="nav-text">js  scroll</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#js-client"><span class="nav-number">3.</span> <span class="nav-text">js  client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Submit"><span class="nav-number">4.</span> <span class="nav-text">Submit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-jquery-offset-这是jquery中的一个方法"><span class="nav-number">5.</span> <span class="nav-text">二   jquery  offset( )这是jquery中的一个方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery中如何获取元素的宽高"><span class="nav-number">6.</span> <span class="nav-text">jquery中如何获取元素的宽高</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery-scroll"><span class="nav-number">7.</span> <span class="nav-text">jquery  scroll</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-所有的HTML元素都有scroll-client-offset这三组属性；"><span class="nav-number">8.</span> <span class="nav-text">三  所有的HTML元素都有scroll  client offset这三组属性；</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
