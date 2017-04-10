@@ -264,7 +264,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -355,7 +355,7 @@
       
         <p>1 定义:A module is a collection of configuration and run blocks which get applied to the application during the bootstrap process. In its simplest form the module consists of a collection of two kinds of blocks</p>
 <p>angular.module(‘myApp’,[ ]) 用来创建一个模块  angular.module(‘myApp’) 用来引用一个模块(该模块必须已经声明)</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'myApp'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    var myApp = angular.module("myApp",[]);</div><div class="line">    var myApp2 = angular.module("myApp" +</div><div class="line">            "");</div><div class="line">    console.log(myApp);</div><div class="line">    console.log(myApp2);</div><div class="line">    console.log(myApp === myApp2);//true</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'myApp'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> myApp = angular.module(<span class="string">"myApp"</span>,[]);</div><div class="line">    <span class="keyword">var</span> myApp2 = angular.module(<span class="string">"myApp"</span> +</div><div class="line">            <span class="string">""</span>);</div><div class="line">    <span class="built_in">console</span>.log(myApp);</div><div class="line">    <span class="built_in">console</span>.log(myApp2);</div><div class="line">    <span class="built_in">console</span>.log(myApp === myApp2);<span class="comment">//true</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>2 AngularJS分两个阶段运行你的应用 – config阶段和run阶段。config阶段是你设置任何的provider的阶段。它也是你设置任何的指令，控制器，过滤器以及其它东西的阶段。在run阶段，AngularJS会编译你的DOM并启动你的应用</p>
 <p>2.1 Configuration Blocks </p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//语法糖，这个是我们平常的写法，很简洁，其实是下一段代码的语法糖</span></div><div class="line">angular.module(<span class="string">'myModule'</span>, []).</div><div class="line">  value(<span class="string">'a'</span>, <span class="number">123</span>).</div><div class="line">  factory(<span class="string">'a'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">123</span>; &#125;).</div><div class="line">  directive(<span class="string">'directiveName'</span>, ...).</div><div class="line">  filter(<span class="string">'filterName'</span>, ...).</div><div class="line">  controller(<span class="string">'MainController'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">    </div><div class="line">  &#125;);</div><div class="line"><span class="comment">// is same as</span></div><div class="line"></div><div class="line">angular.module(<span class="string">'myModule'</span>, []).</div><div class="line">  config(<span class="function"><span class="keyword">function</span>(<span class="params">$provide, $compileProvider, $filterProvider</span>) </span>&#123;</div><div class="line">    $provide.value(<span class="string">'a'</span>, <span class="number">123</span>);</div><div class="line">    $provide.factory(<span class="string">'a'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">123</span>; &#125;);</div><div class="line">    $compileProvider.directive(<span class="string">'directiveName'</span>, ...);</div><div class="line">    $filterProvider.register(<span class="string">'filterName'</span>, ...);</div><div class="line">  	$controllerProvider.register(<span class="string">'MainController'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>) </span>&#123;</div><div class="line"></div><div class="line"> 	  &#125;);</div><div class="line">	&#125;);</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
@@ -404,8 +404,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/27/103-template模板/" rel="next" title="template">
-                <i class="fa fa-chevron-left"></i> template
+              <a href="/2016/09/27/10GitandCMDcommand/" rel="next" title="Git Cmd Command Enhence Memory">
+                <i class="fa fa-chevron-left"></i> Git Cmd Command Enhence Memory
               </a>
             
           </div>
@@ -467,11 +467,11 @@
       <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
+               src="/uploads/avatar.jpg"
                alt="JiM-W" />
           <p class="site-author-name" itemprop="name">JiM-W</p>
            
-              <p class="site-description motion-element" itemprop="description"></p>
+              <p class="site-description motion-element" itemprop="description">keep fighting！</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -490,7 +490,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -501,7 +501,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>

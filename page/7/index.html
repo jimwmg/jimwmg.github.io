@@ -87,12 +87,15 @@
 
 
 
+<meta name="description" content="keep fighting！">
 <meta property="og:type" content="website">
 <meta property="og:title" content="JiM-W">
 <meta property="og:url" content="http://yoursite.com/page/7/index.html">
 <meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="keep fighting！">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JiM-W">
+<meta name="twitter:description" content="keep fighting！">
 
 
 
@@ -257,12 +260,225 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/13/135apacheVirtual以及Ajax/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/13/135apacheVirtual以及Ajax/" itemprop="url">
+                  apache virtual and Cross Origin
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-13T12:36:00+08:00">
+                2016-09-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/http-apache/" itemprop="url" rel="index">
+                    <span itemprop="name">http apache</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>写在前面:有兴趣的还是可以阅读下httpd.conf以及httpd-vhosts.conf 文件里面的注释，方便理解；</p>
+<h3 id="1-如何搭建本地apache服务器"><a href="#1-如何搭建本地apache服务器" class="headerlink" title="1 如何搭建本地apache服务器?"></a>1 如何搭建本地apache服务器?</h3><p>下载wamp软件，安装完毕之后，启动apache服务器，在浏览器URL地址栏输入127.0.0.1或者localhost便可以进入apache主页(此时服务器默认的访问路径是(D是我安装在D盘) D/wamp/www/    文件夹下面的index开头的文件,)</p>
+<p>1.1 配置服务器访问路径</p>
+<p>找到wamp —&gt;bin —&gt;apache  目录下面的   httpd.conf  修改默认访问路径,将 D/wamp/www/ 比如修改为 F:/mywork/</p>
+<ul>
+<li><p>httpd.conf  中 DocumentRoot 可以修改默认访问的路径  F:/mywork/</p>
+</li>
+<li><p>httpd.conf 中 Directory 也要修改默认路径F:/web/</p>
+</li>
+<li><p>如果该路径F:/mywork/  里面有index.html  index.php 等以index命名的文件,会直接打开该文件，如果没有则进入F:/mywork/该目录</p>
+</li>
+<li><p>为什么会默认打开index开头的文件呢？在httpd.conf文件中,如下代码设置了默认打开目录下面的文件名字</p>
+<p> DirectoryIndex决定打开虚拟主机的时候，默认打开的文件名称</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;IfModule dir_module&gt;</div><div class="line">    DirectoryIndex index.php index.php3 index.html index.htm</div><div class="line">&lt;/IfModule&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>访问自己的服务器的三种方式：本机的IP地址   127.0.0.1  localhost    httpd.conf   文件中listen 可以更改端口</li>
+<li>此时在通过localhost或者127.0.0.1 再次进入的时候就会进入F:/mywork目录里面来(如果该目录下面有index开头的文件会默认直接打开该文件，如果没有的话则打开该目录) </li>
+<li>只有在这里配置了目录之后，在配置虚拟主机的时候，虚拟主机的目录也必须是这个目录，或者这个目录的子目录</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot; F:/mywork/&quot;    //如果在虚拟主机配置的目录和F:/web不一致，则没有权限进入该目录，无论是通过localhost 还是通过127.0.0.1 都无法进入虚拟主机，必须要和服务器设置的访问路径保持一致;</div><div class="line">    ServerName test.com</div><div class="line">    ServerAlias www.test.com</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
+<p>1.2 配置服务器<strong>通过域名访问</strong> 虚拟主机</p>
+<ul>
+<li>先要明确配置虚拟主机的目的，上面第一步所实现的功能是，我们可以通过localhsot或者127.0.0.1以及本机ip地址来访问我们的服务器(也就是后来修改的文件目录 F:/mywork/)</li>
+</ul>
+<p>httpd.conf 文件中找到 # Virtual hosts 打开这行代码下面一行的 # 号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Include conf/extra/httpd-vhosts.conf</div></pre></td></tr></table></figure>
+<p>当我们打开虚拟主机之后，重启apache服务，在通过localhost或者127.0.0.1已经无法进入 F:/mywork/目录，需要重新配置wamp —&gt;bin —&gt;apache—&gt;extra—&gt;httpd-vhosts.conf文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">VirtualHost example:</div><div class="line"># Almost any Apache directive may go into a VirtualHost container.</div><div class="line"># The first VirtualHost section is used for all requests that do not</div><div class="line"># match a ServerName or ServerAlias in any &lt;VirtualHost&gt; block.</div><div class="line">也就是说当我们设置虚拟主机的时候，Apache在所有的VirtualHost container中如果没有找到匹配的serverName或者ServerAlias的时候，会直接进入第一个Virtual Block</div></pre></td></tr></table></figure>
+<p>如下配置，我设置了三个主机，分别是mainVirtual   myVirtual1    myVirtual2  对应不同的路径，但是都是F:/web/或者F:/web/的子目录，然后通过 ServerName  ServerAlias设置的对应值，在浏览器的URL地址栏就可以访问了</p>
+<p>1.2.1 设置host文件 C:\Windows\System32\drivers\etc  下面的host文件,我们在这里配置的域名，如果在URL地址栏输入该域名，我们就可以访问这个本机虚拟主机；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>   www.mainVirtual.com</div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>   www.myVirtual1.com</div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>   www.myVirtual2.com</div></pre></td></tr></table></figure>
+<p>1.2.2 设置wamp —&gt;bin —&gt;apache—&gt;extra—&gt;httpd-vhosts.conf文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">#  operation by JiM</div><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot;F:/web/&quot;</div><div class="line">    ServerName  mainVirtual.com   </div><div class="line">    ServerAlias www.mainVirtual.com</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div><div class="line"># this is JiM&apos;s test for the Virtual container for myVirtual1</div><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot;F:/web/myVirtual1&quot;</div><div class="line">    ServerName myVirtual1.com    </div><div class="line">    ServerAlias www.myVirtual1.com</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div><div class="line"># this is JiM&apos;s test the Virtual container for myVirtual2</div><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot;F:/web/myVirtual2&quot;</div><div class="line">    ServerName myVirtual2.com    </div><div class="line">    ServerAlias www.myVirtual2.com</div><div class="line">    DirectoryIndex doc.html     //假如文件目录下有一个doc命名的文件，则DirectoryIndex的设置可以默认打开该文件</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
+<p>1.2.3 这个时候我们通过www.mainVirtual.com    www.myVirtual1.com   www.myVirtual2.com就可以访问我们对应的主机咯(每个路径对应的目录要事先创建好)</p>
+<h3 id="2-在本地搭建的服务器测试跨域的几种方案-同一域名下的不同子域之间也受同源策略的限制"><a href="#2-在本地搭建的服务器测试跨域的几种方案-同一域名下的不同子域之间也受同源策略的限制" class="headerlink" title="2 在本地搭建的服务器测试跨域的几种方案(同一域名下的不同子域之间也受同源策略的限制)"></a>2 在本地搭建的服务器测试跨域的几种方案(同一域名下的不同子域之间也受同源策略的限制)</h3><p>假如 我在之前搭建的www.myVirtual1.com域下，也就是F:/web/myVirtual1文件夹下面有一个文件 test1.php  </p>
+<p>www.myVirtual2.com这个域内的文件想访问www.myVirtual1.com下面的test1.php文件</p>
+<p>URL(Uniform Resource Locator) 地址用于描述一个网络上的资源,  基本格式如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scheme://host[:port#]/path/.../[?query-string][#anchor]</div></pre></td></tr></table></figure>
+<p>scheme  host   port三者有一个不一样就发生了跨域，如何解决跨域？</p>
+<p>2.1 Access-Control-Allow-Origin:域名   表示设置允许哪个域名进行访问</p>
+<p>header(“Access-Control-Allow-Origin: <a href="http://www.myvirtual2.com" target="_blank" rel="external">http://www.myvirtual2.com</a>“) 通过对访问的跨域资源设置响应头，允许某个指定的域名来访问该文件;</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//F:/web/myVirtual1/test1 .php     这个是我的虚拟主机1 里面的文件</span></div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    header(<span class="string">"Access-Control-Allow-Origin: http://www.myvirtual2.com"</span>);</div><div class="line">    $username = $_GET[<span class="string">'username'</span>];</div><div class="line">    $array = [<span class="string">"Jhon"</span>,<span class="string">"Jim"</span>,<span class="string">"James"</span>,<span class="string">"Robe"</span>];</div><div class="line">    $flag = in_array($username,$array);</div><div class="line">    <span class="keyword">if</span>($flag)&#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">'您可以登录'</span>;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">"该用户名已经被注册"</span>;</div><div class="line">    &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>这个是虚拟主机2 里面的请求文件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"test1.php"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span>/&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"message"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">id</span>=<span class="string">"psw"</span> <span class="attr">name</span>=<span class="string">"psw"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        $(<span class="string">'#username'</span>).blur(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> username = $(<span class="keyword">this</span>).val();</div><div class="line">            <span class="built_in">console</span>.log(username);</div><div class="line">            $.ajax(&#123;</div><div class="line">                <span class="attr">url</span>:<span class="string">'http://www.myvirtual1.com/test1.php?username=Jhon'</span>,</div><div class="line">                <span class="attr">type</span>:<span class="string">'get'</span>,</div><div class="line">                <span class="attr">data</span>:&#123;<span class="string">"username"</span>: username&#125; ,<span class="comment">//代表发送到服务器的数据</span></div><div class="line">                success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="comment">//如果请求成功了，则可以执行该函数</span></div><div class="line">                    <span class="built_in">console</span>.log(data);</div><div class="line">                    $(<span class="string">"#message"</span>).html(data)  ;</div><div class="line">                &#125;</div><div class="line">            &#125;)</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2.2 通过script标签 src属性</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> </div><div class="line">    header(<span class="string">"Content-Type:text/script;charset=utf-8"</span>);<span class="comment">//如果没有这个响应头，在开发者network里面可以查看请求和响应的详细信息,默认返回的是Content-Type:text/html文本格式的数据，不过这个也不影响，script标签还是会将其解析成javascript代码运行</span></div><div class="line">    $callback = $_GET[<span class="string">'callback'</span>];</div><div class="line">    $username = $_GET[<span class="string">'username'</span>];</div><div class="line">    $array = [<span class="string">"Jhon"</span>,<span class="string">"Jim"</span>,<span class="string">"James"</span>,<span class="string">"Robe"</span>];</div><div class="line">    $flag = in_array($username,$array);</div><div class="line">    $data = <span class="string">"&#123;0:'您可以登录',1:'该用户已经被注册'&#125;"</span>;</div><div class="line">    <span class="keyword">echo</span> $callback.<span class="string">'('</span>.$data.<span class="string">','</span>.$flag.<span class="string">')'</span>;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    </div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>请注册<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">method</span>=<span class="string">"get"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span>/&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"message"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">id</span>=<span class="string">"psw"</span> <span class="attr">name</span>=<span class="string">"psw"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getInfo</span>(<span class="params">arg,flag</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(flag)&#123;</div><div class="line">            <span class="built_in">console</span>.log(arg);</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">typeof</span> arg);</div><div class="line">            $(<span class="string">"#message"</span>).html(arg[<span class="number">0</span>]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"this count has been rejected"</span>);</div><div class="line">            $(<span class="string">"#message"</span>).html(arg[<span class="number">1</span>]);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'http://www.myvirtual1.com/test1.php?callback=getInfo&amp;username=Jhon'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2.3 jQuery.ajax通过jsonp来进行跨域请求,本质上使用script标签发送请求,获取到的数据作为javascript代码直接执行</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//F:/web/myVirtual1/test1 .php</div><div class="line">&lt;?php</div><div class="line">    header("Content-Type:text/script;charset=utf-8");</div><div class="line">    $callback = $_GET['callback'];</div><div class="line">    $username = $_GET['username'];</div><div class="line">    $array = ["Jhon","Jim","James","Robe"];</div><div class="line">    $flag = in_array($username,$array);</div><div class="line">    $data = "&#123;0:'您可以登录',1:'该用户已经被注册'&#125;</div><div class="line">    echo $callback.'('.$data.','.$flag.')';</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span>  </div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>请注册<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">method</span>=<span class="string">"get"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span>/&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"message"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">id</span>=<span class="string">"psw"</span> <span class="attr">name</span>=<span class="string">"psw"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getInfo</span>(<span class="params">arg,flag</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(flag);</div><div class="line">      <span class="comment">//这个flag一直是undefined,因为echo:flase不会有任何结果，不想改了，主要是理解跨域</span></div><div class="line">        <span class="keyword">if</span>(flag)&#123;</div><div class="line">            <span class="built_in">console</span>.log(arg);</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">typeof</span> arg);</div><div class="line">            $(<span class="string">"#message"</span>).html(arg[<span class="number">0</span>]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"this count has been rejected"</span>);</div><div class="line">            $(<span class="string">"#message"</span>).html(arg[<span class="number">1</span>]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        $(<span class="string">'#username'</span>).blur(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> username = $(<span class="keyword">this</span>).val();</div><div class="line">            $.ajax(&#123;</div><div class="line">                <span class="attr">url</span>:<span class="string">'http://www.myvirtual1.com/test1.php'</span>,</div><div class="line">                <span class="attr">type</span>:<span class="string">'get'</span>,</div><div class="line">                <span class="attr">dataType</span>:<span class="string">'jsonp'</span>,</div><div class="line">                <span class="attr">jsonpCallback</span>:<span class="string">'getInfo'</span>,<span class="comment">//用来替换jQuery自动生成的函数名,以便于直接执行getInfo函数</span></div><div class="line">                data:&#123;<span class="string">"username"</span>: username&#125; ,<span class="comment">//代表发送到服务器的数据</span></div><div class="line">            &#125;)</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2.4 通过反向代理进行跨域访问</p>
+<p>反向代理作用1：减轻源服务器负载　　2：保障源服务器安全　　3：对源服务器进行负载均衡(Load Balance)。通过在服务器端设置代理服务，可以进行跨域访问</p>
+<p>打开httpd-conf文件,打开以下两行代码中的#号</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">LoadModule proxy_module modules/mod_proxy.so </div><div class="line">LoadModule proxy_http_module modules/mod_proxy_http.so</div></pre></td></tr></table></figure>
+<p>我们在新建两个虚拟主机</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot;F:/web/4myvirtual4&quot;</div><div class="line">    ServerName myvirtual4.com</div><div class="line">    ServerAlias www.myvirtual4.com</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    DocumentRoot &quot;F:/web/5myvirtual5&quot;</div><div class="line">    ServerName myvirtual5.com</div><div class="line">    ServerAlias www.myvirtual5.com</div><div class="line">    ProxyRequests Off</div><div class="line">    ProxyPass /api http://www.myvirtual4.com</div><div class="line">#这个时候访问http://www.myvirtual5.com/api 其实就是访问 http://www.myvirtual4.com</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>ProxyRequests Off 指令是指采用反向(reverse)代理</li>
+<li>ProxyPass 指令允许将一个远端服务器映射到本地服务器的 URL 空间中。</li>
+</ul>
+<p>在F:/web/5myvirtual5 下面有一个文件 01proxy.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    $.ajax(&#123;</div><div class="line">        <span class="attr">type</span>:<span class="string">'get'</span>,</div><div class="line">        <span class="attr">url</span>:<span class="string">'/api/01proxy.php'</span>,</div><div class="line">        <span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(data);</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>在F:/web/4myvirtual4 下有一个文件 01proxy.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"> <span class="keyword">echo</span> <span class="string">'this is sonme data from virtual4'</span></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>2.5 通过document.domain 设置<strong>同一主域不同子域</strong>中的页面相同的主域名，来允许不同子域之间进行访问</p>
+<p>2.6 通过HTML5postMessage方法进行跨域操作，参见我的博客HTML5-postMessage</p>
+<p>2.7  绕开浏览器，直接通过服务器端发送请求</p>
+<p>2.8 关于其他跨域问题，比如其他的服务器会通过请求的referer信息进行访问的限制，可以通过设置</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">''</span>&gt;</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/13/100-类数组转化为数组/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -430,7 +646,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -586,318 +802,12 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/155AMD-语法规范/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/10/155AMD-语法规范/" itemprop="url">
-                  AMD and CMD
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-10T12:36:00+08:00">
-                2016-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript-requirejs/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript  requirejs</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>CMD([Common Module Definition])   AMD</p>
-<p>SeaJS 遵循 CMD 规范，RequireJS 遵循 AMD 规范。</p>
-<p><strong>CMD 模块依赖声明方式：</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params">require</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</div><div class="line">    <span class="keyword">var</span> b = <span class="built_in">require</span>(<span class="string">'./b'</span>);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p><strong>CMD 规范的弊端</strong></p>
-<ol>
-<li>不能直接压缩：<code>require</code>是局部变量，意味着不能直接的通过压缩工具进行压缩，若<code>require</code>这个变量被替换，加载器与自动化工具将无法获取模块的依赖。</li>
-<li>模块书写有额外约定：路径参数不能进行字符串运算，不能使用变量代替，否则加载器与自动化工具无法正确提取路径。</li>
-</ol>
-<p><strong>AMD 模块依赖声明方式：</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'./a'</span>, <span class="string">'./b'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</div><div class="line">    <span class="comment">// more code ..</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p><strong>AMD 规范的弊端</strong></p>
-<ol>
-<li>依赖提前声明在代码书写上不是那么友好</li>
-<li>模块内部与 NodeJS 的 Modules 有一定的差异</li>
-</ol>
-<p>其实无论是 CMD 还是 AMD 的异步模块，都无法与同步模块规范保持一致（NodeJS 的 Modules），<br>只有谁比谁更像同步模块而已。AMD 要转换为同步模块，除了去掉define函数的包裹外，<br>需要在头部使用require把依赖声明好，而 CMD 只需要去掉define函数的包裹即可。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/39-媒体查询响应式开发/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/10/39-媒体查询响应式开发/" itemprop="url">
-                  媒体查询 响应式开发
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-10T12:36:00+08:00">
-                2016-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mobile/" itemprop="url" rel="index">
-                    <span itemprop="name">mobile</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>媒体查询:响应式开发</p>
-<p>第一种不同终端的宽度自适应代码：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-class">.container</span> &#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">1200px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">1000px</span>;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span> auto;</div><div class="line">            <span class="attribute">background-color</span>: red;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> screen and (min-width:<span class="number">1200px</span>)&#123;</div><div class="line">            <span class="selector-tag">body</span>&#123;</div><div class="line">                <span class="comment">/*当屏幕大小最小满足1200px即大于1200px的时候 */</span></div><div class="line">                <span class="comment">/*background-color: pink;*/</span></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">1170px</span>;</div><div class="line">                <span class="attribute">background-color</span>: pink;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> screen and (min-width:<span class="number">992px</span>) and (max-width: <span class="number">1200px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">970px</span>;</div><div class="line">                <span class="attribute">background</span>: green;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> screen and (min-width: <span class="number">768px</span>) and (max-width: <span class="number">992px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">750px</span>;</div><div class="line">                <span class="attribute">background-color</span>: blue;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @<span class="keyword">media</span> screen and (max-width: <span class="number">768px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">                <span class="attribute">background-color</span>: orange;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>第二种不同终端宽度自适应代码 ：代码覆盖</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-tag">html</span>,<span class="selector-tag">body</span> &#123;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span> ;</div><div class="line">            <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="selector-class">.container</span> &#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">1200px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">1000px</span>;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span> auto;</div><div class="line">            <span class="attribute">background-color</span>: red;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">/*以覆盖的方式存在*/</span></div><div class="line">        @<span class="keyword">media</span> (max-width: <span class="number">768px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">                <span class="attribute">background-color</span>: orange;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span>  (min-width: <span class="number">768px</span>) &#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">750px</span>;</div><div class="line">                <span class="attribute">background-color</span>: blue;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> (min-width:<span class="number">992px</span>) &#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">970px</span>;</div><div class="line">                <span class="attribute">background</span>: green;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> (min-width:<span class="number">1200px</span>)&#123;</div><div class="line">                <span class="comment">/*当屏幕大小最小满足1200px即大于1200px的时候 */</span></div><div class="line">                <span class="comment">/*background-color: pink;*/</span></div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">1170px</span>;</div><div class="line">                <span class="attribute">background-color</span>: pink;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/143requirejs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1109,12 +1019,481 @@ require([&apos;c&apos;], function(c) {...});
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/39-媒体查询响应式开发/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/10/39-媒体查询响应式开发/" itemprop="url">
+                  媒体查询 响应式开发
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-10T12:36:00+08:00">
+                2016-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mobile/" itemprop="url" rel="index">
+                    <span itemprop="name">mobile</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>媒体查询:响应式开发</p>
+<p>第一种不同终端的宽度自适应代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-class">.container</span> &#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">1200px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">1000px</span>;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span> auto;</div><div class="line">            <span class="attribute">background-color</span>: red;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> screen and (min-width:<span class="number">1200px</span>)&#123;</div><div class="line">            <span class="selector-tag">body</span>&#123;</div><div class="line">                <span class="comment">/*当屏幕大小最小满足1200px即大于1200px的时候 */</span></div><div class="line">                <span class="comment">/*background-color: pink;*/</span></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">1170px</span>;</div><div class="line">                <span class="attribute">background-color</span>: pink;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> screen and (min-width:<span class="number">992px</span>) and (max-width: <span class="number">1200px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">970px</span>;</div><div class="line">                <span class="attribute">background</span>: green;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> screen and (min-width: <span class="number">768px</span>) and (max-width: <span class="number">992px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">750px</span>;</div><div class="line">                <span class="attribute">background-color</span>: blue;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @<span class="keyword">media</span> screen and (max-width: <span class="number">768px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">                <span class="attribute">background-color</span>: orange;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>第二种不同终端宽度自适应代码 ：代码覆盖</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-tag">html</span>,<span class="selector-tag">body</span> &#123;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span> ;</div><div class="line">            <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="selector-class">.container</span> &#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">1200px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">1000px</span>;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span> auto;</div><div class="line">            <span class="attribute">background-color</span>: red;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">/*以覆盖的方式存在*/</span></div><div class="line">        @<span class="keyword">media</span> (max-width: <span class="number">768px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">                <span class="attribute">background-color</span>: orange;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span>  (min-width: <span class="number">768px</span>) &#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">750px</span>;</div><div class="line">                <span class="attribute">background-color</span>: blue;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> (min-width:<span class="number">992px</span>) &#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">970px</span>;</div><div class="line">                <span class="attribute">background</span>: green;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> (min-width:<span class="number">1200px</span>)&#123;</div><div class="line">                <span class="comment">/*当屏幕大小最小满足1200px即大于1200px的时候 */</span></div><div class="line">                <span class="comment">/*background-color: pink;*/</span></div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">1170px</span>;</div><div class="line">                <span class="attribute">background-color</span>: pink;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/155AMD-语法规范/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/10/155AMD-语法规范/" itemprop="url">
+                  AMD and CMD
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-10T12:36:00+08:00">
+                2016-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-requirejs/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript  requirejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>CMD([Common Module Definition])   AMD</p>
+<p>SeaJS 遵循 CMD 规范，RequireJS 遵循 AMD 规范。</p>
+<p><strong>CMD 模块依赖声明方式：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params">require</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</div><div class="line">    <span class="keyword">var</span> b = <span class="built_in">require</span>(<span class="string">'./b'</span>);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><strong>CMD 规范的弊端</strong></p>
+<ol>
+<li>不能直接压缩：<code>require</code>是局部变量，意味着不能直接的通过压缩工具进行压缩，若<code>require</code>这个变量被替换，加载器与自动化工具将无法获取模块的依赖。</li>
+<li>模块书写有额外约定：路径参数不能进行字符串运算，不能使用变量代替，否则加载器与自动化工具无法正确提取路径。</li>
+</ol>
+<p><strong>AMD 模块依赖声明方式：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'./a'</span>, <span class="string">'./b'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</div><div class="line">    <span class="comment">// more code ..</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><strong>AMD 规范的弊端</strong></p>
+<ol>
+<li>依赖提前声明在代码书写上不是那么友好</li>
+<li>模块内部与 NodeJS 的 Modules 有一定的差异</li>
+</ol>
+<p>其实无论是 CMD 还是 AMD 的异步模块，都无法与同步模块规范保持一致（NodeJS 的 Modules），<br>只有谁比谁更像同步模块而已。AMD 要转换为同步模块，除了去掉define函数的包裹外，<br>需要在头部使用require把依赖声明好，而 CMD 只需要去掉define函数的包裹即可。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/01/108-函数专题  函数域函数式编程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/01/108-函数专题  函数域函数式编程/" itemprop="url">
+                  Function Review
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-01T12:36:00+08:00">
+                2016-09-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="函数专题-函数域函数式编程"><a href="#函数专题-函数域函数式编程" class="headerlink" title="函数专题     函数域函数式编程"></a>函数专题     函数域函数式编程</h3><p>1 函数声明:function fn(){ }</p>
+<p>2 函数表达式：应用场景 var fn = function(){ }</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">在构造函数中添加方法</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.age = age;</div><div class="line">    <span class="comment">// 在构造函数内部中添加方法</span></div><div class="line">    <span class="keyword">this</span>.getAge = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.age;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 给原型添加方法</span></div><div class="line">Person.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 在对象中添加方法</span></div><div class="line"><span class="keyword">var</span> a = &#123;</div><div class="line">    <span class="attr">m</span>: <span class="number">20</span>,</div><div class="line">    <span class="attr">getM</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.m;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3 匿名函数：应用场景，自执行以及作为参数传递</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用函数自执行的方式创建模块</span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">window, undefined</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// 声明jQuery构造函数</span></div><div class="line">     <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">// 主动在构造函数中，返回一个jQuery实例</span></div><div class="line">         <span class="keyword">return</span> <span class="keyword">new</span> jQuery.fn.init(name);</div><div class="line">     &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 添加原型方法</span></div><div class="line">     jQuery.prototype = jQuery.fn = &#123;</div><div class="line">         <span class="attr">constructor</span>: jQuery, <span class="comment">//jQuery构造函数的prototype属性上有一个constructor属性，上面一行代码的操作会将prototype指向一个新的对象，所以需要加上这行代码，添加其constructor属性</span></div><div class="line">         init:<span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123; ... &#125;,<span class="comment">//实现选择器功能</span></div><div class="line">         css: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; ... return <span class="keyword">this</span>&#125; <span class="comment">//每次链式编程结束之后都返回实例化对象</span></div><div class="line">     &#125;</div><div class="line">     jQuery.fn.init.prototype = jQuery.fn;<span class="comment">//这行代码是jQuery实现链式编程的关键，返回的init构造函数的实例指向了函数jQuery的原型prototype，该原型上有jQuery上封装的API</span></div><div class="line"></div><div class="line">    <span class="comment">// 将jQuery改名为$，并将引用保存在window上，形成闭包，对外开发jQuery构造函数，这样我们就可以访问所有挂载在jQuery原型上的方法了</span></div><div class="line">     <span class="built_in">window</span>.jQuery = <span class="built_in">window</span>.$ = jQuery;<span class="comment">//赋值运算，从右至左,返回等号右边的运算数</span></div><div class="line"> <span class="comment">//window对象多了两个属性，一个是$  一个是jQuery 都被赋值为jQuery函数，指向jQuer函数地址</span></div><div class="line">&#125;)(<span class="built_in">window</span>);</div><div class="line"></div><div class="line"><span class="comment">// 在使用时，我们直接执行了构造函数，因为在jQuery的构造函数中通过一些手段，返回的是jQuery的实例，所以我们就不用再每次用的时候在自己new了</span></div><div class="line">$(<span class="string">'#div1'</span>);<span class="comment">//$(name)  执行的时候,得到返回的  new jQuery.fn.init(name)对象</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//函数自执行的方式</span></div><div class="line">    (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"func is excuted"</span>);</div><div class="line">    &#125;)();</div><div class="line"></div><div class="line">    (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"func is excuted"</span>);</div><div class="line">    &#125;());</div><div class="line"></div><div class="line">    ~<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"func is excuted"</span>);</div><div class="line">    &#125;();</div><div class="line">        </div><div class="line">    +<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"func is excuted"</span>);</div><div class="line">    &#125;();</div></pre></td></tr></table></figure>
+<p>4 函数的形参，传入的实参赋值给形参;形参作为变量名成为该函数作用域内的变量；如果实参个数小于形参个数，未被定义的将默认值为undefined</p>
+<p>函数的参数是按值传递的，即会将传递的值复制一份到函数的局部变量中；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//----------------------------------------------------------------------------</span></div><div class="line"><span class="comment">//先看一下这个栗子</span></div><div class="line"> 	<span class="keyword">var</span> a = <span class="number">10</span> ;</div><div class="line">    <span class="keyword">var</span> obj = &#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>&#125;;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">a,obj</span>)</span>&#123;</div><div class="line">        a = a + <span class="number">1</span> ;</div><div class="line">        obj.name = <span class="string">"JiM"</span>;</div><div class="line">        <span class="built_in">console</span>.log(a);</div><div class="line">    &#125;</div><div class="line">    fn(a,obj);</div><div class="line">    <span class="built_in">console</span>.log(a);</div><div class="line">    <span class="built_in">console</span>.log(obj.name);</div><div class="line"><span class="comment">//-----------------------------------------------------------------------------</span></div><div class="line"><span class="comment">//对比理解对象作为参数的传递</span></div><div class="line">		<span class="keyword">var</span> person = &#123;</div><div class="line">            <span class="attr">name</span>: <span class="string">'Nicholas'</span>,</div><div class="line">            <span class="attr">age</span>: <span class="number">20</span></div><div class="line">        &#125;</div><div class="line">    </div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>&#123;  <span class="comment">// 传入一个引用</span></div><div class="line">            obj = &#123;&#125;;   <span class="comment">// 将传入的引用指向另外一个空的对象</span></div><div class="line">            obj.name = <span class="string">'Greg'</span>;  <span class="comment">// 给这个空的对象添加属性</span></div><div class="line">        &#125;</div><div class="line">        setName(person);<span class="comment">//类似于 obj = person ;然后回去执行函数，又将obj指向一个空的对象</span></div><div class="line">        <span class="built_in">console</span>.log(person.name);  <span class="comment">// Nicholas 未被改变</span></div><div class="line">    </div><div class="line">        <span class="comment">//--------------------------------------------------------</span></div><div class="line">    </div><div class="line">        <span class="keyword">var</span> person = &#123;</div><div class="line">            <span class="attr">name</span>: <span class="string">'Nicholas'</span>,</div><div class="line">            <span class="attr">age</span>: <span class="number">20</span></div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>&#123;  <span class="comment">// 传入一个引用</span></div><div class="line">            obj.name = <span class="string">'Greg'</span>;  <span class="comment">// 修改引用的name属性</span></div><div class="line">        &#125;</div><div class="line">        setName(person);<span class="comment">//将obj指向person  类似于 obj = person;</span></div><div class="line">        <span class="built_in">console</span>.log(person.name);  <span class="comment">// Greg</span></div><div class="line"><span class="comment">//对比以上两种情况，对于基本数据类型，是按值传递的，对于复杂数据类型，也是按值传递的，传递的是复杂数据类型对应的地址值；</span></div><div class="line"><span class="comment">//----------------------------------------------------------------------</span></div><div class="line">	<span class="keyword">var</span> c= <span class="number">5</span>;</div><div class="line">    <span class="comment">//----------------------函数的形参是局部变量</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">a,b</span>)</span>&#123;	<span class="comment">//a = 4 , b = 3 这两个是函数作用域内的变量</span></div><div class="line">        d = <span class="number">6</span>;			<span class="comment">//这个将会添加给全局作用域</span></div><div class="line">        <span class="built_in">console</span>.log(a+b);</div><div class="line">    &#125;</div><div class="line">    fn(<span class="number">4</span>,<span class="number">3</span>);</div><div class="line"><span class="comment">//----------------------------------------------------------------------------</span></div><div class="line"><span class="comment">//传入的实参个数少于形参的个数，未被赋值的形参默认值为undefined</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">fn2</span> (<span class="params">a,b</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(a);<span class="comment">//1</span></div><div class="line">        <span class="built_in">console</span>.log(b);<span class="comment">//undefined</span></div><div class="line">    &#125;</div><div class="line">    fn2(<span class="number">1</span>);</div><div class="line"><span class="comment">//-----------------------------------------------------------------------------</span></div></pre></td></tr></table></figure>
+<p>5 函数的调用方式:作为函数体直接</p>
+<p>执行    作为构造函数调用    作为对象的方法调用 ;这些都是函数的执行，函数内部的代码都会一行行的执行;</p>
+<p>6 函数简写</p>
+<p>7 prototype属性和constructor属性</p>
+<ul>
+<li>每个函数都自动拥有一个prototype属性，该属性是一个对象，</li>
+<li>函数的prototype属性，包含一个不可枚举的属性constructor  ；constructor属性指向该函数</li>
+<li>类似形成了一个闭环</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span> (<span class="params">a,b</span>)</span>&#123;</div><div class="line">       fn.age = <span class="number">19</span> ;</div><div class="line">       <span class="built_in">console</span>.log(a);<span class="comment">//1</span></div><div class="line">       <span class="built_in">console</span>.log(b);<span class="comment">//undefined</span></div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="built_in">console</span>.log(fn.prototype.constructor === fn);<span class="comment">//true</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> f = <span class="keyword">new</span> fn();</div><div class="line">   <span class="built_in">console</span>.dir(f);</div><div class="line"><span class="built_in">console</span>.log(f.__proto__ === fn.prototype );<span class="comment">//true</span></div><div class="line">   <span class="built_in">console</span>.log(f.__proto__.constructor == fn);<span class="comment">//true</span></div></pre></td></tr></table></figure>
+<p>8 函数的name属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> func1 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;  </div><div class="line"><span class="comment">// ES5  </span></div><div class="line">func1.name <span class="comment">// ""  </span></div><div class="line"><span class="comment">// ES6  </span></div><div class="line">func1.name <span class="comment">// "func1"  </span></div><div class="line"><span class="comment">//上面代码中，变量func1等于一个匿名函数， ES5 和 ES6 的name属性返回的值不一样。  </span></div><div class="line"><span class="comment">//如果将一个具名函数赋值给一个变量，则 ES5 和 ES6 的name属性都返回这个具名函数原本的名字。  </span></div><div class="line"><span class="keyword">const</span> bar = <span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123;&#125;;  </div><div class="line"><span class="comment">// ES5  </span></div><div class="line">bar.name <span class="comment">// "baz"  </span></div><div class="line"><span class="comment">// ES6  </span></div><div class="line">bar.name <span class="comment">// "baz"  </span></div><div class="line"><span class="comment">//Function构造函数返回的函数实例，name属性的值为 “anonymous” 。  </span></div><div class="line">(<span class="keyword">new</span> <span class="built_in">Function</span>).name <span class="comment">// "anonymous"  </span></div><div class="line"><span class="comment">//bind返回的函数，name属性值会加上 “bound ” 前缀。  </span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;&#125;;  </div><div class="line">foo.bind(&#123;&#125;).name <span class="comment">// "bound foo"  </span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;).bind(&#123;&#125;).name <span class="comment">// "bound "</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/01/85-从源代码角度分析内置对象/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1298,175 +1677,12 @@ require([&apos;c&apos;], function(c) {...});
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/01/108-函数专题  函数域函数式编程/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/01/108-函数专题  函数域函数式编程/" itemprop="url">
-                  Function Review
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-01T12:36:00+08:00">
-                2016-09-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="函数专题-函数域函数式编程"><a href="#函数专题-函数域函数式编程" class="headerlink" title="函数专题     函数域函数式编程"></a>函数专题     函数域函数式编程</h3><p>1 函数声明:function fn(){ }</p>
-<p>2 函数表达式：应用场景 var fn = function(){ }</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">在构造函数中添加方法</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.age = age;</div><div class="line">    <span class="comment">// 在构造函数内部中添加方法</span></div><div class="line">    <span class="keyword">this</span>.getAge = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.age;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 给原型添加方法</span></div><div class="line">Person.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 在对象中添加方法</span></div><div class="line"><span class="keyword">var</span> a = &#123;</div><div class="line">    <span class="attr">m</span>: <span class="number">20</span>,</div><div class="line">    <span class="attr">getM</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.m;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>3 匿名函数：应用场景，自执行以及作为参数传递</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用函数自执行的方式创建模块</span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">window, undefined</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// 声明jQuery构造函数</span></div><div class="line">     <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">// 主动在构造函数中，返回一个jQuery实例</span></div><div class="line">         <span class="keyword">return</span> <span class="keyword">new</span> jQuery.fn.init(name);</div><div class="line">     &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 添加原型方法</span></div><div class="line">     jQuery.prototype = jQuery.fn = &#123;</div><div class="line">         <span class="attr">constructor</span>: jQuery, <span class="comment">//jQuery构造函数的prototype属性上有一个constructor属性，上面一行代码的操作会将prototype指向一个新的对象，所以需要加上这行代码，添加其constructor属性</span></div><div class="line">         init:<span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123; ... &#125;,<span class="comment">//实现选择器功能</span></div><div class="line">         css: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; ... return <span class="keyword">this</span>&#125; <span class="comment">//每次链式编程结束之后都返回实例化对象</span></div><div class="line">     &#125;</div><div class="line">     jQuery.fn.init.prototype = jQuery.fn;<span class="comment">//这行代码是jQuery实现链式编程的关键，返回的init构造函数的实例指向了函数jQuery的原型prototype，该原型上有jQuery上封装的API</span></div><div class="line"></div><div class="line">    <span class="comment">// 将jQuery改名为$，并将引用保存在window上，形成闭包，对外开发jQuery构造函数，这样我们就可以访问所有挂载在jQuery原型上的方法了</span></div><div class="line">     <span class="built_in">window</span>.jQuery = <span class="built_in">window</span>.$ = jQuery;<span class="comment">//赋值运算，从右至左,返回等号右边的运算数</span></div><div class="line"> <span class="comment">//window对象多了两个属性，一个是$  一个是jQuery 都被赋值为jQuery函数，指向jQuer函数地址</span></div><div class="line">&#125;)(<span class="built_in">window</span>);</div><div class="line"></div><div class="line"><span class="comment">// 在使用时，我们直接执行了构造函数，因为在jQuery的构造函数中通过一些手段，返回的是jQuery的实例，所以我们就不用再每次用的时候在自己new了</span></div><div class="line">$(<span class="string">'#div1'</span>);<span class="comment">//$(name)  执行的时候,得到返回的  new jQuery.fn.init(name)对象</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//函数自执行的方式</span></div><div class="line">    (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"func is excuted"</span>);</div><div class="line">    &#125;)();</div><div class="line"></div><div class="line">    (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"func is excuted"</span>);</div><div class="line">    &#125;());</div><div class="line"></div><div class="line">    ~<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"func is excuted"</span>);</div><div class="line">    &#125;();</div><div class="line">        </div><div class="line">    +<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"func is excuted"</span>);</div><div class="line">    &#125;();</div></pre></td></tr></table></figure>
-<p>4 函数的形参，传入的实参赋值给形参;形参作为变量名成为该函数作用域内的变量；如果实参个数小于形参个数，未被定义的将默认值为undefined</p>
-<p>函数的参数是按值传递的，即会将传递的值复制一份到函数的局部变量中；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//----------------------------------------------------------------------------</span></div><div class="line"><span class="comment">//先看一下这个栗子</span></div><div class="line"> 	<span class="keyword">var</span> a = <span class="number">10</span> ;</div><div class="line">    <span class="keyword">var</span> obj = &#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>&#125;;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">a,obj</span>)</span>&#123;</div><div class="line">        a = a + <span class="number">1</span> ;</div><div class="line">        obj.name = <span class="string">"JiM"</span>;</div><div class="line">        <span class="built_in">console</span>.log(a);</div><div class="line">    &#125;</div><div class="line">    fn(a,obj);</div><div class="line">    <span class="built_in">console</span>.log(a);</div><div class="line">    <span class="built_in">console</span>.log(obj.name);</div><div class="line"><span class="comment">//-----------------------------------------------------------------------------</span></div><div class="line"><span class="comment">//对比理解对象作为参数的传递</span></div><div class="line">		<span class="keyword">var</span> person = &#123;</div><div class="line">            <span class="attr">name</span>: <span class="string">'Nicholas'</span>,</div><div class="line">            <span class="attr">age</span>: <span class="number">20</span></div><div class="line">        &#125;</div><div class="line">    </div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>&#123;  <span class="comment">// 传入一个引用</span></div><div class="line">            obj = &#123;&#125;;   <span class="comment">// 将传入的引用指向另外一个空的对象</span></div><div class="line">            obj.name = <span class="string">'Greg'</span>;  <span class="comment">// 给这个空的对象添加属性</span></div><div class="line">        &#125;</div><div class="line">        setName(person);<span class="comment">//类似于 obj = person ;然后回去执行函数，又将obj指向一个空的对象</span></div><div class="line">        <span class="built_in">console</span>.log(person.name);  <span class="comment">// Nicholas 未被改变</span></div><div class="line">    </div><div class="line">        <span class="comment">//--------------------------------------------------------</span></div><div class="line">    </div><div class="line">        <span class="keyword">var</span> person = &#123;</div><div class="line">            <span class="attr">name</span>: <span class="string">'Nicholas'</span>,</div><div class="line">            <span class="attr">age</span>: <span class="number">20</span></div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>&#123;  <span class="comment">// 传入一个引用</span></div><div class="line">            obj.name = <span class="string">'Greg'</span>;  <span class="comment">// 修改引用的name属性</span></div><div class="line">        &#125;</div><div class="line">        setName(person);<span class="comment">//将obj指向person  类似于 obj = person;</span></div><div class="line">        <span class="built_in">console</span>.log(person.name);  <span class="comment">// Greg</span></div><div class="line"><span class="comment">//对比以上两种情况，对于基本数据类型，是按值传递的，对于复杂数据类型，也是按值传递的，传递的是复杂数据类型对应的地址值；</span></div><div class="line"><span class="comment">//----------------------------------------------------------------------</span></div><div class="line">	<span class="keyword">var</span> c= <span class="number">5</span>;</div><div class="line">    <span class="comment">//----------------------函数的形参是局部变量</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">a,b</span>)</span>&#123;	<span class="comment">//a = 4 , b = 3 这两个是函数作用域内的变量</span></div><div class="line">        d = <span class="number">6</span>;			<span class="comment">//这个将会添加给全局作用域</span></div><div class="line">        <span class="built_in">console</span>.log(a+b);</div><div class="line">    &#125;</div><div class="line">    fn(<span class="number">4</span>,<span class="number">3</span>);</div><div class="line"><span class="comment">//----------------------------------------------------------------------------</span></div><div class="line"><span class="comment">//传入的实参个数少于形参的个数，未被赋值的形参默认值为undefined</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">fn2</span> (<span class="params">a,b</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(a);<span class="comment">//1</span></div><div class="line">        <span class="built_in">console</span>.log(b);<span class="comment">//undefined</span></div><div class="line">    &#125;</div><div class="line">    fn2(<span class="number">1</span>);</div><div class="line"><span class="comment">//-----------------------------------------------------------------------------</span></div></pre></td></tr></table></figure>
-<p>5 函数的调用方式:作为函数体直接</p>
-<p>执行    作为构造函数调用    作为对象的方法调用 ;这些都是函数的执行，函数内部的代码都会一行行的执行;</p>
-<p>6 函数简写</p>
-<p>7 prototype属性和constructor属性</p>
-<ul>
-<li>每个函数都自动拥有一个prototype属性，该属性是一个对象，</li>
-<li>函数的prototype属性，包含一个不可枚举的属性constructor  ；constructor属性指向该函数</li>
-<li>类似形成了一个闭环</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span> (<span class="params">a,b</span>)</span>&#123;</div><div class="line">       fn.age = <span class="number">19</span> ;</div><div class="line">       <span class="built_in">console</span>.log(a);<span class="comment">//1</span></div><div class="line">       <span class="built_in">console</span>.log(b);<span class="comment">//undefined</span></div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="built_in">console</span>.log(fn.prototype.constructor === fn);<span class="comment">//true</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> f = <span class="keyword">new</span> fn();</div><div class="line">   <span class="built_in">console</span>.dir(f);</div><div class="line"><span class="built_in">console</span>.log(f.__proto__ === fn.prototype );<span class="comment">//true</span></div><div class="line">   <span class="built_in">console</span>.log(f.__proto__.constructor == fn);<span class="comment">//true</span></div></pre></td></tr></table></figure>
-<p>8 函数的name属性</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> func1 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;  </div><div class="line"><span class="comment">// ES5  </span></div><div class="line">func1.name <span class="comment">// ""  </span></div><div class="line"><span class="comment">// ES6  </span></div><div class="line">func1.name <span class="comment">// "func1"  </span></div><div class="line"><span class="comment">//上面代码中，变量func1等于一个匿名函数， ES5 和 ES6 的name属性返回的值不一样。  </span></div><div class="line"><span class="comment">//如果将一个具名函数赋值给一个变量，则 ES5 和 ES6 的name属性都返回这个具名函数原本的名字。  </span></div><div class="line"><span class="keyword">const</span> bar = <span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123;&#125;;  </div><div class="line"><span class="comment">// ES5  </span></div><div class="line">bar.name <span class="comment">// "baz"  </span></div><div class="line"><span class="comment">// ES6  </span></div><div class="line">bar.name <span class="comment">// "baz"  </span></div><div class="line"><span class="comment">//Function构造函数返回的函数实例，name属性的值为 “anonymous” 。  </span></div><div class="line">(<span class="keyword">new</span> <span class="built_in">Function</span>).name <span class="comment">// "anonymous"  </span></div><div class="line"><span class="comment">//bind返回的函数，name属性值会加上 “bound ” 前缀。  </span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;&#125;;  </div><div class="line">foo.bind(&#123;&#125;).name <span class="comment">// "bound foo"  </span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;).bind(&#123;&#125;).name <span class="comment">// "bound "</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/01/137httpstatus/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1609,7 +1825,7 @@ require([&apos;c&apos;], function(c) {...});
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1757,168 +1973,6 @@ require([&apos;c&apos;], function(c) {...});
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/17/17-事件对象参数中 offsetx clientx pagex screenx；/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/17/17-事件对象参数中 offsetx clientx pagex screenx；/" itemprop="url">
-                  jQuery中和DOM中 offset系列的不同
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-17T12:36:00+08:00">
-                2016-08-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index">
-                    <span itemprop="name">css</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>jQuery中和DOM中 offset系列的不同；</p>
-<p>一 、jQuery中offset( ) 方法获取元素距离边界的值，该方法返回两个整形数值，一个代表left,一个代表top，其始终是获取的当前jquery对象相对于文档的边界的距离；</p>
-<p>不写参数：jqueryObj.offset().left     jqueryObj.offset().top  可以获取相应值</p>
-<p>传入键值对参数：jQueryObj.offset({left:30,left:50});可以将匹配的元素设置距离边界的距离。</p>
-<p>  DOM中的offsetLeft   offsetTop  获取<strong>元素</strong>距离边界值，</p>
-<p>1)如果父元素有定位，那么DOM子元素是相对于父元素的border内边界的距离；</p>
-<p>2)如果父元素没有定位，那么子元素是相对于文档边界的距离；</p>
-<p>3)offsetLeft  offsetTop  只能获取值，不能设置值，是一个只读属性；</p>
-<p>二，事件对象参数的offsetX  offsetY  clientX  clientY  pageX  pageY screenX  screenY的区别</p>
-<p>先总结下区别：(注意这些值都是整形的数值，代表事件源距离不同边界的以px计 的距离)</p>
-<p><strong>event.clientX、event.clientY</strong></p>
-<p>鼠标相对于<a href="http://www.2cto.com/os/liulanqi/" target="_blank" rel="external">浏览器</a>窗口可视区域的X，Y坐标（窗口坐标），可视区域不包括工具栏和滚动条。IE事件和标准事件都定义了这2个属性</p>
-<p><strong>event.pageX、event.pageY</strong></p>
-<p>类似于event.clientX、event.clientY，但它们使用的是文档坐标而非窗口坐标。这2个属性不是标准属性，但得到了广泛支持。IE事件中没有这2个属性。</p>
-<p><strong>event.offsetX、event.offsetY</strong></p>
-<p>鼠标相对于事件源元素（srcElement）的X,Y坐标，只有IE事件有这2个属性，标准事件没有对应的属性。</p>
-<p>offsetX  offsetY(偏移) 获取鼠标点击事件源相对于元素(content+padding)的左上角的坐标值,如果点击在border边界上的话，那么值为负数；</p>
-<p><strong>event.screenX、event.screenY</strong> </p>
-<p>鼠标相对于用户显示器屏幕左上角的X,Y坐标。标准事件和IE事件都定义了这2个属性</p>
-<p><img src="img/2014091409260873.png" alt="图xy2  :执行完rotateZ(90deg)"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1956,11 +2010,11 @@ require([&apos;c&apos;], function(c) {...});
       <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
+               src="/uploads/avatar.jpg"
                alt="JiM-W" />
           <p class="site-author-name" itemprop="name">JiM-W</p>
            
-              <p class="site-description motion-element" itemprop="description"></p>
+              <p class="site-description motion-element" itemprop="description">keep fighting！</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -1979,7 +2033,7 @@ require([&apos;c&apos;], function(c) {...});
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -1990,7 +2044,7 @@ require([&apos;c&apos;], function(c) {...});
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>

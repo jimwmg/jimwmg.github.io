@@ -1,0 +1,783 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="写在前面:有兴趣的还是可以阅读下httpd.conf以及httpd-vhosts.conf 文件里面的注释，方便理解；
+1 如何搭建本地apache服务器?下载wamp软件，安装完毕之后，启动apache服务器，在浏览器URL地址栏输入127.0.0.1或者localhost便可以进入apache主页(此时服务器默认的访问路径是(D是我安装在D盘) D/wamp/www/    文件夹下面的ind">
+<meta property="og:type" content="article">
+<meta property="og:title" content="apache virtual and Cross Origin">
+<meta property="og:url" content="http://yoursite.com/2016/09/13/135apacheVirtual以及Ajax/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="写在前面:有兴趣的还是可以阅读下httpd.conf以及httpd-vhosts.conf 文件里面的注释，方便理解；
+1 如何搭建本地apache服务器?下载wamp软件，安装完毕之后，启动apache服务器，在浏览器URL地址栏输入127.0.0.1或者localhost便可以进入apache主页(此时服务器默认的访问路径是(D是我安装在D盘) D/wamp/www/    文件夹下面的ind">
+<meta property="og:updated_time" content="2017-04-09T13:43:13.303Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="apache virtual and Cross Origin">
+<meta name="twitter:description" content="写在前面:有兴趣的还是可以阅读下httpd.conf以及httpd-vhosts.conf 文件里面的注释，方便理解；
+1 如何搭建本地apache服务器?下载wamp软件，安装完毕之后，启动apache服务器，在浏览器URL地址栏输入127.0.0.1或者localhost便可以进入apache主页(此时服务器默认的访问路径是(D是我安装在D盘) D/wamp/www/    文件夹下面的ind">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/13/135apacheVirtual以及Ajax/"/>
+
+
+
+
+
+  <title> apache virtual and Cross Origin | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/13/135apacheVirtual以及Ajax/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                apache virtual and Cross Origin
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-13T12:36:00+08:00">
+                2016-09-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/http-apache/" itemprop="url" rel="index">
+                    <span itemprop="name">http apache</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>写在前面:有兴趣的还是可以阅读下httpd.conf以及httpd-vhosts.conf 文件里面的注释，方便理解；</p>
+<h3 id="1-如何搭建本地apache服务器"><a href="#1-如何搭建本地apache服务器" class="headerlink" title="1 如何搭建本地apache服务器?"></a>1 如何搭建本地apache服务器?</h3><p>下载wamp软件，安装完毕之后，启动apache服务器，在浏览器URL地址栏输入127.0.0.1或者localhost便可以进入apache主页(此时服务器默认的访问路径是(D是我安装在D盘) D/wamp/www/    文件夹下面的index开头的文件,)</p>
+<p>1.1 配置服务器访问路径</p>
+<p>找到wamp —&gt;bin —&gt;apache  目录下面的   httpd.conf  修改默认访问路径,将 D/wamp/www/ 比如修改为 F:/mywork/</p>
+<ul>
+<li><p>httpd.conf  中 DocumentRoot 可以修改默认访问的路径  F:/mywork/</p>
+</li>
+<li><p>httpd.conf 中 Directory 也要修改默认路径F:/web/</p>
+</li>
+<li><p>如果该路径F:/mywork/  里面有index.html  index.php 等以index命名的文件,会直接打开该文件，如果没有则进入F:/mywork/该目录</p>
+</li>
+<li><p>为什么会默认打开index开头的文件呢？在httpd.conf文件中,如下代码设置了默认打开目录下面的文件名字</p>
+<p> DirectoryIndex决定打开虚拟主机的时候，默认打开的文件名称</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;IfModule dir_module&gt;</div><div class="line">    DirectoryIndex index.php index.php3 index.html index.htm</div><div class="line">&lt;/IfModule&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>访问自己的服务器的三种方式：本机的IP地址   127.0.0.1  localhost    httpd.conf   文件中listen 可以更改端口</li>
+<li>此时在通过localhost或者127.0.0.1 再次进入的时候就会进入F:/mywork目录里面来(如果该目录下面有index开头的文件会默认直接打开该文件，如果没有的话则打开该目录) </li>
+<li>只有在这里配置了目录之后，在配置虚拟主机的时候，虚拟主机的目录也必须是这个目录，或者这个目录的子目录</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot; F:/mywork/&quot;    //如果在虚拟主机配置的目录和F:/web不一致，则没有权限进入该目录，无论是通过localhost 还是通过127.0.0.1 都无法进入虚拟主机，必须要和服务器设置的访问路径保持一致;</div><div class="line">    ServerName test.com</div><div class="line">    ServerAlias www.test.com</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
+<p>1.2 配置服务器<strong>通过域名访问</strong> 虚拟主机</p>
+<ul>
+<li>先要明确配置虚拟主机的目的，上面第一步所实现的功能是，我们可以通过localhsot或者127.0.0.1以及本机ip地址来访问我们的服务器(也就是后来修改的文件目录 F:/mywork/)</li>
+</ul>
+<p>httpd.conf 文件中找到 # Virtual hosts 打开这行代码下面一行的 # 号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Include conf/extra/httpd-vhosts.conf</div></pre></td></tr></table></figure>
+<p>当我们打开虚拟主机之后，重启apache服务，在通过localhost或者127.0.0.1已经无法进入 F:/mywork/目录，需要重新配置wamp —&gt;bin —&gt;apache—&gt;extra—&gt;httpd-vhosts.conf文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">VirtualHost example:</div><div class="line"># Almost any Apache directive may go into a VirtualHost container.</div><div class="line"># The first VirtualHost section is used for all requests that do not</div><div class="line"># match a ServerName or ServerAlias in any &lt;VirtualHost&gt; block.</div><div class="line">也就是说当我们设置虚拟主机的时候，Apache在所有的VirtualHost container中如果没有找到匹配的serverName或者ServerAlias的时候，会直接进入第一个Virtual Block</div></pre></td></tr></table></figure>
+<p>如下配置，我设置了三个主机，分别是mainVirtual   myVirtual1    myVirtual2  对应不同的路径，但是都是F:/web/或者F:/web/的子目录，然后通过 ServerName  ServerAlias设置的对应值，在浏览器的URL地址栏就可以访问了</p>
+<p>1.2.1 设置host文件 C:\Windows\System32\drivers\etc  下面的host文件,我们在这里配置的域名，如果在URL地址栏输入该域名，我们就可以访问这个本机虚拟主机；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>   www.mainVirtual.com</div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>   www.myVirtual1.com</div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>   www.myVirtual2.com</div></pre></td></tr></table></figure>
+<p>1.2.2 设置wamp —&gt;bin —&gt;apache—&gt;extra—&gt;httpd-vhosts.conf文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">#  operation by JiM</div><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot;F:/web/&quot;</div><div class="line">    ServerName  mainVirtual.com   </div><div class="line">    ServerAlias www.mainVirtual.com</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div><div class="line"># this is JiM&apos;s test for the Virtual container for myVirtual1</div><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot;F:/web/myVirtual1&quot;</div><div class="line">    ServerName myVirtual1.com    </div><div class="line">    ServerAlias www.myVirtual1.com</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div><div class="line"># this is JiM&apos;s test the Virtual container for myVirtual2</div><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot;F:/web/myVirtual2&quot;</div><div class="line">    ServerName myVirtual2.com    </div><div class="line">    ServerAlias www.myVirtual2.com</div><div class="line">    DirectoryIndex doc.html     //假如文件目录下有一个doc命名的文件，则DirectoryIndex的设置可以默认打开该文件</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
+<p>1.2.3 这个时候我们通过www.mainVirtual.com    www.myVirtual1.com   www.myVirtual2.com就可以访问我们对应的主机咯(每个路径对应的目录要事先创建好)</p>
+<h3 id="2-在本地搭建的服务器测试跨域的几种方案-同一域名下的不同子域之间也受同源策略的限制"><a href="#2-在本地搭建的服务器测试跨域的几种方案-同一域名下的不同子域之间也受同源策略的限制" class="headerlink" title="2 在本地搭建的服务器测试跨域的几种方案(同一域名下的不同子域之间也受同源策略的限制)"></a>2 在本地搭建的服务器测试跨域的几种方案(同一域名下的不同子域之间也受同源策略的限制)</h3><p>假如 我在之前搭建的www.myVirtual1.com域下，也就是F:/web/myVirtual1文件夹下面有一个文件 test1.php  </p>
+<p>www.myVirtual2.com这个域内的文件想访问www.myVirtual1.com下面的test1.php文件</p>
+<p>URL(Uniform Resource Locator) 地址用于描述一个网络上的资源,  基本格式如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scheme://host[:port#]/path/.../[?query-string][#anchor]</div></pre></td></tr></table></figure>
+<p>scheme  host   port三者有一个不一样就发生了跨域，如何解决跨域？</p>
+<p>2.1 Access-Control-Allow-Origin:域名   表示设置允许哪个域名进行访问</p>
+<p>header(“Access-Control-Allow-Origin: <a href="http://www.myvirtual2.com" target="_blank" rel="external">http://www.myvirtual2.com</a>“) 通过对访问的跨域资源设置响应头，允许某个指定的域名来访问该文件;</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//F:/web/myVirtual1/test1 .php     这个是我的虚拟主机1 里面的文件</span></div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    header(<span class="string">"Access-Control-Allow-Origin: http://www.myvirtual2.com"</span>);</div><div class="line">    $username = $_GET[<span class="string">'username'</span>];</div><div class="line">    $array = [<span class="string">"Jhon"</span>,<span class="string">"Jim"</span>,<span class="string">"James"</span>,<span class="string">"Robe"</span>];</div><div class="line">    $flag = in_array($username,$array);</div><div class="line">    <span class="keyword">if</span>($flag)&#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">'您可以登录'</span>;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">"该用户名已经被注册"</span>;</div><div class="line">    &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>这个是虚拟主机2 里面的请求文件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"test1.php"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span>/&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"message"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">id</span>=<span class="string">"psw"</span> <span class="attr">name</span>=<span class="string">"psw"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        $(<span class="string">'#username'</span>).blur(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> username = $(<span class="keyword">this</span>).val();</div><div class="line">            <span class="built_in">console</span>.log(username);</div><div class="line">            $.ajax(&#123;</div><div class="line">                <span class="attr">url</span>:<span class="string">'http://www.myvirtual1.com/test1.php?username=Jhon'</span>,</div><div class="line">                <span class="attr">type</span>:<span class="string">'get'</span>,</div><div class="line">                <span class="attr">data</span>:&#123;<span class="string">"username"</span>: username&#125; ,<span class="comment">//代表发送到服务器的数据</span></div><div class="line">                success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="comment">//如果请求成功了，则可以执行该函数</span></div><div class="line">                    <span class="built_in">console</span>.log(data);</div><div class="line">                    $(<span class="string">"#message"</span>).html(data)  ;</div><div class="line">                &#125;</div><div class="line">            &#125;)</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2.2 通过script标签 src属性</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> </div><div class="line">    header(<span class="string">"Content-Type:text/script;charset=utf-8"</span>);<span class="comment">//如果没有这个响应头，在开发者network里面可以查看请求和响应的详细信息,默认返回的是Content-Type:text/html文本格式的数据，不过这个也不影响，script标签还是会将其解析成javascript代码运行</span></div><div class="line">    $callback = $_GET[<span class="string">'callback'</span>];</div><div class="line">    $username = $_GET[<span class="string">'username'</span>];</div><div class="line">    $array = [<span class="string">"Jhon"</span>,<span class="string">"Jim"</span>,<span class="string">"James"</span>,<span class="string">"Robe"</span>];</div><div class="line">    $flag = in_array($username,$array);</div><div class="line">    $data = <span class="string">"&#123;0:'您可以登录',1:'该用户已经被注册'&#125;"</span>;</div><div class="line">    <span class="keyword">echo</span> $callback.<span class="string">'('</span>.$data.<span class="string">','</span>.$flag.<span class="string">')'</span>;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    </div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>请注册<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">method</span>=<span class="string">"get"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span>/&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"message"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">id</span>=<span class="string">"psw"</span> <span class="attr">name</span>=<span class="string">"psw"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getInfo</span>(<span class="params">arg,flag</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(flag)&#123;</div><div class="line">            <span class="built_in">console</span>.log(arg);</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">typeof</span> arg);</div><div class="line">            $(<span class="string">"#message"</span>).html(arg[<span class="number">0</span>]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"this count has been rejected"</span>);</div><div class="line">            $(<span class="string">"#message"</span>).html(arg[<span class="number">1</span>]);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'http://www.myvirtual1.com/test1.php?callback=getInfo&amp;username=Jhon'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2.3 jQuery.ajax通过jsonp来进行跨域请求,本质上使用script标签发送请求,获取到的数据作为javascript代码直接执行</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//F:/web/myVirtual1/test1 .php</div><div class="line">&lt;?php</div><div class="line">    header("Content-Type:text/script;charset=utf-8");</div><div class="line">    $callback = $_GET['callback'];</div><div class="line">    $username = $_GET['username'];</div><div class="line">    $array = ["Jhon","Jim","James","Robe"];</div><div class="line">    $flag = in_array($username,$array);</div><div class="line">    $data = "&#123;0:'您可以登录',1:'该用户已经被注册'&#125;</div><div class="line">    echo $callback.'('.$data.','.$flag.')';</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span>  </div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>请注册<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">method</span>=<span class="string">"get"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span>/&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"message"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">id</span>=<span class="string">"psw"</span> <span class="attr">name</span>=<span class="string">"psw"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getInfo</span>(<span class="params">arg,flag</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(flag);</div><div class="line">      <span class="comment">//这个flag一直是undefined,因为echo:flase不会有任何结果，不想改了，主要是理解跨域</span></div><div class="line">        <span class="keyword">if</span>(flag)&#123;</div><div class="line">            <span class="built_in">console</span>.log(arg);</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">typeof</span> arg);</div><div class="line">            $(<span class="string">"#message"</span>).html(arg[<span class="number">0</span>]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"this count has been rejected"</span>);</div><div class="line">            $(<span class="string">"#message"</span>).html(arg[<span class="number">1</span>]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        $(<span class="string">'#username'</span>).blur(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> username = $(<span class="keyword">this</span>).val();</div><div class="line">            $.ajax(&#123;</div><div class="line">                <span class="attr">url</span>:<span class="string">'http://www.myvirtual1.com/test1.php'</span>,</div><div class="line">                <span class="attr">type</span>:<span class="string">'get'</span>,</div><div class="line">                <span class="attr">dataType</span>:<span class="string">'jsonp'</span>,</div><div class="line">                <span class="attr">jsonpCallback</span>:<span class="string">'getInfo'</span>,<span class="comment">//用来替换jQuery自动生成的函数名,以便于直接执行getInfo函数</span></div><div class="line">                data:&#123;<span class="string">"username"</span>: username&#125; ,<span class="comment">//代表发送到服务器的数据</span></div><div class="line">            &#125;)</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2.4 通过反向代理进行跨域访问</p>
+<p>反向代理作用1：减轻源服务器负载　　2：保障源服务器安全　　3：对源服务器进行负载均衡(Load Balance)。通过在服务器端设置代理服务，可以进行跨域访问</p>
+<p>打开httpd-conf文件,打开以下两行代码中的#号</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">LoadModule proxy_module modules/mod_proxy.so </div><div class="line">LoadModule proxy_http_module modules/mod_proxy_http.so</div></pre></td></tr></table></figure>
+<p>我们在新建两个虚拟主机</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot;F:/web/4myvirtual4&quot;</div><div class="line">    ServerName myvirtual4.com</div><div class="line">    ServerAlias www.myvirtual4.com</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    DocumentRoot &quot;F:/web/5myvirtual5&quot;</div><div class="line">    ServerName myvirtual5.com</div><div class="line">    ServerAlias www.myvirtual5.com</div><div class="line">    ProxyRequests Off</div><div class="line">    ProxyPass /api http://www.myvirtual4.com</div><div class="line">#这个时候访问http://www.myvirtual5.com/api 其实就是访问 http://www.myvirtual4.com</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>ProxyRequests Off 指令是指采用反向(reverse)代理</li>
+<li>ProxyPass 指令允许将一个远端服务器映射到本地服务器的 URL 空间中。</li>
+</ul>
+<p>在F:/web/5myvirtual5 下面有一个文件 01proxy.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    $.ajax(&#123;</div><div class="line">        <span class="attr">type</span>:<span class="string">'get'</span>,</div><div class="line">        <span class="attr">url</span>:<span class="string">'/api/01proxy.php'</span>,</div><div class="line">        <span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(data);</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>在F:/web/4myvirtual4 下有一个文件 01proxy.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"> <span class="keyword">echo</span> <span class="string">'this is sonme data from virtual4'</span></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>2.5 通过document.domain 设置<strong>同一主域不同子域</strong>中的页面相同的主域名，来允许不同子域之间进行访问</p>
+<p>2.6 通过HTML5postMessage方法进行跨域操作，参见我的博客HTML5-postMessage</p>
+<p>2.7  绕开浏览器，直接通过服务器端发送请求</p>
+<p>2.8 关于其他跨域问题，比如其他的服务器会通过请求的referer信息进行访问的限制，可以通过设置</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">''</span>&gt;</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/13/100-类数组转化为数组/" rel="next" title="ArrayLikeChangedToArray">
+                <i class="fa fa-chevron-left"></i> ArrayLikeChangedToArray
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/15/130Git command detailBranch/" rel="prev" title="Git command detail Branch">
+                Git command detail Branch <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description">keep fighting！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">138</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-如何搭建本地apache服务器"><span class="nav-number">1.</span> <span class="nav-text">1 如何搭建本地apache服务器?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-在本地搭建的服务器测试跨域的几种方案-同一域名下的不同子域之间也受同源策略的限制"><span class="nav-number">2.</span> <span class="nav-text">2 在本地搭建的服务器测试跨域的几种方案(同一域名下的不同子域之间也受同源策略的限制)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
