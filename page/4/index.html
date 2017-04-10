@@ -212,6 +212,16 @@
         </li>
       
         
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
@@ -665,557 +675,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/23-拖拉事件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/22/23-拖拉事件/" itemprop="url">
-                  drag Event
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
-                2016-10-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/html/" itemprop="url" rel="index">
-                    <span itemprop="name">html</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="拖拉事件"><a href="#拖拉事件" class="headerlink" title="拖拉事件"></a>拖拉事件</h2><p>拖拉指的是，用户在某个对象上按下鼠标键不放，拖动它到另一个位置，然后释放鼠标键，将该对象放在那里。</p>
-<p>拖拉的对象有好几种，包括Element节点、图片、链接、选中的文字等等。在HTML网页中，除了Element节点默认不可以拖拉，其他（图片、链接、选中的文字）都是可以直接拖拉的。为了让Element节点可拖拉，可以将该节点的draggable属性设为true。<strong>注意draggable 是元素的属性，并不是元素的样式属性，设置在CSS样式表或者<style>标签中是没有用的</strong>  </p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">draggable</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">  此区域可拖拉</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>draggable属性可用于任何Element节点，但是图片（img元素）和链接（a元素）不加这个属性，就可以拖拉。对于它们，用到这个属性的时候，往往是将其设为false，防止拖拉。</p>
-<p>注意，一旦某个Element节点的draggable属性设为true，就无法再用鼠标选中该节点内部的文字或子节点了。</p>
-<h3 id="事件种类"><a href="#事件种类" class="headerlink" title="事件种类"></a>事件种类</h3><p>当Element节点或选中的文本被拖拉时，就会持续触发拖拉事件，包括以下一些事件。</p>
-<ul>
-<li><strong>drag事件</strong>：拖拉过程中，在被拖拉的节点上持续触发。</li>
-<li><strong>dragstart事件</strong>：拖拉开始时在被拖拉的节点上触发，该事件的target属性是被拖拉的节点。通常应该在这个事件的监听函数中，指定拖拉的数据。</li>
-<li><strong>dragend事件</strong>：拖拉结束时（释放鼠标键或按下escape键）在被拖拉的节点上触发，该事件的target属性是被拖拉的节点。它与dragStart事件，在同一个节点上触发。不管拖拉是否跨窗口，或者中途被取消，dragend事件总是会触发的。</li>
-<li><strong>dragenter事件</strong>：拖拉进入当前节点时，在当前节点上触发，该事件的target属性是当前节点。通常应该在这个事件的监听函数中，指定是否允许在当前节点放下（drop）拖拉的数据。如果当前节点没有该事件的监听函数，或者监听函数不执行任何操作，就意味着不允许在当前节点放下数据。在视觉上显示拖拉进入当前节点，也是在这个事件的监听函数中设置。</li>
-<li><strong>dragover事件</strong>：拖拉到当前节点上方时，在当前节点上<strong>持续</strong>触发，该事件的target属性是当前节点。该事件与dragenter事件基本类似，默认会重置当前的拖拉事件的效果（DataTransfer对象的dropEffect属性）为none，即不允许放下被拖拉的节点，所以如果允许在当前节点drop数据，通常会使用preventDefault方法，取消重置拖拉效果为none。</li>
-<li><strong>dragleave事件</strong>：拖拉离开当前节点范围时，在当前节点上触发，该事件的target属性是当前节点。在视觉上显示拖拉离开当前节点，就在这个事件的监听函数中设置。</li>
-<li><strong>drop事件</strong>：被拖拉的节点或选中的文本，释放到目标节点时，在目标节点上触发。注意，如果当前节点不允许drop，即使在该节点上方松开鼠标键，也不会触发该事件。如果用户按下Escape键，取消这个操作，也不会触发该事件。该事件的监听函数负责取出拖拉数据，并进行相关处理。</li>
-</ul>
-<p>关于拖拉事件，有以下几点注意事项。</p>
-<ul>
-<li>拖拉过程只触发以上这些拖拉事件，尽管鼠标在移动，但是鼠标事件不会触发。</li>
-<li>将文件从操作系统拖拉进浏览器，不会触发dragStart和dragend事件。</li>
-<li>dragenter和dragover事件的监听函数，用来指定可以放下（drop）拖拉的数据。由于网页的大部分区域不适合作为drop的目标节点，所以这两个事件的默认设置为当前节点不允许drop。如果想要在目标节点上drop拖拉的数据，首先必须阻止这两个事件的默认行为，或者取消这两个事件。</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ondragover</span>=<span class="string">"return false"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ondragover</span>=<span class="string">"event.preventDefault()"</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>上面代码中，如果不取消拖拉事件或者阻止默认行为，就不可能在div节点上drop被拖拉的节点。</p>
-<p>拖拉事件用一个DragEvent对象表示，该对象继承MouseEvent对象，因此也就继承了UIEvent和Event对象。DragEvent对象只有一个独有的属性DataTransfer，其他都是继承的属性。DataTransfer属性用来读写拖拉事件中传输的数据，详见下文《DataTransfer对象》的部分。</p>
-<p>下面的例子展示，如何动态改变被拖动节点的背景色。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">div.addEventListener(<span class="string">"dragstart"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.style.backgroundColor = <span class="string">"red"</span>;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line">div.addEventListener(<span class="string">"dragend"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.style.backgroundColor = <span class="string">"green"</span>;</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
-<p>上面代码中，div节点被拖动时，背景色会变为红色，拖动结束，又变回绿色。</p>
-<p>下面是一个例子，显示如何实现将一个节点从当前父节点，拖拉到另一个父节点中。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML代码为</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;</span></div><div class="line"><span class="comment">//    &lt;div id="draggable" draggable="true"&gt;</span></div><div class="line"><span class="comment">//       该节点可拖拉</span></div><div class="line"><span class="comment">//    &lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;&lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;&lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;&lt;/div&gt;</span></div><div class="line"></div><div class="line"><span class="comment">// 被拖拉节点</span></div><div class="line"><span class="keyword">var</span> dragged;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">"dragstart"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 保存被拖拉节点</span></div><div class="line">  dragged = event.target;</div><div class="line">  <span class="comment">// 被拖拉节点的背景色变透明</span></div><div class="line">  event.target.style.opacity = <span class="number">0.5</span>;</div><div class="line">  <span class="comment">// 兼容Firefox</span></div><div class="line">  event.dataTransfer.setData(<span class="string">'text/plain'</span>, <span class="string">'anything'</span>);</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragend'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 被拖拉节点的背景色恢复正常</span></div><div class="line">  event.target.style.opacity = <span class="string">''</span>;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragover'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 防止拖拉效果被重置，允许被拖拉的节点放入目标节点</span></div><div class="line">  event.preventDefault();</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragenter'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 目标节点的背景色变紫色</span></div><div class="line">  <span class="comment">// 由于该事件会冒泡，所以要过滤节点</span></div><div class="line">  <span class="keyword">if</span> ( event.target.className == <span class="string">'dropzone'</span> ) &#123;</div><div class="line">    event.target.style.background = <span class="string">'purple'</span>;</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragleave'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 目标节点的背景色恢复原样</span></div><div class="line">  <span class="keyword">if</span> ( event.target.className == <span class="string">'dropzone'</span> ) &#123;</div><div class="line">    event.target.style.background = <span class="string">""</span>;</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'drop'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 防止事件默认行为（比如某些Elment节点上可以打开链接）</span></div><div class="line">  event.preventDefault();</div><div class="line">  <span class="keyword">if</span> ( event.target.className === <span class="string">'dropzone'</span> ) &#123;</div><div class="line">    <span class="comment">// 恢复目标节点背景色</span></div><div class="line">    event.target.style.background = <span class="string">''</span>;</div><div class="line">    <span class="comment">// 将被拖拉节点插入目标节点</span></div><div class="line">    dragged.parentNode.removeChild( dragged );</div><div class="line">    event.target.appendChild( dragged );</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
-<h3 id="DataTransfer对象概述"><a href="#DataTransfer对象概述" class="headerlink" title="DataTransfer对象概述"></a>DataTransfer对象概述</h3><p>所有的拖拉事件都有一个dataTransfer属性，用来保存需要传递的数据。这个属性的值是一个DataTransfer对象。</p>
-<p>拖拉的数据保存两方面的数据：数据的种类（又称格式）和数据的值。数据的种类是一个MIME字符串，比如 text/plain或者image/jpeg，数据的值是一个字符串。一般来说，如果拖拉一段文本，则数据默认就是那段文本；如果拖拉一个链接，则数据默认就是链接的URL。</p>
-<p>当拖拉事件开始的时候，可以提供数据类型和数据值；在拖拉过程中，通过dragenter和dragover事件的监听函数，检查数据类型，以确定是否允许放下（drop）被拖拉的对象。比如，在只允许放下链接的区域，检查拖拉的数据类型是否为text/uri-list。</p>
-<p>发生drop事件时，监听函数取出拖拉的数据，对其进行处理。</p>
-<h3 id="DataTransfer对象的属性"><a href="#DataTransfer对象的属性" class="headerlink" title="DataTransfer对象的属性"></a>DataTransfer对象的属性</h3><p>DataTransfer对象有以下属性。</p>
-<p><strong>（1）dropEffect</strong></p>
-<p>dropEffect属性设置放下（drop）被拖拉节点时的效果，可能的值包括copy（复制被拖拉的节点）、move（移动被拖拉的节点）、link（创建指向被拖拉的节点的链接）、none（无法放下被拖拉的节点）。设置除此以外的值，都是无效的。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">target.addEventListener(<span class="string">'dragover'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  e.preventDefault();</div><div class="line">  e.stopPropagation();</div><div class="line">  e.dataTransfer.dropEffect = <span class="string">'copy'</span>;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>dropEffect属性一般在dragenter和dragover事件的监听函数中设置，对于dragstart、drag、dragleave这三个事件，该属性不起作用。进入目标节点后，拖拉行为会初始化成用户设定的效果，用户可以通过按下Shift键和Control键，改变初始设置，在copy、move、link三种效果中切换。</p>
-<p>鼠标箭头会根据dropEffect属性改变形状，提示目前正处于哪一种效果。这意味着，通过鼠标就能判断是否可以在当前节点drop被拖拉的节点。</p>
-<p><strong>（2）effectAllowed</strong></p>
-<p>effectAllowed属性设置本次拖拉中允许的效果，可能的值包括copy（复制被拖拉的节点）、move（移动被拖拉的节点）、link（创建指向被拖拉节点的链接）、copyLink（允许copy或link）、copyMove（允许copy或move）、linkMove（允许link或move）、all（允许所有效果）、none（无法放下被拖拉的节点）、uninitialized（默认值，等同于all）。如果某种效果是不允许的，用户就无法在目标节点中达成这种效果。</p>
-<p>dragstart事件的监听函数，可以设置被拖拉节点允许的效果；dragenter和dragover事件的监听函数，可以设置目标节点允许的效果。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.effectAllowed = <span class="string">"copy"</span>;</div></pre></td></tr></table></figure>
-<p>dropEffect属性和effectAllowed属性，往往配合使用。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.effectAllowed = <span class="string">"copyMove"</span>;</div><div class="line">event.dataTransfer.dropEffect = <span class="string">"copy"</span>;</div></pre></td></tr></table></figure>
-<p>上面代码中，copy是指定的效果，但是可以通过Shift或Ctrl键（根据平台而定），将效果切换成move。</p>
-<p>只要dropEffect属性和effectAllowed属性之中，有一个为none，就无法在目标节点上完成drop操作。</p>
-<p><strong>（3）files</strong></p>
-<p>files属性是一个FileList对象，包含一组本地文件，可以用来在拖拉操作中传送。如果本次拖拉不涉及文件，则属性为空的FileList对象。</p>
-<p>下面就是一个接收拖拉文件的例子。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML代码为</span></div><div class="line"><span class="comment">// &lt;div id="output" style="min-height: 200px;border: 1px solid black;"&gt;</span></div><div class="line"><span class="comment">//   文件拖拉到这里</span></div><div class="line"><span class="comment">// &lt;/div&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.getElementById(<span class="string">'output'</span>);</div><div class="line"></div><div class="line">div.addEventListener(<span class="string">"dragenter"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  div.textContent = <span class="string">''</span>;</div><div class="line">  event.stopPropagation();</div><div class="line">  event.preventDefault();</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line">div.addEventListener(<span class="string">"dragover"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  event.stopPropagation();</div><div class="line">  event.preventDefault();</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line">div.addEventListener(<span class="string">"drop"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  event.stopPropagation();</div><div class="line">  event.preventDefault();</div><div class="line">  <span class="keyword">var</span> files = event.dataTransfer.files;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; files.length; i++) &#123;</div><div class="line">    div.textContent += files[i].name + <span class="string">' '</span> + files[i].size + <span class="string">'字节\n'</span>;</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
-<p>上面代码中，通过files属性读取拖拉文件的信息。如果想要读取文件内容，就要使用FileReader对象。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">div.addEventListener(<span class="string">'drop'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  e.preventDefault();</div><div class="line">  e.stopPropagation();</div><div class="line"></div><div class="line">  <span class="keyword">var</span> fileList = e.dataTransfer.files;</div><div class="line">  <span class="keyword">if</span> (fileList.length &gt; <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">var</span> file = fileList[<span class="number">0</span>];</div><div class="line">    <span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();</div><div class="line">    reader.onloadend = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span> (e.target.readyState == FileReader.DONE) &#123;</div><div class="line">        <span class="keyword">var</span> content = reader.result;</div><div class="line">        contentDiv.innerHTML = <span class="string">"File: "</span> + file.name + <span class="string">"\n\n"</span> + content;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    reader.readAsBinaryString(file);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p><strong>（4）types</strong></p>
-<p>types属性是一个数组，保存每一次拖拉的数据格式，比如拖拉文件，则格式信息就为File。</p>
-<p>下面是一个例子，通过检查dataTransfer属性的类型，决定是否允许在当前节点执行drop操作。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">contains</span>(<span class="params">list, value</span>)</span>&#123;</div><div class="line">  <span class="keyword">for</span>( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; list.length; ++i )&#123;</div><div class="line">    <span class="keyword">if</span>(list[i] === value) <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doDragOver</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> isLink = contains( event.dataTransfer.types, <span class="string">"text/uri-list"</span>);</div><div class="line">  <span class="keyword">if</span> (isLink) event.preventDefault();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码中，只有当被拖拉的节点是一个链接时，才允许在当前节点放下。</p>
-<h3 id="DataTransfer对象的方法"><a href="#DataTransfer对象的方法" class="headerlink" title="DataTransfer对象的方法"></a>DataTransfer对象的方法</h3><p>DataTransfer对象有以下方法。</p>
-<p><strong>（1）setData()</strong></p>
-<p>setData方法用来设置事件所带有的指定类型的数据。它接受两个参数，第一个是数据类型，第二个是具体数据。如果指定的类型在现有数据中不存在，则该类型将写入types属性；如果已经存在，在该类型的现有数据将被替换。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.setData(<span class="string">"text/plain"</span>, <span class="string">"Text to drag"</span>);</div></pre></td></tr></table></figure>
-<p>上面代码为事件加入纯文本格式的数据。</p>
-<p>如果拖拉文本框或者拖拉选中的文本，会默认将文本数据添加到dataTransfer属性，不用手动指定。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">draggable</span>=<span class="string">"true"</span> <span class="attr">ondragstart</span>=<span class="string">"</div><div class="line">  event.dataTransfer.setData('text/plain', 'bbb')"</span>&gt;</span></div><div class="line">  aaa</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>上面代码中，拖拉数据实际上是bbb，而不是aaa。</p>
-<p>下面是添加其他类型的数据。由于text/plain是最普遍支持的格式，为了保证兼容性，建议最后总是将数据保存一份纯文本的格式。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dt = event.dataTransfer;</div><div class="line"></div><div class="line"><span class="comment">// 添加链接</span></div><div class="line">dt.setData(<span class="string">"text/uri-list"</span>, <span class="string">"http://www.example.com"</span>);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, <span class="string">"http://www.example.com"</span>);</div><div class="line"><span class="comment">// 添加HTML代码</span></div><div class="line">dt.setData(<span class="string">"text/html"</span>, <span class="string">"Hello there, &lt;strong&gt;stranger&lt;/strong&gt;"</span>);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, <span class="string">"Hello there, &lt;strong&gt;stranger&lt;/strong&gt;"</span>);</div><div class="line"><span class="comment">// 添加图像的URL</span></div><div class="line">dt.setData(<span class="string">"text/uri-list"</span>, imageurl);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, imageurl);</div></pre></td></tr></table></figure>
-<p>可以一次提供多种格式的数据。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dt = event.dataTransfer;</div><div class="line">dt.setData(<span class="string">"application/x-bookmark"</span>, bookmarkString);</div><div class="line">dt.setData(<span class="string">"text/uri-list"</span>, <span class="string">"http://www.example.com"</span>);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, <span class="string">"http://www.example.com"</span>);</div></pre></td></tr></table></figure>
-<p>上面代码中，通过在同一个事件上面，存放三种类型的数据，使得拖拉事件可以在不同的对象上面，drop不同的值。注意，第一种格式是一个自定义格式，浏览器默认无法读取，这意味着，只有某个部署了特定代码的节点，才可能drop（读取到）这个数据。</p>
-<p><strong>（2）getData()</strong></p>
-<p>getData方法接受一个字符串（表示数据类型）作为参数，返回事件所带的指定类型的数据（通常是用setData方法添加的数据）。如果指定类型的数据不存在，则返回空字符串。通常只有drop事件触发后，才能取出数据。如果取出另一个域名存放的数据，将会报错。</p>
-<p>下面是一个drop事件的监听函数，用来取出指定类型的数据。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">onDrop</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> data = event.dataTransfer.getData(<span class="string">"text/plain"</span>);</div><div class="line">  event.target.textContent = data;</div><div class="line">  event.preventDefault();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码取出拖拉事件的文本数据，将其替换成当前节点的文本内容。注意，这时还必须取消浏览器的默认行为，因为假如用户拖拉的是一个链接，浏览器默认会在当前窗口打开这个链接。</p>
-<p>getData方法返回的是一个字符串，如果其中包含多项数据，就必须手动解析。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doDrop</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> lines = event.dataTransfer.getData(<span class="string">"text/uri-list"</span>).split(<span class="string">"\n"</span>);</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> line <span class="keyword">of</span> lines) &#123;</div><div class="line">    <span class="keyword">let</span> link = <span class="built_in">document</span>.createElement(<span class="string">"a"</span>);</div><div class="line">    link.href = line;</div><div class="line">    link.textContent = line;</div><div class="line">    event.target.appendChild(link);</div><div class="line">  &#125;</div><div class="line">  event.preventDefault();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码中，getData方法返回的是一组链接，就必须自行解析。</p>
-<p>类型值指定为URL，可以取出第一个有效链接。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> link = event.dataTransfer.getData(<span class="string">"URL"</span>);</div></pre></td></tr></table></figure>
-<p>下面是一次性取出多种类型的数据。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doDrop</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> types = event.dataTransfer.types;</div><div class="line">  <span class="keyword">var</span> supportedTypes = [<span class="string">"text/uri-list"</span>, <span class="string">"text/plain"</span>];</div><div class="line">  types = supportedTypes.filter(<span class="function"><span class="keyword">function</span> (<span class="params">value</span>) <span class="title">types</span>.<span class="title">includes</span>(<span class="params">value</span>));</div><div class="line">  <span class="title">if</span> (<span class="params">types.length</span>)</div><div class="line">    <span class="title">var</span> <span class="title">data</span> = <span class="title">event</span>.<span class="title">dataTransfer</span>.<span class="title">getData</span>(<span class="params">types[<span class="number">0</span>]</span>);</div><div class="line">  <span class="title">event</span>.<span class="title">preventDefault</span>(<span class="params"></span>);</div><div class="line">&#125;</span></div></pre></td></tr></table></figure>
-<p><strong>（3）clearData()</strong></p>
-<p>clearData方法接受一个字符串（表示数据类型）作为参数，删除事件所带的指定类型的数据。如果没有指定类型，则删除所有数据。如果指定类型不存在，则原数据不受影响。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.clearData(<span class="string">"text/uri-list"</span>);</div></pre></td></tr></table></figure>
-<p>上面代码清除事件所带的URL数据。</p>
-<p><strong>（4）setDragImage()</strong></p>
-<p>拖动过程中（dragstart事件触发后），浏览器会显示一张图片跟随鼠标一起移动，表示被拖动的节点。这张图片是自动创造的，通常显示为被拖动节点的外观，不需要自己动手设置。setDragImage方法可以用来自定义这张图片，它接受三个参数，第一个是img图片元素或者canvas元素，如果省略或为null则使用被拖动的节点的外观，第二个和第三个参数为鼠标相对于该图片左上角的横坐标和右坐标。</p>
-<p>下面是一个例子。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML代码为</span></div><div class="line"><span class="comment">// &lt;div id="drag-with-image" class="dragdemo" draggable="true"&gt;</span></div><div class="line">     drag me</div><div class="line"><span class="comment">// &lt;/div&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.getElementById(<span class="string">"drag-with-image"</span>);</div><div class="line">div.addEventListener(<span class="string">"dragstart"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> img = <span class="built_in">document</span>.createElement(<span class="string">"img"</span>);</div><div class="line">  img.src = <span class="string">"http://path/to/img"</span>;</div><div class="line">  e.dataTransfer.setDragImage(img, <span class="number">0</span>, <span class="number">0</span>);</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure></style></strong></p>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/55-js  jQuery绑定与移除事件的比较/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/22/55-js  jQuery绑定与移除事件的比较/" itemprop="url">
-                  js event compare with jQuery event
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
-                2016-10-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript-event/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript event</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="js-jQuery绑定事件的比较"><a href="#js-jQuery绑定事件的比较" class="headerlink" title="js  jQuery绑定事件的比较:"></a>js  jQuery绑定事件的比较:</h2><h3 id="一-事件分类"><a href="#一-事件分类" class="headerlink" title="一 事件分类"></a>一 事件分类</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span> <span class="built_in">window</span> 事件:onload  onunload onafterprint onbeforeprint onerror  onresize </div><div class="line"><span class="number">2</span> From表单 事件(仅在表单元素中有效):onblur  onfocus onreset onsubmit onselect onchange  oninput</div><div class="line"><span class="number">3</span> 键盘事件 : onkeydown  onkeyup onkeyup</div><div class="line"><span class="number">4</span> 鼠标事件: onclick onmouseout onmouseleave onmouseenter onmousedown onmouseup onscroll(当元素滚动条被滚动的时候) ondrag ondragstart ondragend ondragenter ondragover ondragleave ondrop </div><div class="line"><span class="comment">//键盘事件和鼠标事件在base, bdo, br, frame, frameset, head, html, iframe, meta, param, script, style, title 元素无效；</span></div><div class="line"><span class="number">5</span> 触摸事件 :touchstart touchend touchmove </div><div class="line"><span class="number">6</span> 媒介事件 : </div><div class="line"><span class="number">7</span> 自定义事件:</div><div class="line"><span class="number">8</span> 所有的事件都是成元素的一个属性，原始值为<span class="literal">null</span>;输出一个DOM元素可以查看其所有的属性;</div></pre></td></tr></table></figure>
-<h3 id="二-绑定事件"><a href="#二-绑定事件" class="headerlink" title="二 绑定事件"></a>二 绑定事件</h3><ul>
-<li>JS绑定事件:(onclick之类的本身就是一属性，通过给属性设置函数，可以使其具有功能，而addEventListener是一个函数，通过函数体的内容给元素绑定事件)</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ele.on+事件类型 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  &#125;;     ele.addEventListener(<span class="string">"事件类型"</span>，<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;		ele.addEventListener(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.onmouseout = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;      ele.attachEvent(<span class="string">"onclick"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );(注意有on)</div><div class="line"><span class="built_in">window</span>.onlaod = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;		<span class="built_in">window</span>.addEventListener(<span class="string">"load"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.ondragstart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;	ele.addEventListener(<span class="string">"dragstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div></pre></td></tr></table></figure>
-<p><strong>注意</strong>: 触摸事件只能通过addEventListener来绑定,过渡结束事件(自定义事件)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ele.addEventListener(<span class="string">"touchstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div></pre></td></tr></table></figure>
-<ul>
-<li>JS移除事件(该事件通过什么方式绑定的就要通过什么方式移除)</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1注册事件</span></div><div class="line">	my$(<span class="string">"btn1"</span>).onclick = fn;<span class="comment">//(onclick指向一个函数体)</span></div><div class="line"><span class="comment">//1移除事件</span></div><div class="line">	my$(<span class="string">"btn1"</span>).onclick = <span class="literal">null</span>;<span class="comment">//(将指向设置为null,则可以清除事件)</span></div><div class="line"><span class="comment">// 2 注册事件</span></div><div class="line">my$(<span class="string">"btn1"</span>).addEventListener(<span class="string">"click"</span>,fn,<span class="literal">false</span>);</div><div class="line"><span class="comment">// 2 移除事件</span></div><div class="line">my$(<span class="string">"btn1"</span>).removeEventListener(<span class="string">"click"</span>,fn,<span class="literal">false</span>);</div><div class="line"><span class="comment">// 3 注册事件  谷歌和火狐不支持</span></div><div class="line"> my$(<span class="string">"btn1"</span>).attachEvent(<span class="string">"onclick"</span>,fn);</div><div class="line"><span class="comment">// 3 移除事件</span></div><div class="line"> my$(<span class="string">"btn1"</span>).detachEvent(<span class="string">"onclick"</span>,fn);</div></pre></td></tr></table></figure>
-<ul>
-<li>jQuery绑定事件和移除事件</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">--ready(fn):当DOM元素载入就绪就可以执行的一个函数</div><div class="line">data 是传递给jQuery事件对象参数event.data的数据，fn是绑定在该事件上的处理程序，events和type是要绑定的事件类型</div><div class="line"></div><div class="line">--$(<span class="string">"selector"</span>).on(events,data,fn)   可以一次绑定多个事件  </div><div class="line">  $(<span class="string">"selector"</span>).off(events,data,fn)  移除on绑定的事件 如果不写任何参数，则移除匹配元素的所有事件</div><div class="line">  $(<span class="string">"selector"</span>).bind(type,data,fn)   可以一次绑定多个事件，可以绑定自定义事件;</div><div class="line">  $(<span class="string">"selector"</span>).unbind(type,data,fn) 移除bind绑定的事件 如果不写任何参数，则移除匹配元素的所有事件</div><div class="line"></div><div class="line">--$(<span class="string">"selector"</span>).mouseover(), $(<span class="string">"selector"</span>).mouseover(fn)  如果不写参数，将触发选定元素的该事件，如果写   了函数体，则将为选定的元素绑定事件  </div><div class="line">  mouseout  mousemove  mouseenter mouseleave mouseup mousedown  click keyup keydown change blur</div><div class="line">    都是一样的特性，如果不传函数体，就是触发该事件;如果传了函数体，就是绑定该事件的处理程序.</div><div class="line">--$(<span class="string">"selector"</span>).hover(fn(<span class="keyword">in</span>)/fn(oout)  可以给选中的元素绑定hover事件，鼠标悬浮在上面的时候，执行			fn(<span class="keyword">in</span>),鼠标离开元素的时候执行fn(out);</div><div class="line"></div><div class="line"><span class="comment">//事件委派 使用 delegate() 方法的事件处理程序适用于当前或未来的元素（比如由脚本创建的新元素）。</span></div><div class="line"></div><div class="line">--$(<span class="string">"selector1"</span>).delegate(<span class="string">"selector2"</span>,<span class="string">"type"</span>,fn)  selector1必须是selector2的父元素，事件的执行程序绑定在selector2(子元素选择器)上 。</div></pre></td></tr></table></figure>
-<h3 id="三-js-和-jQuery-绑定事件的区别"><a href="#三-js-和-jQuery-绑定事件的区别" class="headerlink" title="三   js  和  jQuery 绑定事件的区别"></a>三   js  和  jQuery 绑定事件的区别</h3><ul>
-<li>两者绑定的事件符合事件的传播过程，比如冒泡，捕获</li>
-<li>两者的事件对象参数基本一致，不同点在于jQuery绑定的事件，事件对象参数多了两个参数，一个是event.originalEvent  一个是event.data </li>
-</ul>
-<h3 id="四-自定义事件底层实现原理"><a href="#四-自定义事件底层实现原理" class="headerlink" title="四 自定义事件底层实现原理"></a>四 自定义事件底层实现原理</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 绑定事件</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addEvent</span>(<span class="params">obj,type,fn</span>)</span>&#123;</div><div class="line">  obj.listener = obj.listener || &#123;&#125;;</div><div class="line">  obj.listener[type] = obj.listener[type] || [];</div><div class="line">  obj.listener[type].push(fn);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 触发事件</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fireEvent</span>(<span class="params">obj,type</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> arr = obj.listener[type];</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</div><div class="line">    arr[i]();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/146NodeJsBuffer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/22/146NodeJsBuffer/" itemprop="url">
-                  NodeJs Buffer
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
-                2016-10-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index">
-                    <span itemprop="name">nodejs</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1 Buffer类的定义:本质上是创建了一块专门存放二进制数据的缓存区</p>
-<p>JavaScript 语言自身只有字符串数据类型，没有二进制数据类型。</p>
-<p>但在处理像TCP流或文件流时，必须使用到二进制数据。因此在 Node.js中，定义了一个 Buffer 类，该类用来创建一个专门存放二进制数据的缓存区。</p>
-<p>在 Node.js 中，Buffer 类是随 Node 内核一起发布的核心库。Buffer 库为 Node.js 带来了一种存储原始数据的方法，可以让 Node.js 处理二进制数据，每当需要在 Node.js 中处理I/O操作中移动的数据时，就有可能使用 Buffer 库。原始数据存储在 Buffer 类的实例中。一个 Buffer 类似于一个整数数组，但它对应于 V8 堆内存之外的一块原始内存。</p>
-<p>2 如何创建Buffer实例 </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(arg) <span class="comment">//1 必须传入参数 2  传入的参数类型 string, Buffer, ArrayBuffer, Array, or array-like object.</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf1 = <span class="keyword">new</span> Buffer(<span class="number">10</span>);<span class="comment">//这个是指定Buffer实例的长度，区分 var buf1 = new Buffer('10');</span></div><div class="line"><span class="built_in">console</span>.log(buf1);</div><div class="line"><span class="built_in">console</span>.log(buf1.length);</div><div class="line"><span class="built_in">console</span>.log(buf1.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf2 = <span class="keyword">new</span> Buffer([<span class="number">10</span>, <span class="number">40</span>, <span class="number">30</span>]);<span class="comment">//数组的长度 作为Buffer实例的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf2);</div><div class="line"><span class="built_in">console</span>.log(buf2.length);</div><div class="line"><span class="comment">//buf2.write('hahhahahahhah')</span></div><div class="line"><span class="built_in">console</span>.log(buf2.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf3 = <span class="keyword">new</span> Buffer(&#123;<span class="attr">length</span>:<span class="number">12</span>&#125;);<span class="comment">//类数组对象 的长度作为Buffer的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf3);</div><div class="line"><span class="built_in">console</span>.log(buf3.length);</div><div class="line"><span class="built_in">console</span>.log(buf3.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf4 = <span class="keyword">new</span> Buffer(<span class="string">'this is it yeah'</span>); <span class="comment">//直接将字符串写入Buffer实例，长度等于字符串的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf4);</div><div class="line"><span class="built_in">console</span>.log(buf4.length);</div><div class="line"><span class="built_in">console</span>.log(buf4.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf5 = <span class="keyword">new</span> Buffer(buf4);<span class="comment">//将Buffer实例直接作为参数传入</span></div><div class="line"><span class="built_in">console</span>.log(buf5);</div><div class="line"><span class="built_in">console</span>.log(buf5.length);</div><div class="line"><span class="built_in">console</span>.log(buf5.toString());</div></pre></td></tr></table></figure>
-<p>3 向缓冲区写入数据以及读取数据</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">buf.write(string[, offset[, length]][, encoding])</div><div class="line">参数描述如下：</div><div class="line">    string - 写入缓冲区的字符串。</div><div class="line">    offset - 缓冲区开始写入的索引值，默认为 <span class="number">0</span> 。</div><div class="line">    length - 写入的字节数，默认为 buffer.length</div><div class="line">    encoding - 使用的编码。默认为 <span class="string">'utf8'</span> 。</div><div class="line">返回值</div><div class="line">	返回实际写入的大小。如果 buffer 空间不足， 则只会写入部分字符串。</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">buf.toString([encoding[, start[, end]]])</div><div class="line">参数描述如下：</div><div class="line">    encoding - 使用的编码。默认为 <span class="string">'utf8'</span> 。</div><div class="line">    start - 指定开始读取的索引位置，默认为 <span class="number">0</span>。</div><div class="line">    end - 结束位置，默认为缓冲区的末尾。</div><div class="line">返回值</div><div class="line">	解码缓冲区数据并使用指定的编码返回字符串。</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.length;  返回Buffer实例实际所占据的内存的长度</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.toJSON();将Buffer实例转化为<span class="built_in">JSON</span>对象</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">buf.slice(start,end);默认start <span class="number">0</span> end 为buf.length </div><div class="line">返回一个新的缓冲区，它和旧缓冲区指向同一块内存，但是从索引 start 到 end 的位置剪切。</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Buffer.concat(list[, totalLength]) 返回一个多个成员合并的新 Buffer 对象。</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//console.log(Buffer) 可以尝试着输入下Buffer类，看下其属性和方法</span></div><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(<span class="string">'this is it yeah'</span>);</div><div class="line"><span class="built_in">console</span>.log(buf);</div><div class="line"><span class="built_in">console</span>.log(buf.length);<span class="comment">//15</span></div><div class="line"><span class="built_in">console</span>.log(buf.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> wLen = buf.write(<span class="string">'changed?'</span>);</div><div class="line"><span class="built_in">console</span>.log(buf.toString());<span class="comment">//changed?it yeah</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(wLen);<span class="comment">//8</span></div><div class="line"><span class="built_in">console</span>.log(buf.toJSON());</div><div class="line"><span class="comment">/*&#123;</span></div><div class="line">	type: 'Buffer',</div><div class="line"> 	data: [ 99, 104, 97, 110, 103, 101, 100, 63, 105, 116, 32, 121, 101, 97, 104 ] </div><div class="line"> &#125;</div><div class="line"> */</div><div class="line"><span class="keyword">var</span> sliceBuf = buf.slice(<span class="number">2</span>,<span class="number">5</span>);</div><div class="line"><span class="built_in">console</span>.log(sliceBuf);</div><div class="line"><span class="built_in">console</span>.log(sliceBuf.length);<span class="comment">//3</span></div><div class="line"><span class="built_in">console</span>.log(sliceBuf.toString());<span class="comment">//ang</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> con = Buffer.concat ([buf,sliceBuf]);</div><div class="line"><span class="built_in">console</span>.log(con);</div><div class="line"><span class="built_in">console</span>.log(con.length);<span class="comment">//18</span></div><div class="line"><span class="built_in">console</span>.log(con.toString());<span class="comment">//changed?it yeahang</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/127RegExpReview/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1493,6 +952,400 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/55-js  jQuery绑定与移除事件的比较/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/22/55-js  jQuery绑定与移除事件的比较/" itemprop="url">
+                  js event compare with jQuery event
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
+                2016-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-event/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript event</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="js-jQuery绑定事件的比较"><a href="#js-jQuery绑定事件的比较" class="headerlink" title="js  jQuery绑定事件的比较:"></a>js  jQuery绑定事件的比较:</h2><h3 id="一-事件分类"><a href="#一-事件分类" class="headerlink" title="一 事件分类"></a>一 事件分类</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span> <span class="built_in">window</span> 事件:onload  onunload onafterprint onbeforeprint onerror  onresize </div><div class="line"><span class="number">2</span> From表单 事件(仅在表单元素中有效):onblur  onfocus onreset onsubmit onselect onchange  oninput</div><div class="line"><span class="number">3</span> 键盘事件 : onkeydown  onkeyup onkeyup</div><div class="line"><span class="number">4</span> 鼠标事件: onclick onmouseout onmouseleave onmouseenter onmousedown onmouseup onscroll(当元素滚动条被滚动的时候) ondrag ondragstart ondragend ondragenter ondragover ondragleave ondrop </div><div class="line"><span class="comment">//键盘事件和鼠标事件在base, bdo, br, frame, frameset, head, html, iframe, meta, param, script, style, title 元素无效；</span></div><div class="line"><span class="number">5</span> 触摸事件 :touchstart touchend touchmove </div><div class="line"><span class="number">6</span> 媒介事件 : </div><div class="line"><span class="number">7</span> 自定义事件:</div><div class="line"><span class="number">8</span> 所有的事件都是成元素的一个属性，原始值为<span class="literal">null</span>;输出一个DOM元素可以查看其所有的属性;</div></pre></td></tr></table></figure>
+<h3 id="二-绑定事件"><a href="#二-绑定事件" class="headerlink" title="二 绑定事件"></a>二 绑定事件</h3><ul>
+<li>JS绑定事件:(onclick之类的本身就是一属性，通过给属性设置函数，可以使其具有功能，而addEventListener是一个函数，通过函数体的内容给元素绑定事件)</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ele.on+事件类型 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  &#125;;     ele.addEventListener(<span class="string">"事件类型"</span>，<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;		ele.addEventListener(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.onmouseout = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;      ele.attachEvent(<span class="string">"onclick"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );(注意有on)</div><div class="line"><span class="built_in">window</span>.onlaod = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;		<span class="built_in">window</span>.addEventListener(<span class="string">"load"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.ondragstart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;	ele.addEventListener(<span class="string">"dragstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div></pre></td></tr></table></figure>
+<p><strong>注意</strong>: 触摸事件只能通过addEventListener来绑定,过渡结束事件(自定义事件)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ele.addEventListener(<span class="string">"touchstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div></pre></td></tr></table></figure>
+<ul>
+<li>JS移除事件(该事件通过什么方式绑定的就要通过什么方式移除)</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1注册事件</span></div><div class="line">	my$(<span class="string">"btn1"</span>).onclick = fn;<span class="comment">//(onclick指向一个函数体)</span></div><div class="line"><span class="comment">//1移除事件</span></div><div class="line">	my$(<span class="string">"btn1"</span>).onclick = <span class="literal">null</span>;<span class="comment">//(将指向设置为null,则可以清除事件)</span></div><div class="line"><span class="comment">// 2 注册事件</span></div><div class="line">my$(<span class="string">"btn1"</span>).addEventListener(<span class="string">"click"</span>,fn,<span class="literal">false</span>);</div><div class="line"><span class="comment">// 2 移除事件</span></div><div class="line">my$(<span class="string">"btn1"</span>).removeEventListener(<span class="string">"click"</span>,fn,<span class="literal">false</span>);</div><div class="line"><span class="comment">// 3 注册事件  谷歌和火狐不支持</span></div><div class="line"> my$(<span class="string">"btn1"</span>).attachEvent(<span class="string">"onclick"</span>,fn);</div><div class="line"><span class="comment">// 3 移除事件</span></div><div class="line"> my$(<span class="string">"btn1"</span>).detachEvent(<span class="string">"onclick"</span>,fn);</div></pre></td></tr></table></figure>
+<ul>
+<li>jQuery绑定事件和移除事件</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">--ready(fn):当DOM元素载入就绪就可以执行的一个函数</div><div class="line">data 是传递给jQuery事件对象参数event.data的数据，fn是绑定在该事件上的处理程序，events和type是要绑定的事件类型</div><div class="line"></div><div class="line">--$(<span class="string">"selector"</span>).on(events,data,fn)   可以一次绑定多个事件  </div><div class="line">  $(<span class="string">"selector"</span>).off(events,data,fn)  移除on绑定的事件 如果不写任何参数，则移除匹配元素的所有事件</div><div class="line">  $(<span class="string">"selector"</span>).bind(type,data,fn)   可以一次绑定多个事件，可以绑定自定义事件;</div><div class="line">  $(<span class="string">"selector"</span>).unbind(type,data,fn) 移除bind绑定的事件 如果不写任何参数，则移除匹配元素的所有事件</div><div class="line"></div><div class="line">--$(<span class="string">"selector"</span>).mouseover(), $(<span class="string">"selector"</span>).mouseover(fn)  如果不写参数，将触发选定元素的该事件，如果写   了函数体，则将为选定的元素绑定事件  </div><div class="line">  mouseout  mousemove  mouseenter mouseleave mouseup mousedown  click keyup keydown change blur</div><div class="line">    都是一样的特性，如果不传函数体，就是触发该事件;如果传了函数体，就是绑定该事件的处理程序.</div><div class="line">--$(<span class="string">"selector"</span>).hover(fn(<span class="keyword">in</span>)/fn(oout)  可以给选中的元素绑定hover事件，鼠标悬浮在上面的时候，执行			fn(<span class="keyword">in</span>),鼠标离开元素的时候执行fn(out);</div><div class="line"></div><div class="line"><span class="comment">//事件委派 使用 delegate() 方法的事件处理程序适用于当前或未来的元素（比如由脚本创建的新元素）。</span></div><div class="line"></div><div class="line">--$(<span class="string">"selector1"</span>).delegate(<span class="string">"selector2"</span>,<span class="string">"type"</span>,fn)  selector1必须是selector2的父元素，事件的执行程序绑定在selector2(子元素选择器)上 。</div></pre></td></tr></table></figure>
+<h3 id="三-js-和-jQuery-绑定事件的区别"><a href="#三-js-和-jQuery-绑定事件的区别" class="headerlink" title="三   js  和  jQuery 绑定事件的区别"></a>三   js  和  jQuery 绑定事件的区别</h3><ul>
+<li>两者绑定的事件符合事件的传播过程，比如冒泡，捕获</li>
+<li>两者的事件对象参数基本一致，不同点在于jQuery绑定的事件，事件对象参数多了两个参数，一个是event.originalEvent  一个是event.data </li>
+</ul>
+<h3 id="四-自定义事件底层实现原理"><a href="#四-自定义事件底层实现原理" class="headerlink" title="四 自定义事件底层实现原理"></a>四 自定义事件底层实现原理</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 绑定事件</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addEvent</span>(<span class="params">obj,type,fn</span>)</span>&#123;</div><div class="line">  obj.listener = obj.listener || &#123;&#125;;</div><div class="line">  obj.listener[type] = obj.listener[type] || [];</div><div class="line">  obj.listener[type].push(fn);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 触发事件</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fireEvent</span>(<span class="params">obj,type</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> arr = obj.listener[type];</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</div><div class="line">    arr[i]();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/23-拖拉事件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/22/23-拖拉事件/" itemprop="url">
+                  drag Event
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
+                2016-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/html/" itemprop="url" rel="index">
+                    <span itemprop="name">html</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="拖拉事件"><a href="#拖拉事件" class="headerlink" title="拖拉事件"></a>拖拉事件</h2><p>拖拉指的是，用户在某个对象上按下鼠标键不放，拖动它到另一个位置，然后释放鼠标键，将该对象放在那里。</p>
+<p>拖拉的对象有好几种，包括Element节点、图片、链接、选中的文字等等。在HTML网页中，除了Element节点默认不可以拖拉，其他（图片、链接、选中的文字）都是可以直接拖拉的。为了让Element节点可拖拉，可以将该节点的draggable属性设为true。<strong>注意draggable 是元素的属性，并不是元素的样式属性，设置在CSS样式表或者<style>标签中是没有用的</strong>  </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">draggable</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">  此区域可拖拉</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>draggable属性可用于任何Element节点，但是图片（img元素）和链接（a元素）不加这个属性，就可以拖拉。对于它们，用到这个属性的时候，往往是将其设为false，防止拖拉。</p>
+<p>注意，一旦某个Element节点的draggable属性设为true，就无法再用鼠标选中该节点内部的文字或子节点了。</p>
+<h3 id="事件种类"><a href="#事件种类" class="headerlink" title="事件种类"></a>事件种类</h3><p>当Element节点或选中的文本被拖拉时，就会持续触发拖拉事件，包括以下一些事件。</p>
+<ul>
+<li><strong>drag事件</strong>：拖拉过程中，在被拖拉的节点上持续触发。</li>
+<li><strong>dragstart事件</strong>：拖拉开始时在被拖拉的节点上触发，该事件的target属性是被拖拉的节点。通常应该在这个事件的监听函数中，指定拖拉的数据。</li>
+<li><strong>dragend事件</strong>：拖拉结束时（释放鼠标键或按下escape键）在被拖拉的节点上触发，该事件的target属性是被拖拉的节点。它与dragStart事件，在同一个节点上触发。不管拖拉是否跨窗口，或者中途被取消，dragend事件总是会触发的。</li>
+<li><strong>dragenter事件</strong>：拖拉进入当前节点时，在当前节点上触发，该事件的target属性是当前节点。通常应该在这个事件的监听函数中，指定是否允许在当前节点放下（drop）拖拉的数据。如果当前节点没有该事件的监听函数，或者监听函数不执行任何操作，就意味着不允许在当前节点放下数据。在视觉上显示拖拉进入当前节点，也是在这个事件的监听函数中设置。</li>
+<li><strong>dragover事件</strong>：拖拉到当前节点上方时，在当前节点上<strong>持续</strong>触发，该事件的target属性是当前节点。该事件与dragenter事件基本类似，默认会重置当前的拖拉事件的效果（DataTransfer对象的dropEffect属性）为none，即不允许放下被拖拉的节点，所以如果允许在当前节点drop数据，通常会使用preventDefault方法，取消重置拖拉效果为none。</li>
+<li><strong>dragleave事件</strong>：拖拉离开当前节点范围时，在当前节点上触发，该事件的target属性是当前节点。在视觉上显示拖拉离开当前节点，就在这个事件的监听函数中设置。</li>
+<li><strong>drop事件</strong>：被拖拉的节点或选中的文本，释放到目标节点时，在目标节点上触发。注意，如果当前节点不允许drop，即使在该节点上方松开鼠标键，也不会触发该事件。如果用户按下Escape键，取消这个操作，也不会触发该事件。该事件的监听函数负责取出拖拉数据，并进行相关处理。</li>
+</ul>
+<p>关于拖拉事件，有以下几点注意事项。</p>
+<ul>
+<li>拖拉过程只触发以上这些拖拉事件，尽管鼠标在移动，但是鼠标事件不会触发。</li>
+<li>将文件从操作系统拖拉进浏览器，不会触发dragStart和dragend事件。</li>
+<li>dragenter和dragover事件的监听函数，用来指定可以放下（drop）拖拉的数据。由于网页的大部分区域不适合作为drop的目标节点，所以这两个事件的默认设置为当前节点不允许drop。如果想要在目标节点上drop拖拉的数据，首先必须阻止这两个事件的默认行为，或者取消这两个事件。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ondragover</span>=<span class="string">"return false"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ondragover</span>=<span class="string">"event.preventDefault()"</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>上面代码中，如果不取消拖拉事件或者阻止默认行为，就不可能在div节点上drop被拖拉的节点。</p>
+<p>拖拉事件用一个DragEvent对象表示，该对象继承MouseEvent对象，因此也就继承了UIEvent和Event对象。DragEvent对象只有一个独有的属性DataTransfer，其他都是继承的属性。DataTransfer属性用来读写拖拉事件中传输的数据，详见下文《DataTransfer对象》的部分。</p>
+<p>下面的例子展示，如何动态改变被拖动节点的背景色。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">div.addEventListener(<span class="string">"dragstart"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.style.backgroundColor = <span class="string">"red"</span>;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line">div.addEventListener(<span class="string">"dragend"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.style.backgroundColor = <span class="string">"green"</span>;</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
+<p>上面代码中，div节点被拖动时，背景色会变为红色，拖动结束，又变回绿色。</p>
+<p>下面是一个例子，显示如何实现将一个节点从当前父节点，拖拉到另一个父节点中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML代码为</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;</span></div><div class="line"><span class="comment">//    &lt;div id="draggable" draggable="true"&gt;</span></div><div class="line"><span class="comment">//       该节点可拖拉</span></div><div class="line"><span class="comment">//    &lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;&lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;&lt;/div&gt;</span></div><div class="line"><span class="comment">// &lt;div class="dropzone"&gt;&lt;/div&gt;</span></div><div class="line"></div><div class="line"><span class="comment">// 被拖拉节点</span></div><div class="line"><span class="keyword">var</span> dragged;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">"dragstart"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 保存被拖拉节点</span></div><div class="line">  dragged = event.target;</div><div class="line">  <span class="comment">// 被拖拉节点的背景色变透明</span></div><div class="line">  event.target.style.opacity = <span class="number">0.5</span>;</div><div class="line">  <span class="comment">// 兼容Firefox</span></div><div class="line">  event.dataTransfer.setData(<span class="string">'text/plain'</span>, <span class="string">'anything'</span>);</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragend'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 被拖拉节点的背景色恢复正常</span></div><div class="line">  event.target.style.opacity = <span class="string">''</span>;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragover'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 防止拖拉效果被重置，允许被拖拉的节点放入目标节点</span></div><div class="line">  event.preventDefault();</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragenter'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 目标节点的背景色变紫色</span></div><div class="line">  <span class="comment">// 由于该事件会冒泡，所以要过滤节点</span></div><div class="line">  <span class="keyword">if</span> ( event.target.className == <span class="string">'dropzone'</span> ) &#123;</div><div class="line">    event.target.style.background = <span class="string">'purple'</span>;</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'dragleave'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 目标节点的背景色恢复原样</span></div><div class="line">  <span class="keyword">if</span> ( event.target.className == <span class="string">'dropzone'</span> ) &#123;</div><div class="line">    event.target.style.background = <span class="string">""</span>;</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'drop'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  <span class="comment">// 防止事件默认行为（比如某些Elment节点上可以打开链接）</span></div><div class="line">  event.preventDefault();</div><div class="line">  <span class="keyword">if</span> ( event.target.className === <span class="string">'dropzone'</span> ) &#123;</div><div class="line">    <span class="comment">// 恢复目标节点背景色</span></div><div class="line">    event.target.style.background = <span class="string">''</span>;</div><div class="line">    <span class="comment">// 将被拖拉节点插入目标节点</span></div><div class="line">    dragged.parentNode.removeChild( dragged );</div><div class="line">    event.target.appendChild( dragged );</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
+<h3 id="DataTransfer对象概述"><a href="#DataTransfer对象概述" class="headerlink" title="DataTransfer对象概述"></a>DataTransfer对象概述</h3><p>所有的拖拉事件都有一个dataTransfer属性，用来保存需要传递的数据。这个属性的值是一个DataTransfer对象。</p>
+<p>拖拉的数据保存两方面的数据：数据的种类（又称格式）和数据的值。数据的种类是一个MIME字符串，比如 text/plain或者image/jpeg，数据的值是一个字符串。一般来说，如果拖拉一段文本，则数据默认就是那段文本；如果拖拉一个链接，则数据默认就是链接的URL。</p>
+<p>当拖拉事件开始的时候，可以提供数据类型和数据值；在拖拉过程中，通过dragenter和dragover事件的监听函数，检查数据类型，以确定是否允许放下（drop）被拖拉的对象。比如，在只允许放下链接的区域，检查拖拉的数据类型是否为text/uri-list。</p>
+<p>发生drop事件时，监听函数取出拖拉的数据，对其进行处理。</p>
+<h3 id="DataTransfer对象的属性"><a href="#DataTransfer对象的属性" class="headerlink" title="DataTransfer对象的属性"></a>DataTransfer对象的属性</h3><p>DataTransfer对象有以下属性。</p>
+<p><strong>（1）dropEffect</strong></p>
+<p>dropEffect属性设置放下（drop）被拖拉节点时的效果，可能的值包括copy（复制被拖拉的节点）、move（移动被拖拉的节点）、link（创建指向被拖拉的节点的链接）、none（无法放下被拖拉的节点）。设置除此以外的值，都是无效的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">target.addEventListener(<span class="string">'dragover'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  e.preventDefault();</div><div class="line">  e.stopPropagation();</div><div class="line">  e.dataTransfer.dropEffect = <span class="string">'copy'</span>;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>dropEffect属性一般在dragenter和dragover事件的监听函数中设置，对于dragstart、drag、dragleave这三个事件，该属性不起作用。进入目标节点后，拖拉行为会初始化成用户设定的效果，用户可以通过按下Shift键和Control键，改变初始设置，在copy、move、link三种效果中切换。</p>
+<p>鼠标箭头会根据dropEffect属性改变形状，提示目前正处于哪一种效果。这意味着，通过鼠标就能判断是否可以在当前节点drop被拖拉的节点。</p>
+<p><strong>（2）effectAllowed</strong></p>
+<p>effectAllowed属性设置本次拖拉中允许的效果，可能的值包括copy（复制被拖拉的节点）、move（移动被拖拉的节点）、link（创建指向被拖拉节点的链接）、copyLink（允许copy或link）、copyMove（允许copy或move）、linkMove（允许link或move）、all（允许所有效果）、none（无法放下被拖拉的节点）、uninitialized（默认值，等同于all）。如果某种效果是不允许的，用户就无法在目标节点中达成这种效果。</p>
+<p>dragstart事件的监听函数，可以设置被拖拉节点允许的效果；dragenter和dragover事件的监听函数，可以设置目标节点允许的效果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.effectAllowed = <span class="string">"copy"</span>;</div></pre></td></tr></table></figure>
+<p>dropEffect属性和effectAllowed属性，往往配合使用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.effectAllowed = <span class="string">"copyMove"</span>;</div><div class="line">event.dataTransfer.dropEffect = <span class="string">"copy"</span>;</div></pre></td></tr></table></figure>
+<p>上面代码中，copy是指定的效果，但是可以通过Shift或Ctrl键（根据平台而定），将效果切换成move。</p>
+<p>只要dropEffect属性和effectAllowed属性之中，有一个为none，就无法在目标节点上完成drop操作。</p>
+<p><strong>（3）files</strong></p>
+<p>files属性是一个FileList对象，包含一组本地文件，可以用来在拖拉操作中传送。如果本次拖拉不涉及文件，则属性为空的FileList对象。</p>
+<p>下面就是一个接收拖拉文件的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML代码为</span></div><div class="line"><span class="comment">// &lt;div id="output" style="min-height: 200px;border: 1px solid black;"&gt;</span></div><div class="line"><span class="comment">//   文件拖拉到这里</span></div><div class="line"><span class="comment">// &lt;/div&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.getElementById(<span class="string">'output'</span>);</div><div class="line"></div><div class="line">div.addEventListener(<span class="string">"dragenter"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  div.textContent = <span class="string">''</span>;</div><div class="line">  event.stopPropagation();</div><div class="line">  event.preventDefault();</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line">div.addEventListener(<span class="string">"dragover"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  event.stopPropagation();</div><div class="line">  event.preventDefault();</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line">div.addEventListener(<span class="string">"drop"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> event </span>) </span>&#123;</div><div class="line">  event.stopPropagation();</div><div class="line">  event.preventDefault();</div><div class="line">  <span class="keyword">var</span> files = event.dataTransfer.files;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; files.length; i++) &#123;</div><div class="line">    div.textContent += files[i].name + <span class="string">' '</span> + files[i].size + <span class="string">'字节\n'</span>;</div><div class="line">  &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
+<p>上面代码中，通过files属性读取拖拉文件的信息。如果想要读取文件内容，就要使用FileReader对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">div.addEventListener(<span class="string">'drop'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  e.preventDefault();</div><div class="line">  e.stopPropagation();</div><div class="line"></div><div class="line">  <span class="keyword">var</span> fileList = e.dataTransfer.files;</div><div class="line">  <span class="keyword">if</span> (fileList.length &gt; <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">var</span> file = fileList[<span class="number">0</span>];</div><div class="line">    <span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();</div><div class="line">    reader.onloadend = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span> (e.target.readyState == FileReader.DONE) &#123;</div><div class="line">        <span class="keyword">var</span> content = reader.result;</div><div class="line">        contentDiv.innerHTML = <span class="string">"File: "</span> + file.name + <span class="string">"\n\n"</span> + content;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    reader.readAsBinaryString(file);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><strong>（4）types</strong></p>
+<p>types属性是一个数组，保存每一次拖拉的数据格式，比如拖拉文件，则格式信息就为File。</p>
+<p>下面是一个例子，通过检查dataTransfer属性的类型，决定是否允许在当前节点执行drop操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">contains</span>(<span class="params">list, value</span>)</span>&#123;</div><div class="line">  <span class="keyword">for</span>( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; list.length; ++i )&#123;</div><div class="line">    <span class="keyword">if</span>(list[i] === value) <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doDragOver</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> isLink = contains( event.dataTransfer.types, <span class="string">"text/uri-list"</span>);</div><div class="line">  <span class="keyword">if</span> (isLink) event.preventDefault();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码中，只有当被拖拉的节点是一个链接时，才允许在当前节点放下。</p>
+<h3 id="DataTransfer对象的方法"><a href="#DataTransfer对象的方法" class="headerlink" title="DataTransfer对象的方法"></a>DataTransfer对象的方法</h3><p>DataTransfer对象有以下方法。</p>
+<p><strong>（1）setData()</strong></p>
+<p>setData方法用来设置事件所带有的指定类型的数据。它接受两个参数，第一个是数据类型，第二个是具体数据。如果指定的类型在现有数据中不存在，则该类型将写入types属性；如果已经存在，在该类型的现有数据将被替换。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.setData(<span class="string">"text/plain"</span>, <span class="string">"Text to drag"</span>);</div></pre></td></tr></table></figure>
+<p>上面代码为事件加入纯文本格式的数据。</p>
+<p>如果拖拉文本框或者拖拉选中的文本，会默认将文本数据添加到dataTransfer属性，不用手动指定。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">draggable</span>=<span class="string">"true"</span> <span class="attr">ondragstart</span>=<span class="string">"</div><div class="line">  event.dataTransfer.setData('text/plain', 'bbb')"</span>&gt;</span></div><div class="line">  aaa</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>上面代码中，拖拉数据实际上是bbb，而不是aaa。</p>
+<p>下面是添加其他类型的数据。由于text/plain是最普遍支持的格式，为了保证兼容性，建议最后总是将数据保存一份纯文本的格式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dt = event.dataTransfer;</div><div class="line"></div><div class="line"><span class="comment">// 添加链接</span></div><div class="line">dt.setData(<span class="string">"text/uri-list"</span>, <span class="string">"http://www.example.com"</span>);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, <span class="string">"http://www.example.com"</span>);</div><div class="line"><span class="comment">// 添加HTML代码</span></div><div class="line">dt.setData(<span class="string">"text/html"</span>, <span class="string">"Hello there, &lt;strong&gt;stranger&lt;/strong&gt;"</span>);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, <span class="string">"Hello there, &lt;strong&gt;stranger&lt;/strong&gt;"</span>);</div><div class="line"><span class="comment">// 添加图像的URL</span></div><div class="line">dt.setData(<span class="string">"text/uri-list"</span>, imageurl);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, imageurl);</div></pre></td></tr></table></figure>
+<p>可以一次提供多种格式的数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dt = event.dataTransfer;</div><div class="line">dt.setData(<span class="string">"application/x-bookmark"</span>, bookmarkString);</div><div class="line">dt.setData(<span class="string">"text/uri-list"</span>, <span class="string">"http://www.example.com"</span>);</div><div class="line">dt.setData(<span class="string">"text/plain"</span>, <span class="string">"http://www.example.com"</span>);</div></pre></td></tr></table></figure>
+<p>上面代码中，通过在同一个事件上面，存放三种类型的数据，使得拖拉事件可以在不同的对象上面，drop不同的值。注意，第一种格式是一个自定义格式，浏览器默认无法读取，这意味着，只有某个部署了特定代码的节点，才可能drop（读取到）这个数据。</p>
+<p><strong>（2）getData()</strong></p>
+<p>getData方法接受一个字符串（表示数据类型）作为参数，返回事件所带的指定类型的数据（通常是用setData方法添加的数据）。如果指定类型的数据不存在，则返回空字符串。通常只有drop事件触发后，才能取出数据。如果取出另一个域名存放的数据，将会报错。</p>
+<p>下面是一个drop事件的监听函数，用来取出指定类型的数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">onDrop</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> data = event.dataTransfer.getData(<span class="string">"text/plain"</span>);</div><div class="line">  event.target.textContent = data;</div><div class="line">  event.preventDefault();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码取出拖拉事件的文本数据，将其替换成当前节点的文本内容。注意，这时还必须取消浏览器的默认行为，因为假如用户拖拉的是一个链接，浏览器默认会在当前窗口打开这个链接。</p>
+<p>getData方法返回的是一个字符串，如果其中包含多项数据，就必须手动解析。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doDrop</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> lines = event.dataTransfer.getData(<span class="string">"text/uri-list"</span>).split(<span class="string">"\n"</span>);</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> line <span class="keyword">of</span> lines) &#123;</div><div class="line">    <span class="keyword">let</span> link = <span class="built_in">document</span>.createElement(<span class="string">"a"</span>);</div><div class="line">    link.href = line;</div><div class="line">    link.textContent = line;</div><div class="line">    event.target.appendChild(link);</div><div class="line">  &#125;</div><div class="line">  event.preventDefault();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码中，getData方法返回的是一组链接，就必须自行解析。</p>
+<p>类型值指定为URL，可以取出第一个有效链接。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> link = event.dataTransfer.getData(<span class="string">"URL"</span>);</div></pre></td></tr></table></figure>
+<p>下面是一次性取出多种类型的数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doDrop</span>(<span class="params">event</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> types = event.dataTransfer.types;</div><div class="line">  <span class="keyword">var</span> supportedTypes = [<span class="string">"text/uri-list"</span>, <span class="string">"text/plain"</span>];</div><div class="line">  types = supportedTypes.filter(<span class="function"><span class="keyword">function</span> (<span class="params">value</span>) <span class="title">types</span>.<span class="title">includes</span>(<span class="params">value</span>));</div><div class="line">  <span class="title">if</span> (<span class="params">types.length</span>)</div><div class="line">    <span class="title">var</span> <span class="title">data</span> = <span class="title">event</span>.<span class="title">dataTransfer</span>.<span class="title">getData</span>(<span class="params">types[<span class="number">0</span>]</span>);</div><div class="line">  <span class="title">event</span>.<span class="title">preventDefault</span>(<span class="params"></span>);</div><div class="line">&#125;</span></div></pre></td></tr></table></figure>
+<p><strong>（3）clearData()</strong></p>
+<p>clearData方法接受一个字符串（表示数据类型）作为参数，删除事件所带的指定类型的数据。如果没有指定类型，则删除所有数据。如果指定类型不存在，则原数据不受影响。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event.dataTransfer.clearData(<span class="string">"text/uri-list"</span>);</div></pre></td></tr></table></figure>
+<p>上面代码清除事件所带的URL数据。</p>
+<p><strong>（4）setDragImage()</strong></p>
+<p>拖动过程中（dragstart事件触发后），浏览器会显示一张图片跟随鼠标一起移动，表示被拖动的节点。这张图片是自动创造的，通常显示为被拖动节点的外观，不需要自己动手设置。setDragImage方法可以用来自定义这张图片，它接受三个参数，第一个是img图片元素或者canvas元素，如果省略或为null则使用被拖动的节点的外观，第二个和第三个参数为鼠标相对于该图片左上角的横坐标和右坐标。</p>
+<p>下面是一个例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML代码为</span></div><div class="line"><span class="comment">// &lt;div id="drag-with-image" class="dragdemo" draggable="true"&gt;</span></div><div class="line">     drag me</div><div class="line"><span class="comment">// &lt;/div&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.getElementById(<span class="string">"drag-with-image"</span>);</div><div class="line">div.addEventListener(<span class="string">"dragstart"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> img = <span class="built_in">document</span>.createElement(<span class="string">"img"</span>);</div><div class="line">  img.src = <span class="string">"http://path/to/img"</span>;</div><div class="line">  e.dataTransfer.setDragImage(img, <span class="number">0</span>, <span class="number">0</span>);</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure></style></strong></p>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/149URLoperation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1594,6 +1447,163 @@
           
             <p>如何操作查询字符串，返回一个查询字符串包含信息的对象</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> url =<span class="string">'http://www.myvirtual.com?username=Jhon&amp;age=12'</span>;<span class="comment">//将查询字符串转换为js对象</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">queryParam</span>(<span class="params">url</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> newUrl = url.slice(url.indexOf(<span class="string">'?'</span>)+<span class="number">1</span>);</div><div class="line">  <span class="keyword">var</span> urlArr = newUrl.split(<span class="string">'&amp;'</span>);</div><div class="line">  <span class="keyword">var</span> ret = &#123;&#125;</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; urlArr.length ; i++)&#123;</div><div class="line">    <span class="keyword">var</span> arr = urlArr[i].split(<span class="string">'='</span>);</div><div class="line">    ret[arr[<span class="number">0</span>]] = arr[<span class="number">1</span>];</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> ret ;</div><div class="line">&#125;</div><div class="line"></div><div class="line">queryParam(url);</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/146NodeJsBuffer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/22/146NodeJsBuffer/" itemprop="url">
+                  NodeJs Buffer
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
+                2016-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1 Buffer类的定义:本质上是创建了一块专门存放二进制数据的缓存区</p>
+<p>JavaScript 语言自身只有字符串数据类型，没有二进制数据类型。</p>
+<p>但在处理像TCP流或文件流时，必须使用到二进制数据。因此在 Node.js中，定义了一个 Buffer 类，该类用来创建一个专门存放二进制数据的缓存区。</p>
+<p>在 Node.js 中，Buffer 类是随 Node 内核一起发布的核心库。Buffer 库为 Node.js 带来了一种存储原始数据的方法，可以让 Node.js 处理二进制数据，每当需要在 Node.js 中处理I/O操作中移动的数据时，就有可能使用 Buffer 库。原始数据存储在 Buffer 类的实例中。一个 Buffer 类似于一个整数数组，但它对应于 V8 堆内存之外的一块原始内存。</p>
+<p>2 如何创建Buffer实例 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(arg) <span class="comment">//1 必须传入参数 2  传入的参数类型 string, Buffer, ArrayBuffer, Array, or array-like object.</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf1 = <span class="keyword">new</span> Buffer(<span class="number">10</span>);<span class="comment">//这个是指定Buffer实例的长度，区分 var buf1 = new Buffer('10');</span></div><div class="line"><span class="built_in">console</span>.log(buf1);</div><div class="line"><span class="built_in">console</span>.log(buf1.length);</div><div class="line"><span class="built_in">console</span>.log(buf1.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf2 = <span class="keyword">new</span> Buffer([<span class="number">10</span>, <span class="number">40</span>, <span class="number">30</span>]);<span class="comment">//数组的长度 作为Buffer实例的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf2);</div><div class="line"><span class="built_in">console</span>.log(buf2.length);</div><div class="line"><span class="comment">//buf2.write('hahhahahahhah')</span></div><div class="line"><span class="built_in">console</span>.log(buf2.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf3 = <span class="keyword">new</span> Buffer(&#123;<span class="attr">length</span>:<span class="number">12</span>&#125;);<span class="comment">//类数组对象 的长度作为Buffer的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf3);</div><div class="line"><span class="built_in">console</span>.log(buf3.length);</div><div class="line"><span class="built_in">console</span>.log(buf3.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf4 = <span class="keyword">new</span> Buffer(<span class="string">'this is it yeah'</span>); <span class="comment">//直接将字符串写入Buffer实例，长度等于字符串的长度</span></div><div class="line"><span class="built_in">console</span>.log(buf4);</div><div class="line"><span class="built_in">console</span>.log(buf4.length);</div><div class="line"><span class="built_in">console</span>.log(buf4.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> buf5 = <span class="keyword">new</span> Buffer(buf4);<span class="comment">//将Buffer实例直接作为参数传入</span></div><div class="line"><span class="built_in">console</span>.log(buf5);</div><div class="line"><span class="built_in">console</span>.log(buf5.length);</div><div class="line"><span class="built_in">console</span>.log(buf5.toString());</div></pre></td></tr></table></figure>
+<p>3 向缓冲区写入数据以及读取数据</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">buf.write(string[, offset[, length]][, encoding])</div><div class="line">参数描述如下：</div><div class="line">    string - 写入缓冲区的字符串。</div><div class="line">    offset - 缓冲区开始写入的索引值，默认为 <span class="number">0</span> 。</div><div class="line">    length - 写入的字节数，默认为 buffer.length</div><div class="line">    encoding - 使用的编码。默认为 <span class="string">'utf8'</span> 。</div><div class="line">返回值</div><div class="line">	返回实际写入的大小。如果 buffer 空间不足， 则只会写入部分字符串。</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">buf.toString([encoding[, start[, end]]])</div><div class="line">参数描述如下：</div><div class="line">    encoding - 使用的编码。默认为 <span class="string">'utf8'</span> 。</div><div class="line">    start - 指定开始读取的索引位置，默认为 <span class="number">0</span>。</div><div class="line">    end - 结束位置，默认为缓冲区的末尾。</div><div class="line">返回值</div><div class="line">	解码缓冲区数据并使用指定的编码返回字符串。</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.length;  返回Buffer实例实际所占据的内存的长度</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.toJSON();将Buffer实例转化为<span class="built_in">JSON</span>对象</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">buf.slice(start,end);默认start <span class="number">0</span> end 为buf.length </div><div class="line">返回一个新的缓冲区，它和旧缓冲区指向同一块内存，但是从索引 start 到 end 的位置剪切。</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Buffer.concat(list[, totalLength]) 返回一个多个成员合并的新 Buffer 对象。</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//console.log(Buffer) 可以尝试着输入下Buffer类，看下其属性和方法</span></div><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(<span class="string">'this is it yeah'</span>);</div><div class="line"><span class="built_in">console</span>.log(buf);</div><div class="line"><span class="built_in">console</span>.log(buf.length);<span class="comment">//15</span></div><div class="line"><span class="built_in">console</span>.log(buf.toString());</div><div class="line"></div><div class="line"><span class="keyword">var</span> wLen = buf.write(<span class="string">'changed?'</span>);</div><div class="line"><span class="built_in">console</span>.log(buf.toString());<span class="comment">//changed?it yeah</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(wLen);<span class="comment">//8</span></div><div class="line"><span class="built_in">console</span>.log(buf.toJSON());</div><div class="line"><span class="comment">/*&#123;</span></div><div class="line">	type: 'Buffer',</div><div class="line"> 	data: [ 99, 104, 97, 110, 103, 101, 100, 63, 105, 116, 32, 121, 101, 97, 104 ] </div><div class="line"> &#125;</div><div class="line"> */</div><div class="line"><span class="keyword">var</span> sliceBuf = buf.slice(<span class="number">2</span>,<span class="number">5</span>);</div><div class="line"><span class="built_in">console</span>.log(sliceBuf);</div><div class="line"><span class="built_in">console</span>.log(sliceBuf.length);<span class="comment">//3</span></div><div class="line"><span class="built_in">console</span>.log(sliceBuf.toString());<span class="comment">//ang</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> con = Buffer.concat ([buf,sliceBuf]);</div><div class="line"><span class="built_in">console</span>.log(con);</div><div class="line"><span class="built_in">console</span>.log(con.length);<span class="comment">//18</span></div><div class="line"><span class="built_in">console</span>.log(con.toString());<span class="comment">//changed?it yeahang</span></div></pre></td></tr></table></figure>
 
           
         
@@ -2229,10 +2239,10 @@
             
             
             <div class="site-state-item site-state-categories">
-              
+              <a href="/categories/index.html">
                 <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">分类</span>
-              
+              </a>
             </div>
           
 
@@ -2240,10 +2250,10 @@
             
             
             <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">45</span>
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
-              
+              </a>
             </div>
           
 

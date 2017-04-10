@@ -212,6 +212,16 @@
         </li>
       
         
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
@@ -1033,157 +1043,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/19/105-javascript    this 和= 经典面试题 /">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/19/105-javascript    this 和= 经典面试题 /" itemprop="url">
-                  javascript经典面试题理解this
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-19T12:36:00+08:00">
-                2016-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="javascript-this-经典面试题"><a href="#javascript-this-经典面试题" class="headerlink" title="javascript    this  经典面试题"></a>javascript    this  经典面试题</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"1"</span>);&#125;;<span class="comment">//这个不属于Foo的属性</span></div><div class="line">       <span class="keyword">return</span> <span class="keyword">this</span> ;</div><div class="line"> <span class="comment">//如果作为构造函数，那么返回的this就是实例化对象，</span></div><div class="line"> <span class="comment">//如果作为函数直接执行，那么返回的this就是全局的window对象</span></div><div class="line">   &#125;</div><div class="line">   Foo.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"2"</span>); &#125;;</div><div class="line">   Foo.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">"3"</span>);&#125;;</div><div class="line">   <span class="keyword">var</span> getName =<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"4"</span>);&#125;;</div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"5"</span>);&#125;;</div></pre></td></tr></table></figure>
-<p>预解析之后</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> getName;<span class="comment">//只提升变量声明</span></div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"5"</span>);&#125;;<span class="comment">//提升函数声明，覆盖变量var声明</span></div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"1"</span>);&#125;;<span class="comment">//这个不属于Foo的属性</span></div><div class="line">       <span class="keyword">return</span> <span class="keyword">this</span> ;<span class="comment">//如果作为构造函数，那么返回的this就是实例化对象，如果作为函数直接执行，那么返回的this就是全局的window对象</span></div><div class="line">   &#125;</div><div class="line">   Foo.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"2"</span>); &#125;;</div><div class="line">   Foo.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">"3"</span>);&#125;;</div><div class="line">   getName =<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"4"</span>);&#125;;</div></pre></td></tr></table></figure>
-<p>可以在控制台输出看下数据结构</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.dir(Foo);</div><div class="line"><span class="keyword">var</span> res = Foo.getName();<span class="comment">//注意没有返回值，如果将Foo看成对象，</span></div><div class="line"><span class="built_in">console</span>.log(res);</div></pre></td></tr></table></figure>
-<p>看下面的求值过程</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"> 	Foo.getName();<span class="comment">//2</span></div><div class="line">    getName();<span class="comment">//4</span></div><div class="line">    Foo().getName();</div><div class="line"><span class="comment">//1 先执行了Foo()  函数，Foo函数第一句，getName没有用var声明，改变了输出4的getName,变为输出1</span></div><div class="line"><span class="comment">//2 第二句 返回了this,代表当前指向环境的window;相当于执行了 window.getName();</span></div><div class="line">    getName();<span class="comment">//1   直接调用getName ,上面一行代码改变后的结果</span></div><div class="line"></div><div class="line"><span class="comment">//运算符的优先级  ()  &gt; 成员访问 .  &gt; new 操作符</span></div><div class="line">    <span class="keyword">new</span> Foo.getName();<span class="comment">//2     new一个构造函数的时候，构造函数内部的代码会一行一行执行;</span></div><div class="line"><span class="comment">//   等价于 new (Foo.getName)();</span></div><div class="line">    <span class="keyword">new</span> Foo().getName();<span class="comment">//3  Foo作为构造哦函数，没有给实例化的对象添加任何属性，只能去原型上找</span></div><div class="line"><span class="comment">//  等价于 (new Foo()).getName();</span></div><div class="line">    <span class="keyword">new</span> <span class="keyword">new</span> Foo().getName();<span class="comment">//3</span></div><div class="line"><span class="comment">//  等价于  new (new Foo().getName)();</span></div></pre></td></tr></table></figure>
-<p>————————————- = 运算符面试题</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">/*</span></div><div class="line">    面试题</div><div class="line">    */</div><div class="line">    <span class="comment">// 基本类型和引用类型</span></div><div class="line">    <span class="comment">// 引用类型变量和对象属性（在内存实际上就是内存地址）</span></div><div class="line">    <span class="keyword">var</span> a = &#123;<span class="attr">n</span>:<span class="number">1</span>&#125;;</div><div class="line">    <span class="keyword">var</span> b = a;</div><div class="line">    a.x = a = &#123;<span class="attr">n</span>:<span class="number">2</span>&#125;;<span class="comment">//运算符的优先级 .的优先级最高  赋值操作是从右向左运算的</span></div><div class="line">    <span class="built_in">console</span>.log(a.x);<span class="comment">//undefined</span></div><div class="line">    <span class="built_in">console</span>.log(b.x);<span class="comment">//&#123;n:2&#125;</span></div><div class="line"><span class="comment">/*</span></div><div class="line">我们可以先尝试交换下连等赋值顺序（a = a.x = &#123;n: 2&#125;;），可以发现输出不变，即顺序不影响结果。</div><div class="line"></div><div class="line">那么现在来解释对象连等赋值的问题：按照es5规范，题中连等赋值等价于</div><div class="line">a.x = (a = &#123;n: 2&#125;);，按优先获取左引用（lref），然后获取右引用（rref）的顺序，a.x和a中的a都指向了&#123;n: 1&#125;。至此，至关重要或者说最迷惑的一步明确。(a = &#123;n: 2&#125;)执行完成后，变量a指向&#123;n: 2&#125;，并返回&#123;n: 2&#125;;接着执行a.x = &#123;n: 2&#125;，这里的a就是b（指向&#123;n: 1&#125;），所以b.x就指向了&#123;n: 2&#125;。</div><div class="line">*/</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/19/49-underscorejs template模板引擎的使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1299,6 +1158,157 @@
 <p>2 -3 another栗子</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></div><div class="line">        <span class="selector-tag">th</span>,<span class="selector-tag">td</span>&#123;</div><div class="line">            <span class="attribute">padding</span>: <span class="number">5px</span>;</div><div class="line">            <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ccc</span>;</div><div class="line">        &#125;</div><div class="line">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">thead</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">th</span>&gt;</span>序号<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">th</span>&gt;</span>名字<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">th</span>&gt;</span>年龄<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">th</span>&gt;</span>性别<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--定义模版--&gt;</span></div><div class="line"><span class="comment">&lt;!-- 执行js代码  获取解析函数传入的数据 --&gt;</span></div><div class="line"><span class="comment">&lt;!-- 在 &lt;% 写js代码 %&gt; --&gt;</span></div><div class="line"><span class="comment">&lt;!-- 获取值显示在页面当中 &lt;%=属性名称 %&gt; --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/template"</span> <span class="attr">id</span>=<span class="string">"temp"</span>&gt;</span><span class="javascript"></div><div class="line">    &lt;% $.each(list,<span class="function"><span class="keyword">function</span>(<span class="params">index,item</span>)</span>&#123; %&gt;</div><div class="line">    <span class="xml"><span class="comment">&lt;!--model是传入的对象列表，第一个参数是索引，第二个参数是dom对象--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">%=index%</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">%-item.name%</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">%=item.age%</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">%=item.sex%</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">%</span> &#125;); %&gt;</span></div><div class="line"></span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../lib/jquery/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../lib/underscore/underscore-min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></div><div class="line">        $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> data = [</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">name</span>:<span class="string">'小明1'</span>,</div><div class="line">                    <span class="attr">age</span>:<span class="number">18</span>,</div><div class="line">                    <span class="attr">sex</span>:<span class="string">'女'</span></div><div class="line">                &#125;,</div><div class="line">                &#123;</div><div class="line">                    <span class="attr">name</span>:<span class="string">'小明1'</span>,</div><div class="line">                    <span class="attr">age</span>:<span class="number">18</span>,</div><div class="line">                    <span class="attr">sex</span>:<span class="string">'女'</span></div><div class="line">                &#125;,           </div><div class="line">            ];</div><div class="line">            <span class="keyword">var</span> templateStr = $(<span class="string">'#temp'</span>).html();<span class="comment">//不写内容代表获取对象中的内容，返回是一个字符</span></div><div class="line">            <span class="comment">// 将获取到的模板字符串转化成模板函数，模板函数可以多次调用</span></div><div class="line">            <span class="keyword">var</span> templateFuc = _.template(templateStr);</div><div class="line">            <span class="keyword">var</span> htmlStr = templateFuc(&#123;<span class="attr">list</span>:data&#125;);</div><div class="line">          <span class="comment">//键值对:  m  取值是  data  ,m 作为 值传入 模板函数，代表data这个数据</span></div><div class="line">          <span class="comment">// var HTMLStr = _.template(templateStr,&#123;m:data&#125;)</span></div><div class="line">            <span class="comment">/*5.渲染到页面当中*/</span></div><div class="line"><span class="comment">//            将转化成的字符串渲染到页面中</span></div><div class="line">            $(<span class="string">'tbody'</span>).html(htmlStr);</div><div class="line">        &#125;)</div><div class="line">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 </script></p>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/19/105-javascript    this 和= 经典面试题 /">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/19/105-javascript    this 和= 经典面试题 /" itemprop="url">
+                  javascript经典面试题理解this
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-19T12:36:00+08:00">
+                2016-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="javascript-this-经典面试题"><a href="#javascript-this-经典面试题" class="headerlink" title="javascript    this  经典面试题"></a>javascript    this  经典面试题</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"1"</span>);&#125;;<span class="comment">//这个不属于Foo的属性</span></div><div class="line">       <span class="keyword">return</span> <span class="keyword">this</span> ;</div><div class="line"> <span class="comment">//如果作为构造函数，那么返回的this就是实例化对象，</span></div><div class="line"> <span class="comment">//如果作为函数直接执行，那么返回的this就是全局的window对象</span></div><div class="line">   &#125;</div><div class="line">   Foo.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"2"</span>); &#125;;</div><div class="line">   Foo.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">"3"</span>);&#125;;</div><div class="line">   <span class="keyword">var</span> getName =<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"4"</span>);&#125;;</div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"5"</span>);&#125;;</div></pre></td></tr></table></figure>
+<p>预解析之后</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> getName;<span class="comment">//只提升变量声明</span></div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"5"</span>);&#125;;<span class="comment">//提升函数声明，覆盖变量var声明</span></div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"1"</span>);&#125;;<span class="comment">//这个不属于Foo的属性</span></div><div class="line">       <span class="keyword">return</span> <span class="keyword">this</span> ;<span class="comment">//如果作为构造函数，那么返回的this就是实例化对象，如果作为函数直接执行，那么返回的this就是全局的window对象</span></div><div class="line">   &#125;</div><div class="line">   Foo.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"2"</span>); &#125;;</div><div class="line">   Foo.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">"3"</span>);&#125;;</div><div class="line">   getName =<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"4"</span>);&#125;;</div></pre></td></tr></table></figure>
+<p>可以在控制台输出看下数据结构</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.dir(Foo);</div><div class="line"><span class="keyword">var</span> res = Foo.getName();<span class="comment">//注意没有返回值，如果将Foo看成对象，</span></div><div class="line"><span class="built_in">console</span>.log(res);</div></pre></td></tr></table></figure>
+<p>看下面的求值过程</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"> 	Foo.getName();<span class="comment">//2</span></div><div class="line">    getName();<span class="comment">//4</span></div><div class="line">    Foo().getName();</div><div class="line"><span class="comment">//1 先执行了Foo()  函数，Foo函数第一句，getName没有用var声明，改变了输出4的getName,变为输出1</span></div><div class="line"><span class="comment">//2 第二句 返回了this,代表当前指向环境的window;相当于执行了 window.getName();</span></div><div class="line">    getName();<span class="comment">//1   直接调用getName ,上面一行代码改变后的结果</span></div><div class="line"></div><div class="line"><span class="comment">//运算符的优先级  ()  &gt; 成员访问 .  &gt; new 操作符</span></div><div class="line">    <span class="keyword">new</span> Foo.getName();<span class="comment">//2     new一个构造函数的时候，构造函数内部的代码会一行一行执行;</span></div><div class="line"><span class="comment">//   等价于 new (Foo.getName)();</span></div><div class="line">    <span class="keyword">new</span> Foo().getName();<span class="comment">//3  Foo作为构造哦函数，没有给实例化的对象添加任何属性，只能去原型上找</span></div><div class="line"><span class="comment">//  等价于 (new Foo()).getName();</span></div><div class="line">    <span class="keyword">new</span> <span class="keyword">new</span> Foo().getName();<span class="comment">//3</span></div><div class="line"><span class="comment">//  等价于  new (new Foo().getName)();</span></div></pre></td></tr></table></figure>
+<p>————————————- = 运算符面试题</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">/*</span></div><div class="line">    面试题</div><div class="line">    */</div><div class="line">    <span class="comment">// 基本类型和引用类型</span></div><div class="line">    <span class="comment">// 引用类型变量和对象属性（在内存实际上就是内存地址）</span></div><div class="line">    <span class="keyword">var</span> a = &#123;<span class="attr">n</span>:<span class="number">1</span>&#125;;</div><div class="line">    <span class="keyword">var</span> b = a;</div><div class="line">    a.x = a = &#123;<span class="attr">n</span>:<span class="number">2</span>&#125;;<span class="comment">//运算符的优先级 .的优先级最高  赋值操作是从右向左运算的</span></div><div class="line">    <span class="built_in">console</span>.log(a.x);<span class="comment">//undefined</span></div><div class="line">    <span class="built_in">console</span>.log(b.x);<span class="comment">//&#123;n:2&#125;</span></div><div class="line"><span class="comment">/*</span></div><div class="line">我们可以先尝试交换下连等赋值顺序（a = a.x = &#123;n: 2&#125;;），可以发现输出不变，即顺序不影响结果。</div><div class="line"></div><div class="line">那么现在来解释对象连等赋值的问题：按照es5规范，题中连等赋值等价于</div><div class="line">a.x = (a = &#123;n: 2&#125;);，按优先获取左引用（lref），然后获取右引用（rref）的顺序，a.x和a中的a都指向了&#123;n: 1&#125;。至此，至关重要或者说最迷惑的一步明确。(a = &#123;n: 2&#125;)执行完成后，变量a指向&#123;n: 2&#125;，并返回&#123;n: 2&#125;;接着执行a.x = &#123;n: 2&#125;，这里的a就是b（指向&#123;n: 1&#125;），所以b.x就指向了&#123;n: 2&#125;。</div><div class="line">*/</div></pre></td></tr></table></figure>
+
           
         
       
@@ -1915,10 +1925,10 @@
             
             
             <div class="site-state-item site-state-categories">
-              
+              <a href="/categories/index.html">
                 <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">分类</span>
-              
+              </a>
             </div>
           
 
@@ -1926,10 +1936,10 @@
             
             
             <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">45</span>
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
-              
+              </a>
             </div>
           
 
