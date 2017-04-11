@@ -270,6 +270,160 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/17/161AngularjsModule/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/17/161AngularjsModule/" itemprop="url">
+                  Angular Js angularModule
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-17T12:36:00+08:00">
+                2016-10-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-Angular/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript Angular</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1 模块的定义</p>
+<p>module是angular中重要的模块组织方式，它提供了将一组内聚的业务组件（controller、service、filter、directive…）封装在一起的能力。这样做可以将代码按照业务领域问题分module的封装，然后利用module的依赖注入其关联的模块内容，使得我们能够更好的”分离关注点“，达到更好的”高内聚低耦合“。”高内聚低耦合“是来自面向对象设计原则。内聚是指模块或者对象内部的完整性，一组紧密联系的逻辑应该被封装在同一模块、对象等代码单元中，而不是分散在各处；耦合则指模块、对象等代码单元之间的依赖程度，如果一个模块的修改，会影响到另一个模块，则说明这两模块之间是相互依赖紧耦合的。</p>
+<p>同时module也是我们angular代码的入口，首先需要声明module，然后才能定义angular中的其他组件元素，如controller、service、filter、directive、config代码块、run代码块等。</p>
+<p>关于module的定义为：angular.module(‘com.ngbook.demo’, [])。关于module函数可以传递3个参数，它们分别为：</p>
+<ol>
+<li>name：模块定义的名称，它应该是一个唯一的必选参数，它会在后边被其他模块注入或者是在ngAPP指令中声明应用程序主模块；</li>
+<li>requires：模块的依赖，它是声明本模块需要依赖的其他模块的参数。特别注意：如果在这里没有声明模块的依赖，则我们是无法在模块中使用依赖模块的任何组件的；它是个可选参数。</li>
+<li>configFn： 模块的启动配置函数，在angular config阶段会调用该函数，对模块中的组件进行实例化对象实例之前的特定配置，如我们常见的对$routeProvider配置应用程序的路由信息。它等同于”module.config“函数，建议用”module.config“函数替换它。这也是个可选参数。</li>
+</ol>
+<p>我们可以打印出来angular全局对象和angular.module()这个方法返回的对象来更深入的了解它们之间的关系</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>mudule submit<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./bower_components/angular/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> &gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">console</span>.dir(angular);</div><div class="line">    <span class="built_in">console</span>.dir(angular.module(<span class="string">"myModule"</span>,[]));</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2 声明module之后，其他组件元素，如controller、service、filter、directive、config代码块、run代码块也就可以在对应的模块上使用了。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/13/101JS中深拷贝和浅拷贝/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2033,154 +2187,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/27/103-template模板/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/27/103-template模板/" itemprop="url">
-                  template
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-27T12:36:00+08:00">
-                2016-09-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="table-表格操作-如何将这些后台传过来的数据动态的添加到table表格里"><a href="#table-表格操作-如何将这些后台传过来的数据动态的添加到table表格里" class="headerlink" title="table 表格操作,如何将这些后台传过来的数据动态的添加到table表格里"></a>table 表格操作,如何将这些后台传过来的数据动态的添加到table表格里</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">border</span> = <span class="string">1</span>&gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span> </div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  	<span class="keyword">var</span> data = [&#123;</div><div class="line">        <span class="attr">id</span> : <span class="number">1</span>,</div><div class="line">        <span class="attr">name</span> : <span class="string">'西游记'</span>,</div><div class="line">        <span class="attr">author</span> : <span class="string">'吴承恩'</span>,</div><div class="line">        <span class="attr">price</span> : <span class="string">'40'</span>,</div><div class="line">        <span class="attr">desc</span> : <span class="string">'佛教与道教的斗争'</span></div><div class="line">    &#125;,&#123;</div><div class="line">        <span class="attr">id</span> : <span class="number">2</span>,</div><div class="line">        <span class="attr">name</span> : <span class="string">'水浒传'</span>,</div><div class="line">        <span class="attr">author</span> : <span class="string">'施耐庵'</span>,</div><div class="line">        <span class="attr">price</span> : <span class="string">'30'</span>,</div><div class="line">        <span class="attr">desc</span> : <span class="string">'草寇与政府的斗争'</span></div><div class="line">    &#125;,&#123;</div><div class="line">        <span class="attr">id</span> : <span class="number">3</span>,</div><div class="line">        <span class="attr">name</span> : <span class="string">'红楼梦'</span>,</div><div class="line">        <span class="attr">author</span> : <span class="string">'曹雪芹'</span>,</div><div class="line">        <span class="attr">price</span> : <span class="string">'60'</span>,</div><div class="line">        <span class="attr">desc</span> : <span class="string">'封建社会的缩影'</span></div><div class="line">    &#125;,&#123;</div><div class="line">        <span class="attr">id</span> : <span class="number">4</span>,</div><div class="line">        <span class="attr">name</span> : <span class="string">'三国演义'</span>,</div><div class="line">        <span class="attr">author</span> : <span class="string">'罗贯中'</span>,</div><div class="line">        <span class="attr">price</span> : <span class="string">'30'</span>,</div><div class="line">        <span class="attr">desc</span> : <span class="string">'一个杀伐纷争的年代'</span></div><div class="line">    &#125;];</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line">//一般传过来的是JSON数据，然后需要进行转化，JSON.stringify(data)方法转化为对象</div></pre></td></tr></table></figure>
-<p>1 动态创建表格</p>
-<p>1.1 innerHTML    数组和字符串</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"> <span class="comment">//--------------------------------------------------</span></div><div class="line">  <span class="comment">//通过字符串，这种方法有一个很大的弊端，就是字符串的不可变性，导致每次都会重新给字符串分配内存空间，特别耗费内存</span></div><div class="line">	<span class="keyword">var</span> table = <span class="built_in">document</span>.querySelector(<span class="string">"table"</span>);</div><div class="line">    <span class="keyword">var</span> str = <span class="string">""</span>;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; data.length ; i++)&#123;</div><div class="line">        <span class="keyword">var</span> item = data[i];</div><div class="line">         <span class="built_in">console</span>.dir(item);</div><div class="line">        str += <span class="string">'&lt;tr&gt;'</span> +</div><div class="line">                <span class="string">'&lt;td&gt;'</span>+item[<span class="string">'id'</span>]+<span class="string">'&lt;/td&gt;'</span> +</div><div class="line">                <span class="string">'&lt;td&gt;'</span>+item[<span class="string">'name'</span>]+<span class="string">'&lt;/td&gt;'</span> +</div><div class="line">                <span class="string">'&lt;td&gt;'</span>+item[<span class="string">'author'</span>]+<span class="string">'&lt;/td&gt;'</span> +</div><div class="line">                <span class="string">'&lt;td&gt;'</span>+item[<span class="string">'price'</span>]+<span class="string">'&lt;/td&gt;'</span> +</div><div class="line">                <span class="string">'&lt;td&gt;'</span>+item[<span class="string">'desc'</span>]+<span class="string">'&lt;/td&gt;'</span> +</div><div class="line">                <span class="string">'&lt;/tr&gt;'</span></div><div class="line">    &#125;</div><div class="line">    table.innerHTML = str ;</div><div class="line"><span class="comment">//-----------------------------------------------------</span></div><div class="line">    <span class="keyword">var</span> table = <span class="built_in">document</span>.querySelector(<span class="string">"table"</span>);</div><div class="line">    <span class="keyword">var</span> arr = [];</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; data.length ; i++)&#123;</div><div class="line">        <span class="keyword">var</span> item = data[i];</div><div class="line">        <span class="built_in">console</span>.dir(item);</div><div class="line">        arr.push(</div><div class="line"></div><div class="line">                <span class="string">'&lt;tr&gt;'</span> +</div><div class="line">                <span class="string">'&lt;td&gt;'</span>+item[<span class="string">'id'</span>]+<span class="string">'&lt;/td&gt;'</span> +</div><div class="line">                <span class="string">'&lt;td&gt;'</span>+item[<span class="string">'name'</span>]+<span class="string">'&lt;/td&gt;'</span> +</div><div class="line">                <span class="string">'&lt;td&gt;'</span>+item[<span class="string">'author'</span>]+<span class="string">'&lt;/td&gt;'</span> +</div><div class="line">                <span class="string">'&lt;td&gt;'</span>+item[<span class="string">'price'</span>]+<span class="string">'&lt;/td&gt;'</span> +</div><div class="line">                <span class="string">'&lt;td&gt;'</span>+item[<span class="string">'desc'</span>]+<span class="string">'&lt;/td&gt;'</span> +</div><div class="line">                <span class="string">'&lt;/tr&gt;'</span></div><div class="line">        )</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> html = arr.join(<span class="string">""</span>);</div><div class="line">    table.innerHTML = html ;</div><div class="line"><span class="comment">//---------------------------------------------------------------</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>1.2 模板引擎创建，传入数据</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"template-native.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">//    模板引擎的使用，第一步，改变script标签的type属性 = text/html  或者text/template，编写模板</span></div><div class="line"><span class="comment">//    第二步，调用模板，传入数据和模板的id</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/template"</span> <span class="attr">id</span>=<span class="string">"tempalteId"</span>&gt;</span><span class="javascript"></span></div><div class="line">    &lt;% <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ;i &lt; list.length; i++)&#123; %&gt;</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></span></div><div class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span> `<span class="tag">&lt;<span class="name">%=list[i].id%</span>&gt;</span>` <span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span> `<span class="tag">&lt;<span class="name">%=list[i].name%</span>&gt;</span>` <span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span> `<span class="tag">&lt;<span class="name">%=list[i].author%</span>&gt;</span> `<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span> `<span class="tag">&lt;<span class="name">%=list[i].price%</span>&gt;</span> `<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>`<span class="tag">&lt;<span class="name">%=list[i].desc%</span>&gt;</span>`<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">    &lt;% &#125; %&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> tepData = &#123; <span class="attr">list</span>: data &#125; <span class="comment">//这个位置要传入对象形式的数据</span></div><div class="line"></div><div class="line">    <span class="keyword">var</span> html = template(<span class="string">"tempalteId"</span>,tepData); <span class="comment">//注意第一个参数传入的是id ,引号勿忘</span></div><div class="line">    <span class="keyword">var</span> table = <span class="built_in">document</span>.querySelector(<span class="string">"table"</span>)</div><div class="line">    table.innerHTML = html;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2230,7 +2236,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">138</span>
+                <span class="site-state-item-count">139</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2252,7 +2258,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
