@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="array," />
+  <meta name="keywords" content="string,replace," />
 
 
 
@@ -97,7 +97,7 @@
 <meta property="og:description" content="字符串的方法总结(注意字符串的不可变性)1 str.charAt(index) : 返回位于index处的字符 ；如果index不在0和str.length-1之间那么返回一个空字符 ；
 2 str.charCodeAt(index): 返回位于index处的字符的Unicode编码，如果index不在0和str.length-1之间，那么返回NaN ；
 3 str.indexOf(searchv">
-<meta property="og:updated_time" content="2017-04-09T10:44:23.048Z">
+<meta property="og:updated_time" content="2017-04-12T13:05:01.512Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="the Methods of String">
 <meta name="twitter:description" content="字符串的方法总结(注意字符串的不可变性)1 str.charAt(index) : 返回位于index处的字符 ；如果index不在0和str.length-1之间那么返回一个空字符 ；
@@ -372,6 +372,8 @@
         <h3 id="字符串的方法总结-注意字符串的不可变性"><a href="#字符串的方法总结-注意字符串的不可变性" class="headerlink" title="字符串的方法总结(注意字符串的不可变性)"></a>字符串的方法总结(注意字符串的不可变性)</h3><p>1 str.charAt(index) : 返回位于index处的<strong>字符</strong> ；如果index不在0和str.length-1之间那么返回一个<strong>空字符</strong> ；</p>
 <p>2 str.charCodeAt(index): 返回位于index处的字符的Unicode编码，如果index不在0和str.length-1之间，那么返回<strong>NaN</strong> ；</p>
 <p>3 str.indexOf(searchvalue,fromindex) : 返回被检索字符串第一次出现的<strong>位置值</strong>，如果找不到返回  <strong>-1,注意对大小写敏感</strong></p>
+<p>stringObject 中的<strong>字符位置</strong>是从 0 开始的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="string">'item?'</span>.indexOf(<span class="string">'?'</span>));<span class="comment">//4</span></div></pre></td></tr></table></figure>
 <p><strong>正则</strong>  str.search(refexp) 不执行全局匹配，返回被检索字符第一次出现的<strong>位置值</strong> 如果找不到，返回-1 ;</p>
 <p>4 str.slice(start,end) <strong>不改变原字符串</strong>，返回一个<strong>新的字符串</strong> ，包括起始位置，不包括end位置，end省略则直到字符串末尾；-1表示最后一个字符；和substr(start,end)  substring(start,stop)效果类似</p>
 <p><strong>注意索引值从0 开始</strong> 包括起始位置字符，不包括结尾的字符</p>
@@ -391,6 +393,8 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">"Jhon Jim"</span>;</div><div class="line"><span class="keyword">var</span> newStr =  str.replace(<span class="regexp">/J/g</span>,<span class="string">'G'</span>)</div><div class="line"><span class="built_in">console</span>.log(str);<span class="comment">//"Jhon Jim"</span></div><div class="line"><span class="built_in">console</span>.log(newStr);<span class="comment">//"Ghon Gim"</span></div></pre></td></tr></table></figure>
 <p>8.2  $ 1,2,3,4……99   表示与正则表达式第1 到99个子表达式相匹配的文本；子表达式是用( )括起来的那部分</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> name = <span class="string">"Doe, John"</span>;</div><div class="line"><span class="keyword">var</span> newName = name.replace(<span class="regexp">/(\w+)\s*, \s*(\w+)/</span>, <span class="string">"$2 $1"</span>);</div><div class="line"><span class="built_in">console</span>.log(newName);<span class="comment">//John Doe</span></div></pre></td></tr></table></figure>
+<p>8.4 如果replace第二个参数没有传递，那么默认传入undefined</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="string">'str'</span>.replace(<span class="string">'r'</span>)); <span class="comment">//stundefined</span></div></pre></td></tr></table></figure>
 <p>9 str.trim( )  方法可以用来去掉字符串中的前面和后面的空格，底层实现</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">String</span>.prototype.trim = <span class="built_in">String</span>.prototype.trim || <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">               <span class="keyword">if</span>(!<span class="keyword">this</span>) <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">               <span class="keyword">return</span> <span class="keyword">this</span>.replace(<span class="regexp">/^\s+|\s+$/g</span>,<span class="string">""</span>);<span class="comment">//使用正则表达式将空格替换为空字符串</span></div><div class="line">           &#125;</div></pre></td></tr></table></figure>
 <p>记住，String 对象的所有属性和方法都可应用于 String 原始值上，因为它们是伪对象。</p>
@@ -423,7 +427,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/array/" rel="tag"># array</a>
+            <a href="/tags/string/" rel="tag"># string</a>
+          
+            <a href="/tags/replace/" rel="tag"># replace</a>
           
         </div>
       
@@ -542,7 +548,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
