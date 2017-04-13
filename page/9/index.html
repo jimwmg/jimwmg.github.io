@@ -468,6 +468,196 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/13/83-HTML本地存储cookies篇/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/13/83-HTML本地存储cookies篇/" itemprop="url">
+                  cookie
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-13T12:36:00+08:00">
+                2016-08-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/http-cookies/" itemprop="url" rel="index">
+                    <span itemprop="name">http cookies</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本地存储cookies篇</p>
+<h3 id="1-HTTP-cookie，通常直接叫做cookie，是客户端用来存储数据的一种选项，它既可以在客户端设置也可以在服务器端设置。cookie会跟随任意HTTP请求一起发送。"><a href="#1-HTTP-cookie，通常直接叫做cookie，是客户端用来存储数据的一种选项，它既可以在客户端设置也可以在服务器端设置。cookie会跟随任意HTTP请求一起发送。" class="headerlink" title="1 HTTP cookie，通常直接叫做cookie，是客户端用来存储数据的一种选项，它既可以在客户端设置也可以在服务器端设置。cookie会跟随任意HTTP请求一起发送。"></a>1 HTTP cookie，通常直接叫做cookie，是客户端用来存储数据的一种选项，它既可以在客户端设置也可以在服务器端设置。cookie会跟随任意HTTP请求一起发送。</h3><p>优点：兼容性好</p>
+<p>缺点：一是增加了网络流量；二则是它的数据容量有限，最多只能存储4KB的数据，浏览器之间各有不同；三是不安全。</p>
+<h3 id="2-cookie的用途及工作原理"><a href="#2-cookie的用途及工作原理" class="headerlink" title="2.cookie的用途及工作原理"></a>2.cookie的用途及工作原理</h3><p>那cookie具体能干什么呢？</p>
+<p>cookie 将信息存储于用户硬盘，因此可以作为全局变量，这是它最大的一个优点。它最根本的用途是 Cookie 能够帮助 Web 站点 <code>保存有关访问者的信息</code> ，以下列举cookie的几种小用途。</p>
+<p>① 保存用户登录信息。这应该是最常用的了。当您访问一个需要登录的界面，例如微博、百度及一些论坛，在登录过后一般都会有类似”下次自动登录”的选项，勾选过后下次就不需要重复验证。这种就可以通过cookie保存用户的id。</p>
+<p>② 创建购物车。购物网站通常把已选物品保存在cookie中，这样可以实现 <code>不同页面</code> 之间 <code>数据的同步</code> (同一个域名下是可以共享cookie的)，同时在提交订单的时候又会把这些cookie传到后台。</p>
+<p>③ 跟踪用户行为。例如百度联盟会通过cookie记录用户的偏好信息，然后向用户推荐个性化推广信息，所以浏览其他网页的时候经常会发现旁边的小广告都是自己最近百度搜过的东西。这是可以禁用的，这也是cookie的缺点之一。</p>
+<p>那么，cookie是怎么起作用的呢？</p>
+<p>在上一节中我们知道 cookie 是存在用户硬盘中，用户每次访问站点时，Web应用程序都可以读取 Cookie 包含的信息。当用户再次访问这个站点时，<strong>浏览器就会在本地硬盘上 查找 与该 URL 相关联的 Cookie 。如果该 Cookie 存在，浏览器就将它添加到 request header的Cookie字段中，与 http请求`一起发送到该站点。</strong></p>
+<p>在开发者工具network可以看到，如果有关该URL的cookie会被添加到请求上</p>
+<p>要注意的是，添加到 request header 中是 浏览器的行为 ，存储在cookie的数据 每次 都会被浏览器 <code>自动</code> 放在http请求中。因此，如果这些数据不是每次都要发给服务器的话，这样做无疑会增加网络流量，这也是cookie的缺点之一。为了避免这点，我们必须考虑什么样的数据才应该放在cookie中，而不是滥用cookie。每次请求都需要携带的信息，最典型的就是 身份验证了，其他的大多信息都不适合放在cookie中。</p>
+<p>cookie流程</p>
+<ol>
+<li>用户在浏览器输入url,发送请求,服务器接受请求</li>
+<li>服务器在响应报文中生成一个Set-Cookie报头,发给客户端</li>
+<li>浏览器取出响应中Set-Cookie中内容,以cookie.txt形式保存在客户端</li>
+<li>如果浏览器继续发送请求,浏览器会在硬盘中找到cookie文件,产生Cookie报头,与HTTP请求一起发送.</li>
+<li>服务器接受含Cookie报头的请求,处理其中的cookie信息,找到对应资源给客户端.</li>
+<li>浏览器每一次请求都会包含已有的cookie.</li>
+</ol>
+<h3 id="3-cookie属性"><a href="#3-cookie属性" class="headerlink" title="3 cookie属性"></a>3 cookie属性</h3><p>name、value 是 cookie 的名和值。domian 、Path 、 Expires/max-age 、Size 、Http 、 Secure等均属cookie的属性。</p>
+<p><strong>domain 和 path</strong></p>
+<p>这两个选项共同决定了cookie能被哪些页面共享。</p>
+<p><strong>domain 参数是用来控制 cookie对「哪个域」有效</strong>，默认为设置 cookie的那个域。这个值可以包含子域，也可以不包含它。如上图的例子，Domain选项中，可以是”.google.com.hk<code>&quot;(不包含子域,表示它对</code>google.com.hk<code>的所有子域都有效)，也可以是&quot;</code>www.google.com.hk”(包含子域)。</p>
+<p>path用来控制cookie发送的指定域的「路径」，默认为”/“，表示指定域下的所有路径都能访问。<strong>它是在域名的基础下，指定可以访问的路径</strong>。例如cookie设置为”<code>domain=.google.com.hk; path=/webhp</code>“，那么只有”<code>.google.com.hk/webhp</code>“及”<code>/webhp</code>“下的任一子目录如”<code>/webhp/aaa</code>“或”<code>/webhp/bbb</code>“会发送cookie信息，而”<code>.google.com.hk</code>“就不会发送，即使它们来自同一个域。</p>
+<h3 id="expries-max-age失效时间"><a href="#expries-max-age失效时间" class="headerlink" title="expries/max-age失效时间"></a>expries/max-age失效时间</h3><p>expries 和 max-age 是用来决定cookie的生命周期的，也就是cookie何时会被删除。</p>
+<p>expries 表示的是失效时间，准确讲是「时刻」，max-age表示的是生效的「时间段」，以「秒」为单位。</p>
+<p>若 <code>max-age</code> 为正值，则表示 cookie 会在 max-age 秒后失效。如例四中设置”max-age=10800;”，也就是生效时间是3个小时，那么 cookie 将在三小时后失效。</p>
+<p>若 <code>max-age</code> 为负值，则cookie将在浏览器会话结束后失效，即 session，max-age的默认值为-1。若 <code>max-age</code> 为0，则表示删除cookie。</p>
+<h3 id="secure"><a href="#secure" class="headerlink" title="secure"></a>secure</h3><p>默认情况为空，不指定 secure 选项，即不论是 http 请求还是 https 请求，均会发送cookie。</p>
+<p>是 cookie 的安全标志，是cookie中唯一的一个非键值对儿的部分。指定后，cookie只有在使用<code>SSL</code>连接（如<code>HTTPS</code>请求或其他安全协议请求的）时才会发送到服务器。</p>
+<h3 id="httponly（即http）"><a href="#httponly（即http）" class="headerlink" title="httponly（即http）"></a>httponly（即http）</h3><p><code>httponly</code>属性是用来限制客户端脚本对cookie的访问。将 cookie 设置成 httponly 可以减轻xss（<a href="http://baike.baidu.com/view/2633667.htm" target="_blank" rel="external">跨站脚本攻击 </a>Cross Site Scripting）攻击的危害，</p>
+<p>防止cookie被窃取，以增强cookie的安全性。（由于cookie中可能存放身份验证信息，放在cookie中容易泄露）</p>
+<p>默认情况是不指定 httponly，即可以通过 js 去访问。</p>
+<p>###4、如何利用以上属性去设置cookie？</p>
+<p><strong>服务器端设置</strong></p>
+<p>服务器通过发送一个名为 Set-Cookie 的HTTP头来创建一个cookie，作为 Response Headers 的一部分。如下图所示，每个Set-Cookie 表示一个 cookie（<strong>如果有多个cookie,需写多个Set-Cookie</strong>），每个属性也是以名/值对的形式（除了secure），属性间以分号加空格隔开。格式如下：</p>
+<p><strong>Set-Cookie: name=value[; expires=GMTDate][; domain=domain][; path=path][; secure]</strong></p>
+<p>只有cookie的名字和值是必需的。</p>
+<p>　　<strong>客户端设置</strong></p>
+<p>客户端设置cookie的格式和Set-Cookie头中使用的格式一样。如下：</p>
+<p><strong>document.cookie = “name=value[; expires=GMTDate][; domain=domain][; path=path][; secure]”</strong></p>
+<p>若想要添加多个cookie，只能重复执行 document.cookie（如上）。这可能和平时写的 js 不太一样，一般重复赋值是会覆盖的，</p>
+<p>但对于cookie，重复执行 document.cookie 并「不覆盖」，而是「添加」（针对「不同名」的）。</p>
+<h3 id="5、cookie的缺点"><a href="#5、cookie的缺点" class="headerlink" title="5、cookie的缺点"></a>5、cookie的缺点</h3><p>安全性：由于cookie在http中是明文传递的，其中包含的数据都可以被他人访问，可能会被篡改、盗用。</p>
+<p>大小限制：cookie的大小限制在4kb左右，不适合大量存储。</p>
+<p>增加流量：cookie每次请求都会被自动添加到Request Header中，无形中增加了流量。cookie信息越大，对服务器请求的时间越长</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/10/153cookie设置-读取-删除操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1929,910 +2119,6 @@ document.write( "当前窗口是否在一个框架中："+b );
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/11/75-MIME类型对应表格/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/11/75-MIME类型对应表格/" itemprop="url">
-                  MINE类型对应表格
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-11T12:36:00+08:00">
-                2016-07-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="MIME类型对应表格"><a href="#MIME类型对应表格" class="headerlink" title="MIME类型对应表格"></a>MIME类型对应表格</h2><h3 id="按照文件扩展名排列的-Mime-类型列表"><a href="#按照文件扩展名排列的-Mime-类型列表" class="headerlink" title="按照文件扩展名排列的 Mime 类型列表"></a>按照文件扩展名排列的 Mime 类型列表</h3><table>
-<thead>
-<tr>
-<th>扩展名</th>
-<th>类型/子类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td>application/octet-stream</td>
-</tr>
-<tr>
-<td>323</td>
-<td>text/h323</td>
-</tr>
-<tr>
-<td>acx</td>
-<td>application/internet-property-stream</td>
-</tr>
-<tr>
-<td>ai</td>
-<td>application/postscript</td>
-</tr>
-<tr>
-<td>aif</td>
-<td>audio/x-aiff</td>
-</tr>
-<tr>
-<td>aifc</td>
-<td>audio/x-aiff</td>
-</tr>
-<tr>
-<td>aiff</td>
-<td>audio/x-aiff</td>
-</tr>
-<tr>
-<td>asf</td>
-<td>video/x-ms-asf</td>
-</tr>
-<tr>
-<td>asr</td>
-<td>video/x-ms-asf</td>
-</tr>
-<tr>
-<td>asx</td>
-<td>video/x-ms-asf</td>
-</tr>
-<tr>
-<td>au</td>
-<td>audio/basic</td>
-</tr>
-<tr>
-<td>avi</td>
-<td>video/x-msvideo</td>
-</tr>
-<tr>
-<td>axs</td>
-<td>application/olescript</td>
-</tr>
-<tr>
-<td>bas</td>
-<td>text/plain</td>
-</tr>
-<tr>
-<td>bcpio</td>
-<td>application/x-bcpio</td>
-</tr>
-<tr>
-<td>bin</td>
-<td>application/octet-stream</td>
-</tr>
-<tr>
-<td>bmp</td>
-<td>image/bmp</td>
-</tr>
-<tr>
-<td>c</td>
-<td>text/plain</td>
-</tr>
-<tr>
-<td>cat</td>
-<td>application/vnd.ms-pkiseccat</td>
-</tr>
-<tr>
-<td>cdf</td>
-<td>application/x-cdf</td>
-</tr>
-<tr>
-<td>cer</td>
-<td>application/x-x509-ca-cert</td>
-</tr>
-<tr>
-<td>class</td>
-<td>application/octet-stream</td>
-</tr>
-<tr>
-<td>clp</td>
-<td>application/x-msclip</td>
-</tr>
-<tr>
-<td>cmx</td>
-<td>image/x-cmx</td>
-</tr>
-<tr>
-<td>cod</td>
-<td>image/cis-cod</td>
-</tr>
-<tr>
-<td>cpio</td>
-<td>application/x-cpio</td>
-</tr>
-<tr>
-<td>crd</td>
-<td>application/x-mscardfile</td>
-</tr>
-<tr>
-<td>crl</td>
-<td>application/pkix-crl</td>
-</tr>
-<tr>
-<td>crt</td>
-<td>application/x-x509-ca-cert</td>
-</tr>
-<tr>
-<td>csh</td>
-<td>application/x-csh</td>
-</tr>
-<tr>
-<td>css</td>
-<td>text/css</td>
-</tr>
-<tr>
-<td>dcr</td>
-<td>application/x-director</td>
-</tr>
-<tr>
-<td>der</td>
-<td>application/x-x509-ca-cert</td>
-</tr>
-<tr>
-<td>dir</td>
-<td>application/x-director</td>
-</tr>
-<tr>
-<td>dll</td>
-<td>application/x-msdownload</td>
-</tr>
-<tr>
-<td>dms</td>
-<td>application/octet-stream</td>
-</tr>
-<tr>
-<td>doc</td>
-<td>application/msword</td>
-</tr>
-<tr>
-<td>dot</td>
-<td>application/msword</td>
-</tr>
-<tr>
-<td>dvi</td>
-<td>application/x-dvi</td>
-</tr>
-<tr>
-<td>dxr</td>
-<td>application/x-director</td>
-</tr>
-<tr>
-<td>eps</td>
-<td>application/postscript</td>
-</tr>
-<tr>
-<td>etx</td>
-<td>text/x-setext</td>
-</tr>
-<tr>
-<td>evy</td>
-<td>application/envoy</td>
-</tr>
-<tr>
-<td>exe</td>
-<td>application/octet-stream</td>
-</tr>
-<tr>
-<td>fif</td>
-<td>application/fractals</td>
-</tr>
-<tr>
-<td>flr</td>
-<td>x-world/x-vrml</td>
-</tr>
-<tr>
-<td>gif</td>
-<td>image/gif</td>
-</tr>
-<tr>
-<td>gtar</td>
-<td>application/x-gtar</td>
-</tr>
-<tr>
-<td>gz</td>
-<td>application/x-gzip</td>
-</tr>
-<tr>
-<td>h</td>
-<td>text/plain</td>
-</tr>
-<tr>
-<td>hdf</td>
-<td>application/x-hdf</td>
-</tr>
-<tr>
-<td>hlp</td>
-<td>application/winhlp</td>
-</tr>
-<tr>
-<td>hqx</td>
-<td>application/mac-binhex40</td>
-</tr>
-<tr>
-<td>hta</td>
-<td>application/hta</td>
-</tr>
-<tr>
-<td>htc</td>
-<td>text/x-component</td>
-</tr>
-<tr>
-<td>htm</td>
-<td>text/html</td>
-</tr>
-<tr>
-<td>html</td>
-<td>text/html</td>
-</tr>
-<tr>
-<td>htt</td>
-<td>text/webviewhtml</td>
-</tr>
-<tr>
-<td>ico</td>
-<td>image/x-icon</td>
-</tr>
-<tr>
-<td>ief</td>
-<td>image/ief</td>
-</tr>
-<tr>
-<td>iii</td>
-<td>application/x-iphone</td>
-</tr>
-<tr>
-<td>ins</td>
-<td>application/x-internet-signup</td>
-</tr>
-<tr>
-<td>isp</td>
-<td>application/x-internet-signup</td>
-</tr>
-<tr>
-<td>jfif</td>
-<td>image/pipeg</td>
-</tr>
-<tr>
-<td>jpe</td>
-<td>image/jpeg</td>
-</tr>
-<tr>
-<td>jpeg</td>
-<td>image/jpeg</td>
-</tr>
-<tr>
-<td>jpg</td>
-<td>image/jpeg</td>
-</tr>
-<tr>
-<td>js</td>
-<td>application/x-javascript</td>
-</tr>
-<tr>
-<td>latex</td>
-<td>application/x-latex</td>
-</tr>
-<tr>
-<td>lha</td>
-<td>application/octet-stream</td>
-</tr>
-<tr>
-<td>lsf</td>
-<td>video/x-la-asf</td>
-</tr>
-<tr>
-<td>lsx</td>
-<td>video/x-la-asf</td>
-</tr>
-<tr>
-<td>lzh</td>
-<td>application/octet-stream</td>
-</tr>
-<tr>
-<td>m13</td>
-<td>application/x-msmediaview</td>
-</tr>
-<tr>
-<td>m14</td>
-<td>application/x-msmediaview</td>
-</tr>
-<tr>
-<td>m3u</td>
-<td>audio/x-mpegurl</td>
-</tr>
-<tr>
-<td>man</td>
-<td>application/x-troff-man</td>
-</tr>
-<tr>
-<td>mdb</td>
-<td>application/x-msaccess</td>
-</tr>
-<tr>
-<td>me</td>
-<td>application/x-troff-me</td>
-</tr>
-<tr>
-<td>mht</td>
-<td>message/rfc822</td>
-</tr>
-<tr>
-<td>mhtml</td>
-<td>message/rfc822</td>
-</tr>
-<tr>
-<td>mid</td>
-<td>audio/mid</td>
-</tr>
-<tr>
-<td>mny</td>
-<td>application/x-msmoney</td>
-</tr>
-<tr>
-<td>mov</td>
-<td>video/quicktime</td>
-</tr>
-<tr>
-<td>movie</td>
-<td>video/x-sgi-movie</td>
-</tr>
-<tr>
-<td>mp2</td>
-<td>video/mpeg</td>
-</tr>
-<tr>
-<td>mp3</td>
-<td>audio/mpeg</td>
-</tr>
-<tr>
-<td>mpa</td>
-<td>video/mpeg</td>
-</tr>
-<tr>
-<td>mpe</td>
-<td>video/mpeg</td>
-</tr>
-<tr>
-<td>mpeg</td>
-<td>video/mpeg</td>
-</tr>
-<tr>
-<td>mpg</td>
-<td>video/mpeg</td>
-</tr>
-<tr>
-<td>mpp</td>
-<td>application/vnd.ms-project</td>
-</tr>
-<tr>
-<td>mpv2</td>
-<td>video/mpeg</td>
-</tr>
-<tr>
-<td>ms</td>
-<td>application/x-troff-ms</td>
-</tr>
-<tr>
-<td>mvb</td>
-<td>application/x-msmediaview</td>
-</tr>
-<tr>
-<td>nws</td>
-<td>message/rfc822</td>
-</tr>
-<tr>
-<td>oda</td>
-<td>application/oda</td>
-</tr>
-<tr>
-<td>p10</td>
-<td>application/pkcs10</td>
-</tr>
-<tr>
-<td>p12</td>
-<td>application/x-pkcs12</td>
-</tr>
-<tr>
-<td>p7b</td>
-<td>application/x-pkcs7-certificates</td>
-</tr>
-<tr>
-<td>p7c</td>
-<td>application/x-pkcs7-mime</td>
-</tr>
-<tr>
-<td>p7m</td>
-<td>application/x-pkcs7-mime</td>
-</tr>
-<tr>
-<td>p7r</td>
-<td>application/x-pkcs7-certreqresp</td>
-</tr>
-<tr>
-<td>p7s</td>
-<td>application/x-pkcs7-signature</td>
-</tr>
-<tr>
-<td>pbm</td>
-<td>image/x-portable-bitmap</td>
-</tr>
-<tr>
-<td>pdf</td>
-<td>application/pdf</td>
-</tr>
-<tr>
-<td>pfx</td>
-<td>application/x-pkcs12</td>
-</tr>
-<tr>
-<td>pgm</td>
-<td>image/x-portable-graymap</td>
-</tr>
-<tr>
-<td>pko</td>
-<td>application/ynd.ms-pkipko</td>
-</tr>
-<tr>
-<td>pma</td>
-<td>application/x-perfmon</td>
-</tr>
-<tr>
-<td>pmc</td>
-<td>application/x-perfmon</td>
-</tr>
-<tr>
-<td>pml</td>
-<td>application/x-perfmon</td>
-</tr>
-<tr>
-<td>pmr</td>
-<td>application/x-perfmon</td>
-</tr>
-<tr>
-<td>pmw</td>
-<td>application/x-perfmon</td>
-</tr>
-<tr>
-<td>pnm</td>
-<td>image/x-portable-anymap</td>
-</tr>
-<tr>
-<td>pot,</td>
-<td>application/vnd.ms-powerpoint</td>
-</tr>
-<tr>
-<td>ppm</td>
-<td>image/x-portable-pixmap</td>
-</tr>
-<tr>
-<td>pps</td>
-<td>application/vnd.ms-powerpoint</td>
-</tr>
-<tr>
-<td>ppt</td>
-<td>application/vnd.ms-powerpoint</td>
-</tr>
-<tr>
-<td>prf</td>
-<td>application/pics-rules</td>
-</tr>
-<tr>
-<td>ps</td>
-<td>application/postscript</td>
-</tr>
-<tr>
-<td>pub</td>
-<td>application/x-mspublisher</td>
-</tr>
-<tr>
-<td>qt</td>
-<td>video/quicktime</td>
-</tr>
-<tr>
-<td>ra</td>
-<td>audio/x-pn-realaudio</td>
-</tr>
-<tr>
-<td>ram</td>
-<td>audio/x-pn-realaudio</td>
-</tr>
-<tr>
-<td>ras</td>
-<td>image/x-cmu-raster</td>
-</tr>
-<tr>
-<td>rgb</td>
-<td>image/x-rgb</td>
-</tr>
-<tr>
-<td>rmi</td>
-<td>audio/mid</td>
-</tr>
-<tr>
-<td>roff</td>
-<td>application/x-troff</td>
-</tr>
-<tr>
-<td>rtf</td>
-<td>application/rtf</td>
-</tr>
-<tr>
-<td>rtx</td>
-<td>text/richtext</td>
-</tr>
-<tr>
-<td>scd</td>
-<td>application/x-msschedule</td>
-</tr>
-<tr>
-<td>sct</td>
-<td>text/scriptlet</td>
-</tr>
-<tr>
-<td>setpay</td>
-<td>application/set-payment-initiation</td>
-</tr>
-<tr>
-<td>setreg</td>
-<td>application/set-registration-initiation</td>
-</tr>
-<tr>
-<td>sh</td>
-<td>application/x-sh</td>
-</tr>
-<tr>
-<td>shar</td>
-<td>application/x-shar</td>
-</tr>
-<tr>
-<td>sit</td>
-<td>application/x-stuffit</td>
-</tr>
-<tr>
-<td>snd</td>
-<td>audio/basic</td>
-</tr>
-<tr>
-<td>spc</td>
-<td>application/x-pkcs7-certificates</td>
-</tr>
-<tr>
-<td>spl</td>
-<td>application/futuresplash</td>
-</tr>
-<tr>
-<td>src</td>
-<td>application/x-wais-source</td>
-</tr>
-<tr>
-<td>sst</td>
-<td>application/vnd.ms-pkicertstore</td>
-</tr>
-<tr>
-<td>stl</td>
-<td>application/vnd.ms-pkistl</td>
-</tr>
-<tr>
-<td>stm</td>
-<td>text/html</td>
-</tr>
-<tr>
-<td>svg</td>
-<td>image/svg+xml</td>
-</tr>
-<tr>
-<td>sv4cpio</td>
-<td>application/x-sv4cpio</td>
-</tr>
-<tr>
-<td>sv4crc</td>
-<td>application/x-sv4crc</td>
-</tr>
-<tr>
-<td>swf</td>
-<td>application/x-shockwave-flash</td>
-</tr>
-<tr>
-<td>t</td>
-<td>application/x-troff</td>
-</tr>
-<tr>
-<td>tar</td>
-<td>application/x-tar</td>
-</tr>
-<tr>
-<td>tcl</td>
-<td>application/x-tcl</td>
-</tr>
-<tr>
-<td>tex</td>
-<td>application/x-tex</td>
-</tr>
-<tr>
-<td>texi</td>
-<td>application/x-texinfo</td>
-</tr>
-<tr>
-<td>texinfo</td>
-<td>application/x-texinfo</td>
-</tr>
-<tr>
-<td>tgz</td>
-<td>application/x-compressed</td>
-</tr>
-<tr>
-<td>tif</td>
-<td>image/tiff</td>
-</tr>
-<tr>
-<td>tiff</td>
-<td>image/tiff</td>
-</tr>
-<tr>
-<td>tr</td>
-<td>application/x-troff</td>
-</tr>
-<tr>
-<td>trm</td>
-<td>application/x-msterminal</td>
-</tr>
-<tr>
-<td>tsv</td>
-<td>text/tab-separated-values</td>
-</tr>
-<tr>
-<td>txt</td>
-<td>text/plain</td>
-</tr>
-<tr>
-<td>uls</td>
-<td>text/iuls</td>
-</tr>
-<tr>
-<td>ustar</td>
-<td>application/x-ustar</td>
-</tr>
-<tr>
-<td>vcf</td>
-<td>text/x-vcard</td>
-</tr>
-<tr>
-<td>vrml</td>
-<td>x-world/x-vrml</td>
-</tr>
-<tr>
-<td>wav</td>
-<td>audio/x-wav</td>
-</tr>
-<tr>
-<td>wcm</td>
-<td>application/vnd.ms-works</td>
-</tr>
-<tr>
-<td>wdb</td>
-<td>application/vnd.ms-works</td>
-</tr>
-<tr>
-<td>wks</td>
-<td>application/vnd.ms-works</td>
-</tr>
-<tr>
-<td>wmf</td>
-<td>application/x-msmetafile</td>
-</tr>
-<tr>
-<td>wps</td>
-<td>application/vnd.ms-works</td>
-</tr>
-<tr>
-<td>wri</td>
-<td>application/x-mswrite</td>
-</tr>
-<tr>
-<td>wrl</td>
-<td>x-world/x-vrml</td>
-</tr>
-<tr>
-<td>wrz</td>
-<td>x-world/x-vrml</td>
-</tr>
-<tr>
-<td>xaf</td>
-<td>x-world/x-vrml</td>
-</tr>
-<tr>
-<td>xbm</td>
-<td>image/x-xbitmap</td>
-</tr>
-<tr>
-<td>xla</td>
-<td>application/vnd.ms-excel</td>
-</tr>
-<tr>
-<td>xlc</td>
-<td>application/vnd.ms-excel</td>
-</tr>
-<tr>
-<td>xlm</td>
-<td>application/vnd.ms-excel</td>
-</tr>
-<tr>
-<td>xls</td>
-<td>application/vnd.ms-excel</td>
-</tr>
-<tr>
-<td>xlt</td>
-<td>application/vnd.ms-excel</td>
-</tr>
-<tr>
-<td>xlw</td>
-<td>application/vnd.ms-excel</td>
-</tr>
-<tr>
-<td>xof</td>
-<td>x-world/x-vrml</td>
-</tr>
-<tr>
-<td>xpm</td>
-<td>image/x-xpixmap</td>
-</tr>
-<tr>
-<td>xwd</td>
-<td>image/x-xwindowdump</td>
-</tr>
-<tr>
-<td>z</td>
-<td>application/x-compress</td>
-</tr>
-<tr>
-<td>zip</td>
-<td>application/zip</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2882,7 +2168,7 @@ document.write( "当前窗口是否在一个框架中："+b );
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">144</span>
+                <span class="site-state-item-count">145</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2904,7 +2190,7 @@ document.write( "当前窗口是否在一个框架中："+b );
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

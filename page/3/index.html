@@ -270,7 +270,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/22/32-HTML5Drag/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/22/31-width  百分比取值相对基准问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -292,8 +292,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/11/22/32-HTML5Drag/" itemprop="url">
-                  html5 Drag
+                <a class="post-title-link" href="/2016/11/22/31-width  百分比取值相对基准问题/" itemprop="url">
+                  width 百分比取值基准
                 </a>
               
             
@@ -332,8 +332,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/html-drag/" itemprop="url" rel="index">
-                    <span itemprop="name">html drag</span>
+                  <a href="/categories/html/" itemprop="url" rel="index">
+                    <span itemprop="name">html</span>
                   </a>
                 </span>
 
@@ -369,27 +369,206 @@
       
         
           
-            <p>1,全屏API:DOM元素支持全屏，HTML5的标准写法是   ele.requestFullScreen( ), 即可使DOM元素全屏；但是由于该方法处于不够完善，所以需要写各个浏览器的兼容代码；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(<span class="keyword">this</span>.webkitRequestFullScreen)&#123;</div><div class="line">     <span class="keyword">this</span>.webkitRequestFullScreen();</div><div class="line">   &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">this</span>.mozRequestFullScreen)&#123;</div><div class="line">     <span class="keyword">this</span>.mozRequestFullScreen();</div><div class="line">   &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">this</span>.requestFullScreen)&#123;</div><div class="line">     <span class="keyword">this</span>.requestFullScreen();</div><div class="line">   &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">this</span>.msRequestFullscreen)&#123;</div><div class="line">     <span class="keyword">this</span>.msRequestFullscreen();</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>2,拖拽API:首先来看有哪些拖放(drag和drop)的事件，如果要是元素可以拖拽，</p>
-<p>首先要给该元素设置  draggable = true 属性，保证该元素可以被拖放.(img标签默认支持拖放，div默认不支持拖放)</p>
-<p>拖拽元素的事件如下：</p>
+            <p>width  百分比取值相对基准问题</p>
+<p>一 ：标准流下，父元素不定位，不浮动，子元素的100% width相对于哪个元素的width进行取值</p>
+<p>二：脱离标准流之后，父元素设置了定位或者浮动之后，子元素的100% width相对于哪个元素的width进行取值</p>
+<p>注意理解：</p>
 <ul>
-<li>ondrag   当拖动元素的时候运行脚本</li>
-<li>ondragstart    当拖动操作开始时候运行脚本</li>
-<li>ondragend   当拖动操作结束的时候运行脚本</li>
+<li><p>当<strong>子元素</strong><code>是</code><strong>标准流</strong>的元素的时候，(包括子元素设置position:relative，也是永远相对于父元素的宽高为基准)</p>
+<p>无论<strong>父元素是否是标准流</strong> 的元素，<strong>子元素</strong>的width和height的百分比取值永远都是<strong>相对于父元素</strong>的;</p>
+</li>
 </ul>
-<p>目标元素的事件如下：</p>
+<p>此时无论父元素是否设置定位，子元素的width height padding margin 通过百分数取值的时候，都是相对于其<strong>直接父元素</strong>。</p>
 <ul>
-<li>ondragover   当元素被拖动至有效拖放目标上方时执行脚本</li>
-<li>ondragenter  当元素被拖动至有效拖动目标时执行脚本</li>
-<li>ondragleave 当元素离开至有效拖放目标是运行脚本</li>
-<li>ondrop  当被拖动元素正在被放下的时候运行脚本</li>
+<li><p>当<strong>子元素</strong><code>不是</code><strong>标准流</strong>的时候，比如子元素设置了position:absolute；</p>
+<p> 此时子元素的宽高百分比设置的时候，百分比的宽高基准是顺着DOM元素往上寻找最近的一个设置了定位了父元素的宽高为基准，如果祖先元素都没有定位的话，那么就是相对于body的宽高；注意position除了static的父元素 ；</p>
+<p>注意<strong>position除了static的父元素</strong> ；</p>
+</li>
+<li><p>其实绝对定位的子元素的  margin  padding  等值的百分比都是相对于顺着DOM节点树向上第一个设置了除了static定位之外的position 的元素的宽度为基准的；</p>
+</li>
+<li><p>% 重点理解：width 是 基于父元素的 width 计算的值<br>height 是基于父元素的 height 计算的值<br>padding 和 margin 的无论上下左右 值 都是基于DOM树节点祖先元素中第一个设置了除了static定位之外的第一个祖先元素的宽度 </p>
+<p>​</p>
+<p>​</p>
+<p>​</p>
+<p>​</p>
+</li>
 </ul>
-<p>注意如果想要使目标元素可以被放进来拖放的元素，因为默认地，无法将数据/元素放置到其他元素中。如果需要设置允许放置，我们必须阻止对元素的默认处理方式。此时需要对目标元素进行处理，调用dragover阻止默认事件 的方法：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">目标元素.ondragover = function(event)&#123;</div><div class="line">		event.preventDefault() ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>3 代码演示</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-cn"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">    <span class="selector-tag">html</span>,</div><div class="line">    <span class="selector-tag">body</span> &#123;</div><div class="line">      <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">    &#125; </div><div class="line">    <span class="selector-tag">body</span> &#123;</div><div class="line">      <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">      <span class="attribute">display</span>: flex;</div><div class="line">      <span class="attribute">justify-content</span>: space-around;</div><div class="line">      <span class="attribute">align-items</span>: center;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">div</span> &#123;</div><div class="line">      <span class="attribute">width</span>: <span class="number">400px</span>;</div><div class="line">      <span class="attribute">height</span>: <span class="number">400px</span>;</div><div class="line">      <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#000</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-class">.left</span> &#123;</div><div class="line">      <span class="attribute">display</span>: flex;</div><div class="line">      <span class="attribute">flex-wrap</span>: wrap;</div><div class="line">      <span class="attribute">justify-content</span>: space-around;</div><div class="line">      <span class="attribute">align-items</span>: center;</div><div class="line">    &#125; </div><div class="line">    <span class="selector-tag">div</span>&gt;<span class="selector-tag">img</span> &#123;</div><div class="line">      <span class="attribute">width</span>: <span class="number">70px</span>;</div><div class="line">      <span class="attribute">height</span>: <span class="number">70px</span>;</div><div class="line">      <span class="attribute">margin</span>: <span class="number">10px</span>;</div><div class="line">      <span class="attribute">background-color</span>: ;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/* 使用css来修改 定义一个 高亮的颜色 */</span> </div><div class="line">    <span class="selector-class">.right</span><span class="selector-class">.active</span> &#123;</div><div class="line">      <span class="attribute">background-color</span>: lightblue;</div><div class="line">    &#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (1).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (2).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (3).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="comment">// .right 盒子 元素移入  颜色高亮 </span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragenter = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// this.style.background = 'lightgray';</span></div><div class="line">    <span class="keyword">this</span>.classList.add(<span class="string">'active'</span>);</div><div class="line">    <span class="comment">// $(this).addClass('active');</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// .right 移出 颜色还原 </span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragleave = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//  颜色 就是 直接设置透明 </span></div><div class="line">    <span class="comment">// this.style.background = 'transparent';</span></div><div class="line">    <span class="comment">// this.style.background = 'rgba(0,0,0,0)';</span></div><div class="line">    <span class="keyword">this</span>.classList.remove(<span class="string">'active'</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 为了能够触发drop 必须设置如下代码,给目标元素设置阻止默认处理方式，允许元素可以被放置</span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragover = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</div><div class="line">    event.preventDefault();</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//  drop  .right盒子绑定</span></div><div class="line">  <span class="comment">//  img 拖拽开始的 时候 保存为 全局变量</span></div><div class="line">  <span class="keyword">var</span> imgs = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.left&gt;img'</span>);</div><div class="line">  <span class="comment">// 当前移动的 img</span></div><div class="line">  <span class="keyword">var</span> moveImg = <span class="literal">undefined</span>;</div><div class="line">  <span class="comment">// 循环绑定，给每个拖拽元素设置拖拽事件，每个元素被拖拽时触发该事件</span></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;imgs.length;i++)&#123;</div><div class="line">    imgs[i].ondragstart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">      <span class="comment">// 保存为全局变量</span></div><div class="line">      moveImg = <span class="keyword">this</span>;</div><div class="line">      <span class="comment">// 打印是否保存</span></div><div class="line">      <span class="built_in">console</span>.log(moveImg);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondrop = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line"><span class="comment">//  moveImg.ondrop = function () &#123;</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'进来了'</span>);</div><div class="line">    <span class="comment">// 将 丢进来的 元素 设置为 子元素 </span></div><div class="line">    <span class="comment">// 获取丢进来的元素 在拖拽img的时候 将当前拖拽的img 存起来获取保存的img</span></div><div class="line">    <span class="comment">// 通过全局变量 moveImg  添加给自己</span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).appendChild(moveImg);</div><div class="line">    <span class="comment">//  还原 自己的颜色</span></div><div class="line">    <span class="keyword">this</span>.classList.remove(<span class="string">'active'</span>) </div><div class="line">  &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/22/30-CSS3 background 背景/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/22/30-CSS3 background 背景/" itemprop="url">
+                  css3 background
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-22T12:36:00+08:00">
+                2016-11-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css3/" itemprop="url" rel="index">
+                    <span itemprop="name">css3</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>CSS3 background-origin clip size 背景</p>
+<p>1 盒子大小大于背景图的大小，如何避免精灵图周边的其他图片显示出来</p>
+<p>一  对于背景色：</p>
+<ul>
+<li><p>background-clip : border-box || padding-box || content-box || text </p>
+<p>定义元素的<strong>背景图像</strong> 从何处开始<strong>向外</strong> 裁剪，默认值是border-box；</p>
+</li>
+<li><p>bakcground-origin : border-box || padding-box || content-box  该属性改变<strong>背景图像</strong> 的填充开始原点，对<strong>背景色</strong> 没有影响</p>
+</li>
+</ul>
+<p>定义元素的<strong>背景图像</strong> 从何处开始填充，即填充开始的原点；默认值是padding-box ；</p>
+<p><strong>注意背景图像必须设置为  no-repeat才会有效果，不然将会完全平铺</strong> </p>
+<ul>
+<li>background-size : auto || length || percentage || cover || container </li>
+</ul>
+<p>该属性值设置背景图像的大小，</p>
+<ul>
+<li>auto是默认值，即背景图像的真实大小，</li>
+<li>length 可以直接设置背景图像的大小，会将背景图像进行压缩 ，</li>
+<li>percentage 以百分比设置背景图像的大小，百分比的基准是盛放背景图像的元素的宽高，而不是背景图像本身尺寸的宽高，</li>
+<li>length和percentage如果只设置一一个值，那么将设置为背景图像的宽度尺寸，第二个值默认auto,根据宽度进行等比缩放；</li>
+<li>cover 会将背景图像进行<strong>等比</strong> 缩小或者放大，使其可以完全覆盖容器 ，此时背景图像可能会溢出；</li>
+<li>container会将背景图像进行<strong>等比</strong>缩小或者放大到宽度或者高度与容器的宽度或者高度一样，使其可以完全在容器内，此时容器可能会有空余空间；</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-tag">div</span>&#123;</div><div class="line">            <span class="attribute">border</span>: <span class="number">10px</span> dashed blue;</div><div class="line">            <span class="attribute">width</span>: <span class="number">150px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">150px</span>;</div><div class="line">            <span class="attribute">background-color</span>: red;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">50px</span> auto  ;</div><div class="line">            <span class="attribute">padding</span>: <span class="number">20px</span>;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">给div依次设置以下属性:</div><div class="line">background-clip: border-box;  //会将背景从border开始向外剪裁</div><div class="line">background-clip: padding-box; //会将背景从padding开始向外剪裁</div><div class="line">background-clip: content-box;  //会将背景从content开始向外剪裁</div><div class="line">注意背景默认是填充border边界的，即以border-box为默认值</div><div class="line">**对于背景色而言，永远都之直接填充包括border-box为边界内部的区域，background-origin对背景色不起作用;</div><div class="line">background-origin:border-box; </div><div class="line">background-origin: padding-box;</div><div class="line">background-origin: content-box;</div></pre></td></tr></table></figure>
+<p>将这三个属性依次设置给div ,效果如下：</p>
+<p><img src="img/back1.jpg" alt="border-box">   <img src="img/back2.jpg" alt="padding-box"></p>
+<p><img src="img/back3.jpg" alt="content-box"></p>
+<p>二 对于背景图像：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">div&#123;</div><div class="line">           border: 10px dashed blue;</div><div class="line">           width: 150px;</div><div class="line">           height: 150px;</div><div class="line">           background-color: red;</div><div class="line">           margin: 50px auto  ;</div><div class="line">           padding: 20px;</div><div class="line">           background: url("img/01.jpg") no-repeat;</div><div class="line"></div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">            /*background-clip: border-box;*/</div><div class="line">            /*background-clip: padding-box;*/</div><div class="line">            /*background-clip: content-box;*/</div><div class="line">和背景色一样，都是向外裁剪，但是需要注意，背景图像填充的时候，默认是以padding-box，即padding左上角为原点进行填充整个div的，也就是说，div的上边框和左边框不会被填充，但是下边框和有边框会被填充，如果想要所有的边框被填充，那么需要设置background-origin:border-box ;</div></pre></td></tr></table></figure>
+<p>三 background属性连写:新版CSS3支持可以写多个背景连写在一起,中间用逗号隔开，最后以分号结尾</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">background: </div><div class="line">url(img/bg1.png) no-repeat left top,</div><div class="line">url(img/bg2.png) no-repeat right top,</div><div class="line">url(img/bg4.png) no-repeat left bottom,</div><div class="line">url(img/bg3.png) no-repeat right bottom,</div><div class="line">url(img/dog.gif) no-repeat center/400px 270px;</div><div class="line">background:none  [0% 0%] /auto repeat  scroll padding-box content-box transparent</div><div class="line">background:image  pisition size repeat attachment origin clip color</div></pre></td></tr></table></figure>
 
           
         
@@ -1269,181 +1448,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/17/174Angular-Js-MVVM-双向数据绑定如何实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/17/174Angular-Js-MVVM-双向数据绑定如何实现/" itemprop="url">
-                  Angular Js MVVM 双向数据绑定如何实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-17T12:36:00+08:00">
-                2016-11-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-我们先来看一个简单的双向数据绑定的demo"><a href="#1-我们先来看一个简单的双向数据绑定的demo" class="headerlink" title="1 我们先来看一个简单的双向数据绑定的demo"></a>1 我们先来看一个简单的双向数据绑定的demo</h3><p>1.1点击按钮，数据的变化会实现在页面上显示出来</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">"myApp"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'myCtrl'</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>  <span class="attr">ng-bind</span> = <span class="string">'count'</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">sapn</span> <span class="attr">ng-click</span> =<span class="string">' increase() '</span> &gt;</span>icrease<span class="tag">&lt;/<span class="name">sapn</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../libs/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> app = angular.module(<span class="string">'myApp'</span>,[]);</div><div class="line">    app.controller(<span class="string">'myCtrl'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.count = <span class="number">1</span> ;</div><div class="line">        $scope.increase = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            $scope.count++;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;])   </div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>1.2 angular底层是如何实现这种数据的双向绑定的呢？(参阅angular沉思录)</p>
-<p>铺垫一点基础知识</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">ng-click</span> = <span class="string">'inc1'</span> <span class="attr">id</span> = <span class="string">'btn'</span>&gt;</span>increase<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> ret = <span class="built_in">document</span>.querySelector(<span class="string">'#btn'</span>).getAttribute(<span class="string">'ng-click'</span>);</div><div class="line">    <span class="built_in">console</span>.log(ret);<span class="comment">//inc1</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> ret);<span class="comment">//string</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">window</span>[ret]);<span class="comment">//function inc1()&#123;&#125;函数</span></div><div class="line">    <span class="built_in">window</span>[ret]();<span class="comment">//inc1被执行了</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">inc1</span> (<span class="params"></span>)</span>&#123;  <span class="comment">//这个相当于给window对象添加一个属性，属性名是 inc1</span></div><div class="line">        counter++ ;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'inc1倍执行了'</span>);</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>two-way binding<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"init()"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">ng-click</span>=<span class="string">"inc"</span>&gt;</span></div><div class="line">    increase 1</div><div class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">ng-click</span>=<span class="string">"inc2"</span>&gt;</span></div><div class="line">    increase 2</div><div class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"color:red"</span> <span class="attr">ng-bind</span>=<span class="string">"counter"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"color:blue"</span> <span class="attr">ng-bind</span>=<span class="string">"counter"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"color:green"</span> <span class="attr">ng-bind</span>=<span class="string">"counter"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line"></div><div class="line">    <span class="comment">/* 数据模型区开始 */</span></div><div class="line">    <span class="keyword">var</span> counter = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">inc</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"1"</span>);</div><div class="line">        counter++;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">inc2</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"2"</span>);</div><div class="line">        counter+=<span class="number">2</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/* 数据模型区结束 */</span></div><div class="line"></div><div class="line">    <span class="comment">/* 绑定关系区开始 */</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        bind();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">bind</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> list = <span class="built_in">document</span>.querySelectorAll(<span class="string">"[ng-click]"</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;list.length; i++) &#123;</div><div class="line">            list[i].onclick = (<span class="function"><span class="keyword">function</span>(<span class="params">index</span>) </span>&#123;</div><div class="line">                <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                    <span class="built_in">window</span>[  list[index].getAttribute(<span class="string">"ng-click"</span>)  ]();<span class="comment">//inc函数会执行</span></div><div class="line">                    apply();</div><div class="line">                &#125;;</div><div class="line">            &#125;)(i);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">apply</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> list = <span class="built_in">document</span>.querySelectorAll(<span class="string">"[ng-bind='counter']"</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;list.length; i++) &#123;</div><div class="line">            list[i].innerHTML = counter;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/* 绑定关系区结束 */</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<h3 id="2-angular中的-apply-digest"><a href="#2-angular中的-apply-digest" class="headerlink" title="2 angular中的\$apply   \$digest"></a>2 angular中的\$apply   \$digest</h3><p>首先我们来看下它们的作用，当我们在angularjs之外的上下文改变了model的时候，如何让angular进行页面的刷新呢？</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span>=<span class="string">"test"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span>=<span class="string">"CounterCtrl"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">myclick</span>&gt;</span>increase<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">ng-bind</span>=<span class="string">"counter"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../libs/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> app = angular.module(<span class="string">"test"</span>, []);</div><div class="line"></div><div class="line">    app.directive(<span class="string">"myclick"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">scope, element, attr</span>) </span>&#123;</div><div class="line">            element.on(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                scope.counter++;</div><div class="line">                <span class="built_in">console</span>.log(scope.counter);</div><div class="line">            &#125;);</div><div class="line">        &#125;;</div><div class="line">    &#125;);</div><div class="line">    app.controller(<span class="string">"CounterCtrl"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>) </span>&#123;</div><div class="line">        $scope.counter = <span class="number">0</span>;</div><div class="line">    &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>这个时候我们是通过javascript处理函数改变了scope的counter值，此时会发现view视图上并不会跟随变化，但是控制打印出来的却是变化了的值。这是因为</p>
-<ul>
-<li>angularjs只负责发生在angularjs上下文中的对于models 的更改会做出自动的回应(也就是$apply方法中对于model的更改orangular内置的其他服务)</li>
-<li>对于angular上下之外的其他地方修改的model,这个时候就需要手动调用$apply来触发一轮\$digest检测</li>
-<li>build-in的一些 ng-event指令以及ng-model $timeout等都会自动触发一次\$digest循环</li>
-</ul>
-<p>以上代码指令自定义可以变成以下三种方式</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">"myclick"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">scope, element, attr</span>) </span>&#123;</div><div class="line">            element.on(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                scope.counter++;</div><div class="line">                scope.$digest();</div><div class="line">              <span class="comment">// scope.$apply(); //不推荐这种写法</span></div><div class="line">                <span class="built_in">console</span>.log(scope.counter);</div><div class="line">            &#125;);</div><div class="line">        &#125;;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
-<p>or</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">"myclick"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">scope, element, attr</span>) </span>&#123;</div><div class="line">            element.on(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                scope.counter++;</div><div class="line"></div><div class="line">               scope.$apply(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                    scope.counter++;</div><div class="line">               &#125;);</div><div class="line">                <span class="built_in">console</span>.log(scope.counter);</div><div class="line">            &#125;);</div><div class="line">        &#125;;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
-<p>此时会发现view视图会随着model的改变实时更新了</p>
-<p>再聚以个栗子</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'myApp'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'myCtrl'</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">ng-modle</span> = <span class="string">'name'</span>&gt;</span>&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'name'</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;age&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../libs/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"> <span class="keyword">var</span> app = angular.module(<span class="string">'myApp'</span>,[]);</div><div class="line">app.controller(<span class="string">'myCtrl'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.setInfo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">           setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">              $scope.$apply(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                  $scope.name = <span class="string">'Jhon'</span>;</div><div class="line">                  $scope.age = <span class="number">19</span>;</div><div class="line">              &#125;)</div><div class="line">           &#125;,<span class="number">2000</span>)</div><div class="line">        &#125;</div><div class="line">        $scope.setInfo();</div><div class="line">    &#125;])</div><div class="line"><span class="comment">//两秒后，会显示修改的scope内容</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">app.controller(<span class="string">'myCtrl'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">      $scope.setInfo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">          setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">              $scope.name = <span class="string">'Jhon'</span>;</div><div class="line">              $scope.age = <span class="number">19</span> ;</div><div class="line">              $scope.$apply();</div><div class="line">          &#125;,<span class="number">2000</span>);</div><div class="line">      &#125;</div><div class="line">      $scope.setInfo();</div><div class="line">      <span class="built_in">console</span>.log($scope);</div><div class="line">  &#125;])</div></pre></td></tr></table></figure>
-<h3 id="3-angular中的-watcher"><a href="#3-angular中的-watcher" class="headerlink" title="3 angular中的 $ watcher"></a>3 angular中的 $ watcher</h3><p>在上面的情况中，我们通过$apply \$digest函数的调用就可以将model模型上的数据变化实时反应在view层上，但是我们有没有思考为什么会model层的改变会实时显示在view层呢？这个时候就是watch的主要作用了当我们写下表达式，比如　<code></code>　的时候，angularjs在幕后为我们做了一件事情，</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$scope.$watch(<span class="string">'somevalue'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">  <span class="comment">//这里实现更新view的逻辑，model层的数据变化实时更新到view层</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>也就是说，底层原理来讲是$watch回调函数的调用来执行的实时的数据更新，那么angularjs是怎么知道什么时候去调用这个回调函数呢？先抛出这个问题，看下这个demo，</p>
-<ul>
-<li>这种情况是scope模型上的数据改变了但是没有触发watch函数的情况，因为我们没有进行脏值检测$digest或者\$apply</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'myApp'</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'myCtrl'</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;age&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../libs/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> app = angular.module(<span class="string">'myApp'</span>,[]);</div><div class="line">    app.controller(<span class="string">'myCtrl'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">      $scope.age = <span class="number">19</span> ;</div><div class="line">      $scope.change = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">          $scope.age++;</div><div class="line">          <span class="built_in">console</span>.log(<span class="string">"1"</span>);</div><div class="line">          <span class="built_in">console</span>.log($scope.age);</div><div class="line">        &#125;,<span class="number">2000</span>)</div><div class="line">      &#125;</div><div class="line">      $scope.change(); </div><div class="line">      $scope.$watch(<span class="string">'age'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);<span class="comment">//看下回调函数的参数</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"age变化触发了我的出现"</span>);</div><div class="line">      &#125;)</div><div class="line">    &#125;])</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>控制台会循环输出　1　和　　age的递增 ；</p>
-<p>这个时候我们就需要思考了？通过什么方式触发$watch呢？修改change函数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$scope.change = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $scope.$apply(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">      $scope.age++ ;</div><div class="line">    &#125;)</div><div class="line">  &#125;,<span class="number">2000</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个时候我们会发现控制台会循环执行watch函数</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/17/165AngularJsService/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1578,6 +1582,185 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">app.value(<span class="string">'someService'</span>, &#123; <span class="attr">property1</span>: value1, <span class="attr">property2</span>: value2&#125;);</div><div class="line"></div><div class="line">app.constant(<span class="string">'anotherService'</span>, <span class="string">'I am a simple string'</span>);</div></pre></td></tr></table></figure>
 <h3 id="decorator-name-decorator"><a href="#decorator-name-decorator" class="headerlink" title="decorator(name, decorator);"></a>decorator(name, decorator);</h3><p>Register a <strong>decorator function</strong> with the <a href="https://docs.angularjs.org/api/auto/service/$injector" target="_blank" rel="external">$injector</a>. A decorator function intercepts the creation of a service, allowing it to override or modify the behavior of the service. The return value of the decorator function may be the original service, or a new service that replaces (or wraps and delegates to) the original service.</p>
 <p>You can find out more about using decorators in the <a href="https://docs.angularjs.org/guide/decorators" target="_blank" rel="external">decorators</a> guide.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/17/174Angular-Js-MVVM-双向数据绑定如何实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/17/174Angular-Js-MVVM-双向数据绑定如何实现/" itemprop="url">
+                  Angular Js MVVM 双向数据绑定如何实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-17T12:36:00+08:00">
+                2016-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-我们先来看一个简单的双向数据绑定的demo"><a href="#1-我们先来看一个简单的双向数据绑定的demo" class="headerlink" title="1 我们先来看一个简单的双向数据绑定的demo"></a>1 我们先来看一个简单的双向数据绑定的demo</h3><p>1.1点击按钮，数据的变化会实现在页面上显示出来</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">"myApp"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'myCtrl'</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>  <span class="attr">ng-bind</span> = <span class="string">'count'</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">sapn</span> <span class="attr">ng-click</span> =<span class="string">' increase() '</span> &gt;</span>icrease<span class="tag">&lt;/<span class="name">sapn</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../libs/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    var app = angular.module('myApp',[]);</div><div class="line">    app.controller('myCtrl',['$scope',function($scope)&#123;</div><div class="line">        $scope.count = 1 ;</div><div class="line">        $scope.increase = function()&#123;</div><div class="line">            $scope.count++;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;])   </div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.2 angular底层是如何实现这种数据的双向绑定的呢？(参阅angular沉思录)</p>
+<p>铺垫一点基础知识</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">ng-click</span> = <span class="string">'inc1'</span> <span class="attr">id</span> = <span class="string">'btn'</span>&gt;</span>increase<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    var ret = document.querySelector('#btn').getAttribute('ng-click');</div><div class="line">    console.log(ret);//inc1</div><div class="line">    console.log(typeof ret);//string</div><div class="line">    console.log(window[ret]);//function inc1()&#123;&#125;函数</div><div class="line">    window[ret]();//inc1被执行了</div><div class="line">    function inc1 ()&#123;  //这个相当于给window对象添加一个属性，属性名是 inc1</div><div class="line">        counter++ ;</div><div class="line">        console.log('inc1倍执行了');</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>two-way binding<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"init()"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">ng-click</span>=<span class="string">"inc"</span>&gt;</span></div><div class="line">    increase 1</div><div class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">ng-click</span>=<span class="string">"inc2"</span>&gt;</span></div><div class="line">    increase 2</div><div class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"color:red"</span> <span class="attr">ng-bind</span>=<span class="string">"counter"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"color:blue"</span> <span class="attr">ng-bind</span>=<span class="string">"counter"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"color:green"</span> <span class="attr">ng-bind</span>=<span class="string">"counter"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line"></div><div class="line">    /* 数据模型区开始 */</div><div class="line">    var counter = 0;</div><div class="line"></div><div class="line">    function inc() &#123;</div><div class="line">        console.log("1");</div><div class="line">        counter++;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    function inc2() &#123;</div><div class="line">        console.log("2");</div><div class="line">        counter+=2;</div><div class="line">    &#125;</div><div class="line">    /* 数据模型区结束 */</div><div class="line"></div><div class="line">    /* 绑定关系区开始 */</div><div class="line">    function init() &#123;</div><div class="line">        bind();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    function bind() &#123;</div><div class="line">        var list = document.querySelectorAll("[ng-click]");</div><div class="line">        for (var i=0; i&lt;list.length; i++) &#123;</div><div class="line">            list[i].onclick = (function(index) &#123;</div><div class="line">                return function() &#123;</div><div class="line">                    window[  list[index].getAttribute("ng-click")  ]();//inc函数会执行</div><div class="line">                    apply();</div><div class="line">                &#125;;</div><div class="line">            &#125;)(i);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    function apply() &#123;</div><div class="line">        var list = document.querySelectorAll("[ng-bind='counter']");</div><div class="line">        for (var i=0; i&lt;list.length; i++) &#123;</div><div class="line">            list[i].innerHTML = counter;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    /* 绑定关系区结束 */</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="2-angular中的-apply-digest"><a href="#2-angular中的-apply-digest" class="headerlink" title="2 angular中的\$apply   \$digest"></a>2 angular中的\$apply   \$digest</h3><p>首先我们来看下它们的作用，当我们在angularjs之外的上下文改变了model的时候，如何让angular进行页面的刷新呢？</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span>=<span class="string">"test"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span>=<span class="string">"CounterCtrl"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">myclick</span>&gt;</span>increase<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">ng-bind</span>=<span class="string">"counter"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../libs/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    var app = angular.module("test", []);</div><div class="line"></div><div class="line">    app.directive("myclick", function() &#123;</div><div class="line">        return function (scope, element, attr) &#123;</div><div class="line">            element.on("click", function() &#123;</div><div class="line">                scope.counter++;</div><div class="line">                console.log(scope.counter);</div><div class="line">            &#125;);</div><div class="line">        &#125;;</div><div class="line">    &#125;);</div><div class="line">    app.controller("CounterCtrl", function($scope) &#123;</div><div class="line">        $scope.counter = 0;</div><div class="line">    &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这个时候我们是通过javascript处理函数改变了scope的counter值，此时会发现view视图上并不会跟随变化，但是控制打印出来的却是变化了的值。这是因为</p>
+<ul>
+<li>angularjs只负责发生在angularjs上下文中的对于models 的更改会做出自动的回应(也就是$apply方法中对于model的更改orangular内置的其他服务)</li>
+<li>对于angular上下之外的其他地方修改的model,这个时候就需要手动调用$apply来触发一轮\$digest检测</li>
+<li>build-in的一些 ng-event指令以及ng-model  $timeout  \$interval 等都会自动触发一次\$digest循环</li>
+</ul>
+<p>$timeout(fn,delay,optional,pass)  第一个参数是执行函数，第二参数是延迟时间，第三个参数是是否进行脏值检测，默认是true,如果设置为false，则model数据的更新不会在视图上同步，pass是传递到执行函数的参数</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'myApp'</span> &gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span>=<span class="string">"myController"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;clock&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../libs/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line"></div><div class="line">    var app = angular.module('myApp',[]);</div><div class="line">    app.controller('myController',['$scope','$timeout',function($scope,$timeout)&#123;</div><div class="line">      var updateClock = function() &#123;</div><div class="line">        $scope.clock = new Date();</div><div class="line">        $timeout(function() &#123;</div><div class="line">          updateClock();</div><div class="line">        &#125;, 1000,false);//如果设置为false，发现不会model数据会更新，但是不会反应在view视图上</div><div class="line"></div><div class="line">        console.log($scope.clock);</div><div class="line">      &#125;;</div><div class="line">      updateClock();</div><div class="line">    &#125;]);</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>$interval(fn,delay,count,optional,pass) 第一个参数是执行函数，第二个参数是延迟时间，第三个参数是fn执行的次数，第四个参数表示是否进行脏值检测，第五个蚕食表示传递的参数</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'myApp'</span> &gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span>=<span class="string">"myController"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;clock.now&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../libs/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    var app = angular.module('myApp',[]);</div><div class="line">    app.controller('myController',['$scope','$interval',function($scope,$interval)&#123;</div><div class="line">      $scope.clock = &#123;</div><div class="line">        now : new Date()</div><div class="line">      &#125;</div><div class="line">      $interval(function()&#123;</div><div class="line">        $scope.clock.now = new Date();</div><div class="line">      &#125;,1000,5);//5表示fn只会循环5次，如果不设置，则会无限循环，后面还可以设置false参数，表示不会进行脏检</div><div class="line"></div><div class="line">    &#125;])</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>以上代码指令自定义可以变成以下三种方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">"myclick"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">scope, element, attr</span>) </span>&#123;</div><div class="line">            element.on(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                scope.counter++;</div><div class="line">                scope.$digest();</div><div class="line">              <span class="comment">// scope.$apply(); //不推荐这种写法</span></div><div class="line">                <span class="built_in">console</span>.log(scope.counter);</div><div class="line">            &#125;);</div><div class="line">        &#125;;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">app.directive(<span class="string">"myclick"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">scope, element, attr</span>) </span>&#123;</div><div class="line">            element.on(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                scope.counter++;</div><div class="line"></div><div class="line">               scope.$apply(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                    scope.counter++;</div><div class="line">               &#125;);</div><div class="line">                <span class="built_in">console</span>.log(scope.counter);</div><div class="line">            &#125;);</div><div class="line">        &#125;;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<p>此时会发现view视图会随着model的改变实时更新了</p>
+<p>再来个栗子</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'myApp'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'myCtrl'</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">ng-modle</span> = <span class="string">'name'</span>&gt;</span>&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span> = <span class="string">'name'</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;age&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../libs/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"> <span class="keyword">var</span> app = angular.module(<span class="string">'myApp'</span>,[]);</div><div class="line">app.controller(<span class="string">'myCtrl'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.setInfo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">           setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">              $scope.$apply(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                  $scope.name = <span class="string">'Jhon'</span>;</div><div class="line">                  $scope.age = <span class="number">19</span>;</div><div class="line">              &#125;)</div><div class="line">           &#125;,<span class="number">2000</span>)</div><div class="line">        &#125;</div><div class="line">        $scope.setInfo();</div><div class="line">    &#125;])</div><div class="line"><span class="comment">//两秒后，会显示修改的scope内容</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">app.controller(<span class="string">'myCtrl'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">      $scope.setInfo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">          setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">              $scope.name = <span class="string">'Jhon'</span>;</div><div class="line">              $scope.age = <span class="number">19</span> ;</div><div class="line">              $scope.$apply();</div><div class="line">          &#125;,<span class="number">2000</span>);</div><div class="line">      &#125;</div><div class="line">      $scope.setInfo();</div><div class="line">      <span class="built_in">console</span>.log($scope);</div><div class="line">  &#125;])</div></pre></td></tr></table></figure>
+<h3 id="3-angular中的-watcher"><a href="#3-angular中的-watcher" class="headerlink" title="3 angular中的 $ watcher"></a>3 angular中的 $ watcher</h3><p>在上面的情况中，我们通过$apply \$digest函数的调用就可以将model模型上的数据变化实时反应在view层上，但是我们有没有思考为什么会model层的改变会实时显示在view层呢？这个时候就是watch的主要作用了当我们写下表达式，比如　<code></code>　的时候，angularjs在幕后为我们做了一件事情，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$scope.$watch(<span class="string">'somevalue'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">  <span class="comment">//这里实现更新view的逻辑，model层的数据变化实时更新到view层</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>也就是说，底层原理来讲是$watch回调函数的调用来执行的实时的数据更新，那么angularjs是怎么知道什么时候去调用这个回调函数呢？先抛出这个问题，看下这个demo，</p>
+<ul>
+<li>这种情况是scope模型上的数据改变了但是没有触发watch函数的情况，因为我们没有进行脏值检测$digest或者\$apply</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'myApp'</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'myCtrl'</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;age&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../libs/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> app = angular.module(<span class="string">'myApp'</span>,[]);</div><div class="line">    app.controller(<span class="string">'myCtrl'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">      $scope.age = <span class="number">19</span> ;</div><div class="line">      $scope.change = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">          $scope.age++;</div><div class="line">          <span class="built_in">console</span>.log(<span class="string">"1"</span>);</div><div class="line">          <span class="built_in">console</span>.log($scope.age);</div><div class="line">        &#125;,<span class="number">2000</span>)</div><div class="line">      &#125;</div><div class="line">      $scope.change(); </div><div class="line">      $scope.$watch(<span class="string">'age'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);<span class="comment">//看下回调函数的参数</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"age变化触发了我的出现"</span>);</div><div class="line">      &#125;)</div><div class="line">    &#125;])</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>控制台会循环输出　1　和　　age的递增 ；</p>
+<p>这个时候我们就需要思考了？通过什么方式触发$watch呢？修改change函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$scope.change = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $scope.$apply(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">      $scope.age++ ;</div><div class="line">    &#125;)</div><div class="line">  &#125;,<span class="number">2000</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个时候我们会发现控制台会循环执行watch函数</p>
 
           
         
@@ -1950,204 +2133,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/10/157AngularJS-Initialization/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/10/157AngularJS-Initialization/" itemprop="url">
-                  Angular Js
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-10T12:36:00+08:00">
-                2016-11-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript-Angular/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript Angular</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1 angularJs初始化应用模块有两种方式</p>
-<p>1.1、绑定初始化，自动加载</p>
-<p>通过绑定来进行angular的初始化，会把js代码侵入到html中。</p>
-<p>ng-app是angular的一个指令，代表一个angular应用（也叫模块）。使用ng-app或ng-app=””来标记一个DOM结点，让框架会自动加载。也就是说，ng-app是可以带属性值的。如果没有ng-app指令将会报错；</p>
-<p>自动初始化流程如下</p>
-<p><strong>ng-app</strong> 指令定义了 AngularJS 应用程序的 <strong>根元素</strong></p>
-<p>AngularJS 在 HTML DOMContentLoaded 事件后会<strong>自动引导</strong>（自动初始化）应用程序。如果找到 ng-app 指令 ， AngularJS 载入<strong>指令中的模块</strong>，然后创建应用的<strong>注入器</strong>，并将 ng-app 作为应用的根<strong>进行编译</strong>。同时，启动应用的时候，会在其子元素范围内构成一个$scope;</p>
-<p>应用的根可以是整个页面，或者页面的一小部分，如果是一小部分会更快编译和执行。</p>
-<p>AngularJS initializes automatically upon <code>DOMContentLoaded</code> event or when the <code>angular.js</code> script is evaluated if at that time <code>document.readyState</code> is set to <code>&#39;complete&#39;</code>. At this point AngularJS looks for the <a href="https://docs.angularjs.org/api/ng/directive/ngApp" target="_blank" rel="external"><code>ngApp</code></a> directive which designates your application root. If the <a href="https://docs.angularjs.org/api/ng/directive/ngApp" target="_blank" rel="external"><code>ngApp</code></a> directive is found then AngularJS will:</p>
-<ul>
-<li>load the module associated with the directive.</li>
-<li>create the application injector</li>
-<li>compile the DOM treating the ngApp directive as the root of the compilation. This allows you to tell it to treat only a portion of the DOM as an AngularJS application.</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">通过控制体controller进行数据绑定</div><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'Demo'</span>&gt;</span> </div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'DemoCtrl'</span>&gt;</span></div><div class="line">    `&#123;&#123;a&#125;&#125;+&#123;&#123;b&#125;&#125; = &#123;&#123;a+b&#125;&#125;`</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="comment">//如果要对angular应用添加控制器，那么必须关联Demo到module模块，如果不关联那么则会提示没有</span></div><div class="line">  <span class="comment">//The controller with the name 'xxx' is not registered.</span></div><div class="line">    angular.module(<span class="string">'Demo'</span>,[]).controller(<span class="string">'DemoCtrl'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.a = <span class="number">1</span> ;</div><div class="line">        $scope.b = <span class="number">2</span> ;</div><div class="line">    &#125;]);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">通过run方法进行数据绑定，这个只能提供全局的变量</div><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'Demo'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> &gt;</span></div><div class="line">    `&#123;&#123;a&#125;&#125;+&#123;&#123;b&#125;&#125; = &#123;&#123;a+b&#125;&#125;`</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> myapp =   angular.module(<span class="string">'Demo'</span>,[]);</div><div class="line">    <span class="built_in">console</span>.log(myapp);</div><div class="line">    myapp.run(<span class="function"><span class="keyword">function</span>(<span class="params">$rootScope</span>)</span>&#123;</div><div class="line">        $rootScope.a = <span class="number">1</span> ;</div><div class="line">        $rootScope.b = <span class="number">2</span> ;</div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">通过ng-init初始化数据</div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span> <span class="attr">ng-init</span>=<span class="string">'name = "Jhon"'</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-bind</span>=<span class="string">"name"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>ng-app指令作用如下</p>
-<p>There are a few things to keep in mind when using <code>ngApp</code>:</p>
-<ul>
-<li>only one AngularJS application can be auto-bootstrapped per HTML document. The first <code>ngApp</code> found in the document will be used to define the root element to auto-bootstrap as an application. To run multiple applications in an HTML document you must manually bootstrap them using <a href="https://docs.angularjs.org/api/ng/function/angular.bootstrap" target="_blank" rel="external"><code>angular.bootstrap</code></a> instead.</li>
-<li>AngularJS applications cannot be nested within each other.</li>
-<li>Do not use a directive that uses <a href="https://docs.angularjs.org/api/ng/service/$compile#transclusion" target="_blank" rel="external">transclusion</a> on the same element as <code>ngApp</code>. This includes directives such as <a href="https://docs.angularjs.org/api/ng/directive/ngIf" target="_blank" rel="external"><code>ngIf</code></a>, <a href="https://docs.angularjs.org/api/ng/directive/ngInclude" target="_blank" rel="external"><code>ngInclude</code></a>and <a href="https://docs.angularjs.org/api/ngRoute/directive/ngView" target="_blank" rel="external"><code>ngView</code></a>. Doing this misplaces the app <a href="https://docs.angularjs.org/api/ng/service/$rootElement" target="_blank" rel="external"><code>$rootElement</code></a> and the app’s <a href="https://docs.angularjs.org/api/auto/service/$injector" target="_blank" rel="external">injector</a>, causing animations to stop working and making the injector inaccessible from outside the app.</li>
-</ul>
-<p>You can specify an <strong>AngularJS module</strong> to be used as the root module for the application. This module will be loaded into the <a href="https://docs.angularjs.org/api/auto/service/$injector" target="_blank" rel="external"><code>$injector</code></a>when the application is bootstrapped. It should contain the application code needed or have dependencies on other modules that will contain the code. See <a href="https://docs.angularjs.org/api/ng/function/angular.module" target="_blank" rel="external"><code>angular.module</code></a> for more information.</p>
-<p>1.2 当同一个页面中包含多个app的时候(不能嵌套)，这个时候angular就不能自动启动应用，需要我们用bootstrp手动启动应用</p>
-<p>手动初始化一个angular应用模块,可以使用angular.bootstrap()，该方法可以初始化一个angularjs应用，注意该方法不会创建模块，我们在将模块作为参数传递之前必须先创建了一个模块或者已经先加载了一个模块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">angular.bootstrap(element, [modules], [config]);</div></pre></td></tr></table></figure>
-<p>其中第一个参数element:是绑定ng-app的dom元素；<br>modules：绑定的模块名字<br>config：附加的配置</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> &gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span> = <span class="string">'DemoCtrl'</span>&gt;</span></div><div class="line">   ` &#123;&#123;a&#125;&#125;+&#123;&#123;b&#125;&#125; = &#123;&#123;a+b&#125;&#125; `</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    angular.module(<span class="string">'Demo'</span>,[]).controller(<span class="string">'DemoCtrl'</span>,[<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</div><div class="line">        $scope.a = <span class="number">1</span> ;</div><div class="line">        $scope.b = <span class="number">2</span> ;</div><div class="line"></div><div class="line">    &#125;]);</div><div class="line">  <span class="comment">//页面加载完毕之后在进行初始化模块</span></div><div class="line">    angular.element(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        angular.bootstrap(<span class="built_in">document</span>,[<span class="string">'Demo'</span>]);</div><div class="line">      	<span class="comment">//angular.bootstrap(document.body,['Demo'])</span></div><div class="line">     <span class="comment">//上面两行代码绑定同一个模块会报错，只能存在一个</span></div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"></div><div class="line">        <span class="comment">// 创建moudle1</span></div><div class="line">        <span class="keyword">var</span> rootMoudle = angular.module(<span class="string">'moudle1'</span>, []);</div><div class="line">        rootMoudle.controller(<span class="string">"controller1"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;$scope.name=<span class="string">"aty"</span>&#125;);</div><div class="line"></div><div class="line">        <span class="comment">// 创建moudle2</span></div><div class="line">        <span class="keyword">var</span> m2 = angular.module(<span class="string">'moudle2'</span>, []);</div><div class="line">        m2.controller(<span class="string">"controller2"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;$scope.name=<span class="string">"aty"</span>&#125;);</div><div class="line">        <span class="comment">// 页面加载完成后,再加载模块</span></div><div class="line">        angular.element(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            angular.bootstrap(<span class="built_in">document</span>.getElementById(<span class="string">"div1"</span>),[<span class="string">"moudle1"</span>]);</div><div class="line">            angular.bootstrap(<span class="built_in">document</span>.getElementById(<span class="string">"div2"</span>),[<span class="string">"moudle2"</span>]);</div><div class="line">          <span class="comment">//绑定不同的模块是可以的</span></div><div class="line">        &#125;);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div1"</span>  <span class="attr">ng-controller</span>=<span class="string">"controller1"</span>&gt;</span>div1:`&#123;&#123;name&#125;&#125;`<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div2"</span>  <span class="attr">ng-controller</span>=<span class="string">"controller2"</span>&gt;</span>div2:`&#123;&#123;name&#125;&#125;`<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>1.3 一个ng-app所在的标签就是一个angular应用，该标签下的所有子标签会被angular编译，不是其子标签的话不会被angular编译</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span> = <span class="string">'app'</span> <span class="attr">ng-controller</span> = <span class="string">'myCtrl'</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>`&#123;&#123;name&#125;&#125;`<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>`&#123;&#123;age&#125;&#125;`<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  </div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>`&#123;&#123;age&#125;&#125;`<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--初始化ng-app，那么ng-app标签下面的子标签就是整个应用，其他的就不是angular应用，然后angular不会编译其余的标签</span></div><div class="line">第二个age不会被angular编译，因此不会被显示19，只会显示&#123;&#123;age&#125;&#125;</div><div class="line">--&gt;</div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> app = angular.module(<span class="string">'app'</span>,[]);</div><div class="line">    app.controller(<span class="string">'myCtrl'</span>,[<span class="string">'$rootScope'</span>,<span class="string">'$scope'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">$scope,$rootScope</span>)</span>&#123;</div><div class="line">        $rootScope.name = <span class="string">"Jhon"</span>;</div><div class="line">        $scope.age = <span class="number">19</span> ;</div><div class="line">    &#125;]);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>1.4注意</p>
-<ul>
-<li><p>ng-app和angular.bootstrap不能同时使用</p>
-</li>
-<li><p>ng-app只能出现一次，所以就只能出现一个angularjs应用，但是angular.bootstrap可以出现多次，但是这种做法是不推荐的</p>
-</li>
-<li><p>二者初始化的一个应用的时候，所在元素的不能有ngIf   ngView  ngInclude指令</p>
-</li>
-<li><p>ng-app所在的标签的就是一个angular应用，该标签下面的所有的子标签都会被angular编译，不是该标签的子标签不会被angular编译</p>
-</li>
-<li><p>初始化angular应用之后可以进行创建模块以及控制器、服务等其他操作</p>
-</li>
-<li><p>初始化的angular应用里面的表达式会被编译，编译之后的表达式会按照angular的规定进行解析，如果没有ng-app指令或者bootstrap手动初始化angular应用，则表达式不会进行运算，将直接显示出来</p>
-</li>
-<li><p>HTML5 允许扩展的（自制的）属性，以 <strong>data-</strong> 开头。<br>AngularJS 属性以 <strong>ng-</strong> 开头，但是您可以使用 <strong>data-ng-</strong> 来让网页对 HTML5 有效。</p>
-</li>
-<li><p>AngularJS 表达式 与 JavaScript 表达式</p>
-<p>类似于 JavaScript 表达式，AngularJS 表达式可以包含字母，操作符，变量。</p>
-<p>与 JavaScript 表达式不同，AngularJS 表达式可以写在 HTML 中。</p>
-<p>与 JavaScript 表达式不同，AngularJS 表达式不支持条件判断，循环及异常。</p>
-<p>与 JavaScript 表达式不同，AngularJS 表达式支持过滤器。</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2197,7 +2182,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">144</span>
+                <span class="site-state-item-count">145</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2219,7 +2204,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -820,6 +820,164 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/15/128NodeJsEvent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/15/128NodeJsEvent/" itemprop="url">
+                  NodeJs Event
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-15T12:36:00+08:00">
+                2017-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1 events事件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//引入events模块并创建eventEmitter对象</span></div><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventEmitter = <span class="keyword">new</span> events.EventEmitter();</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//声明事件函数</span></div><div class="line"><span class="keyword">var</span> eventNameHandle = <span class="function"><span class="keyword">function</span> <span class="title">eventName</span>(<span class="params"></span>)</span>&#123;&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//绑定事件处理程序，并触发执行</span></div><div class="line">eventEmitter.on(<span class="string">'eventName'</span>,eventNameHandle);</div><div class="line">eventEmitter.emit(<span class="string">'eventName'</span>);</div></pre></td></tr></table></figure>
+<p>2 我们可以输出 events 模块  console.log(events); 查看其所包含内容</p>
+<p>events模块只提供了一个对象: events.EventEmitter .该对象的核心就是事件的触发和事件的监听的整体封装；</p>
+<p>events.EventEmitter 对象提供了多个属性，比如on可以绑定事件 emit用于触发事件,当事件触发的时候，注册到这个事件的监听器会被依次调用，事件参数作为回调函数参数传递；</p>
+<p>on(event,listener)   emit(event,arg1,arg2,····)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventsEmitter = <span class="keyword">new</span> events.EventEmitter();</div><div class="line">eventsEmitter.on(<span class="string">"eventName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener1"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.on(<span class="string">"eventName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener2"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line"><span class="comment">//以下给同一个事件注册了两个监听器</span></div><div class="line">eventsEmitter.on(<span class="string">"anotherName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener3"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.emit(<span class="string">'eventName'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line"><span class="comment">//eventsEmitter.emit('anothertName','argone','argtwo');</span></div></pre></td></tr></table></figure>
+<p>once(event,listener)  为指定事件注册一个单次监听器，即监听器最多只能触发一次，触发之后马上解绑</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventsEmitter = <span class="keyword">new</span> events.EventEmitter();</div><div class="line">eventsEmitter.once(<span class="string">"name1"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener4"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.emit(<span class="string">'name1'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line">eventsEmitter.emit(<span class="string">'name1'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line"><span class="comment">//在node终端执行的时候，即使emit了两次，该事件监听器也只执行一次，而on绑定的事件可以多次执行</span></div></pre></td></tr></table></figure>
+<p>addListener(event,listener) 给指定事件添加一个事件监听器，到监听器数组的尾部</p>
+<p>removeListener(event,listener) 删除指定事件的listener，此操作会影响处于被删监听器之后的那些监听器的索引</p>
+<p>listenerCount(emmit,listener)  emmit是 new events.EventEmitter()对象，所有的事件都是通过该对象进行绑定，触发等操作。该方法可以返回指定事件的监听器数量</p>
+<p>listeners(event)  该方法返回某个事件上的监听器所组成的数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> emmit = <span class="keyword">new</span> events.EventEmitter();</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">listener1</span> (<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is listernr1"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">listener2</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is listener2"</span>);</div><div class="line">&#125;</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener1);</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener2);<span class="comment">//给event1注册两个监听器，listenerConut可以得到该事件的监听器数量</span></div><div class="line"><span class="comment">//let count = emmit.listenerCount(emmit,'event1');</span></div><div class="line"><span class="keyword">let</span> count = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter.listenerCount(emmit,<span class="string">'event1'</span>);</div><div class="line"><span class="built_in">console</span>.log(count);<span class="comment">//2</span></div><div class="line"><span class="built_in">console</span>.log(emmit.listeners(<span class="string">'event1'</span>));</div><div class="line"><span class="comment">//[ [Function: listener1], [Function: listener2] ]</span></div><div class="line">emmit.emit(<span class="string">'event1'</span>);</div><div class="line">emmit.removeListener(<span class="string">'event1'</span>,listener1);</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener1);<span class="comment">//这个监听事件被移除，不会再次被触发</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/15/94-apply  call  bind 对比分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -957,164 +1115,6 @@
 <p>bind</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span>(<span class="params">fn, obj</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> fn.apply(obj, <span class="built_in">arguments</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">    <span class="attr">a</span>: <span class="number">20</span>,</div><div class="line">    <span class="attr">getA</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        setTimeout(bind(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</div><div class="line">        &#125;, <span class="keyword">this</span>), <span class="number">1000</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">obj.getA();</div><div class="line"><span class="comment">//---------------------------------</span></div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">    <span class="attr">a</span>: <span class="number">20</span>,</div><div class="line">    <span class="attr">getA</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</div><div class="line">        &#125;.bind(<span class="keyword">this</span>), <span class="number">1000</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="3-this的指向"><a href="#3-this的指向" class="headerlink" title="3  this的指向"></a>3  this的指向</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1 非严格模式下，this默认指向全局对象，call/apply显式指定this参数时也会强制转换参数为对象（如果不是对象）。其中，null/undefined被替换为全局对象，基础类型被转换为包装对象。</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">nsm</span>(<span class="params"></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="keyword">this</span>);&#125;</div><div class="line">    nsm(); <span class="comment">// Window&#123;top: xxxx&#125;</span></div><div class="line">    nsm.call(<span class="literal">null</span>/<span class="literal">undefined</span>); <span class="comment">// Window&#123;top: xxxx&#125;</span></div><div class="line">    nsm.call(<span class="number">1</span>); <span class="comment">// Number &#123;[[PrimitiveValue]]: 1&#125;</span></div><div class="line">    nsm.call(<span class="string">'str'</span>); <span class="comment">// String &#123;0: "s", 1: "t", 2: "r", length: 3, [[PrimitiveValue]]: "str"&#125;</span></div><div class="line">    nsm.call(<span class="literal">true</span>); <span class="comment">// Boolean &#123;[[PrimitiveValue]]: true&#125;</span></div><div class="line"></div><div class="line"><span class="comment">//----------------------------------------------------------------------------------------</span></div><div class="line"></div><div class="line"><span class="comment">//2 严格模式下，this默认为undefined，且call/apply显式指定this参数时也不会有强制转换</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">sm</span>(<span class="params"></span>) </span>&#123;<span class="string">'use strict'</span>; <span class="built_in">console</span>.log(<span class="keyword">this</span>);&#125;</div><div class="line">    sm(); <span class="comment">// undefined</span></div><div class="line">    sm.call(<span class="literal">null</span>); <span class="comment">// null</span></div><div class="line">    sm.call(<span class="literal">undefined</span>); <span class="comment">// undefined</span></div><div class="line">    sm.call(<span class="number">1</span>); <span class="comment">// 1</span></div><div class="line">    sm.call(<span class="string">'str'</span>); <span class="comment">// str</span></div><div class="line">    sm.call(<span class="literal">true</span>); <span class="comment">// true</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/15/128NodeJsEvent/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/15/128NodeJsEvent/" itemprop="url">
-                  NodeJs Event
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-15T12:36:00+08:00">
-                2017-01-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index">
-                    <span itemprop="name">nodejs</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1 events事件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//引入events模块并创建eventEmitter对象</span></div><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventEmitter = <span class="keyword">new</span> events.EventEmitter();</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//声明事件函数</span></div><div class="line"><span class="keyword">var</span> eventNameHandle = <span class="function"><span class="keyword">function</span> <span class="title">eventName</span>(<span class="params"></span>)</span>&#123;&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//绑定事件处理程序，并触发执行</span></div><div class="line">eventEmitter.on(<span class="string">'eventName'</span>,eventNameHandle);</div><div class="line">eventEmitter.emit(<span class="string">'eventName'</span>);</div></pre></td></tr></table></figure>
-<p>2 我们可以输出 events 模块  console.log(events); 查看其所包含内容</p>
-<p>events模块只提供了一个对象: events.EventEmitter .该对象的核心就是事件的触发和事件的监听的整体封装；</p>
-<p>events.EventEmitter 对象提供了多个属性，比如on可以绑定事件 emit用于触发事件,当事件触发的时候，注册到这个事件的监听器会被依次调用，事件参数作为回调函数参数传递；</p>
-<p>on(event,listener)   emit(event,arg1,arg2,····)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventsEmitter = <span class="keyword">new</span> events.EventEmitter();</div><div class="line">eventsEmitter.on(<span class="string">"eventName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener1"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.on(<span class="string">"eventName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener2"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line"><span class="comment">//以下给同一个事件注册了两个监听器</span></div><div class="line">eventsEmitter.on(<span class="string">"anotherName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener3"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.emit(<span class="string">'eventName'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line"><span class="comment">//eventsEmitter.emit('anothertName','argone','argtwo');</span></div></pre></td></tr></table></figure>
-<p>once(event,listener)  为指定事件注册一个单次监听器，即监听器最多只能触发一次，触发之后马上解绑</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventsEmitter = <span class="keyword">new</span> events.EventEmitter();</div><div class="line">eventsEmitter.once(<span class="string">"name1"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener4"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.emit(<span class="string">'name1'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line">eventsEmitter.emit(<span class="string">'name1'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line"><span class="comment">//在node终端执行的时候，即使emit了两次，该事件监听器也只执行一次，而on绑定的事件可以多次执行</span></div></pre></td></tr></table></figure>
-<p>addListener(event,listener) 给指定事件添加一个事件监听器，到监听器数组的尾部</p>
-<p>removeListener(event,listener) 删除指定事件的listener，此操作会影响处于被删监听器之后的那些监听器的索引</p>
-<p>listenerCount(emmit,listener)  emmit是 new events.EventEmitter()对象，所有的事件都是通过该对象进行绑定，触发等操作。该方法可以返回指定事件的监听器数量</p>
-<p>listeners(event)  该方法返回某个事件上的监听器所组成的数组</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> emmit = <span class="keyword">new</span> events.EventEmitter();</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">listener1</span> (<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is listernr1"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">listener2</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is listener2"</span>);</div><div class="line">&#125;</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener1);</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener2);<span class="comment">//给event1注册两个监听器，listenerConut可以得到该事件的监听器数量</span></div><div class="line"><span class="comment">//let count = emmit.listenerCount(emmit,'event1');</span></div><div class="line"><span class="keyword">let</span> count = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter.listenerCount(emmit,<span class="string">'event1'</span>);</div><div class="line"><span class="built_in">console</span>.log(count);<span class="comment">//2</span></div><div class="line"><span class="built_in">console</span>.log(emmit.listeners(<span class="string">'event1'</span>));</div><div class="line"><span class="comment">//[ [Function: listener1], [Function: listener2] ]</span></div><div class="line">emmit.emit(<span class="string">'event1'</span>);</div><div class="line">emmit.removeListener(<span class="string">'event1'</span>,listener1);</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener1);<span class="comment">//这个监听事件被移除，不会再次被触发</span></div></pre></td></tr></table></figure>
 
           
         
@@ -1700,6 +1700,148 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/20/190ES6Promise/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/20/190ES6Promise/" itemprop="url">
+                  ES6-Promise
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-20T12:36:00+08:00">
+                2016-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index">
+                    <span itemprop="name">ES6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/15/129ES6class/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1862,161 +2004,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/13/133ES6Object新词法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/13/133ES6Object新词法/" itemprop="url">
-                  ES6 object 对象新词法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-13T12:36:00+08:00">
-                2016-12-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ES6/" itemprop="url" rel="index">
-                    <span itemprop="name">ES6</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>ES6 Object</p>
-<p>1 对象新词法:允许在声明对象字面量时使用简写语法，来初始化属性变量和函数的定义方法，直接写变量，这时，属性名为变量名, 属性值为变量的值。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span>(<span class="params">name,age,gender</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            name,</div><div class="line">            age,</div><div class="line">            gender,</div><div class="line">            sayHello()&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">'my name is'</span>+<span class="keyword">this</span>.name);</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"><span class="comment">//等价于</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span>(<span class="params">name,age,gender</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">name</span>: name ,</div><div class="line">            <span class="attr">age</span> :age ,</div><div class="line">            <span class="attr">gender</span>: gender,</div><div class="line">            <span class="attr">sayHello</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">'my name is'</span>+<span class="keyword">this</span>.name);</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">let</span> p = getPerson(<span class="string">"Jhon"</span>,<span class="number">18</span>,<span class="string">'man'</span>);</div><div class="line">    <span class="built_in">console</span>.log(p);</div><div class="line">    p.sayHello();</div><div class="line"><span class="comment">//当然了混合这新词法和以前的定义方式定义对象也是可以的</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = <span class="string">'bar'</span>;</div><div class="line"><span class="keyword">var</span> obj = &#123;foo&#125;;</div><div class="line"><span class="comment">//等价于</span></div><div class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">foo</span>:foo&#125;;<span class="comment">//变量名:变量值</span></div></pre></td></tr></table></figure>
-<p>1.1 ES6 允许在声明对象的时候，对象的属性名可以是表达式，同时方法名也可以是表达式;</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//javascript语言中定义对象的属性时候有以下两种方式</span></div><div class="line"><span class="keyword">var</span> obj = &#123; &#125; ;</div><div class="line"><span class="comment">//方式一</span></div><div class="line">obj.foo = <span class="string">'bar'</span>;</div><div class="line"><span class="comment">//方式二</span></div><div class="line">obj[<span class="string">'na'</span>+<span class="string">'me'</span>] = <span class="string">"Jhon"</span>;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//在ES5中声明对象字面量时，只允许用第一种方式声明属性名，在ES6中允许使用第二种表达式的方式声明属性名</span></div><div class="line"><span class="comment">//ES5中</span></div><div class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">foo</span>:<span class="literal">true</span>,<span class="attr">abc</span>:<span class="number">123</span>,<span class="attr">sayHello</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">'hello you'</span>)&#125;&#125;;</div><div class="line"><span class="comment">//ES6中,对象的属性名可以是表达式</span></div><div class="line"><span class="keyword">var</span> property = <span class="string">'foo'</span>;</div><div class="line"><span class="keyword">var</span> obj = &#123;[property]:<span class="literal">true</span>,[<span class="string">'a'</span>+<span class="string">'ba'</span>]:<span class="number">123</span>,[<span class="string">'say'</span>+<span class="string">'Hello'</span>]()&#123;<span class="built_in">console</span>.log(<span class="string">'hello you'</span>)&#125;&#125;</div></pre></td></tr></table></figure>
-<p>1.2 注意一点，对象的<strong>属性名可以是表达式</strong>，但是不能和<strong>简写语法</strong>一起用</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> property = <span class="string">'foo'</span>;</div><div class="line"><span class="keyword">var</span> obj = &#123;[property]&#125; ;<span class="comment">//会报错</span></div></pre></td></tr></table></figure>
-<p>1.3 属性名表达式如果是一个对象的话，默认情况下会转化为对象的字符串表示，属性名会覆盖</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> keyA = &#123;<span class="attr">a</span>: <span class="number">1</span>&#125;;</div><div class="line"><span class="keyword">const</span> keyB = &#123;<span class="attr">b</span>: <span class="number">2</span>&#125;;</div><div class="line"><span class="keyword">const</span> myObject = &#123;</div><div class="line">  [keyA]: <span class="string">'valueA'</span>,</div><div class="line">  [keyB]: <span class="string">'valueB'</span></div><div class="line">&#125;;</div><div class="line">myObject <span class="comment">// Object &#123;[object Object]: "valueB"&#125;</span></div></pre></td></tr></table></figure>
-<p>2 对象超类 super,当类继承或者设置了一个对象的原型<strong> proto </strong> 的时候，该对象的内使用super的时候，super可以理解为指向该对象的 <strong> proto </strong> 属性；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> parent = &#123;</div><div class="line">  foo()&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is parent"</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> child = &#123;</div><div class="line">  foo()&#123;</div><div class="line">    <span class="keyword">super</span>.foo();</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is child"</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(parent);</div><div class="line"><span class="built_in">console</span>.log(child);</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.setPrototypeOf(child,parent);<span class="comment">//改变child对象的 __proto__指向parent</span></div><div class="line">child.foo();<span class="comment">//this is parent   this is child</span></div><div class="line">child.__proto__.foo();<span class="comment">//this is parent</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2066,7 +2053,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">144</span>
+                <span class="site-state-item-count">145</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2088,7 +2075,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
