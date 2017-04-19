@@ -270,7 +270,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/13/28-移动端 touch事件以及事件对象参数解析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/15/151如何实现不同标签页之间的通信/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -292,8 +292,167 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/13/28-移动端 touch事件以及事件对象参数解析/" itemprop="url">
-                  js touch 事件对象参数
+                <a class="post-title-link" href="/2016/08/15/151如何实现不同标签页之间的通信/" itemprop="url">
+                  如何实现不同标签页之间的通信
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-15T12:36:00+08:00">
+                2016-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cookies-storage/" itemprop="url" rel="index">
+                    <span itemprop="name">cookies storage</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1 通过cookie进行通信 </p>
+<p>cookie简单理解就是一种可以让服务器在客户端的硬盘或者内存里面存储少量数据,或者说从客户端硬盘读取数据的技术.</p>
+<p>1.1 cookie可以是<strong>同域之间</strong>的不同标签页进行通信</p>
+<p>假设在域名www.myvirtual1.com有以下文件</p>
+<p>01 cookies.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">document</span>.cookie = <span class="string">"name1=Jhon"</span>;</div><div class="line">    <span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">    d.setDate(d.getDate()+<span class="number">5</span>);</div><div class="line">    <span class="keyword">var</span> expires = d.toUTCString();</div><div class="line">    <span class="built_in">document</span>.cookie = <span class="string">"name2=Jim;expires="</span>+expires;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>02 cookies.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">document</span>.cookie);</div><div class="line">  <span class="comment">//02cookies.html:9 name1=Jhon; name2=Jim; _ga=GA1.1.648196503.1489976857</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1.2 不同域之间的标签页如何通过cookies进行通信呢？由于同源策略的影响，这个时候需要跨域来实现，这个时候需要设置cookie的domain属性</p>
+<p>2 通过localStorage进行通信</p>
+<p>假设在域名www.myvirtual1.com有以下文件</p>
+<p>01localStorage.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"set localStorage"</span> <span class="attr">id</span>=<span class="string">"btn"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">sendMsg</span>(<span class="params">text</span>) </span>&#123;</div><div class="line">        <span class="built_in">window</span>.localStorage.setItem(<span class="string">'msg'</span>,text);</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">document</span>.getElementById(<span class="string">"btn"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">        sendMsg (<span class="string">'message1'</span>);</div><div class="line">    &#125;;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>02localStorage.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">//localstorage的增删改查的监听事件事件会监听</span></div><div class="line">    <span class="built_in">window</span>.addEventListener(<span class="string">'storage'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span>(evt.key===<span class="string">'msg'</span>)</div><div class="line">            <span class="built_in">console</span>.log(evt.newValue);</div><div class="line">    &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>storageEvent事件对象参数有以下常用属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">key  属性用来表示storage存储的键值对属性的键</div><div class="line">oldValue 属性用来表示storage存储的原来的属性值</div><div class="line">newValue 属性用来表示storage存储的原来的属性值</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/13/134HTML5ApplicationCache/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/13/134HTML5ApplicationCache/" itemprop="url">
+                  HTML5 Application Cache
                 </a>
               
             
@@ -332,8 +491,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript-event/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript event</span>
+                  <a href="/categories/HTML5/" itemprop="url" rel="index">
+                    <span itemprop="name">HTML5</span>
                   </a>
                 </span>
 
@@ -369,63 +528,7 @@
       
         
           
-            <p>移动端 touch事件以及事件对象参数解析</p>
-<p>一  :理解<strong>touch事件</strong>对象参数,其实就是事件对象参数新增了额外的几个参数，其中包括:</p>
-<p>TouchEvent :  </p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">- changedTouches   所有改变的触摸点的集合</div><div class="line">- targetTouches  目标元素上方的触摸点的</div><div class="line">- touches 改变的触摸点</div><div class="line">- 这三个对象里面的</div><div class="line">changdTouches:TouchList:</div><div class="line">[0]:Touch</div><div class="line">  &#123;clientX:202.43899536132812</div><div class="line">  clientY:56.097999572753906</div><div class="line">  force:1</div><div class="line">  identifier:0</div><div class="line">  pageX:202.43899536132812</div><div class="line">  pageY:56.097999572753906</div><div class="line">  radiusX:14.02439022064209</div><div class="line">  radiusY:14.02439022064209</div><div class="line">  rotationAngle:0</div><div class="line">  screenX:348</div><div class="line">  screenY:</div><div class="line">  &#125;</div><div class="line">  属性值都是一样的</div></pre></td></tr></table></figure>
-<p>每个事件对象参数可能包含以下两个属性[0] :包含触摸点的信息，length:包含触摸点的数量</p>
-<p>二 : 触摸事件的绑定方法</p>
-<p>走个demo看下效果,注意看控制台的输出：以下列出了一部分TouchEvent的参数</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span></span></div><div class="line">          <span class="attr">content</span>=<span class="string">"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"</span>/&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-class">.box</span> &#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line">            <span class="attribute">background-color</span>: skyblue;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> box = <span class="built_in">document</span>.querySelector(<span class="string">".box"</span>);</div><div class="line">        box.addEventListener(<span class="string">"touchstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"触发了touchstart"</span>);</div><div class="line">            <span class="built_in">console</span>.log(e);</div><div class="line">            <span class="built_in">console</span>.log(e.changedTouches[<span class="number">0</span>]);</div><div class="line"></div><div class="line">        &#125;);</div><div class="line">        box.addEventListener(<span class="string">"touchmove"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line"><span class="comment">//            console.log("触发了touchmove");</span></div><div class="line">            <span class="built_in">console</span>.log(e);</div><div class="line">        &#125;)</div><div class="line">        box.addEventListener(<span class="string">"touchend"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"触发了touchend"</span>);</div><div class="line">            <span class="built_in">console</span>.log(e);</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<ol>
-<li><p>TouchEvent</p>
-</li>
-<li><ol>
-<li><p>altKey:false</p>
-</li>
-<li><p>bubbles:true</p>
-</li>
-<li><p>cancelBubble:false</p>
-</li>
-<li><p>cancelable:true</p>
-</li>
-<li><p><strong>changedTouches:TouchList</strong> </p>
-</li>
-<li><ol>
-<li><p>0:Touch</p>
-</li>
-<li><ol>
-<li>clientX:88</li>
-<li>clientY:157</li>
-<li>force:1</li>
-<li>identifier:0</li>
-<li>pageX:88</li>
-<li>pageY:157</li>
-<li>radiusX:15.333333015441895</li>
-<li>radiusY:15.333333015441895</li>
-<li>rotationAngle:0</li>
-<li>screenX:258</li>
-<li>screenY:275</li>
-<li>target:div.box</li>
-<li><strong>proto</strong>:Touch</li>
-</ol>
-</li>
-<li><p>length:1</p>
-</li>
-</ol>
-</li>
-<li><p>二 Touch事件:每一个Touch事件都对应一个TouchEvent,  只不过可能事件对象参数中的某些数值可能会不一样</p>
-</li>
-<li><p>touchstart   touchmove(move过程持续触发)  touchend</p>
-</li>
-<li><p>touchstart  touchmove  包含changedTouches  targetTouches touches 这三个事件参数，且length不为0 </p>
-</li>
-<li><p>但是 touchend 包含changedTouches   的length不为0 ，targetTouches  touches的length为0 </p>
-</li>
-</ol>
-</li>
-</ol>
-
+            
           
         
       
@@ -615,6 +718,204 @@
 <h3 id="5、cookie的缺点"><a href="#5、cookie的缺点" class="headerlink" title="5、cookie的缺点"></a>5、cookie的缺点</h3><p>安全性：由于cookie在http中是明文传递的，其中包含的数据都可以被他人访问，可能会被篡改、盗用。</p>
 <p>大小限制：cookie的大小限制在4kb左右，不适合大量存储。</p>
 <p>增加流量：cookie每次请求都会被自动添加到Request Header中，无形中增加了流量。cookie信息越大，对服务器请求的时间越长</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/13/28-移动端 touch事件以及事件对象参数解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/13/28-移动端 touch事件以及事件对象参数解析/" itemprop="url">
+                  js touch 事件对象参数
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-13T12:36:00+08:00">
+                2016-08-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-event/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript event</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>移动端 touch事件以及事件对象参数解析</p>
+<p>一  :理解<strong>touch事件</strong>对象参数,其实就是事件对象参数新增了额外的几个参数，其中包括:</p>
+<p>TouchEvent :  </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">- changedTouches   所有改变的触摸点的集合</div><div class="line">- targetTouches  目标元素上方的触摸点的</div><div class="line">- touches 改变的触摸点</div><div class="line">- 这三个对象里面的</div><div class="line">changdTouches:TouchList:</div><div class="line">[0]:Touch</div><div class="line">  &#123;clientX:202.43899536132812</div><div class="line">  clientY:56.097999572753906</div><div class="line">  force:1</div><div class="line">  identifier:0</div><div class="line">  pageX:202.43899536132812</div><div class="line">  pageY:56.097999572753906</div><div class="line">  radiusX:14.02439022064209</div><div class="line">  radiusY:14.02439022064209</div><div class="line">  rotationAngle:0</div><div class="line">  screenX:348</div><div class="line">  screenY:</div><div class="line">  &#125;</div><div class="line">  属性值都是一样的</div></pre></td></tr></table></figure>
+<p>每个事件对象参数可能包含以下两个属性[0] :包含触摸点的信息，length:包含触摸点的数量</p>
+<p>二 : 触摸事件的绑定方法</p>
+<p>走个demo看下效果,注意看控制台的输出：以下列出了一部分TouchEvent的参数</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span></span></div><div class="line">          <span class="attr">content</span>=<span class="string">"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"</span>/&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-class">.box</span> &#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line">            <span class="attribute">background-color</span>: skyblue;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> box = <span class="built_in">document</span>.querySelector(<span class="string">".box"</span>);</div><div class="line">        box.addEventListener(<span class="string">"touchstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"触发了touchstart"</span>);</div><div class="line">            <span class="built_in">console</span>.log(e);</div><div class="line">            <span class="built_in">console</span>.log(e.changedTouches[<span class="number">0</span>]);</div><div class="line"></div><div class="line">        &#125;);</div><div class="line">        box.addEventListener(<span class="string">"touchmove"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line"><span class="comment">//            console.log("触发了touchmove");</span></div><div class="line">            <span class="built_in">console</span>.log(e);</div><div class="line">        &#125;)</div><div class="line">        box.addEventListener(<span class="string">"touchend"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"触发了touchend"</span>);</div><div class="line">            <span class="built_in">console</span>.log(e);</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<ol>
+<li><p>TouchEvent</p>
+</li>
+<li><ol>
+<li><p>altKey:false</p>
+</li>
+<li><p>bubbles:true</p>
+</li>
+<li><p>cancelBubble:false</p>
+</li>
+<li><p>cancelable:true</p>
+</li>
+<li><p><strong>changedTouches:TouchList</strong> </p>
+</li>
+<li><ol>
+<li><p>0:Touch</p>
+</li>
+<li><ol>
+<li>clientX:88</li>
+<li>clientY:157</li>
+<li>force:1</li>
+<li>identifier:0</li>
+<li>pageX:88</li>
+<li>pageY:157</li>
+<li>radiusX:15.333333015441895</li>
+<li>radiusY:15.333333015441895</li>
+<li>rotationAngle:0</li>
+<li>screenX:258</li>
+<li>screenY:275</li>
+<li>target:div.box</li>
+<li><strong>proto</strong>:Touch</li>
+</ol>
+</li>
+<li><p>length:1</p>
+</li>
+</ol>
+</li>
+<li><p>二 Touch事件:每一个Touch事件都对应一个TouchEvent,  只不过可能事件对象参数中的某些数值可能会不一样</p>
+</li>
+<li><p>touchstart   touchmove(move过程持续触发)  touchend</p>
+</li>
+<li><p>touchstart  touchmove  包含changedTouches  targetTouches touches 这三个事件参数，且length不为0 </p>
+</li>
+<li><p>但是 touchend 包含changedTouches   的length不为0 ，targetTouches  touches的length为0 </p>
+</li>
+</ol>
+</li>
+</ol>
 
           
         
@@ -1762,363 +2063,6 @@ document.write( "当前窗口是否在一个框架中："+b );
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/21/27-js jQuery offset scroll client/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/21/27-js jQuery offset scroll client/" itemprop="url">
-                  offset scroll client
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-21T12:36:00+08:00">
-                2016-07-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/html/" itemprop="url" rel="index">
-                    <span itemprop="name">html</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="一-js-offset"><a href="#一-js-offset" class="headerlink" title="一   js   offset"></a>一   js   offset</h3><p>1 :如果父元素没有定位，那么offsetLeft   offsetTop是元素自身<strong>border</strong> 边界左上角相对于<strong>body边界</strong> 的距离  </p>
-<p>2 :如果父元素有定位，那么offsetLeft   offsetTop是元素自身<strong>border</strong> 边界左上角相对于<strong>父元素的border边界</strong> </p>
-<p>3 offsetWidth  offsetHeight 是一个只读属性，该属性的宽高包括  内容区+padding+border；返回它的屏幕尺寸；</p>
-<ul>
-<li>通过ele.offsetWidth ele.offsetHeight可以获取元素的宽高 ; <strong>包括padding值和border值</strong> </li>
-</ul>
-<ul>
-<li>ele.offsetLeft  和  ele.offsetTop  指的是相对于文档或者定位父节点的左边距和上边距，是一个<strong>只读</strong> 属性</li>
-<li>offset系列的属性值是数字类型，只可读，不能设置</li>
-</ul>
-<p>4 所有的HTML元素都有offsetHeight offsetWidth属性，offsetTop  offsetLeft 可以获取当前元素相对于  <strong>文档坐标系统</strong>的x   y   坐标值;</p>
-<ul>
-<li>对于很多元素，都是相对于文档坐标系统的值；</li>
-<li>但是对于<strong>已经定位的元素</strong>的<strong>后代元素和一些其他 元素</strong>(表格元素)，这些属性返回的坐标是相对于祖先元素定位的的而非文档；offsetParent属性指定这些属性所相对的父元素，如果offsetParent为null,这些属性都是文档坐标； </li>
-</ul>
-<h3 id="js-scroll"><a href="#js-scroll" class="headerlink" title="js  scroll"></a>js  scroll</h3><p>1 ele.scrollHeight ele.scrollWidth  用来获取元素的内容的宽高，包括padding,不包括 border(<strong>如果产生了滚动条，则不包括滚动条的宽度</strong>)，是一个<strong>只读</strong> 属性，包括内容区，内边距以及任何溢出的内容，当么有溢出的时候，等于clientHeight he clientWidth ，当有溢出的时候，大于它们；</p>
-<p>2 ele.scrollTop  ele.scorllLeft  用来获取元素自身(比如当元素内容宽高大于元素自身的时候，会产生scroll，经常用来获取body的卷曲距离)内容向上或者向左卷曲出去的距离，也就是元素的内容区相对于滚动条顶部的距离；是一个<strong>可读可写</strong> 的属性；可以设置滚动出去的距离；</p>
-<p>3 如何获取页面的卷曲出去的距离，由于不同的浏览器支持不一样有的支持window.pageXoffset, window.pageYoffset(股和火狐都不支持) 有的支持(html)document.documentElement.scrollLeft  ,document.documentElement.scrollTop(火狐)有的支持(body)document.body.scrollLeft, document.body.scrollTop(谷歌)</p>
-<p>4 封装一个获取相对浏览器窗口偏移的兼容性代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">scrollTop</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="keyword">return</span>  <span class="built_in">window</span>.pageYoffset || <span class="built_in">document</span>.documentElement.scrollTop || <span class="built_in">document</span>.body.scrollTop || <span class="number">0</span> ;</div><div class="line">&#125;</div><div class="line">fuction scrollLeft()&#123;</div><div class="line"> <span class="keyword">return</span> <span class="built_in">window</span>.pageXoffset || <span class="built_in">document</span>.documentElement.scrollLeft || <span class="built_in">document</span>.body.scrollTop || <span class="number">0</span> ;  </div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getScroll</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  	<span class="keyword">return</span>&#123;</div><div class="line">      	<span class="attr">left</span> :  <span class="built_in">window</span>.pageXoffset || <span class="built_in">document</span>.documentElement.scrollLeft || <span class="built_in">document</span>.body.scrollTop || <span class="number">0</span> ;</div><div class="line">	<span class="keyword">return</span> top :  <span class="built_in">window</span>.pageYoffset || <span class="built_in">document</span>.documentElement.scrollTop || <span class="built_in">document</span>.body.scrollTop || <span class="number">0</span> ;</div><div class="line">  	&#125; ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>5 HTML元素并没有像window对象那样的scrollTop( ) 和scrollBy( ) 方法 ；</p>
-<h3 id="js-client"><a href="#js-client" class="headerlink" title="js  client"></a>js  client</h3><p>1 ele.clientHeight  ele.clientWidth  用来获取元素可视区域的宽高，是一个<strong>只读</strong> 属性；<strong>包括padding值，不包括border</strong> ，<strong>不包括滚动条</strong>，对于内联元素只是0 ；</p>
-<p>2 ele.clientTop  ele.clientLeft  用来获取元素的边框的宽度，以像素计；是一个<strong>只读</strong> 属性</p>
-<p>3 如果元素设置了display:none ,不可见，那么无法获取宽高;结果为0；</p>
-<h3 id="Submit"><a href="#Submit" class="headerlink" title="Submit"></a>Submit</h3><ul>
-<li><p>offsetWidth  offsetHeight  获取元素的元素的宽度包括 content+padding+border ,<strong>包括border</strong> ;scrollWidth  scrollHeight  clientWidth clientHeight  获取的元素的宽度仅仅包括content+padding,<strong>不包括border </strong>； </p>
-</li>
-<li><p>offsetTop   offsetLeft  获取<strong>该元素的border外边界</strong> 距离已经定位了了<strong>父元素的border内边界</strong> 的距离，如果没有祖先元素都没有定位，则获取相对于body的边界的距离；scrollLeft  scrollTop  获取元素相对于<strong>滚动条头部</strong> 的距离，clientLeft  clientTop  获取元素的边框的宽度</p>
-</li>
-<li><p>以上所有的属性，只有scrollTop  和 scrollLeft  是一个可读可写的属性，其余仅仅可读 :语法 </p>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ele.scrollTop = number ; ele.scrollLeft  = number ;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ele.scrollTop = <span class="number">5</span>  ;ele.scrollLeft = <span class="number">10</span>;</div></pre></td></tr></table></figure>
-<ul>
-<li>所有获取的结果是一个number类型的数字；设置值的时候也仅仅设置数字；</li>
-</ul>
-<p>注意区分事件对象参数里面的 (都是只读属性)</p>
-<ul>
-<li>offsetX  offsetY(偏移) 获取鼠标点击事件源相对于元素(content+padding)的左上角的坐标值,如果点击在border边界上的话，那么值为负数；</li>
-<li>clientX  clientY 获取事件源相对于浏览器窗口的可视区域(不包括滚动条和工具栏)的左上角的坐标值 pageX pageY也是</li>
-<li>screenX  screenY 获取的是鼠标点击点相对于显示屏的屏幕的左上角的坐标值</li>
-</ul>
-<p><strong>滚动条是浏览器添加的，在内边距和边框之间添加了滚动条</strong></p>
-<h3 id="二-jquery-offset-这是jquery中的一个方法"><a href="#二-jquery-offset-这是jquery中的一个方法" class="headerlink" title="二   jquery  offset( )这是jquery中的一个方法"></a>二   jquery  offset( )这是jquery中的一个方法</h3><p>1 如果不传参数，那么可以获取该元素的距离body边界的距离；</p>
-<p>2 如果传了参数，那么可以设置该元素距离body的边界的距离，</p>
-<p>3 注意，无论该元素的<strong>父元素是否定位</strong> ，都是相对于<strong>body</strong> 边界的距离；这点和js不一样；</p>
-<ul>
-<li>jquery对象.offset( )    ;  该方法有两个整形返回值，一个代表left  一个代表top </li>
-<li>jquery对象.offset().left    jquery对象.offset().top   可以获取left和top的值</li>
-<li>jquery对象.offset( { left : 30 ,top : 20 }  )  可以设置该元素距离body边界的距离；</li>
-</ul>
-<h3 id="jquery中如何获取元素的宽高"><a href="#jquery中如何获取元素的宽高" class="headerlink" title="jquery中如何获取元素的宽高"></a>jquery中如何获取元素的宽高</h3><p>1 height( )只可以获取内容高度，也就是原本设置的height高度值，或者由内容撑开的高度值</p>
-<p>2 innerHeight( ) ,获取的高度包括 padding，不包括边框  </p>
-<p>3 outerHeight( ),获取的高度值包括 padding 和border ，不包括margin,outerHeight(false)，里面默认值是false，当设置为outerHeight(true)的时候，可以获取到margin的值；</p>
-<p>3 width( )  innerWidth( )  outerWidth( )也是一样的道理</p>
-<p>4 如果传入了数值参数，那么可以为元素设置宽高；</p>
-<h3 id="jquery-scroll"><a href="#jquery-scroll" class="headerlink" title="jquery  scroll"></a>jquery  scroll</h3><p>1 $(“selector”).scrollTop( )   、\$(“selector”).scrollLeft( )  不传参数的时候，可以获取该对象 相对滚动条顶部和左侧的偏移</p>
-<p>2 $(“selector”).scrollTop( number)  、 \$(“selector”).scrollLeft(number) 传入参数的话，则代表可以设置相对滚动条顶部和左侧的距离</p>
-<h3 id="三-所有的HTML元素都有scroll-client-offset这三组属性；"><a href="#三-所有的HTML元素都有scroll-client-offset这三组属性；" class="headerlink" title="三  所有的HTML元素都有scroll  client offset这三组属性；"></a>三  所有的HTML元素都有scroll  client offset这三组属性；</h3><p>scrollHeight scrollWidth scrollLeft scrollTop       </p>
-<p>offsetHeight offsetWidth offsetLeft offsetTop  offsetParent</p>
-<p>clientHeight clientWidth clientLeft clientTop </p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/15/140HTML5postMessage/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/15/140HTML5postMessage/" itemprop="url">
-                  HTML5 postMessage
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-15T12:36:00+08:00">
-                2016-07-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/html-HTML5-http/" itemprop="url" rel="index">
-                    <span itemprop="name">html HTML5 http</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1 HTML5新的API允许跨域访问其他页面，postMessage ;语法如下</p>
-<p>发送消息的窗口，通过postMessage API发送消息</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">targetWindow.postMessage(mes,targetOrigin)</div><div class="line"></div><div class="line">targetWindow  指目标窗口，也就是给哪个<span class="built_in">window</span>发消息，是 <span class="built_in">window</span>.frames 属性的成员或者由 <span class="built_in">window</span>.open 方法创建的窗口 </div><div class="line">mes : 是要发送的信息</div><div class="line">targetOrigin : 是  限定  消息接受的域范围，如果不限定可以使用* 字符串参数，指明目标窗口的源，协议+主机+端口号[+URL]，URL会被忽略，所以可以不写，这个参数是为了安全考虑，postMessage()方法只会将message传递给指定窗口，当然如果愿意也可以建参数设置为<span class="string">"*"</span>，这样可以传递给任意窗口，如果要指定和当前窗口同源的话设置为<span class="string">"/"</span>。</div></pre></td></tr></table></figure>
-<p>接受消息的窗口，通过message事件为该窗口注册事件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(e.data);<span class="comment">//传递过来的消息</span></div><div class="line">  <span class="built_in">console</span>.log(e.source);<span class="comment">//发送消息的窗口对象</span></div><div class="line">  <span class="built_in">console</span>.log(e.origin);<span class="comment">//发送消息窗口的源（协议+主机+端口号）</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>2 栗子分析 www.myvirtual1.com   www.myvirtual2.com  是我的两个虚拟主机</p>
-<p>假如在<a href="http://www.myvirtual1.com/post1.html" target="_blank" rel="external">http://www.myvirtual1.com/post1.html</a>  文件内容如下</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Post Message<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"child"</span> <span class="attr">src</span>=<span class="string">"http://www.myvirtual2.com/post2.html"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">id</span>=<span class="string">"btn"</span> <span class="attr">value</span>=<span class="string">"click to send message"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"send"</span> <span class="attr">placeholder</span>=<span class="string">'please input what you want to send anotherwindow'</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>).onclick = sendMessage();</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sendMessage</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> str = <span class="built_in">document</span>.querySelector(<span class="string">'#send'</span>).value;</div><div class="line">    <span class="keyword">var</span> frame = <span class="built_in">window</span>.frames[<span class="number">0</span>];</div><div class="line">    frame.postMessage(str,<span class="string">'http://www.myvirtual2.com'</span>);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"message is sended"</span>);</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p><a href="http://www.myvirtual2.com/post2.html" target="_blank" rel="external">http://www.myvirtual2.com/post2.html</a>  文件内容如下</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!doctype html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="undefined"></span></div><div class="line">        html,body&#123;</div><div class="line">            height:100%;</div><div class="line">            margin:0px;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"this will be changed when you click the button "</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">receiveMessage</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;  <span class="comment">//这个事件在当post1页面发送消息的时候才会触发</span></div><div class="line">            <span class="built_in">console</span>.log(e.data);<span class="comment">//传递过来的消息</span></div><div class="line">            <span class="built_in">console</span>.log(e.source);<span class="comment">//发送消息的窗口对象</span></div><div class="line">            <span class="built_in">console</span>.log(e.origin);<span class="comment">//发送消息窗口的源（协议+主机+端口号）</span></div><div class="line">            <span class="built_in">document</span>.querySelector(<span class="string">'input'</span>).value = e.data;</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        receiveMessage();</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>3 跨域的时候，正常来说由于受同源策略的影响，不同域之间的页面不允许通信，postMessage方法可以跨域发送信息，然后在另外一个页面可以被处理。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2168,7 +2112,7 @@ document.write( "当前窗口是否在一个框架中："+b );
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">145</span>
+                <span class="site-state-item-count">147</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2179,7 +2123,7 @@ document.write( "当前窗口是否在一个框架中："+b );
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2190,7 +2134,7 @@ document.write( "当前窗口是否在一个框架中："+b );
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-count">61</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

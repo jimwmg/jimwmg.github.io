@@ -101,7 +101,7 @@
 二者的路径依赖如何？
 
 如果设置">
-<meta property="og:updated_time" content="2017-03-19T11:04:28.152Z">
+<meta property="og:updated_time" content="2017-04-15T15:16:53.329Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="the config of require js">
 <meta name="twitter:description" content="1 require源码上可以看出来require.js有三个全局变量 require    requirejs 和  define​    define ([ module1,module2····] ,callback) 中的module路径依赖
@@ -340,8 +340,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript-requirejs/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript  requirejs</span>
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
                   </a>
                 </span>
 
@@ -393,6 +393,7 @@
 <h3 id="3-设置baseUrl-看下路径变化"><a href="#3-设置baseUrl-看下路径变化" class="headerlink" title="3 设置baseUrl,看下路径变化"></a>3 设置baseUrl,看下路径变化</h3><p>改变下目录结构</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">pathTest</div><div class="line">- index.html</div><div class="line">- js</div><div class="line">  - main.js</div><div class="line">  - <span class="built_in">require</span>.js</div><div class="line">  - test.js</div><div class="line">  - jq</div><div class="line">	- jquery.js</div></pre></td></tr></table></figure>
 <p>main.js  设置baseUrl </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//源码实现方式</span></div><div class="line"><span class="keyword">if</span> (isBrowser &amp;&amp; !cfg.skipDataMain) &#123;</div><div class="line"></div><div class="line">  eachReverse(scripts(), <span class="function"><span class="keyword">function</span> (<span class="params">script</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!head) &#123;</div><div class="line">      head = script.parentNode;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    dataMain = script.getAttribute(<span class="string">'data-main'</span>);</div><div class="line">    <span class="keyword">if</span> (dataMain) &#123;</div><div class="line"></div><div class="line">      mainScript = dataMain;</div><div class="line"></div><div class="line">      <span class="keyword">if</span> (!cfg.baseUrl) &#123;</div><div class="line"></div><div class="line">        src = mainScript.split(<span class="string">'/'</span>);</div><div class="line">        mainScript = src.pop();</div><div class="line">        subPath = src.length ? src.join(<span class="string">'/'</span>)  + <span class="string">'/'</span> : <span class="string">'./'</span>;</div><div class="line"></div><div class="line">        cfg.baseUrl = subPath;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      mainScript = mainScript.replace(jsSuffixRegExp, <span class="string">''</span>);</div><div class="line"></div><div class="line">      <span class="keyword">if</span> (req.jsExtRegExp.test(mainScript)) &#123;</div><div class="line">        mainScript = dataMain;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      cfg.deps = cfg.deps ? cfg.deps.concat(mainScript) : [mainScript];</div><div class="line"></div><div class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">  <span class="attr">baseUrl</span> : <span class="string">'js/jq'</span></div><div class="line">&#125;)</div><div class="line"><span class="built_in">require</span>([<span class="string">'../test'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">w</span>)</span>&#123;   <span class="comment">//此时如果在想依赖test模块，路径有变化需要向上走一级</span></div><div class="line">    <span class="built_in">console</span>.log(w);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <p>test.js  依赖模块路径以js/jq为准</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'jquery'</span>],<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  <span class="comment">//没有变化</span></div><div class="line">    <span class="keyword">var</span> w = $(<span class="built_in">window</span>).width()</div><div class="line">    <span class="keyword">return</span> w ;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
@@ -543,7 +544,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">145</span>
+                <span class="site-state-item-count">147</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -554,7 +555,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -565,7 +566,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-count">61</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
