@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="JiM-W">
 <meta property="og:description" content="1  函数调用的复杂性，在一个命名空间的概念下
 1234567891011121314151617181920212223 //命名空间的概念下    var M = M || &amp;#123;&amp;#125;;    M.m = M.m || &amp;#123;&amp;#125;;//||找true运算，undefined返回false    M.m.module1 = (function()&amp;#123;//">
-<meta property="og:updated_time" content="2017-04-15T15:53:47.319Z">
+<meta property="og:updated_time" content="2017-04-19T14:21:14.602Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="require js">
 <meta name="twitter:description" content="1  函数调用的复杂性，在一个命名空间的概念下
@@ -380,17 +380,7 @@
 <p>第二种是有依赖的模块 dependencies是一个数组形式的参数，factory函数接受的参数是依赖模块的返回值</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//getWidth.js文件</span></div><div class="line">define([<span class="string">'jquery'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">$</span>)</span>&#123;  <span class="comment">//jquery.js和getWidth.js在同一目录下</span></div><div class="line">   <span class="keyword">var</span> width = $(<span class="built_in">window</span>).width();</div><div class="line">    <span class="keyword">return</span> width;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>3.2 如何导入模块  require([‘module1’,’module2’ ],callback) 传入的依赖必须是一个数组形式存在的，callback是依赖传入完毕之后执行的逻辑;如果模块有返回值，则会直接传递给callback函数的形参，如果函数没有返回值，那么传递的callback形参的值是undefined      文件目录如下 </p>
-<p>test </p>
-<ul>
-<li>index.html</li>
-<li>js<ul>
-<li>require.js</li>
-<li>jquery.js</li>
-<li>main.js    //入口文件</li>
-<li>getWidth.js</li>
-</ul>
-</li>
-</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">test </div><div class="line"></div><div class="line">- index.html</div><div class="line">- js</div><div class="line">  - require.js</div><div class="line">  - jquery.js</div><div class="line">  - main.js    //入口文件</div><div class="line">  - getWidth.js</div></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js  require请求的是模块的路径，因为使用了data-main属性，require默认访问路径是main.js所在目录，也就是js/</span></div><div class="line"><span class="built_in">require</span>([<span class="string">'getWidth'</span>,<span class="string">'jquery'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">ret</span>)</span>&#123; <span class="comment">//这里的jquery是引入的本地文件</span></div><div class="line">    <span class="built_in">console</span>.log(ret);</div><div class="line">&#125;)</div><div class="line"><span class="comment">//等价于  js/getWidth.js      js/jquery.js</span></div></pre></td></tr></table></figure>
 <p>indx.html文件中引入requirejs</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'require.js'</span> <span class="attr">data-main</span> = <span class="string">"js/main"</span>&gt;</span><span class="undefined"></span></div></pre></td></tr></table></figure>
@@ -401,18 +391,7 @@
 <p>3.3 如果我们导入的文件是不符合require的规范或者导入文件来自本地服务器或者CDN或者其他的网站，这个时候上面的require方法就不能起作用了，这个时候我们需要配置文件的地址</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//配置函数require.config(&#123;&#125;)</span></div><div class="line">baseUrl——用于加载模块的根路径。</div><div class="line">paths——用于映射不存在根路径下面的模块路径。</div><div class="line">shims——配置在脚本/模块外面并没有使用RequireJS的函数依赖并且初始化函数。假设underscore并没有使用  RequireJS定义，但是你还是想通过RequireJS来使用它，那么你就需要在配置中把它定义为一个shim。</div><div class="line">deps——加载依赖关系数组</div></pre></td></tr></table></figure>
 <p>不符合规范 : 先来看一个简单的例子,文件目录如下</p>
-<ul>
-<li>export<ul>
-<li>index.html</li>
-<li>js<ul>
-<li>sayhello.js</li>
-<li>main.js</li>
-<li>require.js</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">export</div><div class="line"></div><div class="line">- index.html</div><div class="line">- js</div><div class="line">  - sayhello.js</div><div class="line">  - main.js</div><div class="line">  - require.js</div></pre></td></tr></table></figure>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//index.html  加如下代码</div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/require.js"</span> <span class="attr">data-main</span>=<span class="string">'js/main'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//sayhello.js</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"hello handsome you"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js </span></div><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span> : &#123;</div><div class="line">        <span class="attr">h</span> : <span class="string">'sayhello'</span>   <span class="comment">//模块h的路径是js/hello.js   因为data-main属性的作用</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">shim</span> : &#123;</div><div class="line">        <span class="attr">h</span> :&#123; <span class="attr">exports</span> : <span class="string">'hello'</span>&#125;  <span class="comment">//将hello函数暴露出去;如果少了这行代码会报错</span></div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"><span class="built_in">require</span>([<span class="string">'h'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">hello</span>)</span>&#123;</div><div class="line">    hello();</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
@@ -483,8 +462,8 @@ require([&apos;c&apos;], function(c) {...});
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/10/155AMD-语法规范/" rel="next" title="AMD and CMD">
-                <i class="fa fa-chevron-left"></i> AMD and CMD
+              <a href="/2016/09/10/39-媒体查询响应式开发/" rel="next" title="媒体查询 响应式开发">
+                <i class="fa fa-chevron-left"></i> 媒体查询 响应式开发
               </a>
             
           </div>
@@ -493,8 +472,8 @@ require([&apos;c&apos;], function(c) {...});
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/09/12/172ClientRenderOrServerRender/" rel="prev" title="ClientRenderOrServerRender">
-                ClientRenderOrServerRender <i class="fa fa-chevron-right"></i>
+              <a href="/2016/09/10/155AMD-语法规范/" rel="prev" title="AMD and CMD">
+                AMD and CMD <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -558,7 +537,7 @@ require([&apos;c&apos;], function(c) {...});
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">147</span>
+                <span class="site-state-item-count">150</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -569,7 +548,7 @@ require([&apos;c&apos;], function(c) {...});
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -580,7 +559,7 @@ require([&apos;c&apos;], function(c) {...});
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">67</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

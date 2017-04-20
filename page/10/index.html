@@ -270,6 +270,573 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/02/45-js和jQuey的事件对象参数的区别：/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/02/45-js和jQuey的事件对象参数的区别：/" itemprop="url">
+                  js 事件对象参数
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-02T12:36:00+08:00">
+                2016-08-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-event/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript event</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一-js中事件参数的总结："><a href="#一-js中事件参数的总结：" class="headerlink" title="一 : js中事件参数的总结："></a>一 : js中事件参数的总结：</h3><p>1 所有的事件都有默认的事件对象参数，事件对象参数可以通过arguments属性查看,在不同浏览器中，事件对象参数支持不一样，谷歌和火狐支持事件对象参数 e ,而IE支持 window.event,针对不同浏览器需要兼容</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">e = window.event ? window.event : e</div></pre></td></tr></table></figure>
+<p>DragEvent  TouchEvent 继承event和MouseEvent的事件对象参数属性值；</p>
+<p>2 事件(Event)  window事件 keyBoard事件 Form表单事件 </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">Event:</div><div class="line">bubbles:false	返回布尔值，指示该事件是否是冒泡事件，true代表是冒泡事件，false代表是捕获事件		</div><div class="line">cancelBubble:false 阻止事件冒泡，设置该属性值为true,可以阻止事件冒泡，默认false</div><div class="line">cancelable:false  cancelable 事件返回一个布尔值。如果用 preventDefault() 方法可以取消与事件关联的默认动作，则为 true，否则为 fasle。默认false</div><div class="line">composed:false  </div><div class="line">currentTarget:		即当前处理该事件的元素、文档或窗口。即事件绑定的元素</div><div class="line">defaultPrevented:false</div><div class="line">eventPhase:2	eventPhase 属性返回事件传播的当前阶段。它的值是下面的三个常量之一，它们分别表示捕获阶段(1:事件通过捕获触发)、正常事件派发(2:直接点击事件绑定元素)和起泡阶段(3:事件通过冒泡触发)。	</div><div class="line">isTrusted:true</div><div class="line">path:Array[1]</div><div class="line">returnValue:true</div><div class="line">srcElement:		返回触发其他元素的绑定事件的 节点:即直接点击的节点</div><div class="line">target: 		返回触发其他元素的绑定事件的 节点:即直接点击的节点</div><div class="line">timeStamp:</div><div class="line">type:"load"</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">		<span class="selector-id">#dv1</span> &#123;</div><div class="line">			<span class="attribute">height</span>: <span class="number">300px</span>;</div><div class="line">			<span class="attribute">width</span>: <span class="number">300px</span>;</div><div class="line">			<span class="attribute">background-color</span>: red;</div><div class="line">		&#125;</div><div class="line">		<span class="selector-id">#dv2</span> &#123;</div><div class="line">			<span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line">			<span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line">			<span class="attribute">background-color</span>: blue;</div><div class="line">		&#125;</div><div class="line">		<span class="selector-id">#dv3</span> &#123;</div><div class="line">			<span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">			<span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">			<span class="attribute">background-color</span>: green;</div><div class="line">		&#125;</div><div class="line">		<span class="selector-id">#dv4</span> &#123;</div><div class="line">			<span class="attribute">height</span>: <span class="number">50px</span>;</div><div class="line">			<span class="attribute">width</span>: <span class="number">50px</span>;</div><div class="line">			<span class="attribute">background-color</span>: pink;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">	<span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"dv1"</span>&gt;</span>1</div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"dv2"</span>&gt;</span>2</div><div class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"dv3"</span>&gt;</span>3</div><div class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"dv4"</span>&gt;</span>4<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"common.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">// e.target记录触发事件的目标</span></div><div class="line">	<span class="comment">// my$("dv2").onclick = function(e)&#123;</span></div><div class="line">	<span class="comment">// 	console.log(e.target+"==="+window.event.srcElement+"=="+e.currentTarget);</span></div><div class="line">	<span class="comment">//这句代码里面的</span></div><div class="line">	<span class="comment">// 	console.log(e.target.id+"==="+window.event.srcElement.id+"=="+e.currentTarget.id);</span></div><div class="line">	<span class="comment">// &#125;;</span></div><div class="line">	my$(<span class="string">"dv2"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">		e = e || <span class="built_in">window</span>.event;</div><div class="line">		<span class="built_in">console</span>.log(e.target+<span class="string">"====="</span>+e.currentTarget);</div><div class="line">		<span class="built_in">console</span>.log(e.srcElement.id+<span class="string">"=="</span>+e.target.id+<span class="string">"==="</span>+<span class="string">"=="</span>+e.currentTarget.id+<span class="string">"=="</span>+e.bubbles+<span class="string">"=="</span>+ e.eventPhase);</div><div class="line">	&#125;;</div><div class="line"><span class="comment">// 	在 2 级 DOM 中，事件传播分为三个阶段：</span></div><div class="line"></div><div class="line"><span class="comment">// 第一，捕获阶段。事件从 Document 对象沿着文档树向下传递给目标节点。如果目标的任何一个先辈专门注册了捕获事件句柄，那么在事件传播过程中运行这些句柄。</span></div><div class="line"></div><div class="line"><span class="comment">// 第二个阶段发生在目标节点自身。直接注册砸目标上的适合的事件句柄将运行。这与 0 级事件模型提供的事件处理方法相似。</span></div><div class="line"></div><div class="line"><span class="comment">// 第三，起泡阶段。在此阶段，事件将从目标元素向上传播回或起泡回 Document 对象的文档层次。</span></div><div class="line">	</div><div class="line"><span class="comment">// 	target 事件属性可返回事件的目标节点（触发该事件的节点），如生成事件的元素、文档或窗口;</span></div><div class="line"><span class="comment">// 	currentTarget currentTarget 事件属性返回其监听器触发事件的节点，即当前处理该事件的元素、文档或窗口。</span></div><div class="line"><span class="comment">// 在捕获和起泡阶段，该属性是非常有用的，因为在这两阶段，它不同于 target 属性</span></div><div class="line"><span class="comment">// srcElement.id + target.id +currentTarget.id  + e.bubbles e.eventPhase</span></div><div class="line"><span class="comment">// 	如点击dv2  控制台输出：dv2  dv2   dv2 true   2  </span></div><div class="line"><span class="comment">// 	点击dv3  控制台输出   dv3  dv3   dv2  true  3</span></div><div class="line">  <span class="comment">//点击dv4  控制台输出   dv4  dv4   dv2  true  3</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>3 鼠标事件(MouseEvent)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">altKey:false</div><div class="line">bubbles:true</div><div class="line">button:0</div><div class="line">buttons:0</div><div class="line">cancelBubble:false</div><div class="line">cancelable:true</div><div class="line">clientX:230</div><div class="line">clientY:58</div><div class="line">composed:true</div><div class="line">ctrlKey:false</div><div class="line">currentTarget:null</div><div class="line">defaultPrevented:false</div><div class="line">detail:1</div><div class="line">eventPhase:0</div><div class="line">fromElement:null</div><div class="line">isTrusted:true</div><div class="line">layerX:230</div><div class="line">layerY:58</div><div class="line">metaKey:false</div><div class="line">movementX:0</div><div class="line">movementY:0</div><div class="line">offsetX:64</div><div class="line">offsetY:50</div><div class="line">pageX:230</div><div class="line">pageY:58</div><div class="line">path:Array[5]</div><div class="line">relatedTarget:null</div><div class="line">returnValue:true</div><div class="line">screenX:371</div><div class="line">screenY:205</div><div class="line">shiftKey:false</div><div class="line">sourceCapabilities:InputDeviceCapabilities</div><div class="line">srcElement:div</div><div class="line">target:div</div><div class="line">timeStamp:141604.27000000002</div><div class="line">toElement:div</div><div class="line">type:"click"</div><div class="line">view:Window</div><div class="line">which:1</div><div class="line">x:230</div><div class="line">y:58</div></pre></td></tr></table></figure>
+<p>4 拖拽事件(DragEvent)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">dataTransfer:DataTransfer</div><div class="line">  dropEffect:"none"</div><div class="line">  effectAllowed:"uninitialized"</div><div class="line">  files:FileList</div><div class="line">  items:DataTransferItemList</div><div class="line">  types:Array[0]</div><div class="line">  __proto__:DataTransfer</div></pre></td></tr></table></figure>
+<p>5 触摸事件(TouchEvent)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- changedTouches   所有改变的触摸点的集合</div><div class="line">- targetTouches  目标元素上方的触摸点的</div><div class="line">- touches 改变的触摸点</div></pre></td></tr></table></figure>
+<p>6 messageEvent</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">message 属性表示该message 的类型； </div><div class="line">data 属性为 <span class="built_in">window</span>.postMessage 的第一个参数；</div><div class="line">origin 属性表示调用<span class="built_in">window</span>.postMessage() 方法时调用页面的当前状态； </div><div class="line">source 属性记录调用 <span class="built_in">window</span>.postMessage() 方法的窗口信息。</div></pre></td></tr></table></figure>
+<p>7 storageEvent</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">key  属性用来表示storage存储的键值对属性的键</div><div class="line">oldValue 属性用来表示storage存储的原来的属性值</div><div class="line">newValue 属性用来表示storage存储的原来的属性值</div></pre></td></tr></table></figure>
+<h3 id="二-jQuery中事件参数-多了两个属性，e-originalEvent-用于存放所有的事件对象参数值-e-data"><a href="#二-jQuery中事件参数-多了两个属性，e-originalEvent-用于存放所有的事件对象参数值-e-data" class="headerlink" title="二 : jQuery中事件参数,多了两个属性，e . originalEvent : 用于存放所有的事件对象参数值 ;  e . data :"></a>二 : jQuery中事件参数,多了两个属性，e . originalEvent : 用于存放所有的事件对象参数值 ;  e . data :</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">originalEvent:Event</div><div class="line">originalEvent:MouseEvent</div><div class="line">originalEvent:DragEvent</div><div class="line">originalEvent:TouchEvent</div><div class="line">data : undefined (如果没有传值给这个参数，那么就是undefined)</div></pre></td></tr></table></figure>
+<p>对于drag事件和touch 事件的新增属性dataTransfer  changedTouches  targetTouches  touches  存放在originalEvent属性里面.</p>
+<h3 id="三-标准Event方法"><a href="#三-标准Event方法" class="headerlink" title="三 : 标准Event方法"></a>三 : 标准Event方法</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">preventDefault() : 该方法将通知 Web 浏览器不要执行与事件关联的默认动作（如果存在这样的动作）。例如，如果 type 属性是 "submit"，在事件传播的任意阶段可以调用任意的事件句柄，通过调用该方法，可以阻止提交表单。注意，如果 Event 对象的 cancelable 属性是 fasle，那么就没有默认动作，或者不能阻止默认动作。无论哪种情况，调用该方法都没有作用。</div><div class="line">stopPropagation() : 不再派发事件。</div><div class="line">终止事件在传播过程的捕获、目标处理或起泡阶段进一步传播。调用该方法后，该节点上处理该事件的处理程序将被调用，事件不再被分派到其他节点。</div><div class="line">该方法将停止事件的传播，阻止它被分派到其他 Document 节点。在事件传播的任何阶段都可以调用它。注意，虽然该方法不能阻止同一个 Document 节点上的其他事件句柄被调用，但是它可以阻止把事件分派到其他节点。</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/02/141windowObject/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/02/141windowObject/" itemprop="url">
+                  window Object
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-02T12:36:00+08:00">
+                2016-08-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-window/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript window</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在应用有frameset或者iframe的页面时，parent是父窗口，top是最顶级父窗口（有的窗口中套了好几层frameset或者iframe），self是当前窗口， opener是用open方法打开当前窗口的那个窗口。</p>
+<p> window.self</p>
+<p>功能：是对当前窗口自身的引用。它和window属性是等价的。</p>
+<p>语法：window.self</p>
+<p>注：window、self、window.self是等价的。</p>
+<p> window.top</p>
+<p>功能：返回顶层窗口，即浏览器窗口。</p>
+<p>语法：window.top</p>
+<p>注：<strong>如果窗口本身就是顶层窗口，top属性返回的是对自身的引用。</strong></p>
+<p> window.parent</p>
+<p>功能：返回父窗口。</p>
+<p>语法：window.parent</p>
+<p>注：如果窗口本身是顶层窗口，parent属性返回的是对自身的引用。</p>
+<p>parent</p>
+<p>parent用于在iframe,frame中生成的子页面中访问父页面的对象。例如：A页面中有一个iframe或frame，那么iframe<br>或frame中的页面就可以通过parent对象来引用A页面中的对象。这样就可以获取或返回值到A页面中。</p>
+<p>在框架网页中，一般父窗口就是顶层窗口，但如果框架中还有框架，父窗口和顶层窗口就不一定相同了。</p>
+<p> 判断当前窗口是否在一个框架中：</p>
+<script type="text/[JavaScript](http://lib.csdn.net/base/javascript)">
+var b = window.top!=window.self;
+document.write( "当前窗口是否在一个框架中："+b );
+</script>
+
+<p>你应当将框架视为窗口中的不同区域，框架是浏览器窗口中特定的部分。一个浏览器窗口可以根据你的需要分成任意多的框架，一个单个的框架也可以分成其它多个框架，即所谓的嵌套框架</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/22/74-jQuery  对象serialize()方法的使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/22/74-jQuery  对象serialize()方法的使用/" itemprop="url">
+                  jQuery serialize
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-22T12:36:00+08:00">
+                2016-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-jquery/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript jquery</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="jQuery-对象-“selector”-serialize-方法的使用"><a href="#jQuery-对象-“selector”-serialize-方法的使用" class="headerlink" title="jQuery  对象$(“selector”).serialize()方法的使用"></a>jQuery  对象$(“selector”).serialize()方法的使用</h2><p>1 表单元素:from 表单能够包含 <a href="tag_input.asp.htm">input 元素</a>，比如文本字段、复选框、单选框、提交按钮等等。表单还可以包含 <a href="tag_menu.asp.htm">menus</a>、<a href="tag_textarea.asp.htm">textarea</a>、<a href="tag_fieldset.asp.htm">fieldset</a>、<a href="tag_legend.asp.htm">legend</a> 和 <a href="tag_label.asp.htm">label 元素</a>。表单用于向服务器传输数据。</p>
+<ul>
+<li>input : type 类型 button checkbox file hidden image password radio reset submit text   。如果要表单元素的值包含到序列字符串中，元素必须使用 name 属性。<strong>默认text类型</strong> </li>
+<li>textarea  必须属性 col row  该标签也有 name属性，也可以上传数据</li>
+</ul>
+<p>2 select select 元素可创建单选或多选菜单。当提交表单时，浏览器会提交选定的项目，或者收集用逗号分隔的多个选项，将其合成一个单独的参数列表，并且在将 \<select> 表单数据提交给服务器时包括 name 属性。</select></p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>描述</th>
+<th>DTD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="att_select_disabled.asp.htm">disabled</a></td>
+<td>disabled</td>
+<td>规定禁用该下拉列表。</td>
+<td>STF</td>
+</tr>
+<tr>
+<td><a href="att_select_multiple.asp.htm">multiple</a></td>
+<td>multiple</td>
+<td>规定可选择多个选项。</td>
+<td>STF</td>
+</tr>
+<tr>
+<td><a href="att_select_name.asp.htm">name</a></td>
+<td><em>name</em></td>
+<td>规定下拉列表的名称。</td>
+<td>STF</td>
+</tr>
+<tr>
+<td><a href="att_select_size.asp.htm">size</a></td>
+<td><em>number</em></td>
+<td>规定下拉列表中可见选项的数目。</td>
+<td>STF</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>option 元素必须位于select元素内部,不能单独的使用，没有name属性</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>描述</th>
+<th>DTD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="att_option_disabled.asp.htm">disabled</a></td>
+<td>disabled</td>
+<td>规定此选项应在首次加载时被禁用。</td>
+<td>STF</td>
+</tr>
+<tr>
+<td><a href="att_option_label.asp.htm">label</a></td>
+<td><em>text</em></td>
+<td>定义当使用 <optgroup> 时所使用的标注。</optgroup></td>
+<td>STF</td>
+</tr>
+<tr>
+<td><a href="att_option_selected.asp.htm">selected</a></td>
+<td>selected</td>
+<td>规定选项（在首次显示在列表中时）表现为选中状态。</td>
+<td>STF</td>
+</tr>
+<tr>
+<td><a href="att_option_value.asp.htm">value</a></td>
+<td><em>text</em></td>
+<td>定义送往服务器的选项值。</td>
+<td>STF</td>
+</tr>
+</tbody>
+</table>
+<p>3 首先理解jQuery ajax - serialize() 方法注意：只会将”成功的控件“序列化为<strong>字符串</strong> 。如果不使用按钮来提交表单，则不对提交按钮的值序列化。如果要表单元素的值包含到序列字符串中，元素必须使用 name 属性。 </p>
+<p>什么是”成功的控件”？可以简单理解为   被选中的  表单元素 有name属性的表单元素；**注意name属性不能是js或者jQuery中的关键字，否则无法序列化 ；其实就是用户操作选中的那些控件内容会被序列化；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">input 	type = text password hidden 可以直接被选中序列化为字符串</div><div class="line">        type = checkbox  radio  只有当check="checked" 的时候才能被选中序列化为字符串</div><div class="line">        type =  file button image 则不会被选中序列化为字符串</div><div class="line">input   元素有name 属性，发往服务器的是input元素的name属性值  和 input元素的 value 值</div><div class="line">select  元素有name 属性，发往服务器的数据是select的name属性值和 其子元素的option元素的 value值;注意不是option标签包裹的内容 <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"man"</span>&gt;</span>男<span class="tag">&lt;/<span class="name">option</span>&gt;</span>  上传到服务器的是   man ;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">textarea 元素有name 属性，发往服务器的数据是textarea的name属性值和textarea元素的内容；</div></pre></td></tr></table></figure>
+<h3 id="如果要表单元素的值包含到序列字符串中，元素必须使用-name-属性。否则无法序列化该元素的值；"><a href="#如果要表单元素的值包含到序列字符串中，元素必须使用-name-属性。否则无法序列化该元素的值；" class="headerlink" title="如果要表单元素的值包含到序列字符串中，元素必须使用 name 属性。否则无法序列化该元素的值；"></a>如果要表单元素的值包含到序列字符串中，元素必须使用 name 属性。否则无法序列化该元素的值；</h3><p>序列化的”键值对”是   </p>
+<ul>
+<li>对于input  select 元素是 name 属性 的值 和  value 属性的值；如果value属性也有值，那么就提交value属性的值，如果没有value属性，或者value属性值为空字符串，则序列化的结果没有value值，如果value值是一个空的字符串，那么序列化的结果是一个  +  字符。</li>
+<li>对于textarea 元素是textarea元素的 name属性值  和内容值</li>
+</ul>
+<p>4 明白以上的内容，具体到serialize()的用法,是对所有选中的表单元素进行序列化；序列化表单值的作用是将表单中的值拼装成字符串形式的key-value键值对提交给后台服务器程序解析，来获取用户的输入值</p>
+<ul>
+<li>定义:serialize()方法通过序列化表单值，创建标准的URL编码文本<strong>字符串</strong> ，它的操作对象是代表表单元素集合的<strong>jQuery 对象</strong>.你可以选择一个或多个表单元素（比如input或文本框），或者 form 元素本身。序列化的值可在生成 AJAX 请求时用于 URL 查询字符串中，然后发送到服务器。</li>
+<li>我们可以单独的获取某个表单元素的序列化的值，$(“input”).serialize(),序列化所有的input元素，\$(“input:password”).serialize(),序列化password ; \$(“form”).serialize()  序列化 form；</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"</span></div><div class="line">        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/1999/xhtml"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.2.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>serializeArray()与serialize()<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">onClik</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            $(<span class="string">"#results"</span>).html(<span class="string">"serializeArray()与serialize()的区别如下："</span>);</div><div class="line">            <span class="keyword">var</span> data1 = $(<span class="string">"#form1"</span>).serializeArray(); <span class="comment">//自动将form表单封装成json</span></div><div class="line">            $(<span class="string">"#results"</span>).append(<span class="string">"&lt;br/&gt;&lt;b&gt;serializeArray:&lt;/b&gt;"</span>);</div><div class="line">            $.each(data1, <span class="function"><span class="keyword">function</span>(<span class="params">i, field</span>)</span>&#123;</div><div class="line">                $(<span class="string">"#results"</span>).append(field.name+<span class="string">":"</span>+field.value+<span class="string">" "</span>);</div><div class="line">            &#125;);</div><div class="line">            $(<span class="string">"#results"</span>).append(<span class="string">"&lt;br/&gt;"</span>);</div><div class="line">            <span class="keyword">var</span> data2 = $(<span class="string">"#form1"</span>).serialize(); <span class="comment">//自动将form表单封装成json</span></div><div class="line">            $(<span class="string">"#results"</span>).append(<span class="string">"&lt;b&gt;serialize():&lt;/b&gt;"</span>+data2);</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">"form1"</span> <span class="attr">name</span>=<span class="string">"form1"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">action</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>进货人 :</div><div class="line">        <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"name"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">id</span>=<span class="string">"name"</span> /&gt;</span></div><div class="line">      <span class="comment">&lt;!--没有value值，结果为空--&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>性别:</div><div class="line">        <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"sex"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"sex"</span> <span class="attr">size</span>=<span class="string">"1"</span> <span class="attr">id</span>=<span class="string">"sex"</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--select有name属性，会序列化选中的option 。这里是第一个option--&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"man"</span>&gt;</span>男<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"女"</span>&gt;</span>女<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"sex"</span> <span class="attr">size</span>=<span class="string">"1"</span> <span class="attr">id</span>=<span class="string">"sex"</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--select有name属性，会序列化选中的option 。这里是第二个option--&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"man"</span>&gt;</span>男<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"woman"</span> <span class="attr">selected</span>=<span class="string">"selected"</span>&gt;</span>女<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">select</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--select没有name属性，则不会被序列化--&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span> =<span class="string">"volvo"</span>&gt;</span>Volvo<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span> =<span class="string">"saab"</span>&gt;</span>Saab<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"opel"</span>&gt;</span>Opel<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"audi"</span>&gt;</span>Audi<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">name</span>=<span class="string">"txt"</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">cols</span>=<span class="string">"30"</span> <span class="attr">rows</span>=<span class="string">"10"</span>&gt;</span></div><div class="line">             这是text</div><div class="line">            <span class="comment">&lt;!--注意这里面有空格，会被序列化为+--&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">width</span>=<span class="string">"708"</span> <span class="attr">border</span>=<span class="string">"1"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">width</span>=<span class="string">"185"</span>&gt;</span>商品名<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">width</span>=<span class="string">"205"</span>&gt;</span>商品数量<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">width</span>=<span class="string">"296"</span>&gt;</span>商品价格<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"pro_name"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pro_name"</span> <span class="attr">id</span>=<span class="string">"pro_name"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">          <span class="comment">&lt;!--没有value值，结果是 pro_name=  --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"pro_num"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pro_num"</span> <span class="attr">id</span>=<span class="string">"pro_num"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"pro_price"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pro_price"</span> <span class="attr">id</span>=<span class="string">"pro_price"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">""</span>  <span class="attr">value</span>=<span class="string">"123"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"hid"</span>  <span class="attr">value</span>=<span class="string">"hid"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"fil"</span>  <span class="attr">value</span>=<span class="string">"filess"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"ck"</span>  <span class="attr">value</span>=<span class="string">"ckk"</span> <span class="attr">checked</span>=<span class="string">"checked"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span>ck</div><div class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"ck"</span>  <span class="attr">value</span>=<span class="string">"ckk2"</span>  /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span>ck2</div><div class="line">		   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"ra"</span>  <span class="attr">value</span>=<span class="string">"raa"</span> <span class="attr">checked</span>=<span class="string">"checked"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span>ra</div><div class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"ra2"</span>  <span class="attr">value</span>=<span class="string">"raa2"</span>  /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span>ra2</div><div class="line">			   <span class="comment">&lt;!--没有被选中，不会序列化，  --&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pro_name2"</span> <span class="attr">id</span>=<span class="string">"pro_name2"</span> <span class="attr">value</span>=<span class="string">" "</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--注意此时的value属性值是一个  空格 序列化为 + --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pro_num2"</span> <span class="attr">id</span>=<span class="string">"pro_num2"</span>  <span class="attr">value</span>=<span class="string">""</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--这个地方的value属性值是  空字符串 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pro_price2"</span> <span class="attr">id</span>=<span class="string">"pro_price2"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"results"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">name</span>=<span class="string">"submit"</span> <span class="attr">onclick</span>=<span class="string">"onClik();"</span> <span class="attr">value</span>=<span class="string">"提交"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--serializeArray()与serialize()的区别如下：--&gt;</span></div><div class="line"><span class="comment">&lt;!--serializeArray:name: sex:man sex:woman txt: 这是text ck:ckk ra:raa pro_name: pro_num: pro_price: hid:hid pro_name2: pro_num2: pro_price2:--&gt;</span></div><div class="line"><span class="comment">&lt;!--serialize():name=&amp;sex=man&amp;sex=woman&amp;txt=+++++++++++++%E8%BF%99%E6%98%AFtext%3C!&amp;#45;&amp;#45;%E6%B3%A8%E6%84%8F%E8%BF%99%E9%87%8C%E9%9D%A2%E6%9C%89%E7%A9%BA%E6%A0%BC%EF%BC%8C%E4%BC%9A%E8%A2%AB%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%BA%2B&amp;#45;&amp;#45;%3E%0D%0A++++++++&amp;ck=ckk&amp;ra=raa&amp;pro_name=&amp;pro_num=&amp;pro_price=&amp;hid=hid&amp;pro_name2=+&amp;pro_num2=&amp;pro_price2=--&gt;</span></div></pre></td></tr></table></figure>
+<p>$.param()方法是serialize()方法的核心，用来对一个数组或对象按照key/value进行序列化。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">param: <span class="function"><span class="keyword">function</span>(<span class="params"> a </span>) </span>&#123;</div><div class="line">        <span class="comment">///    &lt;summary&gt;</span></div><div class="line">        <span class="comment">///        This method is internal.  Use serialize() instead.</span></div><div class="line">        <span class="comment">///    &lt;/summary&gt;</span></div><div class="line">        <span class="comment">///    &lt;param name="a" type="Map"&gt;A map of key/value pairs to serialize into a string.&lt;/param&gt;'</span></div><div class="line">        <span class="comment">///    &lt;returns type="String" /&gt;</span></div><div class="line">        <span class="comment">///    &lt;private /&gt;</span></div><div class="line">    </div><div class="line">        <span class="keyword">var</span> s = [ ];</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"> key, value </span>)</span>&#123;</div><div class="line">            s[ s.length ] = <span class="built_in">encodeURIComponent</span>(key) + <span class="string">'='</span> + <span class="built_in">encodeURIComponent</span>(value);</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        <span class="comment">// If an array was passed in, assume that it is an array</span></div><div class="line">        <span class="comment">// of form elements</span></div><div class="line">        <span class="keyword">if</span> ( jQuery.isArray(a) || a.jquery )</div><div class="line">            <span class="comment">// Serialize the form elements</span></div><div class="line">            jQuery.each( a, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                add( <span class="keyword">this</span>.name, <span class="keyword">this</span>.value );</div><div class="line">            &#125;);</div><div class="line"></div><div class="line">        <span class="comment">// Otherwise, assume that it's an object of key/value pairs</span></div><div class="line">        <span class="keyword">else</span></div><div class="line">            <span class="comment">// Serialize the key/values</span></div><div class="line">            <span class="keyword">for</span> ( <span class="keyword">var</span> j <span class="keyword">in</span> a )</div><div class="line">                <span class="comment">// If the value is an array then the key names need to be repeated</span></div><div class="line">                <span class="keyword">if</span> ( jQuery.isArray(a[j]) )</div><div class="line">                    jQuery.each( a[j], <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                        add( j, <span class="keyword">this</span> );</div><div class="line">                    &#125;);</div><div class="line">                <span class="keyword">else</span></div><div class="line">                    add( j, jQuery.isFunction(a[j]) ? a[j]() : a[j] );</div><div class="line"></div><div class="line">        <span class="comment">// Return the resulting serialization</span></div><div class="line">        <span class="keyword">return</span> s.join(<span class="string">"&amp;"</span>).replace(<span class="regexp">/%20/g</span>, <span class="string">"+"</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>5 如何 解决空字符串转化为 +  号 的问题？</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/21/27-js jQuery offset scroll client/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1704,172 +2271,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/08/12HTMl5  file相关API /">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/08/12HTMl5  file相关API /" itemprop="url">
-                  HTML5 文件读取API
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-08T12:36:00+08:00">
-                2016-07-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/HTML5/" itemprop="url" rel="index">
-                    <span itemprop="name">HTML5</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>HTML5 文件读取   <input type="file">  元素input=file的新增API </p>
-<p>fileAPI主要有5个: </p>
-<p>FileUpload:当用户选择或编辑一个文件名，file-upload 元素触发 onchange 事件句柄</p>
-<p>FileList:可以看成一个对象，包含上传文件的相关信息，其中包括了File对象</p>
-<p>File:可以看成是FileList的一个属性，它包含了文件的基本信息</p>
-<p>FileReader:HTML5新增的API ,可以理解成一个封装好的函数，文件的读取都是由它完成的,如果需要使用需要new操作符创建一个读取对象；</p>
-<p>FileError:这个类可以自己生成，主要用来提示文件操作中的错误，</p>
-<p>DataTransfer,，Blob，。</p>
-<p>首先，从源头来理解:看一下demo我们简单做一个工作中常用的头像上传的功能：</p>
-<p>html代码：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"上传头像"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"border: 1px solid #000 ;width:200px;height: 200px;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">""</span> <span class="attr">width</span>=<span class="string">"200px"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>script代码:功能实现是点击input=button上传头像的按钮，可以将input=file里面的选择的文件上传；</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"input[type=button]"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> fileDom = <span class="built_in">document</span>.querySelector(<span class="string">"input[type=file]"</span>);</div><div class="line">        <span class="built_in">console</span>.log(fileDom.files);<span class="comment">//FileList</span></div><div class="line">        <span class="built_in">console</span>.log(fileDom.files[<span class="number">0</span>]);<span class="comment">//File</span></div><div class="line"><span class="comment">//        获取文件</span></div><div class="line">        <span class="keyword">var</span> file = fileDom.files[<span class="number">0</span>];<span class="comment">//File</span></div><div class="line"><span class="comment">//        创建HTML5文件读取对象</span></div><div class="line">        <span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();</div><div class="line">        <span class="built_in">console</span>.log(reader);</div><div class="line"><span class="comment">//        从这个File对象可以获取name、size、lastModifiedDate和type等属性。</span></div><div class="line"><span class="comment">//把这个File对象传给FileReader对象的读取方法，就能读取文件了。</span></div><div class="line"><span class="comment">////        调用文件读取对象的方法</span></div><div class="line"></div><div class="line">        reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"读取完毕"</span>);</div><div class="line">            <span class="built_in">console</span>.log(reader.result);</div><div class="line">            <span class="built_in">document</span>.querySelector(<span class="string">"img"</span>).src = reader.result;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//        reader.readAsText(file);</span></div><div class="line">        reader.readAsDataURL(file);</div><div class="line"><span class="comment">//注意执行顺序，onload之后，会执行 reader.readAsDataURl(file),然后才进入函数体，无阻塞事件</span></div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>1 当我们没有先选择文件的时候，直接点击button按钮，此时控制台输出：因为没有选择文件上传，所以此时FileList的length为0 ；</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">FileList &#123;length: 0&#125;//fileDom.files</div><div class="line">FileReader &#123;readyState: 0, result: null, error: null, onloadstart: null, onprogress: null…&#125;//</div></pre></td></tr></table></figure>
-<p>2 如果我们选择一个文件上传之后，此时在点击button，此时控制台输出：(注意fileDom.files[0]中的0 代表什么，注意比较两种情况下FileList对象的属性，第一种没有上传文件的情况下，FileList对象只有一个属性值 length:0;而在第二种首先上传文件的情况下，FileList对象的属性为 0:File, length:1,console.log(fileDom.files[length])也能输出length属性对应的值)</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">FileList &#123;0: File, length: 1&#125; //fileDom.files</div><div class="line">File &#123;name: "04_kiss.jpg", lastModified: 1486178231000, lastModifiedDate: Sat Feb 04 2017 11:17:11 GMT+0800 (中国标准时间), webkitRelativePath: "", size: 47689…&#125;   //fileDom.files[0]</div><div class="line">FileReader &#123;readyState: 0, result: null, error: null, onloadstart: null, onprogress: null…&#125;</div></pre></td></tr></table></figure>
-<p>3 文件上传之后——FileList对象——FileList对象包含File对象——File对象里面又包含了以下API:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">lastModified   :文件修改</div><div class="line">lastModifiedDate</div><div class="line">name  :文件名</div><div class="line">type  :文件类型</div><div class="line">size  :文件大小</div></pre></td></tr></table></figure>
-<p>4 FileReader 对象的相关API如下:</p>
-<p>该对象的 方法将确定如何读取文件的方式，然后将读取到的文件存在其属性reader.result里面</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">error: null</div><div class="line">onabort: null</div><div class="line">onerror: null</div><div class="line">onload: null</div><div class="line">onloadend: null</div><div class="line">onloadstart: null</div><div class="line">onprogress: null</div><div class="line">readyState: </div><div class="line">result:</div><div class="line">DONE: 2</div><div class="line">EMPTY: 0</div><div class="line">LOADING: 1</div><div class="line">abort: </div><div class="line">function abort() </div><div class="line">function readAsBinaryString: </div><div class="line">function readAsBinaryString(File Object) </div><div class="line">function readAsDataURL(File Object)</div><div class="line">function readAsText(File Object);</div></pre></td></tr></table></figure>
-<p>5 .FileError这个类可以自己生成，主要用来提示文件操作中的错误，以下基本为常量，可直接使用【类名.属性】</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">ABORT_ERR: 3</div><div class="line">ENCODING_ERR: 5</div><div class="line">INVALID_MODIFICATION_ERR: 9</div><div class="line">INVALID_STATE_ERR: 7</div><div class="line">NOT_FOUND_ERR: 1</div><div class="line">NOT_READABLE_ERR: 4</div><div class="line">NO_MODIFICATION_ALLOWED_ERR: 6</div><div class="line">PATH_EXISTS_ERR: 12</div><div class="line">QUOTA_EXCEEDED_ERR: 10</div><div class="line">SECURITY_ERR: 2</div><div class="line">SYNTAX_ERR: 8</div><div class="line">TYPE_MISMATCH_ERR: 11</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/08/14-HTML5的全屏API拖拽API/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2001,6 +2402,172 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">目标元素.ondragover = function(event)&#123;</div><div class="line">		event.preventDefault() ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>3 代码演示</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-cn"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">    html,</div><div class="line">    body &#123;</div><div class="line">      height: 100%;</div><div class="line">    &#125; </div><div class="line">    body &#123;</div><div class="line">      margin: 0;</div><div class="line">      display: flex;</div><div class="line">      justify-content: space-around;</div><div class="line">      align-items: center;</div><div class="line">    &#125;</div><div class="line">    div &#123;</div><div class="line">      width: 400px;</div><div class="line">      height: 400px;</div><div class="line">      border: 1px solid #000;</div><div class="line">    &#125;</div><div class="line">    .left &#123;</div><div class="line">      display: flex;</div><div class="line">      flex-wrap: wrap;</div><div class="line">      justify-content: space-around;</div><div class="line">      align-items: center;</div><div class="line">    &#125; </div><div class="line">    div&gt;img &#123;</div><div class="line">      width: 70px;</div><div class="line">      height: 70px;</div><div class="line">      margin: 10px;</div><div class="line">      background-color: ;</div><div class="line">    &#125;</div><div class="line">    /* 使用css来修改 定义一个 高亮的颜色 */ </div><div class="line">    .right.active &#123;</div><div class="line">      background-color: lightblue;</div><div class="line">    &#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (1).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (2).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"imgs/lofter_1_noval_icon_ (3).jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="comment">// .right 盒子 元素移入  颜色高亮 </span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragenter = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// this.style.background = 'lightgray';</span></div><div class="line">    <span class="keyword">this</span>.classList.add(<span class="string">'active'</span>);</div><div class="line">    <span class="comment">// $(this).addClass('active');</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// .right 移出 颜色还原 </span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragleave = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//  颜色 就是 直接设置透明 </span></div><div class="line">    <span class="comment">// this.style.background = 'transparent';</span></div><div class="line">    <span class="comment">// this.style.background = 'rgba(0,0,0,0)';</span></div><div class="line">    <span class="keyword">this</span>.classList.remove(<span class="string">'active'</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 为了能够触发drop 必须设置如下代码,给目标元素设置阻止默认处理方式，允许元素可以被放置</span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondragover = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</div><div class="line">    event.preventDefault();</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//  drop  .right盒子绑定</span></div><div class="line">  <span class="comment">//  img 拖拽开始的 时候 保存为 全局变量</span></div><div class="line">  <span class="keyword">var</span> imgs = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.left&gt;img'</span>);</div><div class="line">  <span class="comment">// 当前移动的 img</span></div><div class="line">  <span class="keyword">var</span> moveImg = <span class="literal">undefined</span>;</div><div class="line">  <span class="comment">// 循环绑定，给每个拖拽元素设置拖拽事件，每个元素被拖拽时触发该事件</span></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;imgs.length;i++)&#123;</div><div class="line">    imgs[i].ondragstart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">      <span class="comment">// 保存为全局变量</span></div><div class="line">      moveImg = <span class="keyword">this</span>;</div><div class="line">      <span class="comment">// 打印是否保存</span></div><div class="line">      <span class="built_in">console</span>.log(moveImg);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).ondrop = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line"><span class="comment">//  moveImg.ondrop = function () &#123;</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'进来了'</span>);</div><div class="line">    <span class="comment">// 将 丢进来的 元素 设置为 子元素 </span></div><div class="line">    <span class="comment">// 获取丢进来的元素 在拖拽img的时候 将当前拖拽的img 存起来获取保存的img</span></div><div class="line">    <span class="comment">// 通过全局变量 moveImg  添加给自己</span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">'.right'</span>).appendChild(moveImg);</div><div class="line">    <span class="comment">//  还原 自己的颜色</span></div><div class="line">    <span class="keyword">this</span>.classList.remove(<span class="string">'active'</span>) </div><div class="line">  &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/08/12HTMl5  file相关API /">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/08/12HTMl5  file相关API /" itemprop="url">
+                  HTML5 文件读取API
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-08T12:36:00+08:00">
+                2016-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTML5/" itemprop="url" rel="index">
+                    <span itemprop="name">HTML5</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>HTML5 文件读取   <input type="file">  元素input=file的新增API </p>
+<p>fileAPI主要有5个: </p>
+<p>FileUpload:当用户选择或编辑一个文件名，file-upload 元素触发 onchange 事件句柄</p>
+<p>FileList:可以看成一个对象，包含上传文件的相关信息，其中包括了File对象</p>
+<p>File:可以看成是FileList的一个属性，它包含了文件的基本信息</p>
+<p>FileReader:HTML5新增的API ,可以理解成一个封装好的函数，文件的读取都是由它完成的,如果需要使用需要new操作符创建一个读取对象；</p>
+<p>FileError:这个类可以自己生成，主要用来提示文件操作中的错误，</p>
+<p>DataTransfer,，Blob，。</p>
+<p>首先，从源头来理解:看一下demo我们简单做一个工作中常用的头像上传的功能：</p>
+<p>html代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"上传头像"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"border: 1px solid #000 ;width:200px;height: 200px;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">""</span> <span class="attr">width</span>=<span class="string">"200px"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>script代码:功能实现是点击input=button上传头像的按钮，可以将input=file里面的选择的文件上传；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"input[type=button]"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> fileDom = <span class="built_in">document</span>.querySelector(<span class="string">"input[type=file]"</span>);</div><div class="line">        <span class="built_in">console</span>.log(fileDom.files);<span class="comment">//FileList</span></div><div class="line">        <span class="built_in">console</span>.log(fileDom.files[<span class="number">0</span>]);<span class="comment">//File</span></div><div class="line"><span class="comment">//        获取文件</span></div><div class="line">        <span class="keyword">var</span> file = fileDom.files[<span class="number">0</span>];<span class="comment">//File</span></div><div class="line"><span class="comment">//        创建HTML5文件读取对象</span></div><div class="line">        <span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();</div><div class="line">        <span class="built_in">console</span>.log(reader);</div><div class="line"><span class="comment">//        从这个File对象可以获取name、size、lastModifiedDate和type等属性。</span></div><div class="line"><span class="comment">//把这个File对象传给FileReader对象的读取方法，就能读取文件了。</span></div><div class="line"><span class="comment">////        调用文件读取对象的方法</span></div><div class="line"></div><div class="line">        reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"读取完毕"</span>);</div><div class="line">            <span class="built_in">console</span>.log(reader.result);</div><div class="line">            <span class="built_in">document</span>.querySelector(<span class="string">"img"</span>).src = reader.result;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//        reader.readAsText(file);</span></div><div class="line">        reader.readAsDataURL(file);</div><div class="line"><span class="comment">//注意执行顺序，onload之后，会执行 reader.readAsDataURl(file),然后才进入函数体，无阻塞事件</span></div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1 当我们没有先选择文件的时候，直接点击button按钮，此时控制台输出：因为没有选择文件上传，所以此时FileList的length为0 ；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">FileList &#123;length: 0&#125;//fileDom.files</div><div class="line">FileReader &#123;readyState: 0, result: null, error: null, onloadstart: null, onprogress: null…&#125;//</div></pre></td></tr></table></figure>
+<p>2 如果我们选择一个文件上传之后，此时在点击button，此时控制台输出：(注意fileDom.files[0]中的0 代表什么，注意比较两种情况下FileList对象的属性，第一种没有上传文件的情况下，FileList对象只有一个属性值 length:0;而在第二种首先上传文件的情况下，FileList对象的属性为 0:File, length:1,console.log(fileDom.files[length])也能输出length属性对应的值)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">FileList &#123;0: File, length: 1&#125; //fileDom.files</div><div class="line">File &#123;name: "04_kiss.jpg", lastModified: 1486178231000, lastModifiedDate: Sat Feb 04 2017 11:17:11 GMT+0800 (中国标准时间), webkitRelativePath: "", size: 47689…&#125;   //fileDom.files[0]</div><div class="line">FileReader &#123;readyState: 0, result: null, error: null, onloadstart: null, onprogress: null…&#125;</div></pre></td></tr></table></figure>
+<p>3 文件上传之后——FileList对象——FileList对象包含File对象——File对象里面又包含了以下API:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">lastModified   :文件修改</div><div class="line">lastModifiedDate</div><div class="line">name  :文件名</div><div class="line">type  :文件类型</div><div class="line">size  :文件大小</div></pre></td></tr></table></figure>
+<p>4 FileReader 对象的相关API如下:</p>
+<p>该对象的 方法将确定如何读取文件的方式，然后将读取到的文件存在其属性reader.result里面</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">error: null</div><div class="line">onabort: null</div><div class="line">onerror: null</div><div class="line">onload: null</div><div class="line">onloadend: null</div><div class="line">onloadstart: null</div><div class="line">onprogress: null</div><div class="line">readyState: </div><div class="line">result:</div><div class="line">DONE: 2</div><div class="line">EMPTY: 0</div><div class="line">LOADING: 1</div><div class="line">abort: </div><div class="line">function abort() </div><div class="line">function readAsBinaryString: </div><div class="line">function readAsBinaryString(File Object) </div><div class="line">function readAsDataURL(File Object)</div><div class="line">function readAsText(File Object);</div></pre></td></tr></table></figure>
+<p>5 .FileError这个类可以自己生成，主要用来提示文件操作中的错误，以下基本为常量，可直接使用【类名.属性】</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">ABORT_ERR: 3</div><div class="line">ENCODING_ERR: 5</div><div class="line">INVALID_MODIFICATION_ERR: 9</div><div class="line">INVALID_STATE_ERR: 7</div><div class="line">NOT_FOUND_ERR: 1</div><div class="line">NOT_READABLE_ERR: 4</div><div class="line">NO_MODIFICATION_ALLOWED_ERR: 6</div><div class="line">PATH_EXISTS_ERR: 12</div><div class="line">QUOTA_EXCEEDED_ERR: 10</div><div class="line">SECURITY_ERR: 2</div><div class="line">SYNTAX_ERR: 8</div><div class="line">TYPE_MISMATCH_ERR: 11</div></pre></td></tr></table></figure>
 
           
         
@@ -2183,679 +2750,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/22/07DOM juqery里面操作元素的属性节点：ele/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/22/07DOM juqery里面操作元素的属性节点：ele/" itemprop="url">
-                  操作属性节点
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-22T20:36:00+08:00">
-                2016-06-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index">
-                    <span itemprop="name">css</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-DOM里面操作元素的属性节点："><a href="#1-DOM里面操作元素的属性节点：" class="headerlink" title="1 DOM里面操作元素的属性节点："></a>1 DOM里面操作元素的属性节点：</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">ele.removeAttribute("属性名")，删除属性节点；</div><div class="line">ele.setAttribute("属性名"，"属性值") ，设置属性节点；</div><div class="line">ele.getAttribute("属性名")，获得属性节点的值；</div><div class="line">设置属性里面的style属性的值:</div><div class="line">ele.style.property = "value"，设置样式属性值；ele.property = "value"设置元素属性值；</div><div class="line">ele.className = "value" ，可以用来修改  类名；也可以用来获取类名</div><div class="line">HTML5中新增了classListAPI 可以操作类名</div><div class="line">ele.classList.remove("类名");可以用来移除类名  必须有参数</div><div class="line">ele.classList.add("类名") ;可以用来增加类名  必须有参数</div><div class="line">ele.classList.toggle("类名") ;判断该元素是否有此类名，有的话则加上，没有的话则删除；</div><div class="line">ele.classList.length  ;可以返回该元素拥有的类名的的个数；</div><div class="line">ele.classList.contains("类名") ;返回布尔类型的值，如果包含该类名则返回true，不包含的话，则返回false；</div></pre></td></tr></table></figure>
-<h3 id="2-jquery中操作元素的属性节点："><a href="#2-jquery中操作元素的属性节点：" class="headerlink" title="2 jquery中操作元素的属性节点："></a>2 jquery中操作元素的属性节点：</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$("selector").css('property'),$("selector").css('property','value'),可以用来*获取*或者*设置*样式(style)属性里面的样式属性值；注意只能获取style样式属性里面的属性值；其底层运作就应用了getComputedStyle以及getPropertyValue方法。</div><div class="line">$("selector").attr("property"),$("selector").attr("property","value"),可以*获取*或者*设置*固有属性以及新增属性 ; 新增属性会在DOM树结构中显示。</div><div class="line">$("selector").removeAttr("property")  可以移除固有属性以及由attr设置的新增属性，会将属性直接从DOM树上移除;attr设置属性会在DOM树上显示;不能移除由prop设置的属性;</div><div class="line">$("selector").prop("property"),$("selector").prop("property","value")，可以*获取*和*设置*固有属性以及新增属性，但是新增属性不会再DOM树上显示</div><div class="line">$("selector").removeProp("property") 可以移除固有属性以及由prop设置的属性，但是仅仅是删除属性值值变为undefined;不能移除由attr设置的属性;</div><div class="line">$("selector").addClass("class1 class2")  为每一个匹配的元素添加类名，如果添加多个类，则需要用空格分开;</div><div class="line">$("selector").removeClass("class1 class2") 为每一匹配的元素删除类名，如果移除多个类名，则需要用空格分开</div><div class="line">$("selector").toggleClass("class") 为每一匹配的元素添加或者删除类名，存在则删除，不存在则移除;</div></pre></td></tr></table></figure>
-<h3 id="3-“-“操作符只能获取内嵌式的属性值，不能获取内联-style标签里面-式和外联式的属性-通过”-”也可以直接设置属性值，但是只能是固有属性的值，不能新增属性"><a href="#3-“-“操作符只能获取内嵌式的属性值，不能获取内联-style标签里面-式和外联式的属性-通过”-”也可以直接设置属性值，但是只能是固有属性的值，不能新增属性" class="headerlink" title="3  “ . “操作符只能获取内嵌式的属性值，不能获取内联(style标签里面)式和外联式的属性;通过”.”也可以直接设置属性值，但是只能是固有属性的值，不能新增属性"></a>3  “ . “操作符只能获取内嵌式的属性值，不能获取内联(style标签里面)式和外联式的属性;通过”.”也可以直接设置属性值，但是只能是固有属性的值，不能新增属性</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ele.property   获取属性值(固有属性)</div><div class="line">ele.property = "value"   设置固有属性值，不能设置新增属性给元素,如果设置了新增属性，并不能在DOM树上显示；</div><div class="line">可以这么理解，DOM元素是一个对象，"."操作符可以为对象添加属性，无论是否是固有属性，都会为这个新增的属性开辟存储空间，只不过固有属性会在DOM树上显示，而新增属性不会再DOM树上显示，但是其设置的值还是存在的。</div></pre></td></tr></table></figure>
-<h3 id="4-“-”-操作符-和-setAttribute-“property”-”value”-设置属性的区别"><a href="#4-“-”-操作符-和-setAttribute-“property”-”value”-设置属性的区别" class="headerlink" title="4 “.” 操作符 和 setAttribute(“property”,”value”)设置属性的区别"></a>4 “.” 操作符 和 setAttribute(“property”,”value”)设置属性的区别</h3><ul>
-<li>“.” 设置固有属性  ele.property = “value” ;可以<strong>使其在DOM元素中出现</strong> ；</li>
-<li>“.” 设置新增属性 ele.property = “value” ;可以设置一个属性，但是<strong>并不会在DOM元素中出现</strong> ；</li>
-<li>setAttribute 无论设置新增属性还是固有属性，<strong>都会在DOM元素中出现</strong> ；</li>
-</ul>
-<h3 id="5-注意用什么方式设置属性，就要用什么方式获取属性，"><a href="#5-注意用什么方式设置属性，就要用什么方式获取属性，" class="headerlink" title="5 注意用什么方式设置属性，就要用什么方式获取属性，"></a>5 注意用什么方式设置属性，就要用什么方式获取属性，</h3><p>​    a 比如 “.” 操作符设置的属性无法用getAttribute(“property”)获取到;”.” 获取的未被设置的属性值是 undefined;</p>
-<p>​    b 比如setAttribute(“property”,”value”)设置的属性值无法用  “.”  操作符来获取；获取未被设置的属性值是null;</p>
-<p>​    c “.”操作符设置属性要通过”.”操作符获取；setAttribute设置的属性值只能通过getAttribute来获取；</p>
-<h3 id="6-所有的属性节点里面，最常用的就是style属性节点，如何操作style属性节点，要理清元素属性和元素样式属性的关系，元素属性包括样式属性；"><a href="#6-所有的属性节点里面，最常用的就是style属性节点，如何操作style属性节点，要理清元素属性和元素样式属性的关系，元素属性包括样式属性；" class="headerlink" title="6 所有的属性节点里面，最常用的就是style属性节点，如何操作style属性节点，要理清元素属性和元素样式属性的关系，元素属性包括样式属性；"></a>6 所有的属性节点里面，最常用的就是style属性节点，如何操作style属性节点，要理清元素属性和元素样式属性的关系，元素属性包括样式属性；</h3><p>注意:<strong>元素的属性–&gt;包括style 属性，id属性  class属性 title属性等—&gt;style属性里面又包含了一些样式属性</strong>–&gt;字体，文本，文本装饰，布局，尺寸，定位，颜色，变换(transform)，过渡(transition)，背景，外补白，内补白等都是属性;</p>
-<p><strong>a) JAVAScript( DOM ) 中操作☞ 获取  style的属性值:</strong> </p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ele.style.getPropertyValue('property');//只能获取内嵌式  style  属性中的CSS属性</div><div class="line">window.getComputedStyle("ele","null").getPropertyValue("property");//可以获取包括style属性里面的CSS样式属性以及<span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span>标签里面的CSS样式属性，或者外联式的CSS样式属性；</div></pre></td></tr></table></figure>
-<ul>
-<li><p>获取元素内嵌式style属性的值: ele.style.property   等价于  ele.style.getPropertyValue(‘property’) 来获取style样式属性的属性值，注意<strong>获取的属性值结果是一个字符串类型</strong> ； <strong>只能获取内嵌式style 的属性值</strong>   ； <strong>如果是内联式或者外联式的属性值则获取不到，返回的结果是一个空字符串</strong> </p>
-<p>总结来说就是，</p>
-<ul>
-<li>只能获取内嵌式style的样式属性值，返回该属性的字符串值；</li>
-<li>如果获取的属性内嵌式style里面没有该属性，那么返回空字符串；</li>
-<li>这两种获取style样式属性总会返回一个字符串的结果，要么有值，要么是一个空字符串；</li>
-</ul>
-</li>
-<li><p>获取元素内联style标签里面或者外联式的元素的style样式某个属性值 :</p>
-</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ele.currentStyle['property'] //在旧的IE支持该方法</div><div class="line">window.getComputedStyle("元素":"伪类").property    </div><div class="line">window.getComputedStyle("元素"，"伪类)"[property]</div><div class="line">window.getComputedStyle("元素"，"伪类").getPropertyValue("直接属性名");</div></pre></td></tr></table></figure>
-<ul>
-<li>window.getComputedStyle(“元素”，”伪类)可以获取该元素的<strong>所有</strong>的<strong>最终</strong> 使用的CSS属性值</li>
-</ul>
-<p>ele.style  也是可以获取该元素的所有的最终使用的CSS属性</p>
-<ul>
-<li>二者区别是 第一: window.getComputedStyle(“ele”,”伪类”)是一个只读的属性，而ele.style 是一个可读可写的属性；<br>第二:<code>getComputedStyle</code>方法获取的是最终应用在元素上的所有CSS属性对象（即使没有CSS代码，也会把默认的祖宗八代都显示出来）；而<code>element.style</code>只能获取元素<code>style</code>属性中(注意：内嵌式)的CSS样式。因此对于一个光秃秃的元素<code>`，</code>getComputedStyle<code>方法返回对象中</code>length<code>属性值（如果有）就是</code>190+<code>(据我测试FF:192, IE9:195, Chrome:253, 不同环境结果可能有差异), 而</code>element.style<code>就是</code>0`。</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">'width: 100px ;background-color: #000000  ;margin: 0 auto;'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>  的ele.style.length = 6 ,分别是width  background-color 和4个margin值</div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">'width: 100px ;background-color: #000000  ;'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span> 而这个div的ele.style.length = 2 ,分别是width 和 background-color;</div></pre></td></tr></table></figure>
-<p>封装兼容低版本的获取元素属性值的代码:注意一点就是获取的结果是一个字符串类型的属性值，比如18px  red等字符串</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function getComputedStyle(ele,attr)&#123;</div><div class="line">  	return window.getComputedStyle ? window.getComputedStyle(ele,null)[attr] : ele.currentStyle(attr)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>b) JAVAScript(DOM)中操作☞ 设置 style的属性值:</strong> </p>
-<ul>
-<li>设置style属性的值 ele.style.property = “value”  等价于 ele.style.setProperty(‘property’,’value’)来设置元素的style样式属性值</li>
-</ul>
-<h3 id="7-对于不是元素的样式属性，比如offsetWidth-offsetHeight-clientWidth-clientHeight-scrollWidth-scrollHeight-等，不能通过获取样式属性的方法获取这些值。"><a href="#7-对于不是元素的样式属性，比如offsetWidth-offsetHeight-clientWidth-clientHeight-scrollWidth-scrollHeight-等，不能通过获取样式属性的方法获取这些值。" class="headerlink" title="7 对于不是元素的样式属性，比如offsetWidth  offsetHeight  clientWidth clientHeight scrollWidth scrollHeight 等，不能通过获取样式属性的方法获取这些值。"></a>7 对于不是元素的样式属性，比如offsetWidth  offsetHeight  clientWidth clientHeight scrollWidth scrollHeight 等，不能通过获取样式属性的方法获取这些值。</h3><ul>
-<li>js中</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ele.offsetWidth(包括border)  ele.scrollWidth  ele.clientWidth(包括padding)</div><div class="line">ele.offsetHeight(包括border) ele.scrollHeight ele.clientWidth(包括padding)</div><div class="line">ele.offsetLeft ele.offsetTop  ele.scrollLeft ele.scrollTop ele.clientLeft ele.clientTop</div></pre></td></tr></table></figure>
-<ul>
-<li>jquery中</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$("selector").width() $("selector").innerWidth()[包括padding] $("selector").outerWidth()[包括border,设置为诶true时，包括margin];返回值是一个整形数值类型;如果里面设置数值,可以设置被选中元素的宽度</div><div class="line">$("selector").height() $("selector").innerHeight()[包括padding] $("selector").outerHeight()[包括border，设置为true时，包括margin];返回值是一个整形数值类型;如果里面设置数值,可以设置被选中元素的高度</div><div class="line">$("selector").offset() 返回当前元素相对视口的**偏移** ;返回值包括两个整形数值的属性，一个代表left一个代表top,始终是相对于视口的距离</div><div class="line">$("selector").position() 返回当前元素相对于父元素的**偏移**;返回包括两个整形数值的属性;</div><div class="line">$("selector").scrollLeft()返回值是相对于滚动条左部的距离</div><div class="line">$("selector").scrollTop() 返回的是相对于滚动条顶部的距离</div></pre></td></tr></table></figure>
-<p>###8 代码解释:(嗯，乱一点点，不好意思)<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">        div&#123;</div><div class="line">            height: 150px;</div><div class="line">            padding: 10px;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">id</span>=<span class="string">'btn1'</span> <span class="attr">value</span>=<span class="string">'1'</span> <span class="attr">style</span>=<span class="string">"width: 20px;height: 20px;background-color: #003C78;"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">id</span>=<span class="string">'btn2'</span> <span class="attr">value</span>=<span class="string">'2'</span> <span class="attr">style</span>=<span class="string">"width: 20px;height: 20px;background-color: #003C78;"</span>/&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">'width: 100px ;background-color: #000000  ;'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'先讲解如何获取内嵌style样式属性值'</span>);</div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">'#btn1'</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> dv = <span class="built_in">document</span>.querySelector(<span class="string">'div'</span>);</div><div class="line"><span class="comment">//   "."操作符的情况</span></div><div class="line">        dv.style.width = <span class="string">"200px"</span>;<span class="comment">//可以通过"."操作设置元素的style属性值</span></div><div class="line">        <span class="built_in">console</span>.log(dv.style.width);<span class="comment">// 200px  可以获取内嵌式style样式属性值</span></div><div class="line">        <span class="built_in">console</span>.log(dv.style.padding);<span class="comment">//不可以获取外联式style样式属性值，只能获取到一个空字符串</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">typeof</span> dv.style.height);<span class="comment">//string</span></div><div class="line"><span class="comment">//  通过style的方法API</span></div><div class="line">        dv.style.setProperty (<span class="string">"height"</span>,<span class="string">"200px"</span>);<span class="comment">//可以通过setProperty设置style 属性的值</span></div><div class="line">        <span class="built_in">console</span>.log(dv.style.getPropertyValue(<span class="string">'height'</span>));<span class="comment">//200px 可以获取内嵌样式的属性值</span></div><div class="line">        <span class="built_in">console</span>.log(dv.style.getPropertyValue(<span class="string">'width'</span>));<span class="comment">//200px 可以获取内嵌样式的属性值</span></div><div class="line">        <span class="built_in">console</span>.log(dv.style.getPropertyValue(<span class="string">'padding'</span>));<span class="comment">//空字符串，不能获取外联style样式表里面的属性值</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">typeof</span> dv.style.getPropertyValue(<span class="string">'padding'</span>));<span class="comment">//string</span></div><div class="line"><span class="comment">//        两者一样，</span></div><div class="line"><span class="comment">//      1 都是可以获取内嵌的style的属性值，如果获取内联式或者外联式的样式属性值，则获取不到，获取结果为一个空的字符串</span></div><div class="line"><span class="comment">//      2 同时可以设置style的样式属性值；</span></div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'以下讲解如何获取内联或者外联的style样式属性值'</span>);</div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"#btn2"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> dv = <span class="built_in">document</span>.querySelector(<span class="string">"div"</span>);</div><div class="line"><span class="comment">//        console.log(dv.currentStyle['height']);</span></div><div class="line"><span class="comment">//        console.log(dv.currentStyle['width']);</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="built_in">window</span>.getComputedStyle(dv,<span class="literal">null</span>)[<span class="string">'width'</span>]);<span class="comment">//100px</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="built_in">window</span>.getComputedStyle(dv,<span class="literal">null</span>).width);<span class="comment">//100px</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="built_in">window</span>.getComputedStyle(dv,<span class="literal">null</span>)[<span class="string">'height'</span>]);<span class="comment">//150px</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="built_in">window</span>.getComputedStyle(dv,<span class="literal">null</span>).height);<span class="comment">//150px</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="built_in">window</span>.getComputedStyle(dv,<span class="literal">null</span>));<span class="comment">//获取当前元素的所有的最终使用的CSS属性值，包括内嵌，内联，外联</span></div><div class="line">      	<span class="built_in">console</span>.log(dv.style);<span class="comment">//建议读者看下控制台的输出结果，代表style属性里面的样式属性值(内嵌)</span></div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/19/96-Javascript  闭包(closure)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/19/96-Javascript  闭包(closure)/" itemprop="url">
-                  javascriptClosure
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-19T12:36:00+08:00">
-                2016-06-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Javascript-闭包-closure"><a href="#Javascript-闭包-closure" class="headerlink" title="Javascript  闭包(closure)"></a>Javascript  闭包(closure)</h2><p>理解闭包之前，以下概念必须清楚</p>
-<ul>
-<li>基础数据类型与引用数据类型</li>
-<li>内存空间</li>
-<li>垃圾回收机制</li>
-<li>执行上下文</li>
-<li>变量对象与活动对象</li>
-</ul>
-<p>1 为什么需要闭包？</p>
-<p>我们从变量的作用域来进行考究原因</p>
-<p>javascript中变量作用域分为两种，一种是全局作用域，一种是函数作用域(ES6中新增块级作用域)</p>
-<p>1.1 函数内部可以访问函数外部的变量，即可以直接读取全局变量</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num = <span class="number">200</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getNum</span> (<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(num);<span class="comment">//  输出 200 </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>1.2 函数外部却无法直接访问函数内部用var声明的函数内部变量</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> num = <span class="number">200</span> ;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(num);<span class="comment">//Uncaught ReferenceError: num is not defined</span></div></pre></td></tr></table></figure>
-<p>2.既然有需求，那么就要解决？什么是闭包？</p>
-<p>闭包，官方对闭包的解释是：一个拥有许多变量和绑定了这些变量的环境的表达式（通常是一个函数），因而这些变量也是该表达式的一部分。</p>
-<p>啰里啰嗦，抽离靶向的，何必相互为难，</p>
-<ul>
-<li>闭包就是一个函数； OK了，</li>
-<li>再进一步，这个函数可以用来获取另外一个函数内部的变量</li>
-</ul>
-<p>2.1闭包的特点：</p>
-<p>2.1.1 作为一个函数变量的一个引用，当函数返回时，其处于激活状态。　　</p>
-<p>2.1.2 一个闭包就是当一个函数返回时，一个没有释放资源的栈区。简单的说，Javascript允许使用内部函数—即<strong>函数定义</strong>和<strong>函数表达式</strong> 位于另一个函数的函数体内。而且，这些内部函数可以访问它们<strong>所在的外部函数中声明的所有局部变量</strong> 、<strong>参数</strong> 和<strong>声明的其他内部函数</strong> 。当其中一个这样的内部函数在包含它们的外部函数之外被调用时，就会形成闭包。</p>
-<p>2.1.3 闭包的作用 : <strong>一个是可以读取函数内部的变量</strong>;(<strong>局部变量</strong>)   ,<strong>另一个就是让这些变量的值始终保持在内存中</strong> 。</p>
-<p>2.1.3 闭包形成的条件:</p>
-<ul>
-<li>在一个函数内部有一个新的函数</li>
-<li>这个新的函数访问了外部函数内的变量</li>
-</ul>
-<p>2.2 闭包栗子</p>
-<p>2.2.1 如下一段代码，getInnerNum 可以访问 getNum 函数内部所有的变量，参数，以及函数的值，getInnerNum被getNum函数包住了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> num = <span class="number">200</span> ;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">getInnerNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(num);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"><span class="comment">//getInnerNum();直接引用是错误的，getInnerNum是在函数体内声明的，可以理解为是局部变量，外部不能直接调用函数内的嵌套函数</span></div></pre></td></tr></table></figure>
-<p>2.2.2 那么如果我们想要getNum内部的变量，该如何访问呢？既然getInnerNum可以访问num变量，不如将这个函数作为返回值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="keyword">var</span> num = <span class="number">200</span> ;</div><div class="line">       <span class="function"><span class="keyword">function</span> <span class="title">getInnerNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">           <span class="built_in">console</span>.log(num);</div><div class="line">       &#125;</div><div class="line">       <span class="keyword">return</span> getInnerNum;<span class="comment">//注意返回的是一个引用地址，改地址存放了函数getInnerNum</span></div><div class="line">   &#125;</div><div class="line"></div><div class="line">  <span class="comment">// console.log(getNum());//可以判断出getNum 函数执行后返回的是getInnerNum 的函数体</span></div><div class="line">   getNum()(); <span class="comment">//200</span></div></pre></td></tr></table></figure>
-<p>注意区分下面这段代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num = <span class="number">300</span>;</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">      <span class="keyword">var</span> num = <span class="number">200</span> ;</div><div class="line">      <span class="function"><span class="keyword">function</span> <span class="title">getInnerNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">          <span class="built_in">console</span>.log(<span class="keyword">this</span>.num);<span class="comment">//this在执行的时候指向谁？函数的执行上下文</span></div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> getInnerNum;<span class="comment">//注意返回的是一个引用地址，改地址存放了函数getInnerNum</span></div><div class="line">  &#125;</div><div class="line">  getNum()();<span class="comment">// 300</span></div></pre></td></tr></table></figure>
-<p>2.2.3 明确垃圾回收机制，函数体执行后，函数内部声明的<strong>变量</strong> ，在函数调用完毕之后，被垃圾回收机制(garbage collection) 回收; 如果</p>
-<p>situation 1 : 闭包的作用 <strong>一个是可以读取函数内部的变量</strong>;(<strong>局部变量</strong>)   ,<strong>另一个就是让这些变量的值始终保持在内存中</strong> </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> num = <span class="number">200</span> ;</div><div class="line">        addNum = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"addNum is completed"</span>);</div><div class="line">            num++;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">getInnerNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(num);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> getInnerNum;<span class="comment">//注意返回的是一个引用地址，改地址存放了函数getInnerNum</span></div><div class="line">    &#125;</div><div class="line">        getNum()();<span class="comment">//200</span></div><div class="line">        addNum();<span class="comment">//addNum is completed</span></div><div class="line">        getNum()();<span class="comment">//200</span></div><div class="line"><span class="comment">//getNum()每次执行都会重新声明  var num = 200 ;所以输出 200;</span></div><div class="line"><span class="comment">//对于垃圾回收机制，函数执行过程中，为函数内部声明的变量分配栈或者堆内存，在函数执行结束之后，释放占据的内存</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"> getNum()();<span class="comment">//200</span></div><div class="line"><span class="comment">//进行了以下动作</span></div><div class="line">getNum() <span class="comment">//声明num addNum函数(全局) getInnerNum函数(局部)</span></div><div class="line"><span class="comment">//得到返回的getInnerNum 函数，然后运行该函数</span></div><div class="line">getInnerNum();</div></pre></td></tr></table></figure>
-<p>situation 2 :闭包的作用 <strong>一个是可以读取函数内部的变量</strong>;(<strong>局部变量</strong>)   ,<strong>另一个就是让这些变量的值始终保持在内存中</strong> </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">	 <span class="function"><span class="keyword">function</span> <span class="title">getNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> num = <span class="number">200</span> ;</div><div class="line">        addNum = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"addNum is completed"</span>);</div><div class="line">            num++;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">getInnerNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(num);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> getInnerNum;<span class="comment">//注意返回的是一个引用地址，改地址存放了函数getInnerNum</span></div><div class="line">    &#125;</div><div class="line">	<span class="keyword">var</span> result = getNum()</div><div class="line">    result();<span class="comment">//200</span></div><div class="line">    addNum();<span class="comment">//addNum is completed</span></div><div class="line">    result();<span class="comment">//201</span></div><div class="line"><span class="comment">//getNum() 只执行了一次，所以  var num = 200 也只声明了一次</span></div><div class="line"><span class="comment">//因为将内部的函数getInnerNum 赋值给了全局变量result,所以外部函数getNum并不算执行完毕，所以函数内部声明的变量在栈或者堆内存中不会被垃圾回收机制回收</span></div></pre></td></tr></table></figure>
-<p>此时，我们将getNum()的返回值getInnerNum函数给到变量result，result被执行了两次，第一次输出了 200  第二次输出201；这是为什么呢？</p>
-<p>原因就在于 getNum 是 getInnerNum 的父函数，而 getInnerNum 被赋给了一个全局变量result，这导致 getInnerNum 始终在内存中，而 getInnerNum 的存在依赖于 getNum ，因此  getNum 也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage collection）回收。</p>
-<p>因为result引用了getInnerNum.而 getInnerNum又是依赖于getNum，所以result间接引用了外部函数，所以getNum会一直在内存中存在，不会被垃圾回收机制回收；那么其所形成的作用域链也会一直存在；</p>
-<p>同时，函数在执行的过程中动态为函数内部变量分配的内存也会一直存在；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">result = <span class="literal">null</span> ;</div></pre></td></tr></table></figure>
-<p>我们需要了解垃圾回收机制</p>
-<ul>
-<li>对于局部变量，只在函数执行的时候存在，函数运行完毕，<strong>局部变量</strong> 就会被垃圾回收机制回收；</li>
-<li>对于全局变量，垃圾回收机制则很难判断什么时候可回收</li>
-<li>局部变量只在函数的执行过程中存在，<strong>函数执行过程中</strong> 会为<strong>局部变量</strong>在<strong>栈或堆</strong> 上分配相应的空间，以存储它们的值，然后再函数中使用这些变量，直至函数结束</li>
-<li>但是在闭包中，由于内部函数getInnerNum 被赋值给了全局变量result,所以getNum函数并不算结束，所以垃圾回收机制不会将变量回收，所以函数中的变量  n 是一直存在于内存中的，并没有被回收</li>
-<li>函数的执行上下文，在执行完毕之后，生命周期结束，那么该函数的执行上下文就会失去引用。其占用的内存空间很快就会被垃圾回收器释放。可是闭包的存在，会阻止这一过程。</li>
-</ul>
-<p>这段代码中另一个值得注意的地方，就是</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">addNum = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">     <span class="built_in">console</span>.log(<span class="string">"addNum is completed"</span>);</div><div class="line">      num++;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p>这一行，首先在addNum前面没有使用var关键字，因此addNum是一个全局变量，而不是局部变量。其次，addNum的值是一个匿名函数（anonymous function），而这个匿名函数本身也是一个闭包，所以addNum相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。</p>
-<p>situation3 : 看下立即执行函数如何利用闭包</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span> <span class="title">getNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> num = <span class="number">200</span> ;</div><div class="line">    addNum = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"addNum is completed"</span>);</div><div class="line">        num++;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getInnerNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(num);</div><div class="line">    &#125;</div><div class="line">   <span class="built_in">window</span>.result = getInnerNum ;<span class="comment">//注意这行代码，将内部引用赋值给全局变量result，所以该作用域链会一直存在;jQuery底层源码也是这种实现形式</span></div><div class="line">&#125;)()		<span class="comment">//立即执行函数</span></div><div class="line"></div><div class="line">result();<span class="comment">//200</span></div><div class="line">addNum();<span class="comment">//addNum is completed</span></div><div class="line">result();<span class="comment">//201</span></div></pre></td></tr></table></figure>
-<p>situation 4 数组中的元素引用，形成闭包</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [];</div><div class="line"></div><div class="line">   <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; <span class="number">3</span>  ; i++)&#123;</div><div class="line">       arr[i] = outFunc(i); </div><div class="line">     <span class="comment">//innerFunc被数组中的每一个元素引用，每次循环都会形成一个闭包，每次传进去的 i 都会作为变量对象</span></div><div class="line">       <span class="function"><span class="keyword">function</span> <span class="title">outFunc</span>(<span class="params">num</span>)</span>&#123;</div><div class="line">           <span class="function"><span class="keyword">function</span> <span class="title">innerFunc</span>(<span class="params"></span>)</span>&#123;</div><div class="line">               <span class="built_in">console</span>.log(num);</div><div class="line">           &#125;</div><div class="line">           <span class="keyword">return</span> innerFunc ;</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   arr[<span class="number">0</span>]();</div><div class="line">   arr[<span class="number">1</span>]();</div><div class="line">   arr[<span class="number">2</span>]();</div></pre></td></tr></table></figure>
-<p>situation5  setTimeout(fn,time) 定时器函数的执行：按道理来说，既然fn被作为参数传入了setTimeout中，那么fn将会被保存在setTimeout变量对象中，setTimeout执行完毕之后，它的变量对象也就不存在了。可是事实上并不是这样。它仍然是存在的。这正是因为闭包。</p>
-<p>很显然，这是在函数的内部实现中，setTimeout通过特殊的方式，保留了fn的引用，让setTimeout的变量对象，并没有在其执行完毕后被垃圾收集器回收。因此setTimeout执行结束后经过time时间后，会自动执行fn函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; <span class="number">5</span> ; i++)&#123;</div><div class="line">        setTimeout( <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(i);</div><div class="line">        &#125;, i*<span class="number">1000</span> )</div><div class="line">  &#125;</div><div class="line"><span class="comment">//由于javascript执行代码单线程，遇到setTimeout会将setTimeout放到事件队列当中</span></div><div class="line"><span class="comment">//这个循环创建了5个setTimeout函数，将执行函数fn添加到事件队列中</span></div><div class="line"><span class="comment">//作用域链  全局作用域--&gt;setTimeout作用域(也是全局作用域，因为setTimeout内部的this指向的是window)</span></div></pre></td></tr></table></figure>
-<p>如何输出1,2,3,4,5呢？</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ;i &lt; <span class="number">5</span> ;i++)&#123;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">res</span> (<span class="params">num</span>)</span>&#123;</div><div class="line">           <span class="keyword">var</span> timer = setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(num)</div><div class="line">            &#125;,i*<span class="number">1000</span>);</div><div class="line">        &#125;</div><div class="line">        res(i)</div><div class="line">    &#125;</div><div class="line"><span class="comment">//因为res函数执行的时候，创建了res函数作用域，传入的num作为res当前执行上下文中的变量对象中的一员，fn函数执行的时候,会先在fn作用域内找num ,找不到则往上一层一层找；</span></div><div class="line"><span class="comment">//作用域链如下:全局作用域---&gt;res函数作用域---&gt;setTimeout---&gt; fn函数作用域(fn在setTimeout内部实现了闭包，所以fn执行的时候，可以获取到当前作用域链上的变量)</span></div><div class="line"><span class="comment">//---------------------------------------------</span></div><div class="line"><span class="comment">//这两种方法都是可以的，推荐第二种立即执行;</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">1</span>; i&lt;=<span class="number">5</span>; i++) &#123;</div><div class="line">        (<span class="function"><span class="keyword">function</span> (<span class="params">i</span>) </span>&#123;setTimeout( <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(i);</div><div class="line">        &#125;, i*<span class="number">1000</span> )&#125;)(i);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">	<span class="keyword">var</span> num = <span class="number">999</span>;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ;i &lt; <span class="number">5</span> ;i++)&#123;</div><div class="line">        (<span class="function"><span class="keyword">function</span>(<span class="params">num</span>)</span>&#123;</div><div class="line">            setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">                <span class="built_in">console</span>.log(<span class="keyword">this</span>.num);</div><div class="line">                <span class="keyword">var</span> num = <span class="number">5</span>;</div><div class="line">                <span class="built_in">console</span>.log(num)</div><div class="line">            &#125;,i*<span class="number">1000</span>);</div><div class="line">        &#125;)(i)</div><div class="line">    &#125;</div><div class="line"><span class="comment">//通过这个案例的验证，可以发现setTimeout内部实现了闭包，fn执行的时候上下文不会被垃圾回收机制回收;</span></div></pre></td></tr></table></figure>
-<p>3 如何避免闭包？</p>
-<p><strong>闭包的作用:一个是可以读取函数内部的变量</strong>;(<strong>局部变量</strong>)   ,<strong>另一个就是让这些变量的值始终保持在内存中</strong></p>
-<p>第一个作用使我们想要的，但是第二个会使闭包一直占据内存，这个是我们应该尽力去避免的；由于闭包会使得函数中的变量都被保存在内存中，内存消耗很大，所以不能滥用闭包，否则会造成网页的性能问题，在IE中可能导致内存泄露。解决方法是，在退出函数之前，将不使用的局部变量全部删除。</p>
-<p>4 看下面这行代码的输出: this改变了函数执行的上下文</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"> 		<span class="keyword">var</span> num = <span class="number">300</span>;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">getNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> num = <span class="number">200</span> ;</div><div class="line">            addNum = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"addNum is completed---"</span>+num);</div><div class="line">                num++;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"addNum is completed---"</span>+num);</div><div class="line">            &#125;</div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">getInnerNum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="keyword">this</span>.num);<span class="comment">//函数执行的时候，this指向其运行的时候所在的对象</span></div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> getInnerNum;<span class="comment">//注意返回的是一个引用地址，改地址存放了函数getInnerNum</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">var</span> result = getNum()</div><div class="line">        result();</div><div class="line">	    addNum();</div><div class="line">        result();</div><div class="line"><span class="comment">//控制台输出</span></div><div class="line">		<span class="number">300</span></div><div class="line">		addNum is completed--<span class="number">-200</span></div><div class="line">	    addNum is completed--<span class="number">-201</span></div><div class="line">        <span class="number">300</span></div></pre></td></tr></table></figure>
-<p>5 此时回过头来理解下文章开始的一些基础的定义，以及重新回忆下链式作用域，变量的取值(就近原则)，全局作用域，局部作用域</p>
-<h3 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h3><p>vvv</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/15/22-HTML5 data 属性的运用：/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/15/22-HTML5 data 属性的运用：/" itemprop="url">
-                  HTML5 dataset
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-15T12:36:00+08:00">
-                2016-06-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/html/" itemprop="url" rel="index">
-                    <span itemprop="name">html</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>属性操作  DOM  jQuery   中对比解析：</p>
-<p>DOM中操作元素属性的方法：</p>
-<p>1 直接在元素内声明：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;dv&quot; class=&quot;cls&quot; abc = &quot;hello&quot;&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
-<p>声明之后可以对元素的属性进行操作</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="built_in">document</span>.getElementById(<span class="string">"dv"</span>).getAttribute(<span class="string">"class"</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">document</span>.getElementById(<span class="string">"dv"</span>).getAttribute(<span class="string">"abc"</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">document</span>.getElementById(<span class="string">"dv"</span>).abc);</div></pre></td></tr></table></figure>
-<p>输出结果：cls    hello  undefined   (  .  操作符只能操作HTML元素固有的属性，这些个”莫须有”的无法操作)</p>
-<p>2 通过setAttribute(“属性名”,”属性值”)，可以为元素设置固有属性值或者新的属性</p>
-<p>通过 ele.property = “value”,可以为元素设置属性值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">"dv"</span>).setAttribute(<span class="string">"index"</span>,<span class="string">"9"</span>);</div><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">"dv"</span>).aaaa = <span class="string">"hello again"</span>;	<span class="comment">//不起作用</span></div><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">"dv"</span>).style.height = <span class="string">"200px"</span>;</div><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">"dv"</span>).title = <span class="string">"我是通过固有属性设置的"</span>;</div><div class="line">上面这行代码执行完毕之后：</div><div class="line">&lt;div id=<span class="string">"dv"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"cls"</span> abc = <span class="string">"hello"</span> index=<span class="string">"9"</span> style=<span class="string">"height:200px;"</span> title = <span class="string">"我是通过固有属性设置的"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">然后在执行下这段代码的话：</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">document</span>.getElementById(<span class="string">"dv"</span>).index);</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">document</span>.getElementById(<span class="string">"dv"</span>).title);</div><div class="line">输出结果：</div><div class="line"><span class="literal">undefined</span>  </div><div class="line">我是通过固有属性设置的</div></pre></td></tr></table></figure>
-<p>注意细节  ：  “ .  “ 运算符  可以直接设置固有属性  比如  class  title lang  href  src 等某些元素特有的一些属性，以及样式属性  style;</p>
-<p>但是  “. “ 运算符不能直接设置新增的属性  ，比如 index   aaa  等新增的，原来并不存在的属性，obj.index  不会报错，但是不会起作用，如果用”[ ]”运算符，obj[index]  会直接报错，[ ] 运算符不能操作不存在的属性，</p>
-<p>总结：</p>
-<p>1  “ .  ”运算符只能 <strong>设置</strong>  元素的<strong>固有属性</strong>和 以及 <strong>获取</strong>  元素的<strong>固有属性值</strong>，不能<strong>给元素设置新增属性</strong>以及<strong>获取元素的新增属性值</strong>；</p>
-<p>2 setAttribute(“property”,”value”),getAttribute(“property”),其中property属性名既可以是固有的属性，也可以是新增属性，可以设置元素的属性值或者获取元素的属性值。</p>
-<p>3 jquery中操作元素属性的方法：</p>
-<ul>
-<li>prop(“property”,”value”),可以<strong>设置</strong>jquery对象的固有属性，注意仅仅是固有属性，也就是说W3C里面本来就有的属性，prop(“property”)，可以<strong>获取</strong>jquery对象属性值；</li>
-<li>attr(“property”,”value”),可以<strong>设置</strong>jquery对象的固有属性，也就是说W3C里面本来就有的属性，也可以新增一些W3C没有规定的属性，比如index  aaa  等等符合命名规则的新增属性；attr(“property”)，可以<strong>获取</strong>jquery对象属性值，包括固有属性以及新增属性。</li>
-</ul>
-<p>4 HTML全局属性(固有属性)</p>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="att_standard_accesskey.asp">accesskey</a></td>
-<td>规定激活元素的快捷键。</td>
-</tr>
-<tr>
-<td><a href="att_standard_class.asp">class</a></td>
-<td>规定元素的一个或多个类名（引用样式表中的类）。</td>
-</tr>
-<tr>
-<td><a href="att_global_contenteditable.asp">contenteditable</a></td>
-<td>规定元素内容是否可编辑。</td>
-</tr>
-<tr>
-<td><a href="att_global_contextmenu.asp">contextmenu</a></td>
-<td>规定元素的上下文菜单。上下文菜单在用户点击元素时显示。</td>
-</tr>
-<tr>
-<td><a href="att_global_data.asp">data-*</a></td>
-<td>用于存储页面或应用程序的私有定制数据。</td>
-</tr>
-<tr>
-<td><a href="att_standard_dir.asp">dir</a></td>
-<td>规定元素中内容的文本方向。</td>
-</tr>
-<tr>
-<td><a href="att_global_draggable.asp">draggable</a></td>
-<td>规定元素是否可拖动。</td>
-</tr>
-<tr>
-<td><a href="att_global_dropzone.asp">dropzone</a></td>
-<td>规定在拖动被拖动数据时是否进行复制、移动或链接。</td>
-</tr>
-<tr>
-<td><a href="att_global_hidden.asp">hidden</a></td>
-<td>规定元素仍未或不再相关。</td>
-</tr>
-<tr>
-<td><a href="att_standard_id.asp">id</a></td>
-<td>规定元素的唯一 id。</td>
-</tr>
-<tr>
-<td><a href="att_standard_lang.asp">lang</a></td>
-<td>规定元素内容的语言。</td>
-</tr>
-<tr>
-<td><a href="att_global_spellcheck.asp">spellcheck</a></td>
-<td>规定是否对元素进行拼写和语法检查。</td>
-</tr>
-<tr>
-<td><a href="att_standard_style.asp">style</a></td>
-<td>规定元素的行内 CSS 样式。</td>
-</tr>
-<tr>
-<td><a href="att_standard_tabindex.asp">tabindex</a></td>
-<td>规定元素的 tab 键次序。</td>
-</tr>
-<tr>
-<td><a href="att_standard_title.asp">title</a></td>
-<td>规定有关元素的额外信息。</td>
-</tr>
-<tr>
-<td><a href="att_global_translate.asp">translate</a></td>
-<td>规定是否应该翻译元素内容。</td>
-</tr>
-</tbody>
-</table>
-<p>5 HTML5 新增API  dataset</p>
-<p>5.1.1 <strong>js中</strong> 原生js方法对dataset属性的修改会直接在DOM树上表现出来； 先来看下原来的获取和设置属性的方式是否可以起作用  setAttribute  getAttribute . 操作符；</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"> <span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">        [data-color] &#123;</div><div class="line">            background-color: red;</div><div class="line">        &#125;</div><div class="line">        [data-width]&#123;</div><div class="line">            width: 100px;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        [data-height]&#123;</div><div class="line">            height: 100px;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"按钮"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"dv"</span> <span class="attr">class</span>=<span class="string">"box"</span> <span class="attr">aaa</span>=<span class="string">"nothing"</span> <span class="attr">data-color</span>=<span class="string">"red"</span> <span class="attr">data-position</span>=<span class="string">"pos"</span> <span class="attr">data-address</span>=<span class="string">"china"</span> <span class="attr">data-width</span>=<span class="string">"w"</span> <span class="attr">data-height</span>=<span class="string">"h"</span>  <span class="attr">data-name-first</span>=<span class="string">"kobe"</span>  <span class="attr">data-nameLast</span> = <span class="string">"james"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">document</span>.querySelector(<span class="string">"input[type=button]"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> box = <span class="built_in">document</span>.querySelector(<span class="string">"#dv"</span>);</div><div class="line">            <span class="built_in">console</span>.log(box.className);<span class="comment">//box</span></div><div class="line">            <span class="built_in">console</span>.log(box.id);<span class="comment">//dv</span></div><div class="line">            <span class="built_in">console</span>.log(box.aaa);<span class="comment">//undefined  .  操作符只能操作html元素固有的属性</span></div><div class="line"><span class="comment">//            console.log(box.data-position);//报错  ，无法操作</span></div><div class="line">            <span class="built_in">console</span>.log(box.getAttribute(<span class="string">"data-position"</span>));<span class="comment">//pos</span></div><div class="line">            box.setAttribute(<span class="string">"data-position"</span>,<span class="string">"poschange"</span>);<span class="comment">//设置data*  的属性值</span></div><div class="line">            <span class="built_in">console</span>.log(box.getAttribute(<span class="string">"data-position"</span>));<span class="comment">//poschange </span></div><div class="line">        &#125;;</div><div class="line">    &#125;;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>既然原来的方法可以操作data*  属性，那么 dataset这个新的API还有什么作用呢？好的，如果我想获取所有的属性值，那么该怎么操作呢？这个时候，dataset的威力就显示出来了</p>
-<p><strong>5.1.2 dataset是HTML5新增的一个API ,里面存放了所有的使用  data-xx 格式设置的属性集合，是一个对象</strong>;我们仅仅改变script标签里面的代码，html代码不变；</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">document</span>.querySelector(<span class="string">"input[type=button]"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> box = <span class="built_in">document</span>.querySelector(<span class="string">"#dv"</span>);</div><div class="line">            <span class="built_in">console</span>.log(box.dataset);<span class="comment">//可以获取所有的data-xx 属性值，实际工作中便于解析成字符串</span></div><div class="line">          <span class="comment">//DOMStringMap &#123;color: "red", position: "pos", address: "china", width: "w", height: "h",nameFirst:"kobe"namelast:"james"&#125;</span></div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">typeof</span> box.dataset);<span class="comment">//object</span></div><div class="line">            <span class="built_in">console</span>.log(box.dataset.color);<span class="comment">//red</span></div><div class="line">          	<span class="built_in">console</span>.log(box.dataset.position);<span class="comment">//pos</span></div><div class="line">            box.dataset.position = <span class="string">"poschange"</span> ;<span class="comment">//通过dataset设置属性值</span></div><div class="line">            <span class="built_in">console</span>.log(box.dataset.position);<span class="comment">//poschange</span></div><div class="line">          <span class="comment">//注意 data-xx-yy  以及data-nameLast  命名的方式细节处理</span></div><div class="line">          <span class="comment">//console.log(box.dataset.name-first);//会报错</span></div><div class="line">            <span class="built_in">console</span>.log(box.dataset.nameFirst);<span class="comment">//kobe</span></div><div class="line">            <span class="built_in">console</span>.log(box.dataset.nameLast);<span class="comment">//undefined  获取不到</span></div><div class="line">            <span class="built_in">console</span>.log(box.dataset.namelast);<span class="comment">//james </span></div><div class="line">        &#125;;</div><div class="line">    &#125;;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p><strong>dataset 接口可以直接操作由data-xx  格式设置的所有data属性,即可以获取值，也可以设置值</strong></p>
-<ul>
-<li>data-name-first 设置的属性，获取的时候 必须以data.nameFirst </li>
-<li>data-nameLast 设置的属性，获取的时候  必须以 dataset.namelast </li>
-</ul>
-<p>5.2.1 <strong>jQuery</strong>中 attr prop  jquery中dataset属性值的操作不会在DOM树上表现出来；</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.2.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        $(<span class="string">"input:button"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log($(<span class="string">"#dv"</span>).attr(<span class="string">"data-color"</span>));<span class="comment">//red</span></div><div class="line">            <span class="built_in">console</span>.log($(<span class="string">"#dv"</span>).prop(<span class="string">"data-color"</span>));<span class="comment">//获取不到 undefined 同样prop也无法设置</span></div><div class="line">            $(<span class="string">"#dv"</span>).attr(<span class="string">"data-color"</span>,<span class="string">"green"</span>);<span class="comment">//DOM 树上会显示改变</span></div><div class="line">            <span class="built_in">console</span>.log($(<span class="string">"#dv"</span>).attr(<span class="string">"data-color"</span>));<span class="comment">//green</span></div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>5.2.2 jquery中  data(“key”)获取属性值  data(“key”,”value”)设置属性值；</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.2.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        $(<span class="string">"input:button"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log($(<span class="string">"#dv"</span>).data);</div><div class="line">            <span class="built_in">console</span>.log($(<span class="string">"#dv"</span>).data(<span class="string">"color"</span>));<span class="comment">//red</span></div><div class="line">            $(<span class="string">"#dv"</span>).data(<span class="string">"color"</span> , <span class="string">"green"</span>);<span class="comment">//设置属性，不会在DOM树上表现出来</span></div><div class="line">            <span class="built_in">console</span>.log(<span class="built_in">document</span>.querySelector(<span class="string">"#dv"</span>).dataset.color); <span class="comment">//js获取还是red  这个需要注意</span></div><div class="line">            <span class="built_in">console</span>.log($(<span class="string">"#dv"</span>).data(<span class="string">"color"</span>));<span class="comment">//green</span></div><div class="line">            <span class="built_in">console</span>.log($(<span class="string">"#dv"</span>).data(<span class="string">"nameFirst"</span>));<span class="comment">//kobe</span></div><div class="line">            <span class="built_in">console</span>.log($(<span class="string">"#dv"</span>).data(<span class="string">"nameLast"</span>));<span class="comment">//undefined</span></div><div class="line">            <span class="built_in">console</span>.log($(<span class="string">"#dv"</span>).data(<span class="string">"namelast"</span>));<span class="comment">//james</span></div><div class="line">        &#125;);</div><div class="line"></div><div class="line">    &#125;);</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>jquery中data(“key”,”value” )方法可以获取元素的属性值，也可以设置元素的属性值</p>
-<ul>
-<li>data-name-first 设置的属性，获取的时候 必须以data(“nameFirst”) </li>
-<li>data-nameLast 设置的属性，获取的时候  必须以 dataset(“namelast”)</li>
-<li>这点和原生js是一致的。 </li>
-<li>这个新的属性很方便我们在元素上存取数据而不用进行Ajax请求</li>
-</ul>
-<p>5.3.1根据以上总结，我们在给data-xxx  属性命名的时候，尽量不应该包含大写字母，以方便查询</p>
-<p>5.3.2 data-xx  属性里面可以存储的页面应用或者应用程序的私有的自定义的数据，不进行Ajax请求调用服务器端的数据查询，增加性能；</p>
-<p>睡觉!</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2905,7 +2799,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">147</span>
+                <span class="site-state-item-count">150</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2916,7 +2810,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2927,7 +2821,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">67</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -1,0 +1,788 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="component," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="react特点
+1.声明式设计 −React采用声明范式，可以轻松描述应用。
+2.高效 −React通过对DOM的模拟，最大限度地减少与DOM的交互。
+3.灵活 −React可以与已知的库或框架很好地配合。
+4.JSX − JSX 是 JavaScript 语法的扩展。React 开发不一定使用 JSX ，但我们建议使用它。
+5.组件 − 通过 React 构建组件，使得代码更加容易得到复用，能够">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react 元素渲染和组件">
+<meta property="og:url" content="http://yoursite.com/2017/04/18/183react-元素渲染和组件/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="react特点
+1.声明式设计 −React采用声明范式，可以轻松描述应用。
+2.高效 −React通过对DOM的模拟，最大限度地减少与DOM的交互。
+3.灵活 −React可以与已知的库或框架很好地配合。
+4.JSX − JSX 是 JavaScript 语法的扩展。React 开发不一定使用 JSX ，但我们建议使用它。
+5.组件 − 通过 React 构建组件，使得代码更加容易得到复用，能够">
+<meta property="og:updated_time" content="2017-04-20T03:50:45.326Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="react 元素渲染和组件">
+<meta name="twitter:description" content="react特点
+1.声明式设计 −React采用声明范式，可以轻松描述应用。
+2.高效 −React通过对DOM的模拟，最大限度地减少与DOM的交互。
+3.灵活 −React可以与已知的库或框架很好地配合。
+4.JSX − JSX 是 JavaScript 语法的扩展。React 开发不一定使用 JSX ，但我们建议使用它。
+5.组件 − 通过 React 构建组件，使得代码更加容易得到复用，能够">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/18/183react-元素渲染和组件/"/>
+
+
+
+
+
+  <title> react 元素渲染和组件 | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/18/183react-元素渲染和组件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                react 元素渲染和组件
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-18T12:36:00+08:00">
+                2017-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/react/" itemprop="url" rel="index">
+                    <span itemprop="name">react</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="react特点"><a href="#react特点" class="headerlink" title="react特点"></a>react特点</h3><ul>
+<li><strong>1.声明式设计</strong> −React采用声明范式，可以轻松描述应用。</li>
+<li><strong>2.高效</strong> −React通过对DOM的模拟，最大限度地减少与DOM的交互。</li>
+<li><strong>3.灵活</strong> −React可以与已知的库或框架很好地配合。</li>
+<li><strong>4.JSX</strong> − JSX 是 JavaScript 语法的扩展。React 开发不一定使用 JSX ，但我们建议使用它。</li>
+<li><strong>5.组件</strong> − 通过 React 构建组件，使得代码更加容易得到复用，能够很好的应用在大项目的开发中。</li>
+<li><strong>6.单向响应的数据流</strong> − React 实现了单向响应的数据流，从而减少了重复代码，这也是它为什么比传统数据绑定更简单。</li>
+</ul>
+<h3 id="React的原理"><a href="#React的原理" class="headerlink" title="React的原理"></a>React的原理</h3><p>在Web开发中，我们总需要将变化的数据实时反应到UI上，这时就需要对DOM进行操作。而复杂或频繁的DOM操作通常是性能瓶颈产生的原因（如何进行高性能的复杂DOM操作通常是衡量一个前端开发人员技能的重要指标）。React为此引入了虚拟DOM（Virtual DOM）的机制：在浏览器端用Javascript实现了一套DOM API。基于React进行开发时所有的DOM构造都是通过虚拟DOM进行，每当数据变化时，React都会重新构建整个DOM树，然后React将当前整个DOM树和上一次的DOM树进行对比，得到DOM结构的区别，然后仅仅将需要变化的部分进行实际的浏览器DOM更新。而且React能够批处理虚拟DOM的刷新，在一个事件循环（Event Loop）内的两次数据变化会被合并，例如你连续的先将节点内容从A变成B，然后又从B变成A，React会认为UI不发生任何变化，而如果通过手动控制，这种逻辑通常是极其复杂的。尽管每一次都需要构造完整的虚拟DOM树，但是因为虚拟DOM是内存数据，性能是极高的，而对实际DOM进行操作的仅仅是Diff部分，因而能达到提高性能的目的。这样，在保证性能的同时，开发者将不再需要关注某个数据的变化如何更新到一个或多个具体的DOM元素，而只需要关心在任意一个数据状态下，整个界面是如何Render的。</p>
+<h3 id="1-HTML-标签-vs-React-组件"><a href="#1-HTML-标签-vs-React-组件" class="headerlink" title="1 HTML 标签 vs. React 组件"></a>1 HTML 标签 vs. React 组件</h3><p>React 可以渲染 HTML 标签 (strings) 或 React 组件 (classes)。</p>
+<p>要渲染 HTML 标签，只需在 JSX 里使用小写字母的标签名。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myDivElement = <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">"foo"</span> /&gt;</span>;</span></div><div class="line">ReactDOM.render(myDivElement, document.getElementById('example'));</div></pre></td></tr></table></figure>
+<p>要渲染 React 组件，只需创建一个大写字母开头的本地变量。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> MyComponent = React.createClass(&#123;<span class="comment">/*...*/</span>&#125;);</div><div class="line"><span class="keyword">var</span> myElement = <span class="xml"><span class="tag">&lt; <span class="attr">MyComponent</span> <span class="attr">someProperty</span>=<span class="string">&#123;true&#125;</span> /&gt;</span>;</span></div><div class="line">ReactDOM.render(myElement, document.getElementById('example'));</div></pre></td></tr></table></figure>
+<p>React 的 JSX 使用大、小写的约定来区分本地组件的类和 HTML 标签。</p>
+<p>注意，原生 HTML 元素名以小写字母开头，而自定义的 React 类名以大写字母开头，比如 HelloMessage 不能写成 helloMessage。除此之外还需要注意组件类只能包含一个顶层标签，否则也会报错。</p>
+<p><strong>Components must return a single root element.</strong> </p>
+<h3 id="2-react-元素的不可变性"><a href="#2-react-元素的不可变性" class="headerlink" title="2 react 元素的不可变性"></a>2 react 元素的不可变性</h3><p>2.1 React Only Updates What’s Necessary</p>
+<p>React DOM compares the element and its children to the previous one, and only applies the DOM updates necessary to bring the DOM to the desired state.</p>
+<h3 id="3-react组件"><a href="#3-react组件" class="headerlink" title="3 react组件"></a>3 react组件</h3><ul>
+<li>组件是React中构建用户界面的基本单位。它们和外界的交互除了状态（state）之外，还有就是属性（props）。事实上，状态更多的是一个组件内部去自己维护，而属性则由外部在初始化这个组件时传递进来（一般是组件需要管理的数据）。React认为属性应该是只读的，一旦赋值过去后就不应该变化。</li>
+<li>每个组件只需要前端开发者提供一个 render 函数，把 props 和 state 映射成网页元素。</li>
+<li>setState : 组件规范中定义了setState方法，每次调用时都会更新组件的状态，触发render方法。需要注意，render方法是被异步调用的，这可以保证同步的多个setState方法只会触发一次render，有利于提高性能。和props不同，state是组件的内部状态，除了初始化时可能由props来决定，之后就完全由组件自身去维护。在组件的整个生命周期中，React强烈不推荐去修改自身的props，因为这会破坏UI和Model的一致性，props只能够由使用者来决定。</li>
+<li>props :  组件自身定义了一组props作为对外接口，展示一个组件时只需要指定props作为XML节点的属性。组件很少需要对外公开方法，唯一的交互途径就是props。这使得使用组件就像使用函数一样简单，给定一个输入，组件给定一个界面输出。</li>
+</ul>
+<p>声明组件有两种方式，一种是直接函数function声明 一种是直接class类声明</p>
+<p>Components let you split the UI into independent, reusable pieces, and think about each piece in isolation.</p>
+<p>Conceptually, components are like JavaScript functions. They accept arbitrary inputs (called “props”) and return React elements describing what should appear on the screen.</p>
+<p>函数声明组件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">     <span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello &#123;props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></div><div class="line">     &#125;</div><div class="line">   <span class="keyword">const</span> element = <span class="xml"><span class="tag">&lt;<span class="name">Welcome</span> <span class="attr">name</span> = <span class="string">"Jhon"</span>/&gt;</span></span></div><div class="line">   ReactDOM.render(</div><div class="line">       element,</div><div class="line">       document.getElementById('root')</div><div class="line"></div><div class="line">   )</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>类声明组件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">     <span class="class"><span class="keyword">class</span> <span class="title">Welcome</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">         render()&#123;</div><div class="line">             <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello &#123;this.props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></div><div class="line">         &#125;</div><div class="line">     &#125;</div><div class="line"></div><div class="line">     <span class="keyword">const</span> element = <span class="xml"><span class="tag">&lt;<span class="name">Welcome</span> <span class="attr">name</span> = <span class="string">'Jhon'</span>/&gt;</span></span></div><div class="line">     ReactDOM.render(</div><div class="line">         element,</div><div class="line">         document.getElementById('root')</div><div class="line">     )</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Let’s recap what happens in this example:</p>
+<ol>
+<li>We call <code>ReactDOM.render()</code> with the <code>&lt;Welcome name=&quot;Jhon&quot; /&gt;</code> element.</li>
+<li>React calls the <code>Welcome</code> component with <code>{name: &#39;Jhon&#39;}</code> as the props.</li>
+<li>Our <code>Welcome</code> component returns a <code>&lt;h1&gt;Hello, Jhon&lt;/h1&gt;</code> element as the result.</li>
+<li>React DOM efficiently updates the DOM to match <code>&lt;h1&gt;Hello,Jhon&lt;/h1&gt;</code>.</li>
+</ol>
+<p>我们可以通过 this.props对象向组件传递参数</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">      <span class="keyword">var</span> HelloWorld = React.createClass(&#123;</div><div class="line">        <span class="attr">render</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">          <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello &#123;this.props.name1&#125;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">p</span>&gt;</span>hello &#123;this.props.name2&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span>          </div><div class="line">                <span class="tag">&lt;/<span class="name">h1</span>&gt;</span>        </div><div class="line">        &#125;</div><div class="line">      &#125;) </div><div class="line">   ReactDOM.render(</div><div class="line">      <span class="xml"><span class="tag">&lt;<span class="name">HelloWorld</span> <span class="attr">name1</span> = <span class="string">'Jhon'</span> <span class="attr">name2</span> = <span class="string">"JiM"</span>/&gt;</span>,</span></div><div class="line">      document.getElementById('root')</div><div class="line">   )   </div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>复合组件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   </div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>)</span>&#123;</div><div class="line">       <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello &#123;props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></div><div class="line">   &#125;</div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="keyword">return</span> (</div><div class="line">           &lt;div&gt;</div><div class="line">               &lt;Welcome name = 'Jhon'/&gt;</div><div class="line">                &lt;Welcome name = 'JiM'/&gt;</div><div class="line">                 &lt;Welcome name = 'Kobe'/&gt;</div><div class="line">           &lt;/div&gt;</div><div class="line">       )</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   const element = &lt;App /&gt;</div><div class="line"></div><div class="line">   ReactDOM.render(</div><div class="line">       element ,</div><div class="line">       document.getElementById('root')</div><div class="line">   )</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><strong>注意组件实例化的时候传入的属性是js表达式的时候，要用<code>{}</code> 括起来 </strong>, javascritpExpression必须要用<code>{ }</code> 括起来</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="xml"></span></div><div class="line">   function formateDate(date)&#123;</div><div class="line">        return date.toLocaleDateString();</div><div class="line">   &#125;</div><div class="line">   function Comment(props)&#123;</div><div class="line">       console.log(props)</div><div class="line">       return (</div><div class="line">           <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span> = <span class="string">"Comment"</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span> = <span class="string">'UserInfo'</span>&gt;</span></div><div class="line">                   <span class="tag">&lt;<span class="name">img</span> <span class="attr">className</span> = <span class="string">'avatar'</span> <span class="attr">src</span>=<span class="string">&#123;props.author.avatarUrl&#125;</span> <span class="attr">alt</span>=<span class="string">&#123;props.author.name&#125;/</span>&gt;</span></div><div class="line">                   <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span> = <span class="string">'UserInfo-name'</span>&gt;</span></div><div class="line">                       &#123;props.author.name&#125;</div><div class="line">                   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">               <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">               <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span> = <span class="string">'Comment-text'</span>&gt;</span></div><div class="line">                   &#123;props.text&#125;</div><div class="line">               <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">               <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span> = <span class="string">'Comment-data'</span>&gt;</span></div><div class="line">                   &#123;formateDate(props.date)&#125;</div><div class="line">               <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">           <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">       );</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   const comment = &#123;</div><div class="line">       date : new Date(),</div><div class="line">       text : 'Thank you for give me the chance',</div><div class="line">       author : &#123;</div><div class="line">           name : 'Jhon',</div><div class="line">           avatarUrl : 'http://placekitten.com/g/64/64'</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line"> </div><div class="line"></div><div class="line"> const element = <span class="tag">&lt;<span class="name">Comment</span> <span class="attr">author</span> = <span class="string">&#123;comment.author&#125;</span> <span class="attr">text</span> = <span class="string">&#123;comment.text&#125;</span> <span class="attr">date</span> = <span class="string">&#123;comment.date&#125;</span> /&gt;</span></div><div class="line">  ReactDOM.render(</div><div class="line">    element,</div><div class="line">    document.getElementById('root')</div><div class="line">  )</div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>对于组合组件要进行抽取出来，即使功能在小，要充分利用react的组件化思想,以上代码通过组件化思想进行抽取之后</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="xml"></span></div><div class="line">  function formateDate(date)&#123;</div><div class="line">       return date.toLocaleDateString();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  function UserInfo(props)&#123;</div><div class="line">      return (</div><div class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span> = <span class="string">'UserInfo'</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">img</span> <span class="attr">calssName</span> = <span class="string">'avatar'</span> <span class="attr">src</span> = <span class="string">&#123;props.author.avatarUrl&#125;</span> <span class="attr">alt</span> = <span class="string">&#123;props.author.name&#125;/</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span> = <span class="string">'UserInfo-name'</span>&gt;</span></div><div class="line">                  &#123;props.author.name&#125;</div><div class="line">              <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">      )</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  function CommentText(props)&#123;</div><div class="line">      return (</div><div class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span> = <span class="string">'Comment-text'</span>&gt;</span></div><div class="line">                  &#123;props.text&#125;</div><div class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">      )</div><div class="line">           </div><div class="line">      </div><div class="line">  &#125;</div><div class="line"></div><div class="line">  function CommentData (props)&#123;</div><div class="line">      return (</div><div class="line">           <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span> = <span class="string">'Comment-data'</span>&gt;</span></div><div class="line">                  &#123;formateDate(props.date)&#125;</div><div class="line">           <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">      )</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  function Comment(props)&#123;</div><div class="line">      console.log(props)</div><div class="line">      return (</div><div class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span> = <span class="string">"Comment"</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">UserInfo</span> <span class="attr">author</span> =  <span class="string">&#123;props.author&#125;</span> /&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">CommentText</span> <span class="attr">text</span> = <span class="string">&#123;props.text&#125;/</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">CommentData</span> <span class="attr">date</span> = <span class="string">&#123;props.date&#125;/</span>&gt;</span>   </div><div class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">      );</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  const comment = &#123;</div><div class="line">      date : new Date(),</div><div class="line">      text : 'Thank you for give me the chance',</div><div class="line">      author : &#123;</div><div class="line">          name : 'Jhon',</div><div class="line">          avatarUrl : 'http://placekitten.com/g/64/64'</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">const element = <span class="tag">&lt;<span class="name">Comment</span> <span class="attr">author</span> = <span class="string">&#123;comment.author&#125;</span> <span class="attr">text</span> = <span class="string">&#123;comment.text&#125;</span> <span class="attr">date</span> = <span class="string">&#123;comment.date&#125;</span> /&gt;</span></div><div class="line"> ReactDOM.render(</div><div class="line">   element,</div><div class="line">   document.getElementById('root')</div><div class="line"> )</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="xml"></span></div><div class="line">     var WebSite = React.createClass(&#123;</div><div class="line">         render : function()&#123;</div><div class="line">             return (</div><div class="line">                <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">Name</span> <span class="attr">name</span> = <span class="string">&#123;this.props.name&#125;/</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">Link</span> <span class="attr">link</span> = <span class="string">&#123;this.props.link&#125;/</span>&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">             );</div><div class="line">         &#125;</div><div class="line">     &#125;)</div><div class="line">   </div><div class="line">   var Name = React.createClass(&#123;</div><div class="line">       render : function()&#123;</div><div class="line">           return (</div><div class="line">               <span class="tag">&lt;<span class="name">p</span>&gt;</span>hello &#123;this.props.name&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">           );</div><div class="line">       &#125;</div><div class="line">   &#125;)</div><div class="line"></div><div class="line">   var Link = React.createClass(&#123;</div><div class="line">       render : function()&#123;</div><div class="line">           return (</div><div class="line">               <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span> = <span class="string">&#123;this.props.link&#125;</span>&gt;</span> &#123;this.props.link&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">           );</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line">)</div><div class="line"></div><div class="line">   ReactDOM.render(</div><div class="line">       <span class="tag">&lt;<span class="name">WebSite</span> <span class="attr">name</span> = <span class="string">'Jhon'</span> <span class="attr">link</span> = <span class="string">'www.baidu.com'</span>/&gt;</span>,</div><div class="line">       document.getElementById('root')</div><div class="line">   )</div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/component/" rel="tag"># component</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/18/181svn/" rel="next" title="svn">
+                <i class="fa fa-chevron-left"></i> svn
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/19/185react-Event/" rel="prev" title="react Event">
+                react Event <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description">keep fighting！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">150</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">67</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#react特点"><span class="nav-number">1.</span> <span class="nav-text">react特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React的原理"><span class="nav-number">2.</span> <span class="nav-text">React的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-HTML-标签-vs-React-组件"><span class="nav-number">3.</span> <span class="nav-text">1 HTML 标签 vs. React 组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-react-元素的不可变性"><span class="nav-number">4.</span> <span class="nav-text">2 react 元素的不可变性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-react组件"><span class="nav-number">5.</span> <span class="nav-text">3 react组件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
