@@ -270,6 +270,320 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/08/12HTMl5  file相关API /">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/08/12HTMl5  file相关API /" itemprop="url">
+                  HTML5 文件读取API
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-08T12:36:00+08:00">
+                2016-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTML5/" itemprop="url" rel="index">
+                    <span itemprop="name">HTML5</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>HTML5 文件读取   <input type="file">  元素input=file的新增API </p>
+<p>fileAPI主要有5个: </p>
+<p>FileUpload:当用户选择或编辑一个文件名，file-upload 元素触发 onchange 事件句柄</p>
+<p>FileList:可以看成一个对象，包含上传文件的相关信息，其中包括了File对象</p>
+<p>File:可以看成是FileList的一个属性，它包含了文件的基本信息</p>
+<p>FileReader:HTML5新增的API ,可以理解成一个封装好的函数，文件的读取都是由它完成的,如果需要使用需要new操作符创建一个读取对象；</p>
+<p>FileError:这个类可以自己生成，主要用来提示文件操作中的错误，</p>
+<p>DataTransfer,，Blob，。</p>
+<p>首先，从源头来理解:看一下demo我们简单做一个工作中常用的头像上传的功能：</p>
+<p>html代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"上传头像"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"border: 1px solid #000 ;width:200px;height: 200px;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">""</span> <span class="attr">width</span>=<span class="string">"200px"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>script代码:功能实现是点击input=button上传头像的按钮，可以将input=file里面的选择的文件上传；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"input[type=button]"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> fileDom = <span class="built_in">document</span>.querySelector(<span class="string">"input[type=file]"</span>);</div><div class="line">        <span class="built_in">console</span>.log(fileDom.files);<span class="comment">//FileList</span></div><div class="line">        <span class="built_in">console</span>.log(fileDom.files[<span class="number">0</span>]);<span class="comment">//File</span></div><div class="line"><span class="comment">//        获取文件</span></div><div class="line">        <span class="keyword">var</span> file = fileDom.files[<span class="number">0</span>];<span class="comment">//File</span></div><div class="line"><span class="comment">//        创建HTML5文件读取对象</span></div><div class="line">        <span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();</div><div class="line">        <span class="built_in">console</span>.log(reader);</div><div class="line"><span class="comment">//        从这个File对象可以获取name、size、lastModifiedDate和type等属性。</span></div><div class="line"><span class="comment">//把这个File对象传给FileReader对象的读取方法，就能读取文件了。</span></div><div class="line"><span class="comment">////        调用文件读取对象的方法</span></div><div class="line"></div><div class="line">        reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"读取完毕"</span>);</div><div class="line">            <span class="built_in">console</span>.log(reader.result);</div><div class="line">            <span class="built_in">document</span>.querySelector(<span class="string">"img"</span>).src = reader.result;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//        reader.readAsText(file);</span></div><div class="line">        reader.readAsDataURL(file);</div><div class="line"><span class="comment">//注意执行顺序，onload之后，会执行 reader.readAsDataURl(file),然后才进入函数体，无阻塞事件</span></div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>1 当我们没有先选择文件的时候，直接点击button按钮，此时控制台输出：因为没有选择文件上传，所以此时FileList的length为0 ；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">FileList &#123;length: 0&#125;//fileDom.files</div><div class="line">FileReader &#123;readyState: 0, result: null, error: null, onloadstart: null, onprogress: null…&#125;//</div></pre></td></tr></table></figure>
+<p>2 如果我们选择一个文件上传之后，此时在点击button，此时控制台输出：(注意fileDom.files[0]中的0 代表什么，注意比较两种情况下FileList对象的属性，第一种没有上传文件的情况下，FileList对象只有一个属性值 length:0;而在第二种首先上传文件的情况下，FileList对象的属性为 0:File, length:1,console.log(fileDom.files[length])也能输出length属性对应的值)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">FileList &#123;0: File, length: 1&#125; //fileDom.files</div><div class="line">File &#123;name: "04_kiss.jpg", lastModified: 1486178231000, lastModifiedDate: Sat Feb 04 2017 11:17:11 GMT+0800 (中国标准时间), webkitRelativePath: "", size: 47689…&#125;   //fileDom.files[0]</div><div class="line">FileReader &#123;readyState: 0, result: null, error: null, onloadstart: null, onprogress: null…&#125;</div></pre></td></tr></table></figure>
+<p>3 文件上传之后——FileList对象——FileList对象包含File对象——File对象里面又包含了以下API:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">lastModified   :文件修改</div><div class="line">lastModifiedDate</div><div class="line">name  :文件名</div><div class="line">type  :文件类型</div><div class="line">size  :文件大小</div></pre></td></tr></table></figure>
+<p>4 FileReader 对象的相关API如下:</p>
+<p>该对象的 方法将确定如何读取文件的方式，然后将读取到的文件存在其属性reader.result里面</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">error: null</div><div class="line">onabort: null</div><div class="line">onerror: null</div><div class="line">onload: null</div><div class="line">onloadend: null</div><div class="line">onloadstart: null</div><div class="line">onprogress: null</div><div class="line">readyState: </div><div class="line">result:</div><div class="line">DONE: 2</div><div class="line">EMPTY: 0</div><div class="line">LOADING: 1</div><div class="line">abort: </div><div class="line">function abort() </div><div class="line">function readAsBinaryString: </div><div class="line">function readAsBinaryString(File Object) </div><div class="line">function readAsDataURL(File Object)</div><div class="line">function readAsText(File Object);</div></pre></td></tr></table></figure>
+<p>5 .FileError这个类可以自己生成，主要用来提示文件操作中的错误，以下基本为常量，可直接使用【类名.属性】</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">ABORT_ERR: 3</div><div class="line">ENCODING_ERR: 5</div><div class="line">INVALID_MODIFICATION_ERR: 9</div><div class="line">INVALID_STATE_ERR: 7</div><div class="line">NOT_FOUND_ERR: 1</div><div class="line">NOT_READABLE_ERR: 4</div><div class="line">NO_MODIFICATION_ALLOWED_ERR: 6</div><div class="line">PATH_EXISTS_ERR: 12</div><div class="line">QUOTA_EXCEEDED_ERR: 10</div><div class="line">SECURITY_ERR: 2</div><div class="line">SYNTAX_ERR: 8</div><div class="line">TYPE_MISMATCH_ERR: 11</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/01/13-HTML5 web存储：/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/01/13-HTML5 web存储：/" itemprop="url">
+                  HTML5 web存储
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-01T12:36:00+08:00">
+                2016-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTML5/" itemprop="url" rel="index">
+                    <span itemprop="name">HTML5</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>HTML5 web存储：</p>
+<p>1 window.localStorage.setItem(key[string],data[string]);  可以将数据存储在用户端；</p>
+<p>2 window.localStorage.getItem(key[string]);可以将setItem存储的数据取出来；</p>
+<p>3 window.localStorage.clear(),会将客户端存储的数据全部清空；</p>
+<p>4 window.localStorage.removeItem(key) ; 可以删除客户端指定的已经存储起来的数据；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>请输入你的名字<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">姓名<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"1"</span>/&gt;</span></div><div class="line">年龄<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"2"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"保存"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">//    用户第一次进来点击保存，将用户输入的内容保存在客户端</span></div><div class="line"><span class="comment">//    获取点击保存按钮，将内容保存在客户端</span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"input[type=button]"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//        获取输入的内容</span></div><div class="line">        <span class="keyword">var</span> inputValue = <span class="built_in">document</span>.querySelector(<span class="string">"input[type=text]"</span>).value ;</div><div class="line">        <span class="built_in">console</span>.log(inputValue);</div><div class="line"><span class="comment">//        如何创建一个HTMl5的WEB存储,将inoutValue 存储在userName中</span></div><div class="line"><span class="comment">//        window.localStorage.setItem(key[string],data[string]);</span></div><div class="line">        <span class="built_in">window</span>.localStorage.setItem(<span class="string">'userName'</span>,inputValue);</div><div class="line">    &#125;</div><div class="line"><span class="comment">//    用户第二次进入的时候，页面加载完毕之后，将第一次输入的内容保存</span></div><div class="line">    <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">window</span>.localStorage.clear()</div><div class="line">        <span class="comment">//可以将所有存储在客户端的数据清除;</span></div><div class="line">        <span class="comment">//window.localStorage.key(2);</span></div><div class="line">        <span class="comment">//将之前web存储的内容取出来</span></div><div class="line"><span class="comment">//        var userName = window.localStorage.getItem(key[string])</span></div><div class="line">        <span class="keyword">var</span> userName = <span class="built_in">window</span>.localStorage.getItem(<span class="string">'userName'</span>);</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"取出来的userName值为"</span>+userName);</div><div class="line">        <span class="keyword">if</span>(userName == <span class="literal">undefined</span> &amp;&amp; userName !== <span class="string">""</span>)&#123;</div><div class="line">            <span class="built_in">document</span>.querySelector(<span class="string">"h1"</span>).innerHTML = <span class="string">'请输入您的名字'</span>;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">          <span class="comment">//        将取出来的内容添加到欢迎行</span></div><div class="line">            <span class="built_in">document</span>.querySelector(<span class="string">"h1"</span>).innerHTML = userName +<span class="string">"欢迎您"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/22/07DOM juqery里面操作元素的属性节点：ele/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1106,166 +1420,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/08/48-less程序化编译CSS/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/08/48-less程序化编译CSS/" itemprop="url">
-                  less
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-08T12:36:00+08:00">
-                2016-06-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/less/" itemprop="url" rel="index">
-                    <span itemprop="name">less</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="less程序化编译CSS"><a href="#less程序化编译CSS" class="headerlink" title="less程序化编译CSS"></a>less程序化编译CSS</h2><h3 id="1-语法-定义变量，LESS-允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。"><a href="#1-语法-定义变量，LESS-允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。" class="headerlink" title="1 语法:定义变量，LESS 允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。"></a>1 语法:定义变量，LESS 允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*语法：@变量名: 值*/</span></div><div class="line"><span class="variable">@mainColor :</span> red ;</div><div class="line"><span class="selector-tag">div</span> &#123;</div><div class="line">   <span class="attribute">color</span>:<span class="variable">@mainColor</span> ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="2-Mixin-混入-功能对用开发者来说并不陌生，很多动态语言都支持-Mixin（混入）特性，它是多重继承的一种实现，在-LESS-中，混入是指在一个-CLASS-中引入另外一个已经定义的-CLASS，就像在当前-CLASS-中增加一个属性一样。"><a href="#2-Mixin-混入-功能对用开发者来说并不陌生，很多动态语言都支持-Mixin（混入）特性，它是多重继承的一种实现，在-LESS-中，混入是指在一个-CLASS-中引入另外一个已经定义的-CLASS，就像在当前-CLASS-中增加一个属性一样。" class="headerlink" title="2 Mixin 混入:功能对用开发者来说并不陌生，很多动态语言都支持 Mixin（混入）特性，它是多重继承的一种实现，在 LESS 中，混入是指在一个 CLASS 中引入另外一个已经定义的 CLASS，就像在当前 CLASS 中增加一个属性一样。"></a>2 Mixin 混入:功能对用开发者来说并不陌生，很多动态语言都支持 Mixin（混入）特性，它是多重继承的一种实现，在 LESS 中，混入是指在一个 CLASS 中引入另外一个已经定义的 CLASS，就像在当前 CLASS 中增加一个属性一样。</h3><ul>
-<li>样式混入</li>
-</ul>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.red</span> &#123;</div><div class="line">  	<span class="attribute">color </span>: red ;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.border</span> &#123;</div><div class="line">  	<span class="attribute">border</span>:<span class="number">2px</span> solid <span class="number">#000</span> ;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.mixin-class</span> &#123;</div><div class="line">  	<span class="selector-class">.red</span>();</div><div class="line">  	<span class="selector-class">.border</span>();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>函数混入(变量必须要有默认值:如果后面的代码用到了该变量，否则会提示undefined)</li>
-</ul>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.red</span>(<span class="variable">@color</span>:red)&#123;</div><div class="line">  	<span class="attribute">color </span>: <span class="variable">@color</span> ;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.border</span>(<span class="variable">@color</span>:<span class="number">#ccc</span>,<span class="variable">@width</span>:<span class="number">3px</span>)&#123;</div><div class="line">  	<span class="attribute">border </span>: <span class="variable">@width</span> solid <span class="variable">@color</span> ;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.mixin-func</span> &#123;</div><div class="line">  	<span class="selector-class">.red</span>(skyblue);</div><div class="line">  	<span class="selector-class">.border</span>(<span class="number">#666</span>,<span class="number">10px</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="3-嵌套-在我们书写标准-CSS-的时候，遇到多层的元素嵌套这种情况时，我们要么采用从外到内的选择器嵌套定义，要么采用给特定元素加-CLASS-或-ID-的方式”"><a href="#3-嵌套-在我们书写标准-CSS-的时候，遇到多层的元素嵌套这种情况时，我们要么采用从外到内的选择器嵌套定义，要么采用给特定元素加-CLASS-或-ID-的方式”" class="headerlink" title="3 嵌套:在我们书写标准 CSS 的时候，遇到多层的元素嵌套这种情况时，我们要么采用从外到内的选择器嵌套定义，要么采用给特定元素加 CLASS 或 ID 的方式”"></a>3 嵌套:在我们书写标准 CSS 的时候，遇到多层的元素嵌套这种情况时，我们要么采用从外到内的选择器嵌套定义，要么采用给特定元素加 CLASS 或 ID 的方式”</h3><p>比如以下这段html的嵌套书写</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"column"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">""</span>/&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"column"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">""</span>/&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"column"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">""</span>/&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>css样式如下:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">1000px</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">80px</span>;</div><div class="line">  	<span class="attribute">position</span>:relative;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span> &#123;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span>&gt;<span class="selector-class">.column</span> &#123;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">33.333%</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">  	<span class="attribute">border</span>:<span class="number">2px</span> solid <span class="number">#000</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">/*后代选择器*/</span></div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span>&gt;<span class="selector-class">.column</span> <span class="selector-tag">h3</span> &#123;</div><div class="line">  	<span class="attribute">margin</span>:<span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span>&gt;<span class="selector-class">.column</span> <span class="selector-tag">a</span> &#123;</div><div class="line">  	<span class="attribute">dispaly</span>:block;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">  	<span class="attribute">text-decoration</span>:none;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span>&gt;<span class="selector-class">.column</span> <span class="selector-tag">a</span> : <span class="selector-tag">hover</span> &#123;</div><div class="line">  	<span class="attribute">color</span>:<span class="number">#dddddd</span>;</div><div class="line">  	<span class="attribute">background-color</span>:<span class="number">#ccc</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>less编译如下(注意伪类需要加  &amp;:伪类 )</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span> &#123;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">1000px</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">80px</span>;</div><div class="line">  	<span class="attribute">position</span>:relative;</div><div class="line">  	<span class="selector-class">.row</span> &#123;</div><div class="line">      	<span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">  		<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">    	<span class="selector-class">.column</span> &#123;</div><div class="line">             <span class="attribute">width</span>:<span class="number">33.333%</span>;</div><div class="line">  			<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">  			<span class="attribute">border</span>:<span class="number">2px</span> solid <span class="number">#000</span>;</div><div class="line">      		<span class="selector-tag">h3</span> &#123;</div><div class="line">              	<span class="attribute">margin</span>:<span class="number">0</span>;</div><div class="line">  			&#125;</div><div class="line">      		<span class="selector-tag">a</span> &#123;</div><div class="line">              	 <span class="attribute">dispaly</span>:block;</div><div class="line">  				<span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">  				<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">  				<span class="attribute">text-decoration</span>:none;</div><div class="line">      		&#125;</div><div class="line">      <span class="comment">/*&amp;:伪类*/</span></div><div class="line">      		<span class="selector-tag">&amp;</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">              	 <span class="attribute">color</span>:<span class="number">#dddddd</span>;</div><div class="line">  				<span class="attribute">background-color</span>:<span class="number">#ccc</span>;</div><div class="line">      		&#125;</div><div class="line">  		&#125;</div><div class="line">  	&#125;			</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>注意伪类选择符：E:hover  E : link  E :first-child </p>
-<h3 id="4-Import导入-可以使我们的样式编译模块化-这个思想很重呀，模块化的编程会使我们的维护特别简单。"><a href="#4-Import导入-可以使我们的样式编译模块化-这个思想很重呀，模块化的编程会使我们的维护特别简单。" class="headerlink" title="4 Import导入:可以使我们的样式编译模块化,这个思想很重呀，模块化的编程会使我们的维护特别简单。"></a>4 Import导入:可以使我们的样式编译模块化,这个思想很重呀，模块化的编程会使我们的维护特别简单。</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@import</span> <span class="string">"lessFileName"</span>;</div></pre></td></tr></table></figure>
-<h3 id="5-Less-cmd命令符"><a href="#5-Less-cmd命令符" class="headerlink" title="5 Less  cmd命令符"></a>5 Less  cmd命令符</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lessc -v :查看less文件的版本;</div></pre></td></tr></table></figure>
-<h3 id="6-在less文件中，-注释同样可以在css中出现，而-注释只会在less中出现，不会再编译的css中出现。"><a href="#6-在less文件中，-注释同样可以在css中出现，而-注释只会在less中出现，不会再编译的css中出现。" class="headerlink" title="6 在less文件中，/**/  注释同样可以在css中出现，而 //  注释只会在less中出现，不会再编译的css中出现。"></a>6 在less文件中，/**/  注释同样可以在css中出现，而 //  注释只会在less中出现，不会再编译的css中出现。</h3>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/08/15-javascript 常用API总结：/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1455,6 +1609,166 @@
 <p><strong>3.7 console对象</strong></p>
 <p><strong>（1）方法</strong></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(text,text2,...)   <span class="comment">//用于在console窗口输出信息。它可以接受多个参数，将它们的结果连接起来输出。如果第一个参数是格式字符串（使用了格式占位符），console.log方法将依次用后面的参数替换占位符，然后再进行输出。</span></div><div class="line"><span class="built_in">console</span>.info()   <span class="comment">//在console窗口输出信息，同时，会在输出信息的前面，加上一个蓝色图标。</span></div><div class="line"><span class="built_in">console</span>.debug()  <span class="comment">//在console窗口输出信息，同时，会在输出信息的前面，加上一个蓝色图标。</span></div><div class="line"><span class="built_in">console</span>.warn()  <span class="comment">//输出信息时，在最前面加一个黄色三角，表示警告；</span></div><div class="line"><span class="built_in">console</span>.error()  <span class="comment">//输出信息时，在最前面加一个红色的叉，表示出错，同时会显示错误发生的堆栈</span></div><div class="line"><span class="built_in">console</span>.table()  <span class="comment">//可以将复合类型的数据转为表格显示。</span></div><div class="line"><span class="built_in">console</span>.count()  <span class="comment">//用于计数，输出它被调用了多少次。</span></div><div class="line"><span class="built_in">console</span>.dir()    <span class="comment">//用来对一个对象进行检查（inspect），并以易于阅读和打印的格式显示。</span></div><div class="line"><span class="built_in">console</span>.dirxml()  <span class="comment">//用于以目录树的形式，显示DOM节点。</span></div><div class="line"><span class="built_in">console</span>.assert()  <span class="comment">//接受两个参数，第一个参数是表达式，第二个参数是字符串。只有当第一个参数为false，才会输出第二个参数，否则不会有任何结果。</span></div><div class="line"></div><div class="line"><span class="comment">//这两个方法用于计时，可以算出一个操作所花费的准确时间。</span></div><div class="line"><span class="built_in">console</span>.time()</div><div class="line"><span class="built_in">console</span>.timeEnd()</div><div class="line"><span class="comment">//time方法表示计时开始，timeEnd方法表示计时结束。它们的参数是计时器的名称。调用timeEnd方法之后，console窗口会显示“计时器名称: 所耗费的时间”。</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.profile()  <span class="comment">//用来新建一个性能测试器（profile），它的参数是性能测试器的名字。</span></div><div class="line"><span class="built_in">console</span>.profileEnd()  <span class="comment">//用来结束正在运行的性能测试器。</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.group()</div><div class="line"><span class="built_in">console</span>.groupend()</div><div class="line"><span class="comment">//上面这两个方法用于将显示的信息分组。它只在输出大量信息时有用，分在一组的信息，可以用鼠标折叠/展开。</span></div><div class="line"><span class="built_in">console</span>.groupCollapsed()  <span class="comment">//用于将显示的信息分组，该组的内容，在第一次显示时是收起的（collapsed），而不是展开的。</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.trace()  <span class="comment">//显示当前执行的代码在堆栈中的调用路径。</span></div><div class="line"><span class="built_in">console</span>.clear()  <span class="comment">//用于清除当前控制台的所有输出，将光标回置到第一行。</span></div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/08/48-less程序化编译CSS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/08/48-less程序化编译CSS/" itemprop="url">
+                  less
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-08T12:36:00+08:00">
+                2016-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/less/" itemprop="url" rel="index">
+                    <span itemprop="name">less</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="less程序化编译CSS"><a href="#less程序化编译CSS" class="headerlink" title="less程序化编译CSS"></a>less程序化编译CSS</h2><h3 id="1-语法-定义变量，LESS-允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。"><a href="#1-语法-定义变量，LESS-允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。" class="headerlink" title="1 语法:定义变量，LESS 允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。"></a>1 语法:定义变量，LESS 允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*语法：@变量名: 值*/</span></div><div class="line"><span class="variable">@mainColor :</span> red ;</div><div class="line"><span class="selector-tag">div</span> &#123;</div><div class="line">   <span class="attribute">color</span>:<span class="variable">@mainColor</span> ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="2-Mixin-混入-功能对用开发者来说并不陌生，很多动态语言都支持-Mixin（混入）特性，它是多重继承的一种实现，在-LESS-中，混入是指在一个-CLASS-中引入另外一个已经定义的-CLASS，就像在当前-CLASS-中增加一个属性一样。"><a href="#2-Mixin-混入-功能对用开发者来说并不陌生，很多动态语言都支持-Mixin（混入）特性，它是多重继承的一种实现，在-LESS-中，混入是指在一个-CLASS-中引入另外一个已经定义的-CLASS，就像在当前-CLASS-中增加一个属性一样。" class="headerlink" title="2 Mixin 混入:功能对用开发者来说并不陌生，很多动态语言都支持 Mixin（混入）特性，它是多重继承的一种实现，在 LESS 中，混入是指在一个 CLASS 中引入另外一个已经定义的 CLASS，就像在当前 CLASS 中增加一个属性一样。"></a>2 Mixin 混入:功能对用开发者来说并不陌生，很多动态语言都支持 Mixin（混入）特性，它是多重继承的一种实现，在 LESS 中，混入是指在一个 CLASS 中引入另外一个已经定义的 CLASS，就像在当前 CLASS 中增加一个属性一样。</h3><ul>
+<li>样式混入</li>
+</ul>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.red</span> &#123;</div><div class="line">  	<span class="attribute">color </span>: red ;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.border</span> &#123;</div><div class="line">  	<span class="attribute">border</span>:<span class="number">2px</span> solid <span class="number">#000</span> ;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.mixin-class</span> &#123;</div><div class="line">  	<span class="selector-class">.red</span>();</div><div class="line">  	<span class="selector-class">.border</span>();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>函数混入(变量必须要有默认值:如果后面的代码用到了该变量，否则会提示undefined)</li>
+</ul>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.red</span>(<span class="variable">@color</span>:red)&#123;</div><div class="line">  	<span class="attribute">color </span>: <span class="variable">@color</span> ;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.border</span>(<span class="variable">@color</span>:<span class="number">#ccc</span>,<span class="variable">@width</span>:<span class="number">3px</span>)&#123;</div><div class="line">  	<span class="attribute">border </span>: <span class="variable">@width</span> solid <span class="variable">@color</span> ;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.mixin-func</span> &#123;</div><div class="line">  	<span class="selector-class">.red</span>(skyblue);</div><div class="line">  	<span class="selector-class">.border</span>(<span class="number">#666</span>,<span class="number">10px</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="3-嵌套-在我们书写标准-CSS-的时候，遇到多层的元素嵌套这种情况时，我们要么采用从外到内的选择器嵌套定义，要么采用给特定元素加-CLASS-或-ID-的方式”"><a href="#3-嵌套-在我们书写标准-CSS-的时候，遇到多层的元素嵌套这种情况时，我们要么采用从外到内的选择器嵌套定义，要么采用给特定元素加-CLASS-或-ID-的方式”" class="headerlink" title="3 嵌套:在我们书写标准 CSS 的时候，遇到多层的元素嵌套这种情况时，我们要么采用从外到内的选择器嵌套定义，要么采用给特定元素加 CLASS 或 ID 的方式”"></a>3 嵌套:在我们书写标准 CSS 的时候，遇到多层的元素嵌套这种情况时，我们要么采用从外到内的选择器嵌套定义，要么采用给特定元素加 CLASS 或 ID 的方式”</h3><p>比如以下这段html的嵌套书写</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"column"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">""</span>/&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"column"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">""</span>/&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"column"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">""</span>/&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>css样式如下:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">1000px</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">80px</span>;</div><div class="line">  	<span class="attribute">position</span>:relative;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span> &#123;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span>&gt;<span class="selector-class">.column</span> &#123;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">33.333%</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">  	<span class="attribute">border</span>:<span class="number">2px</span> solid <span class="number">#000</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">/*后代选择器*/</span></div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span>&gt;<span class="selector-class">.column</span> <span class="selector-tag">h3</span> &#123;</div><div class="line">  	<span class="attribute">margin</span>:<span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span>&gt;<span class="selector-class">.column</span> <span class="selector-tag">a</span> &#123;</div><div class="line">  	<span class="attribute">dispaly</span>:block;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">  	<span class="attribute">text-decoration</span>:none;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span>&gt;<span class="selector-class">.column</span> <span class="selector-tag">a</span> : <span class="selector-tag">hover</span> &#123;</div><div class="line">  	<span class="attribute">color</span>:<span class="number">#dddddd</span>;</div><div class="line">  	<span class="attribute">background-color</span>:<span class="number">#ccc</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>less编译如下(注意伪类需要加  &amp;:伪类 )</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span> &#123;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">1000px</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">80px</span>;</div><div class="line">  	<span class="attribute">position</span>:relative;</div><div class="line">  	<span class="selector-class">.row</span> &#123;</div><div class="line">      	<span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">  		<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">    	<span class="selector-class">.column</span> &#123;</div><div class="line">             <span class="attribute">width</span>:<span class="number">33.333%</span>;</div><div class="line">  			<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">  			<span class="attribute">border</span>:<span class="number">2px</span> solid <span class="number">#000</span>;</div><div class="line">      		<span class="selector-tag">h3</span> &#123;</div><div class="line">              	<span class="attribute">margin</span>:<span class="number">0</span>;</div><div class="line">  			&#125;</div><div class="line">      		<span class="selector-tag">a</span> &#123;</div><div class="line">              	 <span class="attribute">dispaly</span>:block;</div><div class="line">  				<span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">  				<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">  				<span class="attribute">text-decoration</span>:none;</div><div class="line">      		&#125;</div><div class="line">      <span class="comment">/*&amp;:伪类*/</span></div><div class="line">      		<span class="selector-tag">&amp;</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">              	 <span class="attribute">color</span>:<span class="number">#dddddd</span>;</div><div class="line">  				<span class="attribute">background-color</span>:<span class="number">#ccc</span>;</div><div class="line">      		&#125;</div><div class="line">  		&#125;</div><div class="line">  	&#125;			</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意伪类选择符：E:hover  E : link  E :first-child </p>
+<h3 id="4-Import导入-可以使我们的样式编译模块化-这个思想很重呀，模块化的编程会使我们的维护特别简单。"><a href="#4-Import导入-可以使我们的样式编译模块化-这个思想很重呀，模块化的编程会使我们的维护特别简单。" class="headerlink" title="4 Import导入:可以使我们的样式编译模块化,这个思想很重呀，模块化的编程会使我们的维护特别简单。"></a>4 Import导入:可以使我们的样式编译模块化,这个思想很重呀，模块化的编程会使我们的维护特别简单。</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@import</span> <span class="string">"lessFileName"</span>;</div></pre></td></tr></table></figure>
+<h3 id="5-Less-cmd命令符"><a href="#5-Less-cmd命令符" class="headerlink" title="5 Less  cmd命令符"></a>5 Less  cmd命令符</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lessc -v :查看less文件的版本;</div></pre></td></tr></table></figure>
+<h3 id="6-在less文件中，-注释同样可以在css中出现，而-注释只会在less中出现，不会再编译的css中出现。"><a href="#6-在less文件中，-注释同样可以在css中出现，而-注释只会在less中出现，不会再编译的css中出现。" class="headerlink" title="6 在less文件中，/**/  注释同样可以在css中出现，而 //  注释只会在less中出现，不会再编译的css中出现。"></a>6 在less文件中，/**/  注释同样可以在css中出现，而 //  注释只会在less中出现，不会再编译的css中出现。</h3>
           
         
       
@@ -1819,374 +2133,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/23/02margin  auto  position/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/23/02margin  auto  position/" itemprop="url">
-                  margin  auto  position定位使盒子居中
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-23T12:36:00+08:00">
-                2016-05-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css-html/" itemprop="url" rel="index">
-                    <span itemprop="name">css html</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>position定位如何在父盒子居中 </p>
-<p>一 简单了解position定位取值：</p>
-<ul>
-<li>position:left right bottom top     length | %</li>
-<li>length  是确定单位距离的取值，单位以px  em等</li>
-<li>百分比%,此时要明确百分比对应的取值标准，水平方向 left= 百分比值 X 父元素的宽度(基准是父元素padding+width)，垂直方向 top = 百分比值 X 父元素的高度(此时基准是父元素的padding+height)；前提是父元素设置了除 static之外的定位，否则，百分比取值基准是浏览器的高度和宽度。</li>
-</ul>
-<p>二  margin 取值</p>
-<ul>
-<li>auto：水平（默认）书写模式下，margin-top/margin-bottom计算值为0，margin-left/margin-right取决于可用空间；这也是<strong>块级元素的流体特性</strong> 。<strong>思考 auto 的取值什么时候会起作用</strong>。</li>
-<li>length : 用长度值来定义外补白。可以为负值 </li>
-<li>百分比： 用百分比来定义外补白。水平（默认）书写模式下，参照其包含块 <a href="../dimension/width.htm">width</a> 进行计算，其它情况参照 <a href="../dimension/height.htm">height</a> ，可以为负值</li>
-</ul>
-<p>三：理解margin的auto取值问题：</p>
-<ul>
-<li>标准流下的margin的auto取值：对于块级元素，margin: 0 auto ;可以使块级元素居中显示，就是利用了块级元素的流体特性</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">        .bigbox &#123;</div><div class="line">            width: 800px;</div><div class="line">            height: 200px;</div><div class="line">            margin: 100px auto;</div><div class="line">            //使bigbox在body中居中</div><div class="line">            border: 1px solid #000;        </div><div class="line">        &#125;  </div><div class="line">        .smallbox &#123;</div><div class="line">            width: 100px;</div><div class="line">            height: 100px;</div><div class="line">            background-color: limegreen;  </div><div class="line">            margin:0  auto;</div><div class="line">            //使smallbox在bigbox中居中</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bigbox"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"smallbox"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>标准流下的auto取值：如果发生了元素转化，块级元素转化为行内块元素,display:inline-block  position float 等</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">        .bigbox &#123;</div><div class="line">            width: 800px;</div><div class="line">            height: 200px;</div><div class="line">            margin: 100px auto;</div><div class="line">            //使bigbox在body中居中</div><div class="line">            border: 1px solid #000; </div><div class="line">          position:absolute;</div><div class="line">          //display:inline-block;</div><div class="line">          </div><div class="line">        &#125;  </div><div class="line">        .smallbox &#123;</div><div class="line">            width: 100px;</div><div class="line">            height: 100px;</div><div class="line">            background-color: limegreen;  </div><div class="line">            margin:0  auto;</div><div class="line">            //使smallbox在bigbox中居中</div><div class="line">          position:absolute;</div><div class="line">          //display:inline-block;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bigbox"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"smallbox"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>建议大家拿到自己的浏览器上看效果：此时  margin的 auto 你会奇怪的发现不起作用了。</p>
-<p>bigbox不在body中居中，smallbox不在bigbox中居中。</p>
-<p>auto：水平（默认）书写模式下，margin-top/margin-bottom计算值为0，margin-left/margin-right取决于可用空间。品味这句话：我们可以理解，块级元素独占一整行，即使设置了宽高，仍然独占一整行；而行内块元素却不是。所以 ，margin   的auto值对于块级元素使用时候，会使其居中显示，而对于行内块元素使用的时候，却不会使其居中。</p>
-<p>四：定位使盒子居中的方法：</p>
-<p>两种方法：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">        .bigbox &#123;</div><div class="line">            width: 800px;</div><div class="line">            height: 200px;</div><div class="line">            margin: 100px auto;</div><div class="line">            border: 1px solid #000;</div><div class="line">            position: relative;</div><div class="line">        &#125;</div><div class="line">        .smallbox &#123;</div><div class="line">            width: 100px;</div><div class="line">            height: 100px;</div><div class="line">            background-color: limegreen;</div><div class="line">            position: absolute;</div><div class="line">            left: 50%;</div><div class="line">            /*定位的百分比  left=百分比*父元素的宽度*/</div><div class="line">			margin-left: -50px;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bigbox"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"smallbox"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">        .bigbox &#123;</div><div class="line">            width: 800px;</div><div class="line">            height: 200px;</div><div class="line">            margin: 100px auto;</div><div class="line">            border: 1px solid #000;</div><div class="line">            position: relative;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        .smallbox&#123;</div><div class="line">            background-color: limegreen;</div><div class="line">            width: 100px;</div><div class="line">            height: 100px;</div><div class="line">            position: absolute;</div><div class="line">            left: 0;</div><div class="line">            right: 0;</div><div class="line">            margin:0  auto;</div><div class="line">        &#125;       </div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bigbox"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"smallbox"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>其中第二种方法适用于不知道子元素的高宽的时候想要使子元素居中的效果。其实也是利用了流体特性，因为元素既要距离左边距0 又要距离右边距0 同时给该元素设置了margin:0 auto; 所以会用margin值填充左右的补白；</p>
-<p>扩展：如果去掉bigbox的宽度设置，那么，无论浏览器的窗口如何变化，都可以使盒子居中，包括大盒子的body居中，小盒子在大盒子居中。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/13/158DOMContentLoaded/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/13/158DOMContentLoaded/" itemprop="url">
-                  DOMContentLoaded
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-13T12:36:00+08:00">
-                2016-05-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DOM/" itemprop="url" rel="index">
-                    <span itemprop="name">DOM</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1 DOMContentLoaded 和 onload事件</p>
-<p>onload事件会在页面或者图像加载完成后立即发生。</p>
-<p>DOMContentLoaded这个事件是从HTML中的onLoad的延伸而来的，当一个页面完成加载时,初始化脚本的方法是使用load事件，但这个类函数的缺点是仅在所有资源都完全加载后才被触发,这有时会导致比较严重的延迟,开发人员随后创建了一种自定义事件,domready,它在DOM加载之后及资源加载之前被触发。jQuery中的$(function(){})就是封装的这个方法</p>
-<p>1.1 先来看下浏览器向服务器发送请求之后，请求到了HTML文档之后便开始解析，先生成DOM树 ，然后生成CSSDOM树，再由二者结合生成渲染树(RenderTree),有了所有的节点的样式，浏览器便可以genuine这些节点以及它们的样式确定它们的位置和大小，这就是layout阶段，之后浏览器会进行渲染，总结如下</p>
-<p>DOM–&gt;CSSOM–&gt;RenderTree–&gt;layout–&gt;Paint</p>
-<p>1.2 当然了这个时候我们还没有考虑到javascript;javascript会阻塞DOM的生成，也就是说当浏览器解析HTML的时候，如果遇到了script标签就会停止对HTML的解析，转而进行处理javascript脚本</p>
-<ul>
-<li>如果脚本是内联的，浏览器会先执行这段javascript代码</li>
-<li>如果脚本是外联的，浏览器会先加载脚本，然后执行</li>
-<li>因为javascript可以查询任意对象的样式，也就是说在CSSOM解析完毕之后，javascript才会被执行</li>
-</ul>
-<p>处理完毕脚本之后会继续解析HTML文档</p>
-<p>1.3 总结:</p>
-<ul>
-<li>当文档中没有javascript脚本的时候，浏览器解析玩文档便能触发DOMContentLoaded事件</li>
-<li>如果文档中包含脚本，则会阻塞文档的解析，同时脚本的执行需要等待CSSOM解析完毕才能执行</li>
-<li>DOMContentLoaded事件的触发不需要等待图片等其他资源加载完成</li>
-</ul>
-<p>2 异步脚本</p>
-<p>2.1 我们知道同步脚本的解析对网页渲染有影响，如果我们想要页面尽快的显示，那我们可以使用异步脚本；HTML5中有两种执行异步脚本的方法:defer和async</p>
-<p>2.2 看下二者的区别</p>
-<p>2.2.1 script脚本，没有defer和async属性</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"***.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>当HTML文档解析的时候遇到javascript标签，会停止对文档的解析，进而加载javascript脚本，加载完毕之后<strong>立即执行</strong></p>
-<p>2.2.2 defer脚本</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"***.js"</span> <span class="attr">defer</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>当HTML文档解析的时候遇见defer脚本，则会在后台加载脚本，文档的解析过程不会中断，</p>
-<p><strong>当文档解析结束之后，defer脚本执行</strong>；defer脚本的执行顺序与定义的时候的位置有关</p>
-<ul>
-<li>defer属性只适用于外联脚本，如果script标签没有src属性，只是内联脚本，不要使用defer</li>
-<li>如果声明了多个defer脚本，则会按照顺序进行执行</li>
-<li>defer脚本会在DOMContentLoaded和loaded事件触发之前执行</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>defer &amp; async<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"css/main.css"</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- adding a 'defer' attribute, by default, the value will be 'true' --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"js/1.js"</span> <span class="attr">defer</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"js/2.js"</span> <span class="attr">defer</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">defer</span>&gt;</span><span class="javascript"></span></div><div class="line">            <span class="built_in">console</span>.log(<span class="number">3</span>);</div><div class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text"</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">            <span class="built_in">document</span>.addEventListener(<span class="string">"DOMContentLoaded"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">'dom content loaded, ready state:'</span>, <span class="keyword">this</span>.readyState);</div><div class="line">            &#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line">            <span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">'window loaded, dom ready state:'</span>, <span class="built_in">document</span>.readyState);</div><div class="line">            &#125;, <span class="literal">false</span>);</div><div class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//js/1.js</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"1"</span>);</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//js/2.js</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"2"</span>);</div></pre></td></tr></table></figure>
-<p>输出如下</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">3</div><div class="line">1</div><div class="line">2</div><div class="line">20defer.html:17 dom content loaded, ready state: interactive</div><div class="line">20defer.html:21 window loaded, dom ready state: complete</div></pre></td></tr></table></figure>
-<p>2.2.3 async脚本</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"***.js"</span> <span class="attr">async</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>当HTML文档解析的时候遇见async脚本，则会在后台加载脚本，文档的解析过程不会中断，</p>
-<p><strong>脚本加载完成之后，文档停止解析，async脚本执行</strong>；async脚本执行完毕之后，文档继续解析</p>
-<ul>
-<li>只适用于外联脚本，这一点和defer一致 </li>
-<li>如果有多个声明了async的脚本，其下载和执行也是异步的，不能确保彼此的先后顺序 </li>
-<li>async会在load事件之前执行，但并不能确保与DOMContentLoaded的执行先后顺序</li>
-</ul>
-<p>2.2.4 async脚本不考虑依赖，加载完毕之后马上会执行，这点对于不需要依赖的javascript脚本是非常合适的，但是对于需要依赖的javascript脚本而言，defer无疑是最合适的。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2231,7 +2182,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">150</span>
+                <span class="site-state-item-count">152</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2253,7 +2204,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">67</span>
+                <span class="site-state-item-count">69</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

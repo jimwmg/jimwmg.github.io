@@ -270,6 +270,198 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/01/112-解构赋值/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/01/112-解构赋值/" itemprop="url">
+                  ES6 解构赋值
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-01T12:36:00+08:00">
+                2016-11-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-ES6/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript ES6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><p>先记住一点，无论是数组的解构赋值还是对象的解构赋值，根本是赋值操作；</p>
+<ul>
+<li>数组的解构赋值根据变量的位置对应赋值</li>
+<li>对象的解构赋值根据匹配的模式进行赋值</li>
+<li>解构赋值必须符合语法 </li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> &#123;a,b&#125;;<span class="comment">//报错</span></div><div class="line"><span class="keyword">let</span> [a,b];<span class="comment">//报错</span></div></pre></td></tr></table></figure>
+<h3 id="解构可以避免在对象赋值时产生中间变量："><a href="#解构可以避免在对象赋值时产生中间变量：" class="headerlink" title="解构可以避免在对象赋值时产生中间变量："></a>解构可以避免在对象赋值时产生中间变量：</h3><p>1 数组的解构赋值(解构赋值的时候，必须符合解构赋值的格式，数据必须是可迭代的结构)</p>
+<h3 id="数组的元素是按次序排列的，变量的取值由它的位置决定"><a href="#数组的元素是按次序排列的，变量的取值由它的位置决定" class="headerlink" title="数组的元素是按次序排列的，变量的取值由它的位置决定"></a>数组的元素是按次序排列的，变量的取值由它的位置决定</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> [a,b,c] = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>] </div><div class="line"><span class="comment">//等价于</span></div><div class="line"><span class="keyword">let</span> a = <span class="number">1</span>, b = <span class="number">2</span> , c = <span class="number">3</span> ;</div></pre></td></tr></table></figure>
+<p>如果左边变量多余右边值，多余的变量将被赋值为undefined </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> [a,b,c] = [<span class="number">1</span>,<span class="number">2</span>] </div><div class="line"><span class="built_in">console</span>.log(c) ;<span class="comment">//undefined</span></div></pre></td></tr></table></figure>
+<p>如果左边变量少于右边值，右边多余的值将会被忽略</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> [a,b,c] = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</div></pre></td></tr></table></figure>
+<p>“链式”赋值:其实核心还是  赋值运算符的运算过程:　返回　＝　右边的运算数，从右向左进行运算</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> arr,first,second ;</div><div class="line">arr = [first,second] = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>];</div><div class="line"><span class="comment">//arr // [1,2,3,4]</span></div><div class="line"><span class="comment">//first 1  second 2</span></div></pre></td></tr></table></figure>
+<p>变量值的”优先级”: 右边undefined &lt;  左边默认值  &lt;  右边除了undefined之外的其他值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> [a = <span class="number">1</span> ,b=<span class="number">2</span> ,c] = [<span class="literal">undefined</span>,<span class="number">2222</span>,<span class="number">3</span>]; <span class="comment">//右侧undefined不会赋值给a,右侧2222会赋值给b </span></div><div class="line"><span class="built_in">console</span>.log(a);<span class="comment">//1</span></div><div class="line"><span class="built_in">console</span>.log(b);<span class="comment">//2222</span></div><div class="line"><span class="built_in">console</span>.log(c);<span class="comment">//3</span></div></pre></td></tr></table></figure>
+<p>解构赋值的原理:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">	<span class="keyword">let</span> [a = b,b=<span class="number">5</span>,c] = [<span class="number">1</span>];</div><div class="line">    <span class="built_in">console</span>.log(a);<span class="comment">//1</span></div><div class="line">    <span class="built_in">console</span>.log(b);<span class="comment">//5</span></div><div class="line">    <span class="built_in">console</span>.log(c);<span class="comment">//undefined</span></div><div class="line"><span class="comment">//等价于  let a = 1, b = 5 , c = undefined ;</span></div><div class="line"><span class="comment">//以下情况会报错</span></div><div class="line">    <span class="keyword">let</span> [a = b,b=<span class="number">5</span>,c] = [];<span class="comment">//直接报错</span></div><div class="line">    <span class="built_in">console</span>.log(a);<span class="comment">//</span></div><div class="line">    <span class="built_in">console</span>.log(b);<span class="comment">//</span></div><div class="line">    <span class="built_in">console</span>.log(c);<span class="comment">//</span></div><div class="line"><span class="comment">//等价于 let a = b , b = 5 , c = undefined ;//let声明的变量使用之前必须先被声明</span></div><div class="line">  --------------------------------------------</div><div class="line"><span class="comment">//        let a = b ;//b is not defined</span></div><div class="line"><span class="comment">//        let b = 5 ;</span></div><div class="line"><span class="comment">//        let c ;</span></div><div class="line">    <span class="comment">//对于let声明变量，变量的使用必须在声明之前才可以使用</span></div></pre></td></tr></table></figure>
+<p>看下var声明</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> [a = b,b=<span class="number">5</span>,c] = [];<span class="comment">//这个不会报错，所以需要理解数据结构赋值的原理</span></div><div class="line">    <span class="built_in">console</span>.log(a);<span class="comment">//undefined</span></div><div class="line">    <span class="built_in">console</span>.log(b);<span class="comment">//5</span></div><div class="line">    <span class="built_in">console</span>.log(c);<span class="comment">//undefined</span></div><div class="line"><span class="comment">//--------------------------------------------------</span></div><div class="line">    <span class="comment">//左边进行声明</span></div><div class="line"><span class="comment">//    var a = b ;//这个相当于对 b 进行了变量提升，但是没有运行到b=5的时候，a的值被赋予undefined;</span></div><div class="line"><span class="comment">//    var b = 5 ;</span></div><div class="line"><span class="comment">//    var c ;</span></div><div class="line"><span class="comment">//    console.log(a);//undefined</span></div><div class="line">    <span class="comment">//然后右边进行赋值,原来有默认值的不会发生变化</span></div><div class="line"><span class="comment">//    ------------------------------------------------------</span></div><div class="line"><span class="comment">//        var a = b ;//b is not defined</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//        var c ;</span></div><div class="line"><span class="comment">//        console.log(a);//</span></div><div class="line"><span class="comment">//    ----------------------------------------------------------</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果等号的右边不是数组或者严格地说，不是可遍历的结构，那么将会报错。如下</span></div><div class="line"><span class="keyword">let</span> [foo] = <span class="number">1</span>;</div><div class="line"><span class="keyword">let</span> [foo] = <span class="literal">false</span>;</div><div class="line"><span class="keyword">let</span> [foo] = <span class="literal">NaN</span>;</div><div class="line"><span class="keyword">let</span> [foo] = <span class="literal">undefined</span>;</div><div class="line"><span class="keyword">let</span> [foo] = <span class="literal">null</span>;</div><div class="line"><span class="keyword">let</span> [foo] = &#123;&#125;;</div></pre></td></tr></table></figure>
+<p>2 对象的解构赋值</p>
+<h3 id="对象的属性没有次序，变量必须与属性同名，才能取到正确的值"><a href="#对象的属性没有次序，变量必须与属性同名，才能取到正确的值" class="headerlink" title="对象的属性没有次序，变量必须与属性同名，才能取到正确的值"></a>对象的属性没有次序，变量必须与属性同名，才能取到正确的值</h3><p>对象的解构赋值的内部机制，是先找到同名属性，然后再赋给对应的变量。真正被赋值的是后者，而不是前者</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> &#123;foo,bar&#125; = &#123;<span class="attr">foo</span>:<span class="string">"aaa"</span>,<span class="attr">bar</span>:<span class="string">"bbb"</span>&#125;;</div><div class="line"><span class="keyword">let</span> &#123;bar,foo&#125; = &#123;<span class="attr">foo</span>:<span class="string">"aaa"</span>,<span class="attr">bar</span>:<span class="string">"bbb"</span>&#125;;</div><div class="line"><span class="comment">//foo aaa</span></div><div class="line"><span class="comment">//bar bbb</span></div><div class="line"><span class="comment">//这点和数组的结构赋值不同，数组的结构赋值是按照元素的位置进行解构赋值，而对象的解构赋值是根据无序的属性名进行匹配，然后在进行赋值</span></div></pre></td></tr></table></figure>
+<p>如果匹配不到对应的属性名，那么将会被赋值为undefined</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> &#123;baz&#125; = &#123;<span class="attr">foo1</span>:<span class="string">'aaa'</span>,<span class="attr">foo2</span>:<span class="string">'bbb'</span>&#125;</div><div class="line"><span class="built_in">console</span>.log(baz);<span class="comment">//undefined</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> &#123;baz&#125; = &#123;&#125;</div><div class="line"><span class="built_in">console</span>.log(baz);<span class="comment">//undefined</span></div></pre></td></tr></table></figure>
+<p>对象的解构赋值，根本是给属性的属性值进行的赋值 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span>&#123;foo&#125; = &#123;<span class="attr">foo</span>:<span class="string">'aaa'</span>,<span class="attr">bar</span>:<span class="string">'bbb'</span>&#125;;</div><div class="line"><span class="built_in">console</span>.log(foo);<span class="comment">//aaa</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span>&#123;<span class="attr">foo</span>:baz&#125; = &#123;<span class="attr">foo</span>:<span class="string">'aaa'</span>,<span class="attr">bar</span>:<span class="string">'bbb'</span>&#125;;<span class="comment">//采用这种写法时，变量的声明和赋值是一体的</span></div><div class="line"><span class="built_in">console</span>.log(baz);<span class="comment">//aaa</span></div><div class="line"><span class="built_in">console</span>.log(foo);<span class="comment">//foo is not defined</span></div></pre></td></tr></table></figure>
+<p>从上面两段代码可以看出来，其实对象的解构赋值，</p>
+<ul>
+<li>根本还是对象的属性的简洁语法表示</li>
+<li>解构赋值是先进行变量的声明</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> &#123; foo,bar&#125; = &#123; <span class="attr">foo</span>: <span class="string">"aaa"</span>, <span class="attr">bar</span>: <span class="string">"bbb"</span> &#125;;</div><div class="line"><span class="keyword">let</span> &#123; <span class="attr">foo</span>: foo, <span class="attr">bar</span>: bar &#125; = &#123; <span class="attr">foo</span>: <span class="string">"aaa"</span>, <span class="attr">bar</span>: <span class="string">"bbb"</span> &#125;;</div></pre></td></tr></table></figure>
+<p>如果是采用以下赋值形式{ } 必须用( ) 括起来，否则浏览器会认为那是一个代码块,会报错</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(&#123;<span class="attr">foo</span>:baz&#125; = &#123;<span class="attr">foo</span>:<span class="string">'aaa'</span>&#125;);</div><div class="line"><span class="built_in">console</span>.log(baz);<span class="comment">//aaa</span></div></pre></td></tr></table></figure>
+<p> 为了说明对象的解构赋值的匹配模式的，看下面的代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span>&#123;<span class="attr">foo</span>:baz&#125; = &#123;&#125;;</div><div class="line"><span class="built_in">console</span>.log(baz);<span class="comment">//undefined</span></div><div class="line"><span class="built_in">console</span>.log(foo);<span class="comment">//foo is not defined</span></div><div class="line"><span class="comment">//这个时候，我们应该能理解   let&#123;foo:baz&#125; 声明的变量是baz ,并不是foo,foo是匹配的模式，匹配的根据</span></div></pre></td></tr></table></figure>
+<p>体会下下面的两段代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(name);<span class="comment">//报错 name is not defined</span></div><div class="line"><span class="keyword">let</span> &#123;<span class="attr">heheh</span>:name&#125; = &#123;<span class="attr">heheh</span>:<span class="string">'aaa'</span>&#125;;</div><div class="line"><span class="built_in">console</span>.log(name);</div><div class="line"><span class="comment">//这个也证明了 let &#123;heheh:name&#125; 声明的是 : 后面的变量</span></div><div class="line"><span class="comment">//而let&#123;foo ,bar &#125; 其实是分为两步，第一对象的简洁写法&#123;foo,bar&#125; ==&gt; &#123;foo:foo,bar:bar&#125;</span></div><div class="line"><span class="comment">//所以let声明的变量还是 : 冒号后面的变量，然后在进行解构赋值操作</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(name);<span class="comment">//aaa</span></div><div class="line">(&#123;<span class="attr">heheh</span>:name&#125; = &#123;<span class="attr">heheh</span>:<span class="string">'aaa'</span>&#125;);</div><div class="line"><span class="built_in">console</span>.log(name);<span class="comment">//aaa</span></div></pre></td></tr></table></figure>
+<p>对象的解构赋值是可以嵌套的，同样对于匹配模式(属性名)还是要有深刻的认识</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(&#123;<span class="attr">p</span>:[x,&#123;<span class="attr">y</span>:z&#125;]&#125; = &#123;<span class="attr">p</span>:[<span class="string">'hello'</span>,&#123;&#125;]&#125; );</div><div class="line"><span class="built_in">console</span>.log(x);<span class="comment">//hello</span></div><div class="line"><span class="built_in">console</span>.log(z);<span class="comment">//undefined</span></div><div class="line"><span class="built_in">console</span>.log(y);<span class="comment">//y is not defined</span></div><div class="line"><span class="comment">// p 和 y 都是匹配模式</span></div></pre></td></tr></table></figure>
+<p>undefined再取属性的时候会报错</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> _temp = &#123;<span class="attr">bar</span>:<span class="string">"baz"</span>&#125;;</div><div class="line"><span class="built_in">console</span>.log(_temp.foo);<span class="comment">//undefined</span></div><div class="line"><span class="built_in">console</span>.log(_temp.foo.anything);<span class="comment">// Cannot read property 'anything' of undefined</span></div></pre></td></tr></table></figure>
+<p>如果解构模式是嵌套的对象，而且子对象所在的父属性不存在，那么将会报错。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> &#123;<span class="attr">foo</span>:&#123;<span class="attr">bar</span>:baz&#125;&#125; = &#123;<span class="attr">hehe</span>:&#123;<span class="attr">bar</span>:<span class="string">'value'</span>&#125;&#125;</div><div class="line"><span class="comment">//上面代码中，等号左边对象的foo属性，对应一个子对象。该子对象的bar属性，解构时会报错。原因很简单，因为foo这时等于undefined，再取子属性就会报错，请看下面的代码</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/27/147NodeJsModuleSystem/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -507,6 +699,174 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/27/69jseval 和 JSON parse/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/27/69jseval 和 JSON parse/" itemprop="url">
+                  eval JSONparse
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-27T12:36:00+08:00">
+                2016-10-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-json/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript json</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="js-的-eval-和-JSON-parse-的用法和区别"><a href="#js-的-eval-和-JSON-parse-的用法和区别" class="headerlink" title="js 的 eval( ) 和 JSON.parse(  ) 的用法和区别:"></a>js 的 eval( ) 和 JSON.parse(  ) 的用法和区别:</h3><p>1 eval(string):这个全局函数可以用来接受一个字符串作为javascript代码去执行，也就是说，传入的参数可以作为脚本代码进行执行；比如创建变量，创建对象，执行函数等</p>
+<ul>
+<li>如果传入的值  是一个字符串，那么则将字符串作为代码执行，如果有返回值，则返回该值，如果没有返回值，则返回undefined</li>
+<li>如果传入的值   不是一个字符串，那么则直接返回传入的值</li>
+<li>需要特别注意的是对象的声明语法 { }  如果直接将{ } 声明的对象作为值传入，则直接返回该对象，如果是 ‘{  }’  作为参数传入eval( )则会直接报错;</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">eval</span>(<span class="string">"var a=1"</span>);<span class="comment">//声明一个变量a并赋值1。传入参数是一个字符串，则将该字符串作为代码执行</span></div><div class="line">    <span class="built_in">console</span>.log( <span class="built_in">eval</span>(<span class="string">"var a=1"</span>) );<span class="comment">//undefined   因为没有返回值，所以结果是undefined</span></div><div class="line">    <span class="built_in">eval</span>(<span class="string">"2+3"</span>);<span class="comment">//执行加运算，并返回运算值。</span></div><div class="line">    <span class="built_in">console</span>.log(  <span class="built_in">eval</span>(<span class="string">"2+3"</span>) );<span class="comment">//5</span></div><div class="line">    <span class="built_in">eval</span>(<span class="string">"&#123;b:2&#125;"</span>);<span class="comment">//声明一个对象。 </span></div><div class="line">	<span class="built_in">eval</span>(<span class="string">"mytest()"</span>);<span class="comment">//执行mytest()函数。</span></div><div class="line">	<span class="built_in">console</span>.log( <span class="built_in">eval</span>( &#123;<span class="attr">b</span>:<span class="number">2</span>,<span class="string">"nema"</span>:<span class="string">"jhon"</span>&#125;) );<span class="comment">//Object &#123;b: 2, nema: "jhon"&#125;，传入参数不是一个字符串，那么直接返回传入的值</span></div><div class="line">	<span class="built_in">console</span>.log( <span class="built_in">eval</span>(<span class="string">'&#123;"b":2,"nema":"jhon"&#125;'</span>) );<span class="comment">//会直接报错</span></div><div class="line"><span class="comment">//如果想要将字符串    '&#123;"b":2,"nema":"jhon"&#125;'  转化为常用的对象输出，则需要将其加上小括号，转化为表达式，才能正确输出对象，以下几种写法都是正确的</span></div><div class="line">	<span class="keyword">var</span> code2 = <span class="string">'&#123;"b":2,"nema":"jhon"&#125;'</span>;</div><div class="line"><span class="comment">//    console.log( eval('&#123;"b":2,"nema":"jhon"&#125;') );//浏览器报错</span></div><div class="line">    <span class="built_in">console</span>.log( <span class="built_in">eval</span>(<span class="string">'('</span>+code2+<span class="string">')'</span>) ); <span class="comment">//Object &#123;b: 2, nema: "jhon"&#125;</span></div><div class="line">    <span class="built_in">console</span>.log( <span class="built_in">eval</span>(<span class="string">'('</span>+<span class="string">'&#123;b:2,"nema":"jhon"&#125;'</span>+<span class="string">')'</span>) ); <span class="comment">//Object &#123;b: 2, nema: "jhon"&#125;</span></div><div class="line">    <span class="built_in">console</span>.log( <span class="built_in">eval</span>(<span class="string">'(&#123;b:2,"nema":"jhon"&#125;)'</span>) );<span class="comment">//Object &#123;b: 2, nema: "jhon"&#125;</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2 eval(string)函数的作用域:关键记住，val()函数并不会创建一个新的作用域，并且它的作用域就是它所在的作用域。这在所有主流浏览器都是如此，但是有时候需要将eval()函数的作用域设置为全局，当然可以将eval()在全局作用域中使用，但是往往实际应用中，需要在局部作用域使用具有全局作用域的此函数，这个时候可以用window.eval()的方式实现</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">eval</span>(<span class="string">"var num = 4"</span>);</div><div class="line">        <span class="built_in">console</span>.log(num);<span class="comment">//4</span></div><div class="line">    &#125;</div><div class="line">    test();</div><div class="line"><span class="comment">//    console.log(num);//num is not defined</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">test1</span> (<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">window</span>.eval(<span class="string">"var num = 4"</span>);</div><div class="line">        <span class="built_in">console</span>.log(num);<span class="comment">//4</span></div><div class="line">    &#125;</div><div class="line">    test1();</div><div class="line">    <span class="built_in">console</span>.log(num);<span class="comment">//4</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>3 eval()可以将字符串解析为对象，同样JSON.parse()也可以将字符串解析为对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> data = <span class="string">'&#123;"b":2,"nema":"jhon"&#125;'</span>; <span class="comment">//这是一个字符串</span></div><div class="line"><span class="comment">//第一种方法，通过eval()将其解析成对象</span></div><div class="line"><span class="keyword">var</span> objData1 = <span class="built_in">eval</span>( <span class="string">"("</span>+data+<span class="string">")"</span>  ); <span class="comment">////Object &#123;b: 2, nema: "jhon"&#125;</span></div><div class="line"><span class="comment">//第二种方法</span></div><div class="line"><span class="keyword">var</span> objData2 = JSONparse(data);<span class="comment">//Object &#123;b: 2, nema: "jhon"&#125;</span></div></pre></td></tr></table></figure>
+<p>它们有什么区别和不同呢?</p>
+<ul>
+<li><p>JSON.parse()之可以解析json格式的数据，并且会对要解析的字符串进行格式检查，如果格式不正确则不进行解析，而eval()则可以解析任何字符串，eval是不安全的。</p>
+</li>
+<li><p>JSON.parse(  ‘ {“name”:”Jhon”,”age”:13 } ‘ ) 解析的结果是一个对象   {“name”:”Jhon”,”age”:13 }</p>
+</li>
+<li><p>JSON.parse( ‘ [{“name”:”Jhon”,”age”:13 } , {“name”:”Jhon”,”age”:13 }] ‘ ) 解析的结果是一个数组，里面有两个对象</p>
+<p>  [{“name”:”Jhon”,”age”:13 } , {“name”:”Jhon”,”age”:13 }]</p>
+<p> 总结来说:JSON.parse()可以将字符串类型的数组，转化为数组，将字符串类型的对象，转化为对象</p>
+</li>
+<li><p>eval( )里面可以传入非字符串的数据类型，会直接返回该类型值，比如直接传递数组 [ {“name”:”jhon”} ]  或者对象 {“name”:”jhon”} ,或者基本数据类型和复杂数据类型，但是JSON.parse( )，只能接受字符串类型的 ; 如果传入数组 </p>
+<p>[ {“name”:”jhon”} ] 或者对象 {“name”:”jhon”} 会报错；</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    //从后台返回的数据一般是字符串类型的，需要将其解析成javascirpt对象</div><div class="line">    var data = '[&#123;"name":"jhon"&#125;,&#123;"age":16&#125;]';</div><div class="line">//    var data = [&#123;"name":"jhon"&#125;,&#123;"age":16&#125;];</div><div class="line">    var objData1 = eval(data);</div><div class="line">    var objData2 = JSON.parse(data);</div><div class="line">    console.log("this is objData1"+objData1);</div><div class="line">    console.log(objData1);</div><div class="line">    console.log("this is objData2"+objData2);</div><div class="line">    console.log(objData2);</div><div class="line">    </div><div class="line">    var num = 3 ;</div><div class="line">    console.log(eval(num));//3</div><div class="line">    console.log(eval(true));//true</div><div class="line">    console.log(eval(null));//null</div><div class="line">    console.log(eval(undefined));//undefined</div><div class="line">    console.log(eval(&#123;"name":"jhon"&#125;));//Object &#123;name: "jhon"&#125; 对象</div><div class="line">    console.log(eval([&#123;"name":"jhon"&#125;]));//[Object] 数组</div><div class="line">    console.log(JSON.parse(num));//3</div><div class="line">    console.log(JSON.parse(true));//true</div><div class="line">    console.log(JSON.parse(null));//null</div><div class="line">//  console.log(JSON.parse(undefined));//报错</div><div class="line">// console.log(JSON.parse(&#123;"name":"jhon"&#125;));//报错</div><div class="line">  console.log(JSON.parse('&#123;"name":"jhon"&#125;''));Object &#123;name: "jhon"&#125; 对象</div><div class="line"> //console.log(JSON.parse([&#123;"name":"jhon"&#125;]));//报错</div><div class="line">  console.log(JSON.parse('[&#123;"name":"jhon"&#125;]'));//[Object] 数组</div><div class="line">  console.log(JSON.parse('[1,2,3]'));  //[1,2,3]</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/149URLoperation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -608,168 +968,6 @@
           
             <p>如何操作查询字符串，返回一个查询字符串包含信息的对象</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> url =<span class="string">'http://www.myvirtual.com?username=Jhon&amp;age=12'</span>;<span class="comment">//将查询字符串转换为js对象</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">queryParam</span>(<span class="params">url</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> newUrl = url.slice(url.indexOf(<span class="string">'?'</span>)+<span class="number">1</span>);</div><div class="line">  <span class="keyword">var</span> urlArr = newUrl.split(<span class="string">'&amp;'</span>);</div><div class="line">  <span class="keyword">var</span> ret = &#123;&#125;</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; urlArr.length ; i++)&#123;</div><div class="line">    <span class="keyword">var</span> arr = urlArr[i].split(<span class="string">'='</span>);</div><div class="line">    ret[arr[<span class="number">0</span>]] = arr[<span class="number">1</span>];</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> ret ;</div><div class="line">&#125;</div><div class="line"></div><div class="line">queryParam(url);</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/55-js  jQuery绑定与移除事件的比较/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/22/55-js  jQuery绑定与移除事件的比较/" itemprop="url">
-                  js event compare with jQuery event
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
-                2016-10-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript-event/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript event</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="js-jQuery绑定事件的比较"><a href="#js-jQuery绑定事件的比较" class="headerlink" title="js  jQuery绑定事件的比较:"></a>js  jQuery绑定事件的比较:</h2><h3 id="一-事件分类"><a href="#一-事件分类" class="headerlink" title="一 事件分类"></a>一 事件分类</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span> <span class="built_in">window</span> 事件:onload  onunload onafterprint onbeforeprint onerror  onresize </div><div class="line"><span class="number">2</span> From表单 事件(仅在表单元素中有效):onblur  onfocus onreset onsubmit onselect onchange  oninput</div><div class="line"><span class="number">3</span> 键盘事件 : onkeydown  onkeyup onkeyup</div><div class="line"><span class="number">4</span> 鼠标事件: onclick onmouseout onmouseleave onmouseenter onmousedown onmouseup onscroll(当元素滚动条被滚动的时候) ondrag ondragstart ondragend ondragenter ondragover ondragleave ondrop </div><div class="line"><span class="comment">//键盘事件和鼠标事件在base, bdo, br, frame, frameset, head, html, iframe, meta, param, script, style, title 元素无效；</span></div><div class="line"><span class="number">5</span> 触摸事件 :touchstart touchend touchmove </div><div class="line"><span class="number">6</span> 媒介事件 : </div><div class="line"><span class="number">7</span> 自定义事件:</div><div class="line"><span class="number">8</span> 所有的事件都是成元素的一个属性，原始值为<span class="literal">null</span>;输出一个DOM元素可以查看其所有的属性;</div></pre></td></tr></table></figure>
-<h3 id="二-绑定事件"><a href="#二-绑定事件" class="headerlink" title="二 绑定事件"></a>二 绑定事件</h3><ul>
-<li>JS绑定事件:(onclick之类的本身就是一属性，通过给属性设置函数，可以使其具有功能，而addEventListener是一个函数，通过函数体的内容给元素绑定事件)</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ele.on+事件类型 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  &#125;;     ele.addEventListener(<span class="string">"事件类型"</span>，<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;		ele.addEventListener(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.onmouseout = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;      ele.attachEvent(<span class="string">"onclick"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );(注意有on)</div><div class="line"><span class="built_in">window</span>.onlaod = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;		<span class="built_in">window</span>.addEventListener(<span class="string">"load"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.ondragstart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;	ele.addEventListener(<span class="string">"dragstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div></pre></td></tr></table></figure>
-<p><strong>注意</strong>: 触摸事件只能通过addEventListener来绑定,过渡结束事件(自定义事件)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ele.addEventListener(<span class="string">"touchstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div></pre></td></tr></table></figure>
-<ul>
-<li>JS移除事件(该事件通过什么方式绑定的就要通过什么方式移除)</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1注册事件</span></div><div class="line">	my$(<span class="string">"btn1"</span>).onclick = fn;<span class="comment">//(onclick指向一个函数体)</span></div><div class="line"><span class="comment">//1移除事件</span></div><div class="line">	my$(<span class="string">"btn1"</span>).onclick = <span class="literal">null</span>;<span class="comment">//(将指向设置为null,则可以清除事件)</span></div><div class="line"><span class="comment">// 2 注册事件</span></div><div class="line">my$(<span class="string">"btn1"</span>).addEventListener(<span class="string">"click"</span>,fn,<span class="literal">false</span>);</div><div class="line"><span class="comment">// 2 移除事件</span></div><div class="line">my$(<span class="string">"btn1"</span>).removeEventListener(<span class="string">"click"</span>,fn,<span class="literal">false</span>);</div><div class="line"><span class="comment">// 3 注册事件  谷歌和火狐不支持</span></div><div class="line"> my$(<span class="string">"btn1"</span>).attachEvent(<span class="string">"onclick"</span>,fn);</div><div class="line"><span class="comment">// 3 移除事件</span></div><div class="line"> my$(<span class="string">"btn1"</span>).detachEvent(<span class="string">"onclick"</span>,fn);</div></pre></td></tr></table></figure>
-<ul>
-<li>jQuery绑定事件和移除事件</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">--ready(fn):当DOM元素载入就绪就可以执行的一个函数</div><div class="line">data 是传递给jQuery事件对象参数event.data的数据，fn是绑定在该事件上的处理程序，events和type是要绑定的事件类型</div><div class="line"></div><div class="line">--$(<span class="string">"selector"</span>).on(events,data,fn)   可以一次绑定多个事件  </div><div class="line">  $(<span class="string">"selector"</span>).off(events,data,fn)  移除on绑定的事件 如果不写任何参数，则移除匹配元素的所有事件</div><div class="line">  $(<span class="string">"selector"</span>).bind(type,data,fn)   可以一次绑定多个事件，可以绑定自定义事件;</div><div class="line">  $(<span class="string">"selector"</span>).unbind(type,data,fn) 移除bind绑定的事件 如果不写任何参数，则移除匹配元素的所有事件</div><div class="line"></div><div class="line">--$(<span class="string">"selector"</span>).mouseover(), $(<span class="string">"selector"</span>).mouseover(fn)  如果不写参数，将触发选定元素的该事件，如果写   了函数体，则将为选定的元素绑定事件  </div><div class="line">  mouseout  mousemove  mouseenter mouseleave mouseup mousedown  click keyup keydown change blur</div><div class="line">    都是一样的特性，如果不传函数体，就是触发该事件;如果传了函数体，就是绑定该事件的处理程序.</div><div class="line">--$(<span class="string">"selector"</span>).hover(fn(<span class="keyword">in</span>)/fn(oout)  可以给选中的元素绑定hover事件，鼠标悬浮在上面的时候，执行			fn(<span class="keyword">in</span>),鼠标离开元素的时候执行fn(out);</div><div class="line"></div><div class="line"><span class="comment">//事件委派 使用 delegate() 方法的事件处理程序适用于当前或未来的元素（比如由脚本创建的新元素）。</span></div><div class="line"></div><div class="line">--$(<span class="string">"selector1"</span>).delegate(<span class="string">"selector2"</span>,<span class="string">"type"</span>,fn)  selector1必须是selector2的父元素，事件的执行程序绑定在selector2(子元素选择器)上 。</div></pre></td></tr></table></figure>
-<h3 id="三-js-和-jQuery-绑定事件的区别"><a href="#三-js-和-jQuery-绑定事件的区别" class="headerlink" title="三   js  和  jQuery 绑定事件的区别"></a>三   js  和  jQuery 绑定事件的区别</h3><ul>
-<li>两者绑定的事件符合事件的传播过程，比如冒泡，捕获</li>
-<li>两者的事件对象参数基本一致，不同点在于jQuery绑定的事件，事件对象参数多了两个参数，一个是event.originalEvent  一个是event.data </li>
-</ul>
-<h3 id="四-自定义事件底层实现原理"><a href="#四-自定义事件底层实现原理" class="headerlink" title="四 自定义事件底层实现原理"></a>四 自定义事件底层实现原理</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 绑定事件</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addEvent</span>(<span class="params">obj,type,fn</span>)</span>&#123;</div><div class="line">  obj.listener = obj.listener || &#123;&#125;;</div><div class="line">  obj.listener[type] = obj.listener[type] || [];</div><div class="line">  obj.listener[type].push(fn);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 触发事件</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fireEvent</span>(<span class="params">obj,type</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> arr = obj.listener[type];</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</div><div class="line">    arr[i]();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
@@ -1047,6 +1245,168 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//exec() 方法用于检索字符串中的正则表达式的匹配。如果找不到，则返回null</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'that is hot'</span>;</div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/h.t/g</span>;</div><div class="line"><span class="keyword">var</span> ret ;</div><div class="line"><span class="keyword">while</span>( (ret = reg.exec(str) ) != <span class="literal">null</span>)&#123;</div><div class="line">  <span class="built_in">console</span>.log(ret);<span class="comment">// Array[1][0:"hat"index:1,input:"that is hot",length:1]</span></div><div class="line">  <span class="comment">//Array[1][0:"hot"index:8,input:"that is hot",length:1]</span></div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log(reg.lastIndex);<span class="comment">// 4 11  exec()方法 RegExpObject 的 lastIndex 属性设置为匹配文本的最后一个字符的下一个位置</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。返回匹配结果的数组，如果找不到返回null</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'that is hot'</span>;</div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/h.t/g</span>;</div><div class="line"><span class="keyword">var</span> ret = str.match(reg);</div><div class="line"><span class="built_in">console</span>.log(ret1);<span class="comment">//["hat", "hot"]</span></div></pre></td></tr></table></figure>
 <p>4 \s</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/22/55-js  jQuery绑定与移除事件的比较/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/22/55-js  jQuery绑定与移除事件的比较/" itemprop="url">
+                  js event compare with jQuery event
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T12:36:00+08:00">
+                2016-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript-event/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript event</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="js-jQuery绑定事件的比较"><a href="#js-jQuery绑定事件的比较" class="headerlink" title="js  jQuery绑定事件的比较:"></a>js  jQuery绑定事件的比较:</h2><h3 id="一-事件分类"><a href="#一-事件分类" class="headerlink" title="一 事件分类"></a>一 事件分类</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span> <span class="built_in">window</span> 事件:onload  onunload onafterprint onbeforeprint onerror  onresize </div><div class="line"><span class="number">2</span> From表单 事件(仅在表单元素中有效):onblur  onfocus onreset onsubmit onselect onchange  oninput</div><div class="line"><span class="number">3</span> 键盘事件 : onkeydown  onkeyup onkeyup</div><div class="line"><span class="number">4</span> 鼠标事件: onclick onmouseout onmouseleave onmouseenter onmousedown onmouseup onscroll(当元素滚动条被滚动的时候) ondrag ondragstart ondragend ondragenter ondragover ondragleave ondrop </div><div class="line"><span class="comment">//键盘事件和鼠标事件在base, bdo, br, frame, frameset, head, html, iframe, meta, param, script, style, title 元素无效；</span></div><div class="line"><span class="number">5</span> 触摸事件 :touchstart touchend touchmove </div><div class="line"><span class="number">6</span> 媒介事件 : </div><div class="line"><span class="number">7</span> 自定义事件:</div><div class="line"><span class="number">8</span> 所有的事件都是成元素的一个属性，原始值为<span class="literal">null</span>;输出一个DOM元素可以查看其所有的属性;</div></pre></td></tr></table></figure>
+<h3 id="二-绑定事件"><a href="#二-绑定事件" class="headerlink" title="二 绑定事件"></a>二 绑定事件</h3><ul>
+<li>JS绑定事件:(onclick之类的本身就是一属性，通过给属性设置函数，可以使其具有功能，而addEventListener是一个函数，通过函数体的内容给元素绑定事件)</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ele.on+事件类型 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  &#125;;     ele.addEventListener(<span class="string">"事件类型"</span>，<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;		ele.addEventListener(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.onmouseout = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;      ele.attachEvent(<span class="string">"onclick"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );(注意有on)</div><div class="line"><span class="built_in">window</span>.onlaod = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;		<span class="built_in">window</span>.addEventListener(<span class="string">"load"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div><div class="line">ele.ondragstart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;;	ele.addEventListener(<span class="string">"dragstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div></pre></td></tr></table></figure>
+<p><strong>注意</strong>: 触摸事件只能通过addEventListener来绑定,过渡结束事件(自定义事件)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ele.addEventListener(<span class="string">"touchstart"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125; );</div></pre></td></tr></table></figure>
+<ul>
+<li>JS移除事件(该事件通过什么方式绑定的就要通过什么方式移除)</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1注册事件</span></div><div class="line">	my$(<span class="string">"btn1"</span>).onclick = fn;<span class="comment">//(onclick指向一个函数体)</span></div><div class="line"><span class="comment">//1移除事件</span></div><div class="line">	my$(<span class="string">"btn1"</span>).onclick = <span class="literal">null</span>;<span class="comment">//(将指向设置为null,则可以清除事件)</span></div><div class="line"><span class="comment">// 2 注册事件</span></div><div class="line">my$(<span class="string">"btn1"</span>).addEventListener(<span class="string">"click"</span>,fn,<span class="literal">false</span>);</div><div class="line"><span class="comment">// 2 移除事件</span></div><div class="line">my$(<span class="string">"btn1"</span>).removeEventListener(<span class="string">"click"</span>,fn,<span class="literal">false</span>);</div><div class="line"><span class="comment">// 3 注册事件  谷歌和火狐不支持</span></div><div class="line"> my$(<span class="string">"btn1"</span>).attachEvent(<span class="string">"onclick"</span>,fn);</div><div class="line"><span class="comment">// 3 移除事件</span></div><div class="line"> my$(<span class="string">"btn1"</span>).detachEvent(<span class="string">"onclick"</span>,fn);</div></pre></td></tr></table></figure>
+<ul>
+<li>jQuery绑定事件和移除事件</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">--ready(fn):当DOM元素载入就绪就可以执行的一个函数</div><div class="line">data 是传递给jQuery事件对象参数event.data的数据，fn是绑定在该事件上的处理程序，events和type是要绑定的事件类型</div><div class="line"></div><div class="line">--$(<span class="string">"selector"</span>).on(events,data,fn)   可以一次绑定多个事件  </div><div class="line">  $(<span class="string">"selector"</span>).off(events,data,fn)  移除on绑定的事件 如果不写任何参数，则移除匹配元素的所有事件</div><div class="line">  $(<span class="string">"selector"</span>).bind(type,data,fn)   可以一次绑定多个事件，可以绑定自定义事件;</div><div class="line">  $(<span class="string">"selector"</span>).unbind(type,data,fn) 移除bind绑定的事件 如果不写任何参数，则移除匹配元素的所有事件</div><div class="line"></div><div class="line">--$(<span class="string">"selector"</span>).mouseover(), $(<span class="string">"selector"</span>).mouseover(fn)  如果不写参数，将触发选定元素的该事件，如果写   了函数体，则将为选定的元素绑定事件  </div><div class="line">  mouseout  mousemove  mouseenter mouseleave mouseup mousedown  click keyup keydown change blur</div><div class="line">    都是一样的特性，如果不传函数体，就是触发该事件;如果传了函数体，就是绑定该事件的处理程序.</div><div class="line">--$(<span class="string">"selector"</span>).hover(fn(<span class="keyword">in</span>)/fn(oout)  可以给选中的元素绑定hover事件，鼠标悬浮在上面的时候，执行			fn(<span class="keyword">in</span>),鼠标离开元素的时候执行fn(out);</div><div class="line"></div><div class="line"><span class="comment">//事件委派 使用 delegate() 方法的事件处理程序适用于当前或未来的元素（比如由脚本创建的新元素）。</span></div><div class="line"></div><div class="line">--$(<span class="string">"selector1"</span>).delegate(<span class="string">"selector2"</span>,<span class="string">"type"</span>,fn)  selector1必须是selector2的父元素，事件的执行程序绑定在selector2(子元素选择器)上 。</div></pre></td></tr></table></figure>
+<h3 id="三-js-和-jQuery-绑定事件的区别"><a href="#三-js-和-jQuery-绑定事件的区别" class="headerlink" title="三   js  和  jQuery 绑定事件的区别"></a>三   js  和  jQuery 绑定事件的区别</h3><ul>
+<li>两者绑定的事件符合事件的传播过程，比如冒泡，捕获</li>
+<li>两者的事件对象参数基本一致，不同点在于jQuery绑定的事件，事件对象参数多了两个参数，一个是event.originalEvent  一个是event.data </li>
+</ul>
+<h3 id="四-自定义事件底层实现原理"><a href="#四-自定义事件底层实现原理" class="headerlink" title="四 自定义事件底层实现原理"></a>四 自定义事件底层实现原理</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 绑定事件</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addEvent</span>(<span class="params">obj,type,fn</span>)</span>&#123;</div><div class="line">  obj.listener = obj.listener || &#123;&#125;;</div><div class="line">  obj.listener[type] = obj.listener[type] || [];</div><div class="line">  obj.listener[type].push(fn);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 触发事件</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fireEvent</span>(<span class="params">obj,type</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> arr = obj.listener[type];</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</div><div class="line">    arr[i]();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
@@ -1764,329 +2124,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/18/37-如何解决移动端两栏自适应的问题？/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/18/37-如何解决移动端两栏自适应的问题？/" itemprop="url">
-                  如何解决移动端两栏自适应的问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-18T12:36:00+08:00">
-                2016-10-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mobile/" itemprop="url" rel="index">
-                    <span itemprop="name">mobile</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>如何解决移动端两栏自适应的问题？overflow:hidden </p>
-<p>要求：第一水平方向不要有滚动条；第二，水平第一个侧栏宽度固定，第二个侧栏宽度自适应</p>
-<p>1 明确元素的宽度：<strong>块级元素</strong> 默认占据整行，如果不设置宽度，则默认和<strong>父元素</strong>等宽；行内块元素的宽度由内容决定，可以自行设置；行内元素的宽度由内容决定，不可设置宽高；</p>
-<p>2 设置了浮动或者定位的层的宽宽由内容决定，发生元素转换，display:inline-block;</p>
-<p>3 目的是实现 ：右边栏的宽度 = 屏幕宽度 - 左边栏宽度 ，以此来实现右边栏里面的内容进行百分比设置宽度以自适应屏幕的时候，是以  右边栏的宽度 = 屏幕宽度 - 左边栏宽度 为基准的。</p>
-<p>4 注意理解块级元素的流体特性:在默认情况下(非浮动、定位)，块级元素会默认在水平方向自动填满外部的容器(自动填满父元素)。</p>
-<p>5 浮动元素left和触发了BFC特性的元素right,right栏自适应，right设置overflow:hdden,触发BFC特性，即可实现right自动填充剩余的空间，而不是那种文字环绕图片的效果。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span></span></div><div class="line">          <span class="attr">content</span>=<span class="string">"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"</span>/&gt;</div><div class="line">  <span class="comment">&lt;!--设置移动端视觉窗口，宽度和移动终端设备等宽--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">        body&#123;</div><div class="line">            margin: 0;</div><div class="line">            padding: 0;</div><div class="line">        &#125;</div><div class="line">        .phone &#123;</div><div class="line">            width: 100%;</div><div class="line">            height: 100%;</div><div class="line">            position: absolute;</div><div class="line">            border: 1px solid #000000;</div><div class="line">        &#125;</div><div class="line">        .left&#123;</div><div class="line">            width: 90px;</div><div class="line">            height: 100%;</div><div class="line">            float: left;</div><div class="line">            background: red;</div><div class="line">            overflow: hidden;</div><div class="line">        &#125;</div><div class="line">        /*产出一个绝缘的盒子  别的浮动不影响它  它也不影响其他的浮动，</div><div class="line">      左边盒子设置浮动，宽度固定*/</div><div class="line">        /*bfc*/</div><div class="line">       .right&#123;</div><div class="line">            height: 100%;</div><div class="line">            background-color: skyblue;</div><div class="line">            overflow: hidden;</div><div class="line">        &#125;</div><div class="line">      /*可以点击绿色按钮，看下右边层的宽度，两种情况overflow:hidden 存在与否，overflow:hidden触发了BFC使其不会受浮动元素的影响，同时其也不会影响浮动元素</div><div class="line">      overflow存在的时候，可使右边的盒子自动填充剩余的宽度，以实现自适应布局*/</div><div class="line">        input  &#123;</div><div class="line">            display:block;</div><div class="line">            height: 40px;</div><div class="line">            width: 30px;</div><div class="line">            background-color: green;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        img&#123;</div><div class="line">            width: 50%;</div><div class="line">          /*根据right的宽度为基准进行设置自身的宽度，以此来实现自适应布局*/</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"phone"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img/01.jpg"</span> <span class="attr">alt</span>=<span class="string">""</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"input"</span>).onclick=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"bingo"</span>);</div><div class="line">            <span class="keyword">var</span> right  = <span class="built_in">document</span>.querySelector(<span class="string">".right"</span>)</div><div class="line">            <span class="built_in">console</span>.log(right.offsetWidth);</div><div class="line"></div><div class="line">    &#125;;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>6 注意：高潮来了，如何设置left和right之间的间隙呢？</p>
-<ul>
-<li>给right设置margin-right   或者  padding-left</li>
-</ul>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.right</span> &#123;</div><div class="line">  	<span class="attribute">margin-left</span>:<span class="number">100px</span>;</div><div class="line">&#125;</div><div class="line">结果是<span class="selector-tag">left</span>和<span class="selector-tag">right</span>还是粘连在一起，不起作用，因为<span class="selector-tag">BFC</span>元素设置<span class="selector-tag">margin-left</span>和<span class="selector-tag">float</span>元素混排是不起作用的</div></pre></td></tr></table></figure>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.right</span> &#123;</div><div class="line">       	<span class="attribute">padding-left</span>:<span class="number">20px</span>;</div><div class="line">     &#125;</div><div class="line">     这个会起作用，可以将两栏隔开一定的距离</div></pre></td></tr></table></figure>
-<ul>
-<li>给left设置margin-right 或者 padding-right 来撑开两栏之间的间隙</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">.left &#123;</div><div class="line">  	padding-right:20px	;</div><div class="line">或者</div><div class="line">	margin-right:20px	;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>   7 BFC自适应布局的组件化代码</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.left&#123;</div><div class="line">    float:left;</div><div class="line">	   margin-right:20px;</div><div class="line">&#125;</div><div class="line">.right &#123;</div><div class="line">  	overflow:hidden ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>   8 如果是右边栏宽度固定，左边栏宽度自适应呢？</p>
-<p>   解析顺序不同会导致占位不同，所以只需要将右边写在左边前面即可</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span></span></div><div class="line">          <span class="attr">content</span>=<span class="string">"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"</span>/&gt;</div><div class="line">    <span class="comment">&lt;!--设置移动端视觉窗口，宽度和移动终端设备等宽--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-tag">body</span>&#123;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">            <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="selector-class">.phone</span> &#123;</div><div class="line">            <span class="comment">/*width: 320px;*/</span></div><div class="line">            <span class="comment">/*height: 480px;*/</span></div><div class="line">            <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">            <span class="attribute">position</span>: absolute;</div><div class="line">            <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#000000</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="selector-class">.left</span>&#123;</div><div class="line">            <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">            <span class="attribute">background-color</span>: skyblue;</div><div class="line">            <span class="attribute">overflow</span>: hidden;</div><div class="line">            <span class="comment">/*两栏自适应留白*/</span></div><div class="line">        &#125;</div><div class="line">        <span class="comment">/*产出一个绝缘的盒子  别的浮动不影响它  它也不影响其他的浮动*/</span></div><div class="line">        <span class="comment">/*bfc*/</span></div><div class="line">        <span class="selector-class">.right</span>&#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">90px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">            <span class="attribute">float</span>: right  ;</div><div class="line">            <span class="attribute">background</span>: red;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">/*右边盒子设置自适应的宽度*/</span></div><div class="line">        <span class="selector-tag">input</span>  &#123;</div><div class="line">            <span class="attribute">display</span>:block;</div><div class="line">            <span class="attribute">height</span>: <span class="number">40px</span>;</div><div class="line">            <span class="attribute">width</span>: <span class="number">30px</span>;</div><div class="line">            <span class="attribute">background-color</span>: green;</div><div class="line">            <span class="attribute">z-index</span>: <span class="number">999</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="selector-tag">img</span>&#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">50%</span>;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"phone"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span>/&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"input"</span>).onclick=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"bingo"</span>);</div><div class="line">        <span class="keyword">var</span> right  = <span class="built_in">document</span>.querySelector(<span class="string">".right"</span>)</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"右边盒子宽度:"</span>+right.offsetWidth);</div><div class="line"></div><div class="line">    &#125;;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/17/161AngularJsModule/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/17/161AngularJsModule/" itemprop="url">
-                  Angular Js angularModule
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-17T12:36:00+08:00">
-                2016-10-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1 模块的定义</p>
-<p>module是angular中重要的模块组织方式，它提供了将一组内聚的业务组件（controller、service、filter、directive…）封装在一起的能力。这样做可以将代码按照业务领域问题分module的封装，然后利用module的依赖注入其关联的模块内容，使得我们能够更好的”分离关注点“，达到更好的”高内聚低耦合“。”高内聚低耦合“是来自面向对象设计原则。内聚是指模块或者对象内部的完整性，一组紧密联系的逻辑应该被封装在同一模块、对象等代码单元中，而不是分散在各处；耦合则指模块、对象等代码单元之间的依赖程度，如果一个模块的修改，会影响到另一个模块，则说明这两模块之间是相互依赖紧耦合的。</p>
-<p>同时module也是我们angular代码的入口，首先需要声明module，然后才能定义angular中的其他组件元素，如controller、service、filter、directive、config代码块、run代码块等。</p>
-<p>关于module的定义为：angular.module(‘com.ngbook.demo’, [])。关于module函数可以传递3个参数，它们分别为：</p>
-<ol>
-<li>name：模块定义的名称，它应该是一个唯一的必选参数，它会在后边被其他模块注入或者是在ngAPP指令中声明应用程序主模块；</li>
-<li>requires：字符串的参数列表；模块的依赖，它是声明本模块需要依赖的其他模块的参数。特别注意：如果在这里没有声明模块的依赖，则我们是无法在模块中使用依赖模块的任何组件的；它是个可选参数。</li>
-<li>configFn： 模块的启动配置函数，在angular config阶段会调用该函数，对模块中的组件进行实例化对象实例之前的特定配置，如我们常见的对$routeProvider配置应用程序的路由信息。它等同于”module.config“函数，建议用”module.config“函数替换它。这也是个可选参数。</li>
-</ol>
-<p>我们可以打印出来angular全局对象和angular.module()这个方法返回的对象来更深入的了解它们之间的关系</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>mudule submit<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./bower_components/angular/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> &gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="built_in">console</span>.dir(angular);</div><div class="line">    <span class="built_in">console</span>.dir(angular.module(<span class="string">"myModule"</span>,[]));</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>2 声明module之后，其他组件元素，如controller、service、filter、directive、config代码块、run代码块也就可以在对应的模块上使用了。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2131,7 +2173,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">150</span>
+                <span class="site-state-item-count">152</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2153,7 +2195,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">67</span>
+                <span class="site-state-item-count">69</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

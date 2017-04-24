@@ -270,7 +270,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/19/186react-Compare-Vue/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/188react-lifting-State-Up/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -292,8 +292,188 @@
             
               
                 
-                <a class="post-title-link" href="/2017/04/19/186react-Compare-Vue/" itemprop="url">
-                  react Compare Vue
+                <a class="post-title-link" href="/2017/04/21/188react-lifting-State-Up/" itemprop="url">
+                  react lifting State Up
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-21T12:36:00+08:00">
+                2017-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/react/" itemprop="url" rel="index">
+                    <span itemprop="name">react</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-In-React-sharing-state-is-accomplished-by-moving-it-up-to-the-closest-common-ancestor-of-the-components-that-need-it-This-is-called-“lifting-state-up”"><a href="#1-In-React-sharing-state-is-accomplished-by-moving-it-up-to-the-closest-common-ancestor-of-the-components-that-need-it-This-is-called-“lifting-state-up”" class="headerlink" title="1 In React, sharing state is accomplished by moving it up to the closest common ancestor of the components that need it. This is called “lifting state up”."></a>1 In React, sharing state is accomplished by moving it up to the closest common ancestor of the components that need it. This is called “lifting state up”.</h3><p>props应该是只读的属性，如果我们要改变输出，可以通过state属性改变；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../build/react.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../build/react-dom.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../build/browser.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="xml"></span></div><div class="line"></div><div class="line">   const scaleNames = &#123;</div><div class="line">  c: 'Celsius',</div><div class="line">  f: 'Fahrenheit'</div><div class="line">&#125;;</div><div class="line"></div><div class="line">function toCelsius(fahrenheit) &#123;</div><div class="line">  return (fahrenheit - 32) * 5 / 9;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function toFahrenheit(celsius) &#123;</div><div class="line">  return (celsius * 9 / 5) + 32;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function tryConvert(temperature, convert) &#123;</div><div class="line">  const input = parseFloat(temperature);</div><div class="line">  if (Number.isNaN(input)) &#123;</div><div class="line">    return '';</div><div class="line">  &#125;</div><div class="line">  const output = convert(input);</div><div class="line">  const rounded = Math.round(output * 1000) / 1000;</div><div class="line">  return rounded.toString();</div><div class="line">&#125;</div><div class="line"></div><div class="line">function BoilingVerdict(props) &#123;</div><div class="line">  if (props.celsius &gt;= 100) &#123;</div><div class="line">    return <span class="tag">&lt;<span class="name">p</span>&gt;</span>The water would boil.<span class="tag">&lt;/<span class="name">p</span>&gt;</span>;</div><div class="line">  &#125;</div><div class="line">  return <span class="tag">&lt;<span class="name">p</span>&gt;</span>The water would not boil.<span class="tag">&lt;/<span class="name">p</span>&gt;</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class TemperatureInput extends React.Component &#123;</div><div class="line">  constructor(props) &#123;</div><div class="line">    console.log(props)</div><div class="line">    super(props);</div><div class="line">    this.handleChange = this.handleChange.bind(this);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  handleChange(e) &#123;</div><div class="line">    this.props.onTemperatureChange(e.target.value);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    const temperature = this.props.temperature;</div><div class="line">    const scale = this.props.scale;</div><div class="line">    return (</div><div class="line">      <span class="tag">&lt;<span class="name">fieldset</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">legend</span>&gt;</span>Enter temperature in &#123;scaleNames[scale]&#125;:<span class="tag">&lt;/<span class="name">legend</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">&#123;temperature&#125;</span></span></div><div class="line">               <span class="attr">onChange</span>=<span class="string">&#123;this.handleChange&#125;</span> /&gt;</div><div class="line">      <span class="tag">&lt;/<span class="name">fieldset</span>&gt;</span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Calculator extends React.Component &#123;</div><div class="line">  constructor(props) &#123;</div><div class="line">    console.log(props)</div><div class="line">    super(props);</div><div class="line">    this.handleCelsiusChange = this.handleCelsiusChange.bind(this);</div><div class="line">    this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);</div><div class="line">    this.state = &#123;temperature: '', scale: 'c'&#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  handleCelsiusChange(temperature) &#123;</div><div class="line">    this.setState(&#123;scale: 'c', temperature&#125;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  handleFahrenheitChange(temperature) &#123;</div><div class="line">    this.setState(&#123;scale: 'f', temperature&#125;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    const scale = this.state.scale;</div><div class="line">    const temperature = this.state.temperature;</div><div class="line">    const celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;</div><div class="line">    const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;</div><div class="line"></div><div class="line">    return (</div><div class="line">      <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">TemperatureInput</span></span></div><div class="line">          <span class="attr">scale</span>=<span class="string">"c"</span></div><div class="line">          <span class="attr">temperature</span>=<span class="string">&#123;celsius&#125;</span></div><div class="line">          <span class="attr">onTemperatureChange</span>=<span class="string">&#123;this.handleCelsiusChange&#125;</span> /&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">TemperatureInput</span></span></div><div class="line">          <span class="attr">scale</span>=<span class="string">"f"</span></div><div class="line">          <span class="attr">temperature</span>=<span class="string">&#123;fahrenheit&#125;</span></div><div class="line">          <span class="attr">onTemperatureChange</span>=<span class="string">&#123;this.handleFahrenheitChange&#125;</span> /&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">BoilingVerdict</span></span></div><div class="line">          <span class="attr">celsius</span>=<span class="string">&#123;parseFloat(celsius)&#125;</span> /&gt;</div><div class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">ReactDOM.render(</div><div class="line">  <span class="tag">&lt;<span class="name">Calculator</span> /&gt;</span>,</div><div class="line">  document.getElementById('root')</div><div class="line">);</div><div class="line"></div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="2-props中的children"><a href="#2-props中的children" class="headerlink" title="2 props中的children"></a>2 props中的children</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="xml"></span></div><div class="line">   function FacnyBorder(props)&#123;</div><div class="line">       console.log(props);</div><div class="line">       console.log(props.children);</div><div class="line">       return (</div><div class="line">           <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span> = <span class="string">&#123;</span>'<span class="attr">FancyBorder</span> <span class="attr">FancyBorder-</span>'+ <span class="attr">props.color</span>&#125;&gt;</span></div><div class="line">               &#123;props.children&#125;</div><div class="line">           <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">       )</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   function WelecomeDialog(props)&#123;</div><div class="line">       console.log(props)</div><div class="line">        return (</div><div class="line">            <span class="tag">&lt;<span class="name">FacnyBorder</span> <span class="attr">color</span> = <span class="string">'blue'</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">h1</span> <span class="attr">className</span> = <span class="string">'Dialog-title'</span>&gt;</span>welcome<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">p</span>&gt;</span> className = 'Dialog-message'&gt;thank you for visiting our website<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">FacnyBorder</span>&gt;</span></div><div class="line">        )</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   ReactDOM.render(</div><div class="line">       <span class="tag">&lt;<span class="name">WelecomeDialog</span> /&gt;</span>,</div><div class="line">       document.getElementById('root')</div><div class="line">   )</div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>WelcomeDialog组件输出的props如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Object &#123;&#125;</div><div class="line">key:(...)</div><div class="line">ref:(...)</div><div class="line">get key:function ()</div><div class="line">get ref:function ()</div><div class="line">__proto__:Object</div></pre></td></tr></table></figure>
+<p>FacnyBorder输出的props如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Object &#123;color: &quot;blue&quot;, children: Array(2)&#125;</div><div class="line">children:Array(2)</div><div class="line">color:&quot;blue&quot;</div><div class="line">key:(...)</div><div class="line">ref:(...)</div><div class="line">get key:function ()</div><div class="line">get ref:function ()</div><div class="line">__proto__:Object</div></pre></td></tr></table></figure>
+<p>FacnyBorder输出的 props.children 如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[Object, Object]</div><div class="line">0:Object</div><div class="line">1:Object</div><div class="line">length:2</div></pre></td></tr></table></figure>
+<p>其中 数组中的第一项展开内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">$$typeof:Symbol(react.element)</div><div class="line">key:null</div><div class="line">props:Object</div><div class="line">	children:&quot;welcome&quot;</div><div class="line">	className:&quot;Dialog-title&quot;</div><div class="line">	key:(...)</div><div class="line">	ref:(...)</div><div class="line">	get key:function ()</div><div class="line">	get ref:function ()</div><div class="line">	__proto__:Object</div><div class="line">ref:null</div><div class="line">type:&quot;h1&quot;</div><div class="line">_owner:ReactCompositeComponentWrapper</div><div class="line">_store:Object</div><div class="line">_self:null</div><div class="line">_source:null</div></pre></td></tr></table></figure>
+<p>其中数组第二项展开如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">$$typeof:Symbol(react.element)</div><div class="line">key:null</div><div class="line">props:Object</div><div class="line">	children:&quot;thank you for visiting our website&quot;</div><div class="line">	className:&quot;Dialog-message&quot;</div><div class="line">	key:(...)</div><div class="line">	ref:(...)</div><div class="line">	get key:function ()</div><div class="line">	get ref:function ()</div><div class="line">	__proto__:Object</div><div class="line">ref:null</div><div class="line">type:&quot;p&quot;</div><div class="line">_owner:ReactCompositeComponentWrapper</div><div class="line">_store:Object</div><div class="line">_self:null</div><div class="line">_source:null&quot;</div></pre></td></tr></table></figure>
+<p>同样在React中 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">React elements like &lt;Contacts /&gt; and &lt;Chat /&gt; are just objects, so you can pass them as props like any other data.</div></pre></td></tr></table></figure>
+<p>还是上面的例子，我们尝试着打印出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">console.log(&lt;WelecomeDialog color = &apos;red&apos;/&gt;)</div></pre></td></tr></table></figure>
+<p>输出结果如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Object &#123;$$typeof: Symbol(react.element), key: null, ref: null, props: Object, type: function…&#125;</div><div class="line">$$typeof:Symbol(react.element)</div><div class="line">key:null</div><div class="line">props:Object</div><div class="line">ref:null</div><div class="line">type:function WelecomeDialog(props)</div><div class="line">_owner:null</div><div class="line">_store:Object</div><div class="line">_self:null</div><div class="line">_source:null</div></pre></td></tr></table></figure>
+<p><strong>submit</strong></p>
+<p>根据以上的输出我们可以得到结论：</p>
+<ul>
+<li>组件上通过属性添加的数据，会绑定在props对象中</li>
+<li>组件上通过子节点，比如文本节点或者元素节点添加在组件上的，会绑定到props.children对象上</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;WelecomeDialog&gt;hello&lt;/WelecomeDialog&gt; 比如中的hello文本节点</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;FacnyBorder color = &apos;blue&apos;&gt;</div><div class="line">  &lt;h1 className = &apos;Dialog-title&apos;&gt;welcome&lt;/h1&gt;</div><div class="line">  &lt;p className = &apos;Dialog-message&apos;&gt;thank you for visiting our website&lt;/p&gt;</div><div class="line">&lt;/FacnyBorder&gt;</div><div class="line">中的元素节点 h1和p</div></pre></td></tr></table></figure>
+<ul>
+<li>组件以标签形式显示的时候，其实也就是一个对象</li>
+<li>如果想要向组件中传递参数，可以通过属性或者子节点进行传递，传递的数据可以在组件定义中的props和props.children中获取到。</li>
+<li>React区分标签是一个<strong>组件</strong>还是一个<strong>HTML标签</strong>是根据标签的首字母大小写来区分的</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;div /&gt;  这个就是代表HTML标签</div><div class="line">&lt;Contact /&gt; 这个就代表组件</div></pre></td></tr></table></figure>
+<ul>
+<li>React中无论是组件还是标签，都必须被正确的闭合 每一个标签或者组件的   /   必不可少 ;</li>
+</ul>
+<h3 id="3-除了通过children传递data数据，我们其实可以利用props传递组件对象"><a href="#3-除了通过children传递data数据，我们其实可以利用props传递组件对象" class="headerlink" title="3 除了通过children传递data数据，我们其实可以利用props传递组件对象"></a>3 除了通过children传递data数据，我们其实可以利用props传递组件对象</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   </div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="undefined"></span></div><div class="line">  function Contacts()&#123;</div><div class="line">      return (</div><div class="line">          &lt;div className = 'contacts'&gt;</div><div class="line">              this is contacts</div><div class="line">          &lt;/div&gt;</div><div class="line">      )</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  function Chat()&#123;</div><div class="line">      return (</div><div class="line">          &lt;div className = 'chat' &gt;this is chat &lt;/div&gt;</div><div class="line">           </div><div class="line">      )</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  function SplitPane(props)&#123;</div><div class="line">      console.log(props)</div><div class="line">      return(</div><div class="line">       &lt;div className = 'SplitPane'&gt;</div><div class="line">           &lt;div className = 'SplitPane-left'&gt;</div><div class="line">               &#123;props.left&#125;</div><div class="line">           &lt;/div&gt;</div><div class="line"></div><div class="line">           &lt;div className = 'SplitPane-right'&gt;</div><div class="line">               &#123;props.right&#125;</div><div class="line">           &lt;/div&gt;</div><div class="line">       &lt;/div&gt;</div><div class="line">      )</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  function App(props)&#123;</div><div class="line">      return (</div><div class="line">       &lt;SplitPane left = &#123;&lt;Contacts/&gt;&#125; right = &#123;&lt;Chat/&gt;&#125; /&gt;</div><div class="line">      )</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  ReactDOM.render(</div><div class="line">      &lt;App /&gt;,</div><div class="line">      document.getElementById('root')</div><div class="line">  )</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>通过以上用法，我们就可以传递多个不一样的组件，也就是可以对组件进行不一样的拼接。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/19/185react-Event/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/185react-Event/" itemprop="url">
+                  react Event
                 </a>
               
             
@@ -332,8 +512,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
+                  <a href="/categories/react/" itemprop="url" rel="index">
+                    <span itemprop="name">react</span>
                   </a>
                 </span>
 
@@ -369,40 +549,31 @@
       
         
           
-            <h3 id="1-react和vue优劣对比"><a href="#1-react和vue优劣对比" class="headerlink" title="1 react和vue优劣对比"></a>1 react和vue优劣对比</h3><p>1.1 react  </p>
-<ul>
-<li>更适合大型应用和更好的可测试性</li>
-<li>Web端和移动端原生APP通用</li>
-<li>更大的生态系统，更多的支持和好用的工具，大量数据渲染react优势明显</li>
-<li>可以创建一个同时适用于Web端和原生APP的框架</li>
-<li>react由facebook维护，并且相应的社区以及组件都比较成熟</li>
+            <h3 id="1-Handling-events-with-React-elements-is-very-similar-to-handling-events-on-DOM-elements-There-are-some-syntactic-differences"><a href="#1-Handling-events-with-React-elements-is-very-similar-to-handling-events-on-DOM-elements-There-are-some-syntactic-differences" class="headerlink" title="1 Handling events with React elements is very similar to handling events on DOM elements. There are some syntactic differences:"></a>1 Handling events with React elements is very similar to handling events on DOM elements. There are some syntactic differences:</h3><ul>
+<li>React events are named using camelCase, rather than lowercase.</li>
+<li>With JSX you pass a function as the event handler, rather than a string.</li>
+<li>函数的this指向null,而原先的HTML绑定时间this指向的是绑定事件的元素</li>
+<li>react并不会真正的绑定事件到每一个具体的元素上，而是采用事件代理的模式：在根节点document上为每种事件添加唯一的Listener，然后通过事件对象的event.target找到真实的触发元素。这样从触发元素到顶层节点之间的所有节点如果有绑定这个事件，React都会触发对应的事件处理函数。这就是所谓的React模拟事件系统。</li>
 </ul>
-<p>1.2 vue </p>
-<ul>
-<li>模板和渲染函数的弹性选择</li>
-<li>简单的语法和项目配置</li>
-<li>更快的渲染速度和更小的体积</li>
-<li>更加适合小且快，‘简单能用’，的单页面应用程序</li>
-<li>vue 不适合持续的工程迭代，因为数据可以在view和model双向流动，但是带来的一个缺点是：工程规模比较大的时候，数据双向流动会带来难以预测的结果</li>
-<li>vue是尤雨溪个人开发和维护，相应 的社区和组件不够成熟</li>
-</ul>
-<h3 id="2-react-和-vue-技术点对比"><a href="#2-react-和-vue-技术点对比" class="headerlink" title="2 react 和 vue 技术点对比"></a>2 react 和 vue 技术点对比</h3><p>2.1 react </p>
-<ul>
-<li>采用ES6语法规范以及jsx语法</li>
-<li>创建virtualDOM ,因为虚拟DOM是内存数据，大大提高了性能。</li>
-<li>组件化的开发思路，带来了UI功能模块之间的分离</li>
-<li>数据绑定: 采用单向数据流</li>
-<li>React可以拓展到服务端，移动端Native部分</li>
-</ul>
-<p>2.2 vue</p>
-<ul>
-<li>采用模板语法，通过模板渲染前端页面</li>
-<li>同时借鉴了angular和react,更加轻量级、简单、快捷</li>
-<li>数据绑定默认单向数据流，也可以实现双向绑定</li>
-<li>同样可以组件化开发，对于部署小型应用特别方便</li>
-<li>Vue因为比较轻量，还能用于业务场景非常轻的页面中。</li>
-</ul>
-<p>### </p>
+<p>建议先了解下箭头函数，我也有些过关于箭头函数的博文</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onclick</span>=<span class="string">"console.log('The link was clicked.'); console.log(this);return false"</span>&gt;</span></div><div class="line">  Click me  </div><div class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onclick</span>=<span class="string">"console.log('The link was clicked.');"</span>&gt;</span></div><div class="line">  Click me</div><div class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>以上：这里面的this代表的是a标签  ；可以通过return false阻止默认事件   ；事件绑定命名用小写字母</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">ActionLink</span>(<span class="params">props</span>)</span>&#123;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">HandlerClick</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">            e.preventDefault();</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">            </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">            <span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onClick</span> = <span class="string">&#123;HandlerClick&#125;</span>&gt;</span>click me react<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></div><div class="line">        )</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    ReactDOM.render(</div><div class="line">        <span class="xml"><span class="tag">&lt;<span class="name">ActionLink</span> /&gt;</span>,</span></div><div class="line">        document.getElementById('root')</div><div class="line">    )</div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>以上：这里面的this代表的是null  ；不可以通过return false阻止默认事件 ，只能用e.preventDefalut()  ；事件绑定命名用驼峰命名的方式</p>
+<p>以上函数声明组件等价于以下class类声明组件，重点注意this指向null,而不是元素标签,为了使handle函数内部的this不是指向null或者undefined，需要我们手动绑定这些函数执行的时候this的指向</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   </div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">   <span class="class"><span class="keyword">class</span> <span class="title">ActionLink</span>  <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">       HandlerClick(e)&#123;</div><div class="line">           e.preventDefault();</div><div class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       render()&#123;</div><div class="line">           <span class="keyword">return</span> (</div><div class="line">               <span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onClick</span> = <span class="string">&#123;this.HandlerClick&#125;</span>&gt;</span>click me react<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></div><div class="line">           )</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   ReactDOM.render(</div><div class="line">       <span class="xml"><span class="tag">&lt;<span class="name">ActionLink</span> /&gt;</span>,</span></div><div class="line">       document.getElementById('root')</div><div class="line">   )</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>那么如何使得HandlerClick函数内部的this指向改变？</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   </div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">   <span class="class"><span class="keyword">class</span> <span class="title">ActionLink</span>  <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">       <span class="keyword">constructor</span>(props)&#123;</div><div class="line">           <span class="keyword">super</span>(props);</div><div class="line">           <span class="keyword">this</span>.HandlerClick = <span class="keyword">this</span>.HandlerClick.bind(<span class="keyword">this</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       HandlerClick(e)&#123;</div><div class="line">           e.preventDefault();</div><div class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       render()&#123;</div><div class="line">           <span class="keyword">return</span> (</div><div class="line">               <span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onClick</span> = <span class="string">&#123;this.HandlerClick&#125;</span>&gt;</span>click me bind<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></div><div class="line">           )</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   ReactDOM.render(</div><div class="line">       <span class="xml"><span class="tag">&lt;<span class="name">ActionLink</span> /&gt;</span>,</span></div><div class="line">       document.getElementById('root')</div><div class="line">   )</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这个时候可以发现控制台输出的this指向的是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ActionLink &#123;props: Object, context: Object, refs: Object, updater: Object, HandlerClick: function…&#125;</div></pre></td></tr></table></figure>
+<h3 id="2-接下来走一个改变this指向应用的实例"><a href="#2-接下来走一个改变this指向应用的实例" class="headerlink" title="2 接下来走一个改变this指向应用的实例"></a>2 接下来走一个改变this指向应用的实例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">   <span class="class"><span class="keyword">class</span> <span class="title">Toggle</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">       <span class="keyword">constructor</span>(props)&#123;</div><div class="line">           <span class="keyword">super</span>(props);</div><div class="line">           <span class="keyword">this</span>.state = &#123;<span class="attr">isToggleOn</span> : <span class="literal">true</span>&#125;;</div><div class="line">           <span class="keyword">this</span>.handlerClick = <span class="keyword">this</span>.handlerClick.bind(<span class="keyword">this</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       handlerClick()&#123;</div><div class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">           <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>)=&gt;</span>(&#123;<span class="attr">isToggleOn</span> : !prevState.isToggleOn&#125;));</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       render()&#123;</div><div class="line">           <span class="keyword">return</span> (</div><div class="line">               <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span> = <span class="string">&#123;this.handlerClick&#125;</span>&gt;</span></span></div><div class="line">                   &#123;this.state.isToggleOn?'on':'off'&#125;</div><div class="line">               <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">           );</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   ReactDOM.render(</div><div class="line">       <span class="xml"><span class="tag">&lt;<span class="name">Toggle</span> /&gt;</span>,</span></div><div class="line">       document.getElementById('root')</div><div class="line">   )</div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>同样使用箭头函数也可以达到类似的效果，改变render函数，一定要明确箭头函数的特性，同时()不要忘记加；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">render()&#123;</div><div class="line">           return (</div><div class="line">               <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span> = <span class="string">&#123;()</span>=&gt;</span>this.handlerClick()&#125;&gt;</div><div class="line">                   &#123;this.state.isToggleOn?'on':'off'&#125;</div><div class="line">               <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">           );</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<p>理解箭头函数</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">'btn'</span> <span class="attr">value</span> = <span class="string">'button'</span>  <span class="attr">type</span>=<span class="string">"button"</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">arrow</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'this is arrow func'</span>);</div><div class="line">            </div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>).onclick = <span class="function"><span class="params">()</span>=&gt;</span>arrow()</div><div class="line">        <span class="comment">//等价于</span></div><div class="line">        <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)(<span class="params"></span></span></div><div class="line">        	arrow() ;</div><div class="line">        )</div><div class="line">        //当点击按钮的时候 <span class="title">onclick</span>的事件监听函数执行,该函数执行的过程中,内部代码 <span class="title">arrow</span>(<span class="params"></span>)会执行函数<span class="title">arrow</span>，所以这就是(<span class="params"></span>)不要忘记加的原因</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>控制台输出的this都是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Toggle &#123;props: Object, handlerClick:function (),context: Object, refs: Object, updater: Object, state: Object…&#125;</div></pre></td></tr></table></figure>
+<h3 id="3-使用箭头函数注意细节"><a href="#3-使用箭头函数注意细节" class="headerlink" title="3 使用箭头函数注意细节"></a>3 使用箭头函数注意细节</h3><p>但是如果使用以下写法就不会绑定this到Togglel了</p>
 
           
         
@@ -642,7 +813,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/19/185react-Event/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/19/187isNaN-And-NumberisNaN/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -664,8 +835,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/04/19/185react-Event/" itemprop="url">
-                  react Event
+                <a class="post-title-link" href="/2017/04/19/187isNaN-And-NumberisNaN/" itemprop="url">
+                  isNaN And NumberisNaN
                 </a>
               
             
@@ -704,8 +875,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/react/" itemprop="url" rel="index">
-                    <span itemprop="name">react</span>
+                  <a href="/categories/ES6/" itemprop="url" rel="index">
+                    <span itemprop="name">ES6</span>
                   </a>
                 </span>
 
@@ -741,31 +912,183 @@
       
         
           
-            <h3 id="1-Handling-events-with-React-elements-is-very-similar-to-handling-events-on-DOM-elements-There-are-some-syntactic-differences"><a href="#1-Handling-events-with-React-elements-is-very-similar-to-handling-events-on-DOM-elements-There-are-some-syntactic-differences" class="headerlink" title="1 Handling events with React elements is very similar to handling events on DOM elements. There are some syntactic differences:"></a>1 Handling events with React elements is very similar to handling events on DOM elements. There are some syntactic differences:</h3><ul>
-<li>React events are named using camelCase, rather than lowercase.</li>
-<li>With JSX you pass a function as the event handler, rather than a string.</li>
-<li>函数的this指向null,而原先的HTML绑定时间this指向的是绑定事件的元素</li>
-<li>react并不会真正的绑定事件到每一个具体的元素上，而是采用事件代理的模式：在根节点document上为每种事件添加唯一的Listener，然后通过事件对象的event.target找到真实的触发元素。这样从触发元素到顶层节点之间的所有节点如果有绑定这个事件，React都会触发对应的事件处理函数。这就是所谓的React模拟事件系统。</li>
+            <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">        //Number.isNaN() 不会进行类型转化，直接进行isNaN的判断；简而言之就是分两步</div><div class="line">        //第一步，如果传入的参数不是类型不是number直接返回 false </div><div class="line">        //第二步，如果传入的参数类型是number,判断是不是NaN，如果是返回true,否则返回false</div><div class="line">        //这里需要注意的一点是  NaN也是number类型的数据</div><div class="line">        /*</div><div class="line">        Number.isNan() does not convert the values to a Number, and will  return false for any value that is not of the type Number【</div><div class="line"></div><div class="line">If Type(number) is not Number, return false.</div><div class="line">If number is NaN, return true.</div><div class="line">Otherwise, return false.*/</div><div class="line">        console.log(Number.isNaN(1));//false</div><div class="line">        console.log(Number.isNaN('str'));//false  </div><div class="line">        console.log(Number.isNaN(NaN));//True  </div><div class="line"></div><div class="line">        //全局方法isNaN（）会先将参数转为Number 类型，在判断是否为NaN ，所以在类型转换失败或运算错误时值为NaN，返回true，其他全为false</div><div class="line"></div><div class="line">        //全局isNaN会先进行类型转化为Number类型,这个时候需要掌握Number类型转化的规则，如果转化结果是NaN，那么isNaN返回true,其他全部为false</div><div class="line"></div><div class="line">        /*</div><div class="line">        The global isNaN() function converts the tested value to a Number, then tests it.【</div><div class="line"></div><div class="line">            If value can not convert to Number, return true.</div><div class="line">            else If number arithmethic result  is NaN, return true.</div><div class="line">            Otherwise, return false.*/</div><div class="line">        console.log(isNaN('str'));//true</div><div class="line">        console.log(isNaN(1));//fasle</div><div class="line">        console.log(isNaN(undefined));//true</div><div class="line">        console.log(isNaN("Hello"));//true</div><div class="line"></div><div class="line">        /*</div><div class="line">        isNaN() 函数通常用于检测 parseFloat() 和 parseInt() 的结果，以判断它们表示的是否是合法的数字。当然也可以用 isNaN() 函数来检测算数错误，比如用 0 作除数的情况。*/</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/19/186react-Compare-Vue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/19/186react-Compare-Vue/" itemprop="url">
+                  react Compare Vue
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-19T12:36:00+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-react和vue优劣对比"><a href="#1-react和vue优劣对比" class="headerlink" title="1 react和vue优劣对比"></a>1 react和vue优劣对比</h3><p>1.1 react  </p>
+<ul>
+<li>更适合大型应用和更好的可测试性</li>
+<li>Web端和移动端原生APP通用</li>
+<li>更大的生态系统，更多的支持和好用的工具，大量数据渲染react优势明显</li>
+<li>可以创建一个同时适用于Web端和原生APP的框架</li>
+<li>react由facebook维护，并且相应的社区以及组件都比较成熟</li>
 </ul>
-<p>建议先了解下箭头函数，我也有些过关于箭头函数的博文</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onclick</span>=<span class="string">"console.log('The link was clicked.'); console.log(this);return false"</span>&gt;</span></div><div class="line">  Click me  </div><div class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onclick</span>=<span class="string">"console.log('The link was clicked.');"</span>&gt;</span></div><div class="line">  Click me</div><div class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>以上：这里面的this代表的是a标签  ；可以通过return false阻止默认事件   ；事件绑定命名用小写字母</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">ActionLink</span>(<span class="params">props</span>)</span>&#123;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">HandlerClick</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">            e.preventDefault();</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">            </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">            <span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onClick</span> = <span class="string">&#123;HandlerClick&#125;</span>&gt;</span>click me react<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></div><div class="line">        )</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    ReactDOM.render(</div><div class="line">        <span class="xml"><span class="tag">&lt;<span class="name">ActionLink</span> /&gt;</span>,</span></div><div class="line">        document.getElementById('root')</div><div class="line">    )</div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>以上：这里面的this代表的是null  ；不可以通过return false阻止默认事件 ，只能用e.preventDefalut()  ；事件绑定命名用驼峰命名的方式</p>
-<p>以上函数声明组件等价于以下class类声明组件，重点注意this指向null,而不是元素标签,为了使handle函数内部的this不是指向null或者undefined，需要我们手动绑定这些函数执行的时候this的指向</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   </div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">   <span class="class"><span class="keyword">class</span> <span class="title">ActionLink</span>  <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">       HandlerClick(e)&#123;</div><div class="line">           e.preventDefault();</div><div class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       render()&#123;</div><div class="line">           <span class="keyword">return</span> (</div><div class="line">               <span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onClick</span> = <span class="string">&#123;this.HandlerClick&#125;</span>&gt;</span>click me react<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></div><div class="line">           )</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   ReactDOM.render(</div><div class="line">       <span class="xml"><span class="tag">&lt;<span class="name">ActionLink</span> /&gt;</span>,</span></div><div class="line">       document.getElementById('root')</div><div class="line">   )</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>那么如何使得HandlerClick函数内部的this指向改变？</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   </div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">   <span class="class"><span class="keyword">class</span> <span class="title">ActionLink</span>  <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">       <span class="keyword">constructor</span>(props)&#123;</div><div class="line">           <span class="keyword">super</span>(props);</div><div class="line">           <span class="keyword">this</span>.HandlerClick = <span class="keyword">this</span>.HandlerClick.bind(<span class="keyword">this</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       HandlerClick(e)&#123;</div><div class="line">           e.preventDefault();</div><div class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       render()&#123;</div><div class="line">           <span class="keyword">return</span> (</div><div class="line">               <span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onClick</span> = <span class="string">&#123;this.HandlerClick&#125;</span>&gt;</span>click me bind<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></div><div class="line">           )</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   ReactDOM.render(</div><div class="line">       <span class="xml"><span class="tag">&lt;<span class="name">ActionLink</span> /&gt;</span>,</span></div><div class="line">       document.getElementById('root')</div><div class="line">   )</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>这个时候可以发现控制台输出的this指向的是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ActionLink &#123;props: Object, context: Object, refs: Object, updater: Object, HandlerClick: function…&#125;</div></pre></td></tr></table></figure>
-<h3 id="2-接下来走一个改变this指向应用的实例"><a href="#2-接下来走一个改变this指向应用的实例" class="headerlink" title="2 接下来走一个改变this指向应用的实例"></a>2 接下来走一个改变this指向应用的实例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">   <span class="class"><span class="keyword">class</span> <span class="title">Toggle</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">       <span class="keyword">constructor</span>(props)&#123;</div><div class="line">           <span class="keyword">super</span>(props);</div><div class="line">           <span class="keyword">this</span>.state = &#123;<span class="attr">isToggleOn</span> : <span class="literal">true</span>&#125;;</div><div class="line">           <span class="keyword">this</span>.handlerClick = <span class="keyword">this</span>.handlerClick.bind(<span class="keyword">this</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       handlerClick()&#123;</div><div class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">           <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>)=&gt;</span>(&#123;<span class="attr">isToggleOn</span> : !prevState.isToggleOn&#125;));</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       render()&#123;</div><div class="line">           <span class="keyword">return</span> (</div><div class="line">               <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span> = <span class="string">&#123;this.handlerClick&#125;</span>&gt;</span></span></div><div class="line">                   &#123;this.state.isToggleOn?'on':'off'&#125;</div><div class="line">               <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">           );</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   ReactDOM.render(</div><div class="line">       <span class="xml"><span class="tag">&lt;<span class="name">Toggle</span> /&gt;</span>,</span></div><div class="line">       document.getElementById('root')</div><div class="line">   )</div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>同样使用箭头函数也可以达到类似的效果，改变render函数，一定要明确箭头函数的特性，同时()不要忘记加；</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">render()&#123;</div><div class="line">           return (</div><div class="line">               <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span> = <span class="string">&#123;()</span>=&gt;</span>this.handlerClick()&#125;&gt;</div><div class="line">                   &#123;this.state.isToggleOn?'on':'off'&#125;</div><div class="line">               <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">           );</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
-<p>理解箭头函数</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">'btn'</span> <span class="attr">value</span> = <span class="string">'button'</span>  <span class="attr">type</span>=<span class="string">"button"</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">arrow</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'this is arrow func'</span>);</div><div class="line">            </div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>).onclick = <span class="function"><span class="params">()</span>=&gt;</span>arrow()</div><div class="line">        <span class="comment">//等价于</span></div><div class="line">        <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)(<span class="params"></span></span></div><div class="line">        	arrow() ;</div><div class="line">        )</div><div class="line">        //当点击按钮的时候 <span class="title">onclick</span>的事件监听函数执行,该函数执行的过程中,内部代码 <span class="title">arrow</span>(<span class="params"></span>)会执行函数<span class="title">arrow</span>，所以这就是(<span class="params"></span>)不要忘记加的原因</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>控制台输出的this都是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Toggle &#123;props: Object, handlerClick:function (),context: Object, refs: Object, updater: Object, state: Object…&#125;</div></pre></td></tr></table></figure>
-<h3 id="3-使用箭头函数注意细节"><a href="#3-使用箭头函数注意细节" class="headerlink" title="3 使用箭头函数注意细节"></a>3 使用箭头函数注意细节</h3><p>但是如果使用以下写法就不会绑定this到Togglel了</p>
+<p>1.2 vue </p>
+<ul>
+<li>模板和渲染函数的弹性选择</li>
+<li>简单的语法和项目配置</li>
+<li>更快的渲染速度和更小的体积</li>
+<li>更加适合小且快，‘简单能用’，的单页面应用程序</li>
+<li>vue 不适合持续的工程迭代，因为数据可以在view和model双向流动，但是带来的一个缺点是：工程规模比较大的时候，数据双向流动会带来难以预测的结果</li>
+<li>vue是尤雨溪个人开发和维护，相应 的社区和组件不够成熟</li>
+</ul>
+<h3 id="2-react-和-vue-技术点对比"><a href="#2-react-和-vue-技术点对比" class="headerlink" title="2 react 和 vue 技术点对比"></a>2 react 和 vue 技术点对比</h3><p>2.1 react </p>
+<ul>
+<li>采用ES6语法规范以及jsx语法</li>
+<li>创建virtualDOM ,因为虚拟DOM是内存数据，大大提高了性能。</li>
+<li>组件化的开发思路，带来了UI功能模块之间的分离</li>
+<li>数据绑定: 采用单向数据流</li>
+<li>React可以拓展到服务端，移动端Native部分</li>
+</ul>
+<p>2.2 vue</p>
+<ul>
+<li>采用模板语法，通过模板渲染前端页面</li>
+<li>同时借鉴了angular和react,更加轻量级、简单、快捷</li>
+<li>数据绑定默认单向数据流，也可以实现双向绑定</li>
+<li>同样可以组件化开发，对于部署小型应用特别方便</li>
+<li>Vue因为比较轻量，还能用于业务场景非常轻的页面中。</li>
+</ul>
+<p>### </p>
 
           
         
@@ -1754,349 +2077,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/15/94-apply  call  bind 对比分析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/15/94-apply  call  bind 对比分析/" itemprop="url">
-                  the difference between null and undefined
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-15T12:36:00+08:00">
-                2017-01-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>##apply  call  bind 对比分析</p>
-<h2 id="1-基本语法-第一个参数必须传入一个对象"><a href="#1-基本语法-第一个参数必须传入一个对象" class="headerlink" title="1 基本语法,第一个参数必须传入一个对象"></a>1 基本语法,第一个参数必须传入一个对象</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">fun.bind(thisArg[, arg1[, arg2[, ...]]])</div><div class="line">fun.call(thisArg[, arg1[, arg2[, ...]]])</div><div class="line">fun.apply(thisArg[, argsArray])</div><div class="line"><span class="comment">//bind call  apply可以改变原来的 fn 函数以 thisarg为对象进行执行</span></div><div class="line"><span class="comment">//第一个参数是代表fun函数执行的this指向</span></div></pre></td></tr></table></figure>
-<h2 id="2-三者之间的区别"><a href="#2-三者之间的区别" class="headerlink" title="2 三者之间的区别"></a>2 三者之间的区别</h2><p>2.1 bind只绑定方法执行的对象，并不执行方法，改变的是函数的this指向；根据bind的这个特性，经常会结合setTimeout执行</p>
-<p>2.2 call apply绑定方法的执行对象的同时，也会直接执行方法；</p>
-<p>2.2.1  fun.apply(thisArg[, argsArray])</p>
-<p>thisArg<br>在 fun 函数运行时指定的 this 值。需要注意的是，指定的 this 值并不一定是该函数执行时真正的 this 值，如果这个函数处于非严格模式下，则指定为 null 或 undefined 时会自动指向全局对象（浏览器中就是window对象），同时值为原始值（数字，字符串，布尔值）的 this 会指向该原始值的自动包装对象。<br>argsArray<br>一个<strong>数组</strong>或者<strong>类数组</strong> 对象，其中的<strong>数组元素将作为单独的参数传给 fun 函数</strong>  。如果该参数的值为null 或 undefined，则表示不需要传入任何参数。从ECMAScript 5 开始可以使用类数组对象。浏览器兼容性请参阅本文底部内容。</p>
-<p>同时除了可以传入一个数组，也可以传入arguments,代表当前函数的参数的一个<strong>类数组</strong> </p>
-<p>如果 argsArray 不是一个有效的数组或者不是 arguments 对象，那么将导致一个 TypeError。<br>如果没有提供 argsArray 和 thisArg 任何一个参数，那么 Global 对象将被用作 thisArg， 并且无法被传递任何参数。</p>
-<p>2.2.2 fun.call(thisArg[, arg1[, arg2[, …]]])</p>
-<p>如果thisArg指定为null<code>和</code>undefined<code>的</code>this值会自动指向全局对象(浏览器中就是window对象)，同时值为原始值(数字，字符串，布尔值)的<code>this</code>会指向该原始值的自动包装对象。</p>
-<p>2.3 主要改变函数体执行的时候，函数体内this的指向；</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> name = <span class="string">"Jhon"</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getName</span> (<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> obj = &#123;</div><div class="line">        <span class="attr">name</span>:<span class="string">"JiM"</span></div><div class="line">    &#125;</div><div class="line">    getName();<span class="comment">//Jhon</span></div><div class="line">    getName.apply(obj);<span class="comment">//JiM</span></div><div class="line">    getName.call(obj);<span class="comment">//JiM</span></div><div class="line">    getName.bind(obj);<span class="comment">//不会执行getName函数</span></div><div class="line">    getName.bind(obj)(); <span class="comment">//JiM</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>2.3 call方法传入的参数是参数列表形式的，apply传入的参数<strong>必须是数组</strong> 形式的</p>
-<ul>
-<li>apply参数数组化的应用场景：求数组最值</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">	<span class="keyword">var</span> arr= [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">777</span>]</div><div class="line"><span class="comment">//  var max = Math.max.apply(null,arr);//777</span></div><div class="line">    <span class="keyword">var</span> max = <span class="built_in">Math</span>.max.call(<span class="literal">null</span>,arr);<span class="comment">//NaN</span></div><div class="line"> <span class="comment">// var max = Math.max(arr) ; //NaN</span></div><div class="line">    <span class="built_in">console</span>.log(max);</div><div class="line"><span class="comment">//  这是apply方法的特性，apply方法第二个参数为参数的数组，虽然我们传入的是数组参数apply会将一个数组转化为一个参数接一个参数的传递给方法。但是call并不会</span></div></pre></td></tr></table></figure>
-<ul>
-<li>如何将一个数组追加到另外一个数组呢？</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</div><div class="line"><span class="keyword">var</span> arr3 = arr1.concat(arr2);</div><div class="line"><span class="comment">//是的，这种方法可以，但是问题是concat方法并不会改变原来的数组，而是会返回一个新的元素</span></div></pre></td></tr></table></figure>
-<p>或者你也会这么做</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</div><div class="line"><span class="comment">//arr1.push(arr2)//这么做是不行的,push会将arr2整体添加到arr1中</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; arr2.length;i++)&#123;</div><div class="line">  	arr1.push(arr2[i]);</div><div class="line">&#125;</div><div class="line"><span class="comment">//这么做也可以，通过循环，但是挺麻烦</span></div></pre></td></tr></table></figure>
-<p>看看apply参数数组化的优势 apply会将数组拆分，将每个元素传入调用的函数push</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"> <span class="keyword">var</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</div><div class="line"> arr1.push.apply(arr1,arr2)	<span class="comment">//apply起了决定性的作用，将传入的数组或者类数组中的参数一个个的分开</span></div><div class="line"> <span class="comment">//    arr1.push(arr2)  //这么做不行，直接将arr2整体添加给了arr1 </span></div><div class="line"><span class="built_in">console</span>.dir(arr1);</div></pre></td></tr></table></figure>
-<ul>
-<li>如何将一个 类数组对象 添加到另外一个  对象 呢？</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arrLike = &#123;</div><div class="line">     <span class="number">0</span>:<span class="string">"name"</span>,</div><div class="line">     <span class="number">1</span>:<span class="string">"age"</span>,</div><div class="line">     <span class="number">2</span>:<span class="string">"address"</span>,</div><div class="line">     <span class="attr">length</span>:<span class="number">3</span>      </div><div class="line">  <span class="comment">//如果将类数组作为apply的参数传入(因为apply第二个参数必须是数组)，类数组必须有length属性,如果没有该属性，那么类数组中的值不会被push进去;</span></div><div class="line"> &#125;</div><div class="line"> <span class="keyword">var</span> obj = &#123; &#125;;</div><div class="line"> <span class="built_in">Array</span>.prototype.push.apply(obj,arrLike);  <span class="comment">//关键还是apply方法会将传入的类数组元素一个个传递给push，然后push方法就可以将所有的元素以单独的形式添加给obj</span></div><div class="line"> <span class="built_in">console</span>.dir(obj);</div></pre></td></tr></table></figure>
-<p>下面代码可以看下，看下apply的参数对于数组以及类数组的要求</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">var</span> obj1 = &#123;</div><div class="line">        <span class="attr">name</span>:<span class="string">"Jhon"</span>,</div><div class="line">        <span class="attr">age</span>:<span class="number">13</span>,</div><div class="line">        <span class="attr">address</span>:<span class="string">"American"</span>,</div><div class="line">        <span class="number">1</span>:<span class="string">"JiM"</span>,</div><div class="line">        <span class="attr">other</span>:&#123;</div><div class="line">            <span class="attr">gender</span>:<span class="string">"man"</span></div><div class="line">        &#125;,</div><div class="line"><span class="comment">//      length:4	</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> obj2 = &#123;&#125;;</div><div class="line">    <span class="built_in">Array</span>.prototype.push.apply(obj2,obj1)</div><div class="line">    <span class="built_in">console</span>.dir(obj2);</div></pre></td></tr></table></figure>
-<ul>
-<li>apply操作DOM元素   NodeList类数组</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> divs = <span class="built_in">document</span>.querySelectorAll(<span class="string">"div"</span>);</div><div class="line">     <span class="built_in">console</span>.dir(divs);<span class="comment">//这是一个类数组</span></div><div class="line"> 	<span class="built_in">console</span>.dir(divs[<span class="number">0</span>]);</div><div class="line">    <span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line">     <span class="built_in">Array</span>.prototype.push.apply(obj,divs);<span class="comment">//push+obj+apply可以将DOM NodeList转化为对象</span></div><div class="line">     <span class="built_in">console</span>.dir(obj);</div><div class="line">     <span class="built_in">console</span>.dir(obj[<span class="number">0</span>]);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>bind</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span>(<span class="params">fn, obj</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> fn.apply(obj, <span class="built_in">arguments</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">    <span class="attr">a</span>: <span class="number">20</span>,</div><div class="line">    <span class="attr">getA</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        setTimeout(bind(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</div><div class="line">        &#125;, <span class="keyword">this</span>), <span class="number">1000</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">obj.getA();</div><div class="line"><span class="comment">//---------------------------------</span></div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">    <span class="attr">a</span>: <span class="number">20</span>,</div><div class="line">    <span class="attr">getA</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</div><div class="line">        &#125;.bind(<span class="keyword">this</span>), <span class="number">1000</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="3-this的指向"><a href="#3-this的指向" class="headerlink" title="3  this的指向"></a>3  this的指向</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1 非严格模式下，this默认指向全局对象，call/apply显式指定this参数时也会强制转换参数为对象（如果不是对象）。其中，null/undefined被替换为全局对象，基础类型被转换为包装对象。</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">nsm</span>(<span class="params"></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="keyword">this</span>);&#125;</div><div class="line">    nsm(); <span class="comment">// Window&#123;top: xxxx&#125;</span></div><div class="line">    nsm.call(<span class="literal">null</span>/<span class="literal">undefined</span>); <span class="comment">// Window&#123;top: xxxx&#125;</span></div><div class="line">    nsm.call(<span class="number">1</span>); <span class="comment">// Number &#123;[[PrimitiveValue]]: 1&#125;</span></div><div class="line">    nsm.call(<span class="string">'str'</span>); <span class="comment">// String &#123;0: "s", 1: "t", 2: "r", length: 3, [[PrimitiveValue]]: "str"&#125;</span></div><div class="line">    nsm.call(<span class="literal">true</span>); <span class="comment">// Boolean &#123;[[PrimitiveValue]]: true&#125;</span></div><div class="line"></div><div class="line"><span class="comment">//----------------------------------------------------------------------------------------</span></div><div class="line"></div><div class="line"><span class="comment">//2 严格模式下，this默认为undefined，且call/apply显式指定this参数时也不会有强制转换</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">sm</span>(<span class="params"></span>) </span>&#123;<span class="string">'use strict'</span>; <span class="built_in">console</span>.log(<span class="keyword">this</span>);&#125;</div><div class="line">    sm(); <span class="comment">// undefined</span></div><div class="line">    sm.call(<span class="literal">null</span>); <span class="comment">// null</span></div><div class="line">    sm.call(<span class="literal">undefined</span>); <span class="comment">// undefined</span></div><div class="line">    sm.call(<span class="number">1</span>); <span class="comment">// 1</span></div><div class="line">    sm.call(<span class="string">'str'</span>); <span class="comment">// str</span></div><div class="line">    sm.call(<span class="literal">true</span>); <span class="comment">// true</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/15/128NodeJsEvent/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/15/128NodeJsEvent/" itemprop="url">
-                  NodeJs Event
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-15T12:36:00+08:00">
-                2017-01-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index">
-                    <span itemprop="name">nodejs</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1 events事件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//引入events模块并创建eventEmitter对象</span></div><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventEmitter = <span class="keyword">new</span> events.EventEmitter();</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//声明事件函数</span></div><div class="line"><span class="keyword">var</span> eventNameHandle = <span class="function"><span class="keyword">function</span> <span class="title">eventName</span>(<span class="params"></span>)</span>&#123;&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//绑定事件处理程序，并触发执行</span></div><div class="line">eventEmitter.on(<span class="string">'eventName'</span>,eventNameHandle);</div><div class="line">eventEmitter.emit(<span class="string">'eventName'</span>);</div></pre></td></tr></table></figure>
-<p>2 我们可以输出 events 模块  console.log(events); 查看其所包含内容</p>
-<p>events模块只提供了一个对象: events.EventEmitter .该对象的核心就是事件的触发和事件的监听的整体封装；</p>
-<p>events.EventEmitter 对象提供了多个属性，比如on可以绑定事件 emit用于触发事件,当事件触发的时候，注册到这个事件的监听器会被依次调用，事件参数作为回调函数参数传递；</p>
-<p>on(event,listener)   emit(event,arg1,arg2,····)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventsEmitter = <span class="keyword">new</span> events.EventEmitter();</div><div class="line">eventsEmitter.on(<span class="string">"eventName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener1"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.on(<span class="string">"eventName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener2"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line"><span class="comment">//以下给同一个事件注册了两个监听器</span></div><div class="line">eventsEmitter.on(<span class="string">"anotherName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener3"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.emit(<span class="string">'eventName'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line"><span class="comment">//eventsEmitter.emit('anothertName','argone','argtwo');</span></div></pre></td></tr></table></figure>
-<p>once(event,listener)  为指定事件注册一个单次监听器，即监听器最多只能触发一次，触发之后马上解绑</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventsEmitter = <span class="keyword">new</span> events.EventEmitter();</div><div class="line">eventsEmitter.once(<span class="string">"name1"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener4"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.emit(<span class="string">'name1'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line">eventsEmitter.emit(<span class="string">'name1'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line"><span class="comment">//在node终端执行的时候，即使emit了两次，该事件监听器也只执行一次，而on绑定的事件可以多次执行</span></div></pre></td></tr></table></figure>
-<p>addListener(event,listener) 给指定事件添加一个事件监听器，到监听器数组的尾部</p>
-<p>removeListener(event,listener) 删除指定事件的listener，此操作会影响处于被删监听器之后的那些监听器的索引</p>
-<p>listenerCount(emmit,listener)  emmit是 new events.EventEmitter()对象，所有的事件都是通过该对象进行绑定，触发等操作。该方法可以返回指定事件的监听器数量</p>
-<p>listeners(event)  该方法返回某个事件上的监听器所组成的数组</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> emmit = <span class="keyword">new</span> events.EventEmitter();</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">listener1</span> (<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is listernr1"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">listener2</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is listener2"</span>);</div><div class="line">&#125;</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener1);</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener2);<span class="comment">//给event1注册两个监听器，listenerConut可以得到该事件的监听器数量</span></div><div class="line"><span class="comment">//let count = emmit.listenerCount(emmit,'event1');</span></div><div class="line"><span class="keyword">let</span> count = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter.listenerCount(emmit,<span class="string">'event1'</span>);</div><div class="line"><span class="built_in">console</span>.log(count);<span class="comment">//2</span></div><div class="line"><span class="built_in">console</span>.log(emmit.listeners(<span class="string">'event1'</span>));</div><div class="line"><span class="comment">//[ [Function: listener1], [Function: listener2] ]</span></div><div class="line">emmit.emit(<span class="string">'event1'</span>);</div><div class="line">emmit.removeListener(<span class="string">'event1'</span>,listener1);</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener1);<span class="comment">//这个监听事件被移除，不会再次被触发</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2141,7 +2126,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">150</span>
+                <span class="site-state-item-count">152</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2163,7 +2148,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">67</span>
+                <span class="site-state-item-count">69</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

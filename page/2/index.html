@@ -270,6 +270,344 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/15/128NodeJsEvent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/15/128NodeJsEvent/" itemprop="url">
+                  NodeJs Event
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-15T12:36:00+08:00">
+                2017-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1 events事件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//引入events模块并创建eventEmitter对象</span></div><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventEmitter = <span class="keyword">new</span> events.EventEmitter();</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//声明事件函数</span></div><div class="line"><span class="keyword">var</span> eventNameHandle = <span class="function"><span class="keyword">function</span> <span class="title">eventName</span>(<span class="params"></span>)</span>&#123;&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//绑定事件处理程序，并触发执行</span></div><div class="line">eventEmitter.on(<span class="string">'eventName'</span>,eventNameHandle);</div><div class="line">eventEmitter.emit(<span class="string">'eventName'</span>);</div></pre></td></tr></table></figure>
+<p>2 我们可以输出 events 模块  console.log(events); 查看其所包含内容</p>
+<p>events模块只提供了一个对象: events.EventEmitter .该对象的核心就是事件的触发和事件的监听的整体封装；</p>
+<p>events.EventEmitter 对象提供了多个属性，比如on可以绑定事件 emit用于触发事件,当事件触发的时候，注册到这个事件的监听器会被依次调用，事件参数作为回调函数参数传递；</p>
+<p>on(event,listener)   emit(event,arg1,arg2,····)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventsEmitter = <span class="keyword">new</span> events.EventEmitter();</div><div class="line">eventsEmitter.on(<span class="string">"eventName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener1"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.on(<span class="string">"eventName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener2"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line"><span class="comment">//以下给同一个事件注册了两个监听器</span></div><div class="line">eventsEmitter.on(<span class="string">"anotherName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener3"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.emit(<span class="string">'eventName'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line"><span class="comment">//eventsEmitter.emit('anothertName','argone','argtwo');</span></div></pre></td></tr></table></figure>
+<p>once(event,listener)  为指定事件注册一个单次监听器，即监听器最多只能触发一次，触发之后马上解绑</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventsEmitter = <span class="keyword">new</span> events.EventEmitter();</div><div class="line">eventsEmitter.once(<span class="string">"name1"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener4"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.emit(<span class="string">'name1'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line">eventsEmitter.emit(<span class="string">'name1'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line"><span class="comment">//在node终端执行的时候，即使emit了两次，该事件监听器也只执行一次，而on绑定的事件可以多次执行</span></div></pre></td></tr></table></figure>
+<p>addListener(event,listener) 给指定事件添加一个事件监听器，到监听器数组的尾部</p>
+<p>removeListener(event,listener) 删除指定事件的listener，此操作会影响处于被删监听器之后的那些监听器的索引</p>
+<p>listenerCount(emmit,listener)  emmit是 new events.EventEmitter()对象，所有的事件都是通过该对象进行绑定，触发等操作。该方法可以返回指定事件的监听器数量</p>
+<p>listeners(event)  该方法返回某个事件上的监听器所组成的数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> emmit = <span class="keyword">new</span> events.EventEmitter();</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">listener1</span> (<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is listernr1"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">listener2</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is listener2"</span>);</div><div class="line">&#125;</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener1);</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener2);<span class="comment">//给event1注册两个监听器，listenerConut可以得到该事件的监听器数量</span></div><div class="line"><span class="comment">//let count = emmit.listenerCount(emmit,'event1');</span></div><div class="line"><span class="keyword">let</span> count = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter.listenerCount(emmit,<span class="string">'event1'</span>);</div><div class="line"><span class="built_in">console</span>.log(count);<span class="comment">//2</span></div><div class="line"><span class="built_in">console</span>.log(emmit.listeners(<span class="string">'event1'</span>));</div><div class="line"><span class="comment">//[ [Function: listener1], [Function: listener2] ]</span></div><div class="line">emmit.emit(<span class="string">'event1'</span>);</div><div class="line">emmit.removeListener(<span class="string">'event1'</span>,listener1);</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener1);<span class="comment">//这个监听事件被移除，不会再次被触发</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/15/94-apply  call  bind 对比分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/15/94-apply  call  bind 对比分析/" itemprop="url">
+                  the difference between null and undefined
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-15T12:36:00+08:00">
+                2017-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##apply  call  bind 对比分析</p>
+<h2 id="1-基本语法-第一个参数必须传入一个对象"><a href="#1-基本语法-第一个参数必须传入一个对象" class="headerlink" title="1 基本语法,第一个参数必须传入一个对象"></a>1 基本语法,第一个参数必须传入一个对象</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">fun.bind(thisArg[, arg1[, arg2[, ...]]])</div><div class="line">fun.call(thisArg[, arg1[, arg2[, ...]]])</div><div class="line">fun.apply(thisArg[, argsArray])</div><div class="line"><span class="comment">//bind call  apply可以改变原来的 fn 函数以 thisarg为对象进行执行</span></div><div class="line"><span class="comment">//第一个参数是代表fun函数执行的this指向</span></div></pre></td></tr></table></figure>
+<h2 id="2-三者之间的区别"><a href="#2-三者之间的区别" class="headerlink" title="2 三者之间的区别"></a>2 三者之间的区别</h2><p>2.1 bind只绑定方法执行的对象，并不执行方法，改变的是函数的this指向；根据bind的这个特性，经常会结合setTimeout执行</p>
+<p>2.2 call apply绑定方法的执行对象的同时，也会直接执行方法；</p>
+<p>2.2.1  fun.apply(thisArg[, argsArray])</p>
+<p>thisArg<br>在 fun 函数运行时指定的 this 值。需要注意的是，指定的 this 值并不一定是该函数执行时真正的 this 值，如果这个函数处于非严格模式下，则指定为 null 或 undefined 时会自动指向全局对象（浏览器中就是window对象），同时值为原始值（数字，字符串，布尔值）的 this 会指向该原始值的自动包装对象。<br>argsArray<br>一个<strong>数组</strong>或者<strong>类数组</strong> 对象，其中的<strong>数组元素将作为单独的参数传给 fun 函数</strong>  。如果该参数的值为null 或 undefined，则表示不需要传入任何参数。从ECMAScript 5 开始可以使用类数组对象。浏览器兼容性请参阅本文底部内容。</p>
+<p>同时除了可以传入一个数组，也可以传入arguments,代表当前函数的参数的一个<strong>类数组</strong> </p>
+<p>如果 argsArray 不是一个有效的数组或者不是 arguments 对象，那么将导致一个 TypeError。<br>如果没有提供 argsArray 和 thisArg 任何一个参数，那么 Global 对象将被用作 thisArg， 并且无法被传递任何参数。</p>
+<p>2.2.2 fun.call(thisArg[, arg1[, arg2[, …]]])</p>
+<p>如果thisArg指定为null<code>和</code>undefined<code>的</code>this值会自动指向全局对象(浏览器中就是window对象)，同时值为原始值(数字，字符串，布尔值)的<code>this</code>会指向该原始值的自动包装对象。</p>
+<p>2.3 主要改变函数体执行的时候，函数体内this的指向；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> name = <span class="string">"Jhon"</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getName</span> (<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> obj = &#123;</div><div class="line">        <span class="attr">name</span>:<span class="string">"JiM"</span></div><div class="line">    &#125;</div><div class="line">    getName();<span class="comment">//Jhon</span></div><div class="line">    getName.apply(obj);<span class="comment">//JiM</span></div><div class="line">    getName.call(obj);<span class="comment">//JiM</span></div><div class="line">    getName.bind(obj);<span class="comment">//不会执行getName函数</span></div><div class="line">    getName.bind(obj)(); <span class="comment">//JiM</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2.3 call方法传入的参数是参数列表形式的，apply传入的参数<strong>必须是数组</strong> 形式的</p>
+<ul>
+<li>apply参数数组化的应用场景：求数组最值</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">	<span class="keyword">var</span> arr= [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">777</span>]</div><div class="line"><span class="comment">//  var max = Math.max.apply(null,arr);//777</span></div><div class="line">    <span class="keyword">var</span> max = <span class="built_in">Math</span>.max.call(<span class="literal">null</span>,arr);<span class="comment">//NaN</span></div><div class="line"> <span class="comment">// var max = Math.max(arr) ; //NaN</span></div><div class="line">    <span class="built_in">console</span>.log(max);</div><div class="line"><span class="comment">//  这是apply方法的特性，apply方法第二个参数为参数的数组，虽然我们传入的是数组参数apply会将一个数组转化为一个参数接一个参数的传递给方法。但是call并不会</span></div></pre></td></tr></table></figure>
+<ul>
+<li>如何将一个数组追加到另外一个数组呢？</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</div><div class="line"><span class="keyword">var</span> arr3 = arr1.concat(arr2);</div><div class="line"><span class="comment">//是的，这种方法可以，但是问题是concat方法并不会改变原来的数组，而是会返回一个新的元素</span></div></pre></td></tr></table></figure>
+<p>或者你也会这么做</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</div><div class="line"><span class="comment">//arr1.push(arr2)//这么做是不行的,push会将arr2整体添加到arr1中</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; arr2.length;i++)&#123;</div><div class="line">  	arr1.push(arr2[i]);</div><div class="line">&#125;</div><div class="line"><span class="comment">//这么做也可以，通过循环，但是挺麻烦</span></div></pre></td></tr></table></figure>
+<p>看看apply参数数组化的优势 apply会将数组拆分，将每个元素传入调用的函数push</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"> <span class="keyword">var</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</div><div class="line"> arr1.push.apply(arr1,arr2)	<span class="comment">//apply起了决定性的作用，将传入的数组或者类数组中的参数一个个的分开</span></div><div class="line"> <span class="comment">//    arr1.push(arr2)  //这么做不行，直接将arr2整体添加给了arr1 </span></div><div class="line"><span class="built_in">console</span>.dir(arr1);</div></pre></td></tr></table></figure>
+<ul>
+<li>如何将一个 类数组对象 添加到另外一个  对象 呢？</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arrLike = &#123;</div><div class="line">     <span class="number">0</span>:<span class="string">"name"</span>,</div><div class="line">     <span class="number">1</span>:<span class="string">"age"</span>,</div><div class="line">     <span class="number">2</span>:<span class="string">"address"</span>,</div><div class="line">     <span class="attr">length</span>:<span class="number">3</span>      </div><div class="line">  <span class="comment">//如果将类数组作为apply的参数传入(因为apply第二个参数必须是数组)，类数组必须有length属性,如果没有该属性，那么类数组中的值不会被push进去;</span></div><div class="line"> &#125;</div><div class="line"> <span class="keyword">var</span> obj = &#123; &#125;;</div><div class="line"> <span class="built_in">Array</span>.prototype.push.apply(obj,arrLike);  <span class="comment">//关键还是apply方法会将传入的类数组元素一个个传递给push，然后push方法就可以将所有的元素以单独的形式添加给obj</span></div><div class="line"> <span class="built_in">console</span>.dir(obj);</div></pre></td></tr></table></figure>
+<p>下面代码可以看下，看下apply的参数对于数组以及类数组的要求</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">var</span> obj1 = &#123;</div><div class="line">        <span class="attr">name</span>:<span class="string">"Jhon"</span>,</div><div class="line">        <span class="attr">age</span>:<span class="number">13</span>,</div><div class="line">        <span class="attr">address</span>:<span class="string">"American"</span>,</div><div class="line">        <span class="number">1</span>:<span class="string">"JiM"</span>,</div><div class="line">        <span class="attr">other</span>:&#123;</div><div class="line">            <span class="attr">gender</span>:<span class="string">"man"</span></div><div class="line">        &#125;,</div><div class="line"><span class="comment">//      length:4	</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> obj2 = &#123;&#125;;</div><div class="line">    <span class="built_in">Array</span>.prototype.push.apply(obj2,obj1)</div><div class="line">    <span class="built_in">console</span>.dir(obj2);</div></pre></td></tr></table></figure>
+<ul>
+<li>apply操作DOM元素   NodeList类数组</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> divs = <span class="built_in">document</span>.querySelectorAll(<span class="string">"div"</span>);</div><div class="line">     <span class="built_in">console</span>.dir(divs);<span class="comment">//这是一个类数组</span></div><div class="line"> 	<span class="built_in">console</span>.dir(divs[<span class="number">0</span>]);</div><div class="line">    <span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line">     <span class="built_in">Array</span>.prototype.push.apply(obj,divs);<span class="comment">//push+obj+apply可以将DOM NodeList转化为对象</span></div><div class="line">     <span class="built_in">console</span>.dir(obj);</div><div class="line">     <span class="built_in">console</span>.dir(obj[<span class="number">0</span>]);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>bind</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span>(<span class="params">fn, obj</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> fn.apply(obj, <span class="built_in">arguments</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">    <span class="attr">a</span>: <span class="number">20</span>,</div><div class="line">    <span class="attr">getA</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        setTimeout(bind(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</div><div class="line">        &#125;, <span class="keyword">this</span>), <span class="number">1000</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">obj.getA();</div><div class="line"><span class="comment">//---------------------------------</span></div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">    <span class="attr">a</span>: <span class="number">20</span>,</div><div class="line">    <span class="attr">getA</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</div><div class="line">        &#125;.bind(<span class="keyword">this</span>), <span class="number">1000</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="3-this的指向"><a href="#3-this的指向" class="headerlink" title="3  this的指向"></a>3  this的指向</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1 非严格模式下，this默认指向全局对象，call/apply显式指定this参数时也会强制转换参数为对象（如果不是对象）。其中，null/undefined被替换为全局对象，基础类型被转换为包装对象。</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">nsm</span>(<span class="params"></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="keyword">this</span>);&#125;</div><div class="line">    nsm(); <span class="comment">// Window&#123;top: xxxx&#125;</span></div><div class="line">    nsm.call(<span class="literal">null</span>/<span class="literal">undefined</span>); <span class="comment">// Window&#123;top: xxxx&#125;</span></div><div class="line">    nsm.call(<span class="number">1</span>); <span class="comment">// Number &#123;[[PrimitiveValue]]: 1&#125;</span></div><div class="line">    nsm.call(<span class="string">'str'</span>); <span class="comment">// String &#123;0: "s", 1: "t", 2: "r", length: 3, [[PrimitiveValue]]: "str"&#125;</span></div><div class="line">    nsm.call(<span class="literal">true</span>); <span class="comment">// Boolean &#123;[[PrimitiveValue]]: true&#125;</span></div><div class="line"></div><div class="line"><span class="comment">//----------------------------------------------------------------------------------------</span></div><div class="line"></div><div class="line"><span class="comment">//2 严格模式下，this默认为undefined，且call/apply显式指定this参数时也不会有强制转换</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">sm</span>(<span class="params"></span>) </span>&#123;<span class="string">'use strict'</span>; <span class="built_in">console</span>.log(<span class="keyword">this</span>);&#125;</div><div class="line">    sm(); <span class="comment">// undefined</span></div><div class="line">    sm.call(<span class="literal">null</span>); <span class="comment">// null</span></div><div class="line">    sm.call(<span class="literal">undefined</span>); <span class="comment">// undefined</span></div><div class="line">    sm.call(<span class="number">1</span>); <span class="comment">// 1</span></div><div class="line">    sm.call(<span class="string">'str'</span>); <span class="comment">// str</span></div><div class="line">    sm.call(<span class="literal">true</span>); <span class="comment">// true</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/08/131NodeJsFS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1684,372 +2022,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/03/179AngularJs中的link和compile/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/03/179AngularJs中的link和compile/" itemprop="url">
-                  AngularJs自定义指令中的controller link和compile
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-03T12:36:00+08:00">
-                2016-12-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-compile、postlink、-link、-controller"><a href="#1-compile、postlink、-link、-controller" class="headerlink" title="1  compile、postlink、 link、 controller"></a>1  compile、postlink、 link、 controller</h3><p>1.1 compile function</p>
-<ul>
-<li>compile函数:当一个angular应用程序初始化的时候被执行一次,并且只执行一次</li>
-<li><p>compile函数中不包括作用域的操作以及数据绑定，以及监听器的绑定</p>
-<p>Do:</p>
-</li>
-</ul>
-<ul>
-<li><p>Manipulate markup so it serves as a template to instances (clones).</p>
-<p>Do not</p>
-</li>
-<li><p>Attach event handlers.</p>
-</li>
-<li>Inspect child elements.</li>
-<li>Set up observations on attributes.</li>
-<li>Set up watches on the scope.</li>
-</ul>
-<p>1.2 Post-link function</p>
-<p>When the <code>post-link</code> function is called, all previous steps have taken place - binding, transclusion, etc.</p>
-<p>This is typically a place to further manipulate the rendered DOM.</p>
-<p>Do:</p>
-<ul>
-<li>Manipulate DOM (rendered, and thus instantiated) elements.</li>
-<li>Attach event handlers.</li>
-<li>Inspect child elements.</li>
-<li>Set up observations on attributes.</li>
-<li>Set up watches on the scope.</li>
-</ul>
-<p>1.3 Controller function</p>
-<p>Each directive’s <code>controller</code> function is called whenever a new related element is instantiated.</p>
-<p>Officially, the <code>controller</code> function is where one:</p>
-<ul>
-<li>Defines controller logic (methods) that may be shared between controllers.</li>
-<li>Initiates scope variables.</li>
-</ul>
-<p>Again, it is important to remember that if the directive involves an isolated scope, any properties within it that inherit from the parent scope are not yet available.</p>
-<p> Do:</p>
-<ul>
-<li>Define controller logic</li>
-<li>Initiate scope variables</li>
-</ul>
-<p>Do not:</p>
-<ul>
-<li>Inspect child elements (they may not be rendered yet, bound to scope, etc.).<br>1.4 Pre-link function</li>
-</ul>
-<p>Each directive’s pre-link function is called whenever a new related element is instantiated.</p>
-<p>As seen previously in the compilation order section, pre-link functions are called parent-then-child, whereas post-link functions are called child-then-parent.</p>
-<p>The pre-link function is rarely used, but can be useful in special scenarios; for example, when a child controller registers itself with the parent controller, but the registration has to be in a parent-then-child fashion (ngModelController does things this way).</p>
-<p>Do not:</p>
-<p>Inspect child elements (they may not be rendered yet, bound to scope, etc.).</p>
-<h3 id="2-各个作用搬运完毕，看下angularjs的生命周期"><a href="#2-各个作用搬运完毕，看下angularjs的生命周期" class="headerlink" title="2 各个作用搬运完毕，看下angularjs的生命周期"></a>2 各个作用搬运完毕，看下angularjs的生命周期</h3><p>2.1 编译阶段</p>
-<p>在编译阶段，AngularJS会遍历整个HTML文档并根据JavaScript中的指令定义来处理页面上声明的指令。每一个指令的模板中都可能含有另外一个指令，另外一个指令也可能会有自己的模板。当AngularJS调用HTML文档根部的指令时，会遍历其中所有的模板，模板中也可能包含带有模板的指令.一旦对指令和其中的子模板进行遍历或编译，编译后的模板会返回一个叫做模板函数的函数。我们有机会在指令的模板函数被返回前，对编译后的DOM树进行修改。</p>
-<p>2.2 第二个阶段是链接阶段:链接函数来将模板与作用域链接起来;负责设置事件监听器，监视数据变化和实时的操作DOM.链接函数是可选的。如果定义了编译函数，它会返回链接函数，因此当两个函数都定义了时，编译函数会重载链接函数.</p>
-<p>2.3 走一个demo看下效果</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'myApp'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">my-directive</span>&gt;</span><span class="tag">&lt;/<span class="name">my-directive</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../libs/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> myApp = angular.module(<span class="string">'myApp'</span>,[]);</div><div class="line">    myApp.directive(<span class="string">'myDirective'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">restrict</span> : <span class="string">"EA"</span>,</div><div class="line">            <span class="attr">controller</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//            controller:function($scope, $element, $attrs, $transclude)&#123;</span></div><div class="line">              <span class="comment">//controller函数可以传入参数</span></div><div class="line">                <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">'this is controller'</span>);</div><div class="line">            &#125;,</div><div class="line">            <span class="attr">compile</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"this is compile"</span>);</div><div class="line">                <span class="keyword">return</span> &#123;</div><div class="line">                    <span class="attr">pre</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                        <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">                        <span class="built_in">console</span>.log(<span class="string">"this is pre"</span>);</div><div class="line">                    &#125;,</div><div class="line">                    <span class="attr">post</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                        <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">                        <span class="built_in">console</span>.log(<span class="string">"this is post"</span>);</div><div class="line">                    &#125;,</div><div class="line"></div><div class="line">                &#125;</div><div class="line">            &#125;,</div><div class="line">            <span class="attr">link</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"this is link"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>控制台输出如下(关于每个函数的arguments这里不再写了，主要是为了看下每个函数要求传入的参数为何)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">this is compile </div><div class="line">this is controller</div><div class="line">this is pre </div><div class="line">this is post</div></pre></td></tr></table></figure>
-<p>我们发现link并没有被执行，因为link被compile函数覆盖了</p>
-<p>简化directive</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">myApp.directive(<span class="string">'myDirective'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">restrict</span> : <span class="string">"EA"</span>,</div><div class="line">            <span class="attr">controller</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//            controller:function($scope, $element, $attrs, $transclude)&#123;</span></div><div class="line">                <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">'this is controller'</span>);</div><div class="line">            &#125;,</div><div class="line">            <span class="attr">link</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"this is link"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">this is controller </div><div class="line">this is link</div></pre></td></tr></table></figure>
-<p>这个时候我们发现controller和link都可以执行了，那么我们在实际应用中应该使用哪个？</p>
-<ul>
-<li>指令的控制器和link函数可以进行互换。控制器主要是用来提供可在指令间复用的行为，但链接函数只能在当前内部指令中定义行为，且无法在指令间复用.link函数可以将指令互相隔离开来，而controller则定义可复用的行为。</li>
-<li>如果我们希望将当前指令的API暴露给其他指令使用，可以使用controller参数，否则可以使用link来构造当前指令元素的功能性。如果我们使用了scope.$watch()或者想要与DOM元素做实时的交互，使用链接会是更好的选择。</li>
-</ul>
-<p>2.4 <strong>子级指令的所有 link function ：包括 pre 和 post 两个link都会在父级的post link之前被执行</strong>,我们用的link function 其实是post link的快捷方式罢了</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span> = <span class="string">'myApp'</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">parent</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">child</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">parent1</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">child1</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../libs/angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> myApp = angular.module(<span class="string">'myApp'</span>,[]);</div><div class="line"> </div><div class="line">    myApp.directive(<span class="string">'parent'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">restrict</span> : <span class="string">"EA"</span>,</div><div class="line">            <span class="attr">controller</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//            controller:function($scope, $element, $attrs, $transclude)&#123;</span></div><div class="line">                <span class="built_in">console</span>.log(<span class="string">'parent controller'</span>);</div><div class="line">            &#125;,</div><div class="line">            <span class="attr">compile</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"parent compile"</span>);</div><div class="line">                <span class="keyword">return</span> &#123;</div><div class="line">                    <span class="attr">pre</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                        <span class="built_in">console</span>.log(<span class="string">"parent pre"</span>);</div><div class="line">                    &#125;,</div><div class="line">                    <span class="attr">post</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                        <span class="built_in">console</span>.log(<span class="string">"parent post"</span>);</div><div class="line">                    &#125;,</div><div class="line"></div><div class="line">                &#125;</div><div class="line">            &#125;,</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">    myApp.directive(<span class="string">'child'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">restrict</span> : <span class="string">"EA"</span>,</div><div class="line">            <span class="attr">controller</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//            controller:function($scope, $element, $attrs, $transclude)&#123;</span></div><div class="line">                <span class="built_in">console</span>.log(<span class="string">'child controller'</span>);</div><div class="line">            &#125;,</div><div class="line">            <span class="attr">compile</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"child compile"</span>);</div><div class="line">                <span class="keyword">return</span> &#123;</div><div class="line">                    <span class="attr">pre</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                        <span class="built_in">console</span>.log(<span class="string">"child pre"</span>);</div><div class="line">                    &#125;,</div><div class="line">                    <span class="attr">post</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                        <span class="built_in">console</span>.log(<span class="string">"child post"</span>);</div><div class="line">                    &#125;,</div><div class="line"></div><div class="line">                &#125;</div><div class="line">            &#125;,</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">    myApp.directive(<span class="string">'parent1'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">restrict</span> : <span class="string">"EA"</span>,</div><div class="line">            <span class="attr">controller</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//            controller:function($scope, $element, $attrs, $transclude)&#123;</span></div><div class="line">                <span class="built_in">console</span>.log(<span class="string">'parent1 controller'</span>);</div><div class="line">            &#125;,</div><div class="line">            <span class="attr">compile</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"parent1 compile"</span>);</div><div class="line">                <span class="keyword">return</span> &#123;</div><div class="line">                    <span class="attr">pre</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                        <span class="built_in">console</span>.log(<span class="string">"parent1 pre"</span>);</div><div class="line">                    &#125;,</div><div class="line">                    <span class="attr">post</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                        <span class="built_in">console</span>.log(<span class="string">"parent1 post"</span>);</div><div class="line">                    &#125;,</div><div class="line"></div><div class="line">                &#125;</div><div class="line">            &#125;,</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">    myApp.directive(<span class="string">'child1'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">restrict</span> : <span class="string">"EA"</span>,</div><div class="line">            <span class="attr">controller</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//            controller:function($scope, $element, $attrs, $transclude)&#123;</span></div><div class="line">                <span class="built_in">console</span>.log(<span class="string">'child1 controller'</span>);</div><div class="line">            &#125;,</div><div class="line">            <span class="attr">compile</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"child1 compile"</span>);</div><div class="line">                <span class="keyword">return</span> &#123;</div><div class="line">                    <span class="attr">pre</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                        <span class="built_in">console</span>.log(<span class="string">"child1 pre"</span>);</div><div class="line">                    &#125;,</div><div class="line">                    <span class="attr">post</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                        <span class="built_in">console</span>.log(<span class="string">"child1 post"</span>);</div><div class="line">                    &#125;,</div><div class="line"></div><div class="line">                &#125;</div><div class="line">            &#125;,</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">parent compile</div><div class="line">child compile</div><div class="line">parent1 compile</div><div class="line">child1 compile</div><div class="line">parent controller</div><div class="line">parent pre</div><div class="line">child controller</div><div class="line">child pre</div><div class="line">child post</div><div class="line">parent post</div><div class="line">parent1 controller</div><div class="line">parent1 pre</div><div class="line">child1 controller</div><div class="line">child1 pre</div><div class="line">child1 post</div><div class="line">parent1 post</div></pre></td></tr></table></figure>
-<p>友情链接一个so  </p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/01/120-ES6变量声明 let const/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/01/120-ES6变量声明 let const/" itemprop="url">
-                  ES6 let const
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-01T12:36:00+08:00">
-                2016-12-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ES6/" itemprop="url" rel="index">
-                    <span itemprop="name">ES6</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="ES6变量声明-let-const"><a href="#ES6变量声明-let-const" class="headerlink" title="ES6变量声明 let const"></a>ES6变量声明 let const</h2><h3 id="1-let声明"><a href="#1-let声明" class="headerlink" title="1 let声明"></a>1 let声明</h3><p>1.1 let声明的变量和var声明变量一样，都可以从父级作用域获取变量</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> x = <span class="number">9</span> ;<span class="comment">//全局声明 let x ;</span></div><div class="line">   ~<span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="built_in">console</span>.log(x);<span class="comment">//9 可以访问父作用域内let声明的变量</span></div><div class="line">   &#125;();</div><div class="line">   &#123;</div><div class="line">       x = x + <span class="number">3</span> ; <span class="comment">//</span></div><div class="line">       <span class="built_in">console</span>.log(x);<span class="comment">//12</span></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>1.2  let 声明的变量必须 <strong>先声明</strong> 在  <strong>使用</strong> , 所有在声明之前的使用都会报错; 在同一个作用域内用let声明的变量不允许重复(暂时性死区) var却可以在同一作用域内重复声明同名变量 ;</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">       <span class="keyword">var</span> b = <span class="number">8</span> ;</div><div class="line">       <span class="keyword">var</span> b = <span class="number">999</span>;</div><div class="line">       <span class="built_in">console</span>.log(b);<span class="comment">//999  var声明变量可以重复声明名称相同的变量</span></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> x = <span class="number">9</span> ;</div><div class="line">&#123;</div><div class="line">    <span class="keyword">let</span> x = x + <span class="number">3</span> ; <span class="comment">//Uncaught ReferenceError: x is not defined</span></div><div class="line">  <span class="comment">//对于let在一个作用域内，必须先声明在使用,这里需要注意,赋值运算是从右向左进行的,</span></div><div class="line">    <span class="built_in">console</span>.log(x);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>2 const声明</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">/* 1 const声明，可以声明一个常量，该常量在声明的同时必须初始化，如果不初始化会报错，</span></div><div class="line">       2 const声明可以声明一个复杂数据类型，同时该复杂数据类型也必须初始化</div><div class="line">        3 const声明本质上其实是保证所声明的变量指向的内存地址是不能变化的，比如声明基本数据类型，声明之后不可改变</div><div class="line">        如果声明一个复杂数据类型，同样不能重新赋值</div><div class="line">    *</div><div class="line">    * */</div><div class="line"><span class="comment">//   -----------------------------</span></div><div class="line"><span class="comment">//    基本数据类型,声明之后不能重新赋值，</span></div><div class="line">    <span class="keyword">const</span> p = <span class="number">9</span> ;</div><div class="line">    p = <span class="number">8</span> ; <span class="comment">//Uncaught TypeError: Assignment to constant variable.</span></div><div class="line"><span class="comment">//    --------------------------------</span></div><div class="line"><span class="comment">//    复杂数据类型，声明后该变量指向内存中的指针不能再修改，但是复杂数据类型内部的数据结构还是可变的</span></div><div class="line">    <span class="keyword">const</span> o = &#123;&#125;;<span class="comment">//指向一个地址，改地址存放一个空的对象</span></div><div class="line">    o.name = <span class="string">"Jhon"</span>;<span class="comment">//内部数据结构是可变的</span></div><div class="line">    <span class="built_in">console</span>.log(o);</div><div class="line">    o = &#123;&#125;;<span class="comment">//Uncaught TypeError: Assignment to constant variable.</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2094,7 +2071,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">150</span>
+                <span class="site-state-item-count">152</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2116,7 +2093,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">67</span>
+                <span class="site-state-item-count">69</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
