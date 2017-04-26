@@ -88,18 +88,18 @@
 
 
 <meta name="description" content="1 首先理解shouldComponentUpdate  作用shouldComponentUpdate: 这是一个和性能非常相关的方法，在每一次render方法之前被调用。它提供了一个机会让你决定是否要对组件进行实际的render
-In some cases, your component can speed all of this up by overriding the lifecycle">
+它是react性能优化非常重要的一环。组件接受新的state或者props时调用，我们可以设置在此对比前后两个props和state是否相同，如果相同则返回false">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React Optimizing Performance">
 <meta property="og:url" content="http://yoursite.com/2017/04/24/192React-Optimizing-Performance/index.html">
 <meta property="og:site_name" content="JiM-W">
 <meta property="og:description" content="1 首先理解shouldComponentUpdate  作用shouldComponentUpdate: 这是一个和性能非常相关的方法，在每一次render方法之前被调用。它提供了一个机会让你决定是否要对组件进行实际的render
-In some cases, your component can speed all of this up by overriding the lifecycle">
-<meta property="og:updated_time" content="2017-04-24T09:45:57.186Z">
+它是react性能优化非常重要的一环。组件接受新的state或者props时调用，我们可以设置在此对比前后两个props和state是否相同，如果相同则返回false">
+<meta property="og:updated_time" content="2017-04-25T01:50:24.332Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React Optimizing Performance">
 <meta name="twitter:description" content="1 首先理解shouldComponentUpdate  作用shouldComponentUpdate: 这是一个和性能非常相关的方法，在每一次render方法之前被调用。它提供了一个机会让你决定是否要对组件进行实际的render
-In some cases, your component can speed all of this up by overriding the lifecycle">
+它是react性能优化非常重要的一环。组件接受新的state或者props时调用，我们可以设置在此对比前后两个props和state是否相同，如果相同则返回false">
 
 
 
@@ -367,10 +367,17 @@ In some cases, your component can speed all of this up by overriding the lifecyc
 
       
         <h3 id="1-首先理解shouldComponentUpdate-作用"><a href="#1-首先理解shouldComponentUpdate-作用" class="headerlink" title="1 首先理解shouldComponentUpdate  作用"></a>1 首先理解shouldComponentUpdate  作用</h3><p>shouldComponentUpdate: 这是一个和性能非常相关的方法，在每一次render方法之前被调用。它提供了一个机会让你决定是否要对组件进行实际的render</p>
+<p>它是react性能优化非常重要的一环。组件接受新的state或者props时调用，我们可以设置在此对比前后两个props和state是否相同，如果相同则返回false阻止更新，因为相同的属性状态一定会生成相同的dom树，这样就不需要创造新的dom树和旧的dom树进行diff算法对比，节省大量性能，尤其是在dom结构复杂的时候。不过调用this.forceUpdate会跳过此步骤。</p>
 <p>In some cases, your component can speed all of this up by overriding the lifecycle function <code>shouldComponentUpdate</code>, which is triggered before the re-rendering process starts. The default implementation of this function returns <code>true</code>, leaving React to perform the update:</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shouldComponentUpdate(nextProps, nextState) &#123;</div><div class="line">  return true;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>If you know that in some situations your component doesn’t need to update, you can return <code>false</code> from <code>shouldComponentUpdate</code> instead, to skip the whole rendering process, including calling <code>render()</code> on this component and below.</p>
-<p>也就是说，如果shouldComponentUpdate返回true,那么React会调用render方法重新渲染页面，如果返回false,则React不会调用render方法。</p>
+<p>也就是说，如果shouldComponentUpdate返回true,那么React会调用render方法重新渲染页面，如果返回false,则React不会调用render方法。该方法接受两个参数，一个是下一个状态，一个是下一个props.可以和原来的props和state做对比;</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">CounterButton</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(props) &#123;</div><div class="line">    <span class="keyword">super</span>(props);</div><div class="line">    <span class="keyword">this</span>.state = &#123;<span class="attr">count</span>: <span class="number">1</span>&#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  shouldComponentUpdate(nextProps, nextState) &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.props.color !== nextProps.color) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.state.count !== nextState.count) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      <span class="xml"><span class="tag">&lt;<span class="name">button</span></span></span></div><div class="line">        <span class="attr">color</span>=<span class="string">&#123;this.props.color&#125;</span></div><div class="line">        <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt; this.setState(state =&gt; (&#123;count: state.count + 1 &#125;))&#125;&gt;</div><div class="line">        Count: &#123;this.state.count&#125;</div><div class="line">      <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">    ReactDOM.render(</div><div class="line">        <span class="xml"><span class="tag">&lt;<span class="name">CounterButton</span> /&gt;</span>,</span></div><div class="line">        document.getElementById('root')</div><div class="line">    )</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>当我们改动一下代码，当count值改变之后，比较前后两者的值，如果不相等，返回false；此时不会更新视图,也就是说React没有再次调用render函数去重新渲染视图。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="keyword">this</span>.state.count !== nextState.count) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="2-React-PureComponent"><a href="#2-React-PureComponent" class="headerlink" title="2 React.PureComponent"></a>2 React.PureComponent</h3><p>In this code, <code>shouldComponentUpdate</code> is just checking if there is any change in <code>props.color</code>or <code>state.count</code>. If those values don’t change, the component doesn’t update. If your component got more complex, you could use a similar pattern of doing a “shallow comparison” between all the fields of <code>props</code> and <code>state</code> to determine if the component should update. This pattern is common enough that React provides a helper to use this logic - just inherit from <code>React.PureComponent</code>. So this code is a simpler way to achieve the same thing:</p>
+<p>React同样提供了简单的方法，可以不让我们每次都要写shouldComponnetUpdate判断props和state的状态</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">class CounterButton extends React.PureComponent &#123;</div><div class="line">  constructor(props) &#123;</div><div class="line">    super(props);</div><div class="line">    this.state = &#123;count: 1&#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    return (</div><div class="line">      <span class="tag">&lt;<span class="name">button</span></span></div><div class="line">        <span class="attr">color</span>=<span class="string">&#123;this.props.color&#125;</span></div><div class="line">        <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt; this.setState(state =&gt; (&#123;count: state.count + 1&#125;))&#125;&gt;</div><div class="line">        Count: &#123;this.state.count&#125;</div><div class="line">      <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -413,8 +420,8 @@ In some cases, your component can speed all of this up by overriding the lifecyc
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/21/188react-lifting-State-Up/" rel="next" title="react lifting State Up">
-                <i class="fa fa-chevron-left"></i> react lifting State Up
+              <a href="/2017/04/24/193React-Router/" rel="next" title="React Router">
+                <i class="fa fa-chevron-left"></i> React Router
               </a>
             
           </div>
@@ -422,6 +429,10 @@ In some cases, your component can speed all of this up by overriding the lifecyc
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/25/195Redux/" rel="prev" title="Redux">
+                Redux <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -493,7 +504,7 @@ In some cases, your component can speed all of this up by overriding the lifecyc
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">153</span>
+                <span class="site-state-item-count">158</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -504,7 +515,7 @@ In some cases, your component can speed all of this up by overriding the lifecyc
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">48</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -515,7 +526,7 @@ In some cases, your component can speed all of this up by overriding the lifecyc
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-count">73</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -550,7 +561,7 @@ In some cases, your component can speed all of this up by overriding the lifecyc
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-首先理解shouldComponentUpdate-作用"><span class="nav-number">1.</span> <span class="nav-text">1 首先理解shouldComponentUpdate  作用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-首先理解shouldComponentUpdate-作用"><span class="nav-number">1.</span> <span class="nav-text">1 首先理解shouldComponentUpdate  作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-React-PureComponent"><span class="nav-number">2.</span> <span class="nav-text">2 React.PureComponent</span></a></li></ol></div>
             
 
           </div>

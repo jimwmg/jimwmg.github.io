@@ -103,7 +103,7 @@
 3.灵活 −React可以与已知的库或框架很好地配合。
 4.JSX − JSX 是 JavaScript 语法的扩展。React 开发不一定使用 JSX ，但我们建议使用它。
 5.组件 − 通过 React 构建组件，使得代码更加容易得到复用，能够">
-<meta property="og:updated_time" content="2017-04-24T09:45:58.897Z">
+<meta property="og:updated_time" content="2017-04-25T02:16:37.281Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="react 元素渲染和组件">
 <meta name="twitter:description" content="react特点
@@ -414,8 +414,11 @@
 <p>Conceptually, components are like JavaScript functions. They accept arbitrary inputs (called “props”) and return React elements describing what should appear on the screen.</p>
 <p>函数声明组件</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">     <span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello &#123;props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></div><div class="line">     &#125;</div><div class="line">   <span class="keyword">const</span> element = <span class="xml"><span class="tag">&lt;<span class="name">Welcome</span> <span class="attr">name</span> = <span class="string">"Jhon"</span>/&gt;</span></span></div><div class="line">   ReactDOM.render(</div><div class="line">       element,</div><div class="line">       document.getElementById('root')</div><div class="line"></div><div class="line">   )</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>类声明组件</p>
+<p>类声明组件 super调用了父类的constructor创造了父类的实例对象this，然后用子类的构造函数进行修改</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">     <span class="class"><span class="keyword">class</span> <span class="title">Welcome</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">         render()&#123;</div><div class="line">             <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello &#123;this.props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></div><div class="line">         &#125;</div><div class="line">     &#125;</div><div class="line"></div><div class="line">     <span class="keyword">const</span> element = <span class="xml"><span class="tag">&lt;<span class="name">Welcome</span> <span class="attr">name</span> = <span class="string">'Jhon'</span>/&gt;</span></span></div><div class="line">     ReactDOM.render(</div><div class="line">         element,</div><div class="line">         document.getElementById('root')</div><div class="line">     )</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>当我们使用组件<code>&lt;Welcome /&gt;</code>时，其实是对Main类的实例化——new Welcome，只不过react对这个过程进行了封装，让它看起来更像是一个标签。类和模块内部默认使用严格模式，所以不需要用use strict指定运行模式。</p>
+<p><code>React.Component</code> is an abstract base class, so it rarely makes sense to refer to <code>React.Component</code> directly. Instead, you will typically subclass it, and define at least a <a href="https://facebook.github.io/react/docs/react-component.html#render" target="_blank" rel="external"><code>render()</code></a> method.</p>
+<p>组件的 </p>
 <p>Let’s recap what happens in this example:</p>
 <ol>
 <li>We call <code>ReactDOM.render()</code> with the <code>&lt;Welcome name=&quot;Jhon&quot; /&gt;</code> element.</li>
@@ -448,6 +451,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Clock &#123;props: Object, context: undefined, refs: Object, updater: Object, state: Object&#125;</div></pre></td></tr></table></figure>
 <p>以上consturctor函数中，我们也打印了  console.log(this.setState);  其实在React源码中，setState是存在于 React.Component上的原型上的</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ReactComponent.prototype.setState = function (partialState, callback) &#123; sonmeCode &#125; ;</div></pre></td></tr></table></figure>
+<h3 id="5-组件的render函数"><a href="#5-组件的render函数" class="headerlink" title="5 组件的render函数"></a>5 组件的render函数</h3><p>The <code>render()</code> method is required.</p>
+<p>When called, it should examine <code>this.props</code> and <code>this.state</code> and return a single React element. This element can be either a representation of a native DOM component, such as <code>&lt;div /&gt;</code>, or another composite component that you’ve defined yourself.</p>
+<p>You can also return <code>null</code> or <code>false</code> to indicate that you don’t want anything rendered. When returning <code>null</code> or <code>false</code>, <code>ReactDOM.findDOMNode(this)</code> will return <code>null</code>.</p>
+<p>The <code>render()</code> function should be pure, meaning that it does not modify component state, it returns the same result each time it’s invoked, and it does not directly interact with the browser. If you need to interact with the browser, perform your work in <code>componentDidMount()</code>or the other lifecycle methods instead. Keeping <code>render()</code> pure makes components easier to think about.</p>
+<p>需要注意的是:</p>
+<p><code>render()</code> will not be invoked if <a href="https://facebook.github.io/react/docs/react-component.html#shouldcomponentupdate" target="_blank" rel="external"><code>shouldComponentUpdate()</code></a> returns false.</p>
 
       
     </div>
@@ -500,8 +509,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/19/187isNaN-And-NumberisNaN/" rel="prev" title="isNaN And NumberisNaN">
-                isNaN And NumberisNaN <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/19/184reactStateAndLifeCycle/" rel="prev" title="react State 和 lifeCycle">
+                react State 和 lifeCycle <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -574,7 +583,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">153</span>
+                <span class="site-state-item-count">158</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -585,7 +594,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">48</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -596,7 +605,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-count">73</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -631,7 +640,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#react特点"><span class="nav-number">1.</span> <span class="nav-text">react特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React的原理"><span class="nav-number">2.</span> <span class="nav-text">React的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-HTML-标签-vs-React-组件"><span class="nav-number">3.</span> <span class="nav-text">1 HTML 标签 vs. React 组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-react-元素的不可变性"><span class="nav-number">4.</span> <span class="nav-text">2 react 元素的不可变性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-react组件"><span class="nav-number">5.</span> <span class="nav-text">3 react组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-组件的属性"><span class="nav-number">6.</span> <span class="nav-text">4 组件的属性</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#react特点"><span class="nav-number">1.</span> <span class="nav-text">react特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React的原理"><span class="nav-number">2.</span> <span class="nav-text">React的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-HTML-标签-vs-React-组件"><span class="nav-number">3.</span> <span class="nav-text">1 HTML 标签 vs. React 组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-react-元素的不可变性"><span class="nav-number">4.</span> <span class="nav-text">2 react 元素的不可变性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-react组件"><span class="nav-number">5.</span> <span class="nav-text">3 react组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-组件的属性"><span class="nav-number">6.</span> <span class="nav-text">4 组件的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-组件的render函数"><span class="nav-number">7.</span> <span class="nav-text">5 组件的render函数</span></a></li></ol></div>
             
 
           </div>
