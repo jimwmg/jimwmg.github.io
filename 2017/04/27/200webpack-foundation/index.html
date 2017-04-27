@@ -1,0 +1,786 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="webpack," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="webpack.config.js解析1 entryentry 对象是用于 webpack 查找启动并构建 bundle。其上下文是入口文件所处的目录的绝对路径的字符串。
+1context: path.resolve(__dirname, &amp;quot;app&amp;quot;)
+12345const config = &amp;#123;  entry: &apos;./path/to/my/entry/file.js&apos;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack foundation">
+<meta property="og:url" content="http://yoursite.com/2017/04/27/200webpack-foundation/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="webpack.config.js解析1 entryentry 对象是用于 webpack 查找启动并构建 bundle。其上下文是入口文件所处的目录的绝对路径的字符串。
+1context: path.resolve(__dirname, &amp;quot;app&amp;quot;)
+12345const config = &amp;#123;  entry: &apos;./path/to/my/entry/file.js&apos;">
+<meta property="og:updated_time" content="2017-04-27T07:01:15.328Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack foundation">
+<meta name="twitter:description" content="webpack.config.js解析1 entryentry 对象是用于 webpack 查找启动并构建 bundle。其上下文是入口文件所处的目录的绝对路径的字符串。
+1context: path.resolve(__dirname, &amp;quot;app&amp;quot;)
+12345const config = &amp;#123;  entry: &apos;./path/to/my/entry/file.js&apos;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/27/200webpack-foundation/"/>
+
+
+
+
+
+  <title> webpack foundation | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/27/200webpack-foundation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                webpack foundation
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-27T12:36:00+08:00">
+                2017-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/webpack/" itemprop="url" rel="index">
+                    <span itemprop="name">webpack</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="webpack-config-js解析"><a href="#webpack-config-js解析" class="headerlink" title="webpack.config.js解析"></a>webpack.config.js解析</h2><h3 id="1-entry"><a href="#1-entry" class="headerlink" title="1 entry"></a>1 entry</h3><p>entry 对象是用于 webpack 查找启动并构建 bundle。其上下文是入口文件所处的目录的绝对路径的字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">context: path.resolve(__dirname, &quot;app&quot;)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> config = &#123;</div><div class="line">  <span class="attr">entry</span>: <span class="string">'./path/to/my/entry/file.js'</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = config;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> config = &#123;</div><div class="line">  <span class="attr">entry</span>: &#123;</div><div class="line">    <span class="attr">app</span>: <span class="string">'./src/app.js'</span>,</div><div class="line">    <span class="attr">vendors</span>: <span class="string">'./src/vendors.js'</span></div><div class="line">  &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="2-output"><a href="#2-output" class="headerlink" title="2 output"></a>2 output</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> config = &#123;</div><div class="line">  <span class="attr">output</span>: &#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'bundle.js'</span>,</div><div class="line">    <span class="attr">path</span>: __dirname+<span class="string">'/build/'</span></div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = config;</div></pre></td></tr></table></figure>
+<p>注意output.path提供打包后的文件存放的<strong>绝对路径地址</strong> ; output.filename提供了打包后文件的名字;</p>
+<h3 id="3-module"><a href="#3-module" class="headerlink" title="3 module"></a>3 module</h3><p>这些选项决定了如何处理项目中的<a href="https://doc.webpack-china.org/concepts/modules" target="_blank" rel="external">不同类型的模块</a>。</p>
+<p>loader 用于对模块的源代码进行转换。loader 可以使你在 <code>require()</code> 或”加载”模块时预处理文件。因此，loader 类似于其他构建工具中“任务(task)”，并提供了处理前端构建步骤的强大方法。loader 可以将文件从不同的语言（如 TypeScript）转换为 JavaScript，或将内联图像转换为 data URL。loader 甚至允许你在 JavaScript 中 <code>require（）</code> CSS文件！</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm install --save-dev css-loader</div><div class="line">npm install --save-dev ts-loader</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//webpackconfig.js</span></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  <span class="attr">module</span>: &#123;</div><div class="line">    <span class="attr">rules</span>: [</div><div class="line">      &#123;<span class="attr">test</span>: <span class="regexp">/\.css$/</span>, <span class="attr">use</span>: <span class="string">'css-loader'</span>&#125;,</div><div class="line">      &#123;<span class="attr">test</span>: <span class="regexp">/\.ts$/</span>, <span class="attr">use</span>: <span class="string">'ts-loader'</span>&#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><strong>如何使用loaders</strong>有以下三种方式</p>
+<ul>
+<li>通过配置</li>
+<li>在 <code>require</code> 语句中显示使用</li>
+<li>通过 CLI</li>
+</ul>
+<p>通过 <code>webpack.config.js</code></p>
+<p><a href="https://doc.webpack-china.org/configuration/module/#module-rules" target="_blank" rel="external"><code>module.rules</code></a> 允许你在 webpack 配置中指定几个 loader。 这是展示 loader 的一种简明的方式，并且有助于使代码变得简洁。而且对每个相应的 loader 有一个完整的概述。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">module: &#123;</div><div class="line">  rules: [</div><div class="line">    &#123;</div><div class="line">      test: /\.css$/,</div><div class="line">      use: [</div><div class="line">        &#123; loader: &apos;style-loader&apos;&#125;,</div><div class="line">        &#123;</div><div class="line">          loader: &apos;css-loader&apos;,</div><div class="line">          options: &#123;</div><div class="line">            modules: true</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过 <code>require</code></p>
+<p>可以在 <code>require</code> 语句（或 <code>define</code>, <code>require.ensure</code>, 等语句）中指定 loader。使用 <code>!</code> 将资源中的 loader 分开。分开的每个部分都相对于当前目录解析。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">require(&apos;style-loader!css-loader?modules!./styles.css&apos;);</div></pre></td></tr></table></figure>
+<p>通过前置所有规则及使用 <code>!</code>，可以对应覆盖到配置中的任意 loader。</p>
+<p>选项可以传递查询参数，就像在 web 中那样（<code>?key=value&amp;foo=bar</code>）。也可以使用 JSON 对象（<code>?{&quot;key&quot;:&quot;value&quot;,&quot;foo&quot;:&quot;bar&quot;}</code>）。</p>
+<blockquote>
+<p> 尽可能使用 <code>module.rules</code>，因为这样可以在源码中减少引用，并且可以更快调试和定位 loader，避免代码越来越糟。</p>
+</blockquote>
+<p>通过 CLI</p>
+<p>可选项，你也可以通过 CLI 使用 loader：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webpack --module-bind jade-loader --module-bind &apos;css=style-loader!css-loader&apos;</div></pre></td></tr></table></figure>
+<p>这会对 <code>.jade</code> 文件使用 <code>jade-loader</code>，对 <code>.css</code> 文件使用 <a href="https://doc.webpack-china.org/loaders/style-loader" target="_blank" rel="external"><code>style-loader</code></a> 和 <a href="https://doc.webpack-china.org/loaders/css-loader" target="_blank" rel="external"><code>css-loader</code></a></p>
+<h3 id="4-plugins"><a href="#4-plugins" class="headerlink" title="4 plugins"></a>4 plugins</h3><p>由于 <strong>plugin</strong> 可以携带参数/选项，你必须在 wepback 配置中，向 <code>plugins</code> 属性传入 <code>new</code> 实例。</p>
+<p>根据你如何使用 webpack，这里有多种方式使用插件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//webpack.config.js</span></div><div class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>); <span class="comment">//通过 npm 安装</span></div><div class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>); <span class="comment">//访问内置的插件</span></div><div class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"></div><div class="line"><span class="keyword">const</span> config = &#123;</div><div class="line">  <span class="attr">entry</span>: <span class="string">'./path/to/my/entry/file.js'</span>,</div><div class="line">  <span class="attr">output</span>: &#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'my-first-webpack.bundle.js'</span>,</div><div class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">'dist'</span>)</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">module</span>: &#123;</div><div class="line">    <span class="attr">loaders</span>: [</div><div class="line">      &#123;</div><div class="line">        <span class="attr">test</span>: <span class="regexp">/\.(js|jsx)$/</span>,</div><div class="line">        <span class="attr">loader</span>: <span class="string">'babel-loader'</span></div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(),</div><div class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;<span class="attr">template</span>: <span class="string">'./src/index.html'</span>&#125;)</div><div class="line">  ]</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = config;</div></pre></td></tr></table></figure>
+<h3 id="5-target"><a href="#5-target" class="headerlink" title="5 target"></a>5 target</h3><p>因为服务器和浏览器代码都可以用 JavaScript 编写，所以 webpack 提供了多种<em>构建目标(target)</em>，你可以在你的 webpack <a href="https://doc.webpack-china.org/configuration" target="_blank" rel="external">配置</a>中设置。</p>
+<p>高速webpack这个程序的目标环境是什么</p>
+<p>尽管 webpack 不支持向 <code>target</code> 传入多个字符串，你可以通过打包两份分离的配置来创建同构的库：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//webpack.config.js</span></div><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="keyword">var</span> serverConfig = &#123;</div><div class="line">  <span class="attr">target</span>: <span class="string">'node'</span>,</div><div class="line">  <span class="attr">output</span>: &#123;</div><div class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">'dist'</span>),</div><div class="line">    <span class="attr">filename</span>: <span class="string">'lib.node.js'</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">//…</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> clientConfig = &#123;</div><div class="line">  <span class="attr">target</span>: <span class="string">'web'</span>, <span class="comment">// &lt;=== 默认是 'web'，可省略</span></div><div class="line">  output: &#123;</div><div class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">'dist'</span>),</div><div class="line">    <span class="attr">filename</span>: <span class="string">'lib.js'</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">//…</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = [ serverConfig, clientConfig ];</div></pre></td></tr></table></figure>
+<p><code>target</code>描述</p>
+<p><code>async-node</code>编译为类 Node.js 环境可用（使用 fs 和 vm 异步加载分块）</p>
+<p><del><code>atom</code></del><code>electron-main</code> 的别名</p>
+<p><code>electron``electron-main</code> 的别名</p>
+<p><code>electron-main</code>编译为 <a href="http://electron.atom.io/" target="_blank" rel="external">Electron</a> 渲染进程，使用 <code>JsonpTemplatePlugin</code>, <code>FunctionModulePlugin</code> 来为浏览器环境提供目标，使用 <code>NodeTargetPlugin</code> 和 <code>ExternalsPlugin</code> 为 CommonJS 和 Electron 内置模块提供目标。</p>
+<p><code>node</code>编译为类 Node.js 环境可用（使用 Node.js <code>require</code> 加载 chunk）</p>
+<p><code>node-webkit</code>编译为 Webkit 可用，并且使用 jsonp 去加载分块。支持 Node.js 内置模块和 <a href="http://docs.nwjs.io/en/latest/" target="_blank" rel="external"><code>nw.gui</code></a> 导入（实验性质）</p>
+<p><code>web</code>编译为类浏览器环境里可用<strong>（默认）</strong></p>
+<p><code>webworker</code>编译成一个 WebWorker</p>
+<p>例如，当 <em>target</em> 设置为 <code>&quot;electron&quot;</code>，<em>webpack</em> 引入多个 electron 特定的变量。有关使用哪些模板和 externals 的更多信息，你可以<a href="https://github.com/webpack/webpack/blob/master/lib/WebpackOptionsApply.js#L70-L185" target="_blank" rel="external">直接参考 webpack 源码</a>。</p>
+<h3 id="6-命令"><a href="#6-命令" class="headerlink" title="6 命令"></a>6 命令</h3><ul>
+<li>如果存在 <code>webpack.config.js</code>，<code>webpack</code> 命令将默认选择使用它</li>
+<li>通过npm配合使用,改变package.json文件</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">"scripts"</span>: &#123;</div><div class="line">  <span class="string">"example"</span>: <span class="string">"babel-node"</span></div><div class="line">&#125;,</div><div class="line">  <span class="comment">//可以通过  npm run example   执行   babel-node命令</span></div></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">"scripts"</span>: &#123;</div><div class="line">   <span class="string">"build"</span>: <span class="string">"webpack"</span></div><div class="line"> &#125;,</div><div class="line">   <span class="comment">// 可以通过  npm run build  执行 webpack 命令</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/webpack/" rel="tag"># webpack</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/26/197Redux-React-基本环境的搭建/" rel="next" title="Redux React 基本环境的搭建">
+                <i class="fa fa-chevron-left"></i> Redux React 基本环境的搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/27/199webpack/" rel="prev" title="webpack">
+                webpack <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description">keep fighting！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">165</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">78</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack-config-js解析"><span class="nav-number">1.</span> <span class="nav-text">webpack.config.js解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-entry"><span class="nav-number">1.1.</span> <span class="nav-text">1 entry</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-output"><span class="nav-number">1.2.</span> <span class="nav-text">2 output</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-module"><span class="nav-number">1.3.</span> <span class="nav-text">3 module</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-plugins"><span class="nav-number">1.4.</span> <span class="nav-text">4 plugins</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-target"><span class="nav-number">1.5.</span> <span class="nav-text">5 target</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-命令"><span class="nav-number">1.6.</span> <span class="nav-text">6 命令</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

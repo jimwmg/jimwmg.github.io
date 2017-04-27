@@ -270,7 +270,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/01/137httpstatus/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/155AMD-语法规范/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JiM-W">
@@ -292,8 +292,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/09/01/137httpstatus/" itemprop="url">
-                  http status
+                <a class="post-title-link" href="/2016/09/10/155AMD-语法规范/" itemprop="url">
+                  AMD and CMD
                 </a>
               
             
@@ -309,8 +309,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-01T12:36:00+08:00">
-                2016-09-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-10T12:36:00+08:00">
+                2016-09-10
               </time>
             
 
@@ -332,8 +332,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/http-status/" itemprop="url" rel="index">
-                    <span itemprop="name">http status</span>
+                  <a href="/categories/javascript-requirejs/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript  requirejs</span>
                   </a>
                 </span>
 
@@ -369,7 +369,367 @@
       
         
           
-            <h2 id="HTTP状态码大全"><a href="#HTTP状态码大全" class="headerlink" title="HTTP状态码大全"></a>HTTP状态码大全</h2><p>完整的 HTTP 1.1规范说明书来自于RFC 2616，你可以在<a href="http://www.talentdigger.cn/home/link.php?url=d3d3LnJmYy1lZGl0b3Iub3JnLw%3D%3D" target="_blank" rel="external">http://www.talentdigger.cn/home/link.php?url=d3d3LnJmYy1lZGl0b3Iub3JnLw%3D%3D</a>在线查阅。HTTP 1.1的状态码被标记为新特性，因为许多浏览器只支持 HTTP 1.0。你应只把状态码发送给支持 HTTP 1.1的客户端，支持协议版本可以通过调用request.getRequestProtocol来检查。<br>本部分余下的内容会详细地介绍 HTTP 1.1中的状态码。这些状态码被分为五大类：<br>100-199 用于指定客户端应相应的某些动作。<br>200-299 用于表示请求成功。<br>300-399 用于已经移动的文件并且常被包含在定位头信息中指定新的地址信息。<br>400-499 用于指出客户端的错误。<br>500-599 用于支持服务器错误。<br>HttpServletResponse中的常量代表关联不同标准消息的状态码。在servlet程序中，你会更多地用到这些常量的标识来使用状态码。例如：你一般会使用response.setStatus(response.SC_NO_CONTENT)而不是 response.setStatus(204)，因为后者不易理解而且容易导致错误。但是，你应当注意到服务器允许对消息轻微的改变，而客户端只注意状态码的数字值。所以服务器可能只返回 HTTP/1.1 200 而不是 HTTP/1.1 200 OK。<br>100 (Continue/继续)<br>如果服务器收到头信息中带有100-continue的请求，这是指客户端询问是否可以在后续的请求中发送附件。在这种情况下，服务器用100(SC_CONTINUE)允许客户端继续或用417 (Expectation Failed)告诉客户端不同意接受附件。这个状态码是 HTTP 1.1中新加入的。<br>101 (Switching Protocols/转换协议)<br>101 (SC_SWITCHING_PROTOCOLS)状态码是指服务器将按照其上的头信息变为一个不同的协议。这是 HTTP 1.1中新加入的。<br>200 (OK/正常)<br>200 (SC_OK)的意思是一切正常。一般用于相应GET和POST请求。这个状态码对servlet是缺省的；如果没有调用setStatus方法的话，就会得到200。<br>201 (Created/已创建)<br>201 (SC_CREATED)表示服务器在请求的响应中建立了新文档；应在定位头信息中给出它的URL。<br>202 (Accepted/接受)<br>202 (SC_ACCEPTED)告诉客户端请求正在被执行，但还没有处理完。<br>203 (Non-Authoritative Information/非官方信息)<br>状态码203 (SC_NON_AUTHORITATIVE_INFORMATION)是表示文档被正常的返回，但是由于正在使用的是文档副本所以某些响应头信息可能不正确。这是 HTTP 1.1中新加入的。<br>204 (No Content/无内容)<br>在并没有新文档的情况下，204 (SC_NO_CONTENT)确保浏览器继续显示先前的文档。这各状态码对于用户周期性的重载某一页非常有用，并且你可以确定先前的页面是否已经更新。例如，某个servlet可能作如下操作：<br>int pageVersion =Integer.parseInt(request.getParameter(“pageVersion”));<br>if (pageVersion &gt;;= currentVersion) {<br>   response.setStatus(response.SC_NO_CONTENT);<br>} else {<br>       // Create regular page<br>}<br>但是，这种方法对通过刷新响应头信息或等价的HTML标记自动重载的页面起作用，因为它会返回一个204状态码停止以后的重载。但基于JavaScript脚本的自动重载在这种情况下仍然需要能够起作用。可以阅读本书7.2 ( HTTP 1.1 Response Headers and Their Meaning/HTTP 1.1响应头信息以及他们的意义)部分的详细讨论。<br>205 (Reset Content/重置内容)<br>重置内容205 (SC_RESET_CONTENT)的意思是虽然没有新文档但浏览器要重置文档显示。这个状态码用于强迫浏览器清除表单域。这是 HTTP 1.1中新加入的。<br>206 (Partial Content/局部内容)<br>206 (SC_PARTIAL_CONTENT)是在服务器完成了一个包含Range头信息的局部请求时被发送的。这是 HTTP 1.1中新加入的。<br>300 (Multiple Choices/多重选择)<br>300 (SC_MULTIPLE_CHOICES)表示被请求的文档可以在多个地方找到，并将在返回的文档中列出来。如果服务器有首选设置，首选项将会被列于定位响应头信息中。<br>301 (Moved Permanently)<br>301 (SC_MOVED_PERMANENTLY)状态是指所请求的文档在别的地方；文档新的URL会在定位响应头信息中给出。浏览器会自动连接到新的URL。<br>302 (Found/找到)<br>与301有些类似，只是定位头信息中所给的URL应被理解为临时交换地址而不是永久的。注意：在 HTTP 1.0中，消息是临时移动(Moved Temporarily)的而不是被找到，因此HttpServletResponse中的常量是SC_MOVED_TEMPORARILY不是我们以为的SC_FOUND。<br>注意<br>代表状态码302的常量是SC_MOVED_TEMPORARILY而不是SC_FOUND。<br>状态码302是非常有用的因为浏览器自动连接在定为响应头信息中给出的新URL。这非常有用，而且为此有一个专门的方法——sendRedirect。使用response.sendRedirect(url)比调用response.setStatus(response.SC_MOVED_TEMPORARILY)和response.setHeader(“Location”, url)多几个好处。首先，response.sendRedirect(url)方法明显要简单和容易。第二，servlet自动建立一页保存这一连接以提供给那些不能自动转向的浏览器显示。最后，在servlet 2.2版本（J2EE中的版本）中，sendRedirect能够处理相对路径，自动转换为绝对路径。但是你只能在2.1版本中使用绝对路径。<br>如果你将用户转向到站点的另一页中，你要用 HttpServletResponse 中的 encodeURL 方法传送URL。这么做可预防不断使用基于URL重写的会话跟踪的情况。URL重写是一种在你的网站跟踪不使用 cookies 的用户的方法。这是通过在每一个URL尾部附加路径信息实现的，但是 servlet 会话跟踪API会自动的注意这些细节。会话跟踪在第九章讨论，并且养成使用 encodeURL 的习惯会使以后添加会话跟踪的功能更容易很多。<br>核心技巧<br>如果你将用户转向到你的站点的其他页面，用 response.sendRedirect(response.encodeURL(url)) 的方式事先计划好会话跟踪(session tracking)要比只是调用 response.sendRedirect(url) 好的多。<br>这个状态码有时可以与301交换使用。例如，如果你错误的访问了<a href="http://www.talentdigger.cn/home/link.php?url=aG9zdC9%2BdXNlcg%3D%3D" target="_blank" rel="external">http://www.talentdigger.cn/home/link.php?url=aG9zdC9%2BdXNlcg%3D%3D</a>（路径信息不完整），有些服务器就会回复301状态码而有些则回复302。从技术上说，如果最初的请求是GET浏览器只是被假定自动转向。如果想了解更多细节，请看状态码307的讨论。<br>303 (See Other/参见其他信息)<br>这个状态码和 301、302 相似，只是如果最初的请求是 POST，那么新文档（在定位头信息中给出）药用 GET 找回。这个状态码是新加入 HTTP 1.1中的。<br>304 (Not Modified/为修正)<br>当客户端有一个缓存的文档，通过提供一个 If-Modified-Since 头信息可指出客户端只希望文档在指定日期之后有所修改时才会重载此文档，用这种方式可以进行有条件的请求。304 (SC_NOT_MODIFIED)是指缓冲的版本已经被更新并且客户端应刷新文档。另外，服务器将返回请求的文档及状态码 200。servlet一般情况下不会直接设置这个状态码。它们会实现getLastModified方法并根据修正日期让默认服务方法处理有条件的请求。这个方法的例程已在2.8部分(An Example Using Servlet Initialization and Page Modification Dates/一个使用servlet初始化和页面修正日期的例子)给出。<br>305 (Use Proxy/使用代理)<br>305 (SC_USE_PROXY)表示所请求的文档要通过定位头信息中的代理服务器获得。这个状态码是新加入 HTTP 1.1中的。<br>307 (Temporary Redirect/临时重定向)<br>浏览器处理307状态的规则与302相同。307状态被加入到 HTTP 1.1中是由于许多浏览器在收到302响应时即使是原始消息为POST的情况下仍然执行了错误的转向。只有在收到303响应时才假定浏览器会在POST请求时重定向。添加这个新的状态码的目的很明确：在响应为303时按照GET和POST请求转向；而在307响应时则按照GET请求转向而不是POST请求。注意：由于某些原因在HttpServletResponse中还没有与这个状态对应的常量。该状态码是新加入HTTP 1.1中的。<br>注意<br>在 HttpServletResponse 中没有 SC_TEMPORARY_REDIRECT 常量，所以你只能显示的使用307状态码。<br>400 (Bad Request/错误请求)<br>400 (SC_BAD_REQUEST)指出客户端请求中的语法错误。<br>401 (Unauthorized/未授权)<br>401 (SC_UNAUTHORIZED)表示客户端在授权头信息中没有有效的身份信息时访问受到密码保护的页面。这个响应必须包含一个WWW-Authenticate的授权信息头。例如，在本书4.5部分中的“Restricting Access to Web Pages./限制访问Web页。”<br>403 (Forbidden/禁止)<br>403 (SC_FORBIDDEN)的意思是除非拥有授权否则服务器拒绝提供所请求的资源。这个状态经常会由于服务器上的损坏文件或目录许可而引起。<br>404 (Not Found/未找到)<br>404 (SC_NOT_FOUND)状态每个网络程序员可能都遇到过，他告诉客户端所给的地址无法找到任何资源。它是表示“没有所访问页面”的标准方式。这个状态码是常用的响应并且在HttpServletResponse类中有专门的方法实现它：sendError(“message”)。相对于setStatus使用sendError得好处是：服务器会自动生成一个错误页来显示错误信息。但是，Internet Explorer 5浏览器却默认忽略你发挥的错误页面并显示其自定义的错误提示页面，虽然微软这么做违反了 HTTP 规范。要关闭此功能，在工具菜单里，选择Internet选项，进入高级标签页，并确认“显示友好的 HTTP 错误信息”选项（在我的浏览器中是倒数第8各选项）没有被选。但是很少有用户知道此选项，因此这个特性被IE5隐藏了起来使用户无法看到你所返回给用户的信息。而其他主流浏览器及IE4都完全的显示服务器生成的错误提示页面。可以参考图6-3及6-4中的例子。<br>核心警告<br>默认情况下，IE5忽略服务端生成的错误提示页面。<br>405 (Method Not Allowed/方法未允许)<br>405 (SC_METHOD_NOT_ALLOWED)指出请求方法(GET, POST, HEAD, PUT, DELETE, 等)对某些特定的资源不允许使用。该状态码是新加入 HTTP 1.1中的。<br>406 (Not Acceptable/无法访问)<br>406 (SC_NOT_ACCEPTABLE)表示请求资源的MIME类型与客户端中Accept头信息中指定的类型不一致。见本书7.2部分中的表7.1(HTTP 1.1 Response Headers and Their Meaning/HTTP 1.1响应头信息以及他们的意义)中对MIME类型的介绍。406是新加入 HTTP 1.1中的。<br>407 (Proxy Authentication Required/代理服务器认证要求)<br>407 (SC_PROXY_AUTHENTICATION_REQUIRED)与401状态有些相似，只是这个状态用于代理服务器。该状态指出客户端必须通过代理服务器的认证。代理服务器返回一个Proxy-Authenticate响应头信息给客户端，这会引起客户端使用带有Proxy-Authorization请求的头信息重新连接。该状态码是新加入 HTTP 1.1中的。<br>408 (Request Timeout/请求超时)<br>408 (SC_REQUEST_TIMEOUT)是指服务端等待客户端发送请求的时间过长。该状态码是新加入 HTTP 1.1中的。<br>409 (Conflict/冲突)<br>该状态通常与PUT请求一同使用，409 (SC_CONFLICT)状态常被用于试图上传版本不正确的文件时。该状态码是新加入 HTTP 1.1中的。<br>410 (Gone/已经不存在)<br>410 (SC_GONE)告诉客户端所请求的文档已经不存在并且没有更新的地址。410状态不同于404，410是在指导文档已被移走的情况下使用，而404则用于未知原因的无法访问。该状态码是新加入 HTTP 1.1中的。<br>411 (Length Required/需要数据长度)<br>411 (SC_LENGTH_REQUIRED)表示服务器不能处理请求（假设为带有附件的POST请求），除非客户端发送Content-Length头信息指出发送给服务器的数据的大小。该状态是新加入 HTTP 1.1的。<br>412 (Precondition Failed/先决条件错误)<br>412 (SC_PRECONDITION_FAILED)状态指出请求头信息中的某些先决条件是错误的。该状态是新加入 HTTP 1.1的。<br>413 (Request Entity Too Large/请求实体过大)<br>413 (SC_REQUEST_ENTITY_TOO_LARGE)告诉客户端现在所请求的文档比服务器现在想要处理的要大。如果服务器认为能够过一段时间处理，则会包含一个Retry-After的响应头信息。该状态是新加入 HTTP 1.1的。<br>414 (Request URI Too Long/请求URI过长)<br>414 (SC_REQUEST_URI_TOO_LONG)状态用于在URI过长的情况时。这里所指的“URI”是指URL中主机、域名及端口号之后的内容。例如：在URL–<a href="http://www.y2k-disaster.com:8080/we/look/silly/now/中URI是指/we/look/silly/now/。该状态是新加入" target="_blank" rel="external">http://www.y2k-disaster.com:8080/we/look/silly/now/中URI是指/we/look/silly/now/。该状态是新加入</a> HTTP 1.1的。<br>415 (Unsupported Media Type/不支持的媒体格式)<br>415 (SC_UNSUPPORTED_MEDIA_TYPE)意味着请求所带的附件的格式类型服务器不知道如何处理。该状态是新加入 HTTP 1.1的。<br>416 (Requested Range Not Satisfiable/请求范围无法满足)<br>416表示客户端包含了一个服务器无法满足的Range头信息的请求。该状态是新加入 HTTP 1.1的。奇怪的是，在servlet 2.1版本API的HttpServletResponse中并没有相应的常量代表该状态。<br>注意<br>在servlet 2.1的规范中，类HttpServletResponse并没有SC_REQUESTED_RANGE_NOT_SATISFIABLE 这样的常量，所以你只能直接使用416。在servlet 2.2版本之后都包含了此常量。<br>417 (Expectation Failed/期望失败)<br>如果服务器得到一个带有100-continue值的Expect请求头信息，这是指客户端正在询问是否可以在后面的请求中发送附件。在这种情况下，服务器也会用该状态(417)告诉浏览器服务器不接收该附件或用100 (SC_CONTINUE)状态告诉客户端可以继续发送附件。该状态是新加入 HTTP 1.1的。<br>500 (Internal Server Error/内部服务器错误)<br>500 (SC_INTERNAL_SERVER_ERROR) 是常用的“服务器错误”状态。该状态经常由CGI程序引起也可能（但愿不会如此！）由无法正常运行的或返回头信息格式不正确的servlet引起。<br>501 (Not Implemented/未实现)<br>501 (SC_NOT_IMPLEMENTED)状态告诉客户端服务器不支持请求中要求的功能。例如，客户端执行了如PUT这样的服务器并不支持的命令。<br>502 (Bad Gateway/错误的网关)<br>502 (SC_BAD_GATEWAY)被用于充当代理或网关的服务器；该状态指出接收服务器接收到远端服务器的错误响应。<br>503 (Service Unavailable/服务无法获得)<br>状态码503 (SC_SERVICE_UNAVAILABLE)表示服务器由于在维护或已经超载而无法响应。例如，如果某些线程或数据库连接池已经没有空闲则servlet会返回这个头信息。服务器可提供一个Retry-After头信息告诉客户端什么时候可以在试一次。<br>504 (Gateway Timeout/网关超时)<br>该状态也用于充当代理或网关的服务器；它指出接收服务器没有从远端服务器得到及时的响应。该状态是新加入 HTTP 1.1的。<br>505 (HTTP Version Not Supported/不支持的 HTTP 版本)<br>505 (SC_HTTP_VERSION_NOT_SUPPORTED)状态码是说服务器并不支持在请求中所标明 HTTP 版本。该状态是新加入 HTTP 1.1的。</p>
+            <p>CMD([Common Module Definition])   AMD</p>
+<p>SeaJS 遵循 CMD 规范，RequireJS 遵循 AMD 规范。</p>
+<p><strong>CMD 模块依赖声明方式：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params">require</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</div><div class="line">    <span class="keyword">var</span> b = <span class="built_in">require</span>(<span class="string">'./b'</span>);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><strong>CMD 规范的弊端</strong></p>
+<ol>
+<li>不能直接压缩：<code>require</code>是局部变量，意味着不能直接的通过压缩工具进行压缩，若<code>require</code>这个变量被替换，加载器与自动化工具将无法获取模块的依赖。</li>
+<li>模块书写有额外约定：路径参数不能进行字符串运算，不能使用变量代替，否则加载器与自动化工具无法正确提取路径。</li>
+</ol>
+<p><strong>AMD 模块依赖声明方式：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'./a'</span>, <span class="string">'./b'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</div><div class="line">    <span class="comment">// more code ..</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><strong>AMD 规范的弊端</strong></p>
+<ol>
+<li>依赖提前声明在代码书写上不是那么友好</li>
+<li>模块内部与 NodeJS 的 Modules 有一定的差异</li>
+</ol>
+<p>其实无论是 CMD 还是 AMD 的异步模块，都无法与同步模块规范保持一致（NodeJS 的 Modules），<br>只有谁比谁更像同步模块而已。AMD 要转换为同步模块，除了去掉define函数的包裹外，<br>需要在头部使用require把依赖声明好，而 CMD 只需要去掉define函数的包裹即可。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/143requirejs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/10/143requirejs/" itemprop="url">
+                  require js
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-10T12:36:00+08:00">
+                2016-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1  函数调用的复杂性，在一个命名空间的概念下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">//命名空间的概念下</span></div><div class="line">    <span class="keyword">var</span> M = M || &#123;&#125;;</div><div class="line">    M.m = M.m || &#123;&#125;;<span class="comment">//||找true运算，undefined返回false</span></div><div class="line">    M.m.module1 = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//        some code here</span></div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">func1</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</div><div class="line">            <span class="attr">func2</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)();</div><div class="line">    M.m.module2 = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">//        some code here</span></div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">func1</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</div><div class="line">            <span class="attr">func2</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)();</div><div class="line"></div><div class="line">    <span class="comment">//调用每个模块下面的方法，如果M 和 m更加长，那么调用起来是不是废了老劲了</span></div><div class="line">    M.m.module1.func1();</div><div class="line">    M.m.module1.func2();</div><div class="line">    M.m.module2.func1();</div><div class="line">    M.m.module2.func2();</div></pre></td></tr></table></figure>
+<p>2 导入一个公共接口，本着面向对象的思想在进行简化  对外开发一个接口  www.myexcute.com</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//导入一个接口,就像导入jQuery一样</span></div><div class="line">   (<span class="function"><span class="keyword">function</span>(<span class="params">$,module1</span>)</span>&#123;</div><div class="line">       <span class="comment">//some code here</span></div><div class="line">       <span class="comment">//jQuery的所有方法可以使用</span></div><div class="line">       <span class="comment">//$.extend</span></div><div class="line">       <span class="comment">//M.m.module1 接口所有的方法可以用</span></div><div class="line">       module1.func1();<span class="comment">//这种调用的方式比起上面的调用是不简化了不少</span></div><div class="line">       module1.func2();</div><div class="line">   &#125;)(jQuery, M.m.module1);</div><div class="line"></div><div class="line">   (<span class="function"><span class="keyword">function</span>(<span class="params">$,module2</span>)</span>&#123;   </div><div class="line">       <span class="comment">//some code here</span></div><div class="line">       <span class="comment">//jQuery的所有方法可以使用</span></div><div class="line">       <span class="comment">//$.extend</span></div><div class="line">       <span class="comment">//M.m.module1 接口所有的方法可以用</span></div><div class="line">       module2.func1();</div><div class="line">       module2.func2();</div><div class="line">   &#125;)(jQuery, M.m.module2);</div></pre></td></tr></table></figure>
+<p>虽然这个样子，代码冲突的可能性已经很小，但是代码依赖的问题，多脚本的管理、阻塞的问题，仍旧无法解决</p>
+<p>3 此时require.js便初露头角</p>
+<p>简单地说，有两点，一、模块作用域自成一体，不污染全局空间；二、模块指明依赖关系，并且依赖是通过参数传递的形式导入的，无需通过全局对象引用 – 依赖同样不污染全局空间。<br>定义模块</p>
+<p>3.1 如何定义模块   </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">define(id? , dependencies ? , factory) ; ?表示可选项</div></pre></td></tr></table></figure>
+<p>模块可以分为两种，第一种是无依赖的模块</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//math.js</span></div><div class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> a+b;</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">add</span> : add</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>第二种是有依赖的模块 dependencies是一个数组形式的参数，factory函数接受的参数是依赖模块的返回值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//getWidth.js文件</span></div><div class="line">define([<span class="string">'jquery'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">$</span>)</span>&#123;  <span class="comment">//jquery.js和getWidth.js在同一目录下</span></div><div class="line">   <span class="keyword">var</span> width = $(<span class="built_in">window</span>).width();</div><div class="line">    <span class="keyword">return</span> width;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>3.2 如何导入模块  require([‘module1’,’module2’ ],callback) 传入的依赖必须是一个数组形式存在的，callback是依赖传入完毕之后执行的逻辑;如果模块有返回值，则会直接传递给callback函数的形参，如果函数没有返回值，那么传递的callback形参的值是undefined      文件目录如下 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">test </div><div class="line"></div><div class="line">- index.html</div><div class="line">- js</div><div class="line">  - require.js</div><div class="line">  - jquery.js</div><div class="line">  - main.js    //入口文件</div><div class="line">  - getWidth.js</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js  require请求的是模块的路径，因为使用了data-main属性，require默认访问路径是main.js所在目录，也就是js/</span></div><div class="line"><span class="built_in">require</span>([<span class="string">'getWidth'</span>,<span class="string">'jquery'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">ret</span>)</span>&#123; <span class="comment">//这里的jquery是引入的本地文件</span></div><div class="line">    <span class="built_in">console</span>.log(ret);</div><div class="line">&#125;)</div><div class="line"><span class="comment">//等价于  js/getWidth.js      js/jquery.js</span></div></pre></td></tr></table></figure>
+<p><a href="http://www.tuicool.com/articles/uUrUzqr" target="_blank" rel="external">关于requirejs的实现原理</a></p>
+<p>indx.html文件中引入requirejs</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'require.js'</span> <span class="attr">data-main</span> = <span class="string">"js/main"</span>&gt;</span><span class="undefined"></span></div></pre></td></tr></table></figure>
+<p>加载requirejs脚本的script标签加入了data-main属性，这个属性指定的js将在加载完reuqire.js后处理，我们把require.config的配置加入到data-main后，就可以使每一个页面都使用这个配置，然后页面中就可以直接使用<code>require</code>来加载所有的短模块名</p>
+<p>data-main还有一个重要的功能，当script标签指定data-main属性时，require会默认的将data-main指定的js为根路径，是什么意思呢？如上面的data-main=”js/main”设定后，我们在使用require([‘jquery’])后(不配置jquery的paths)，require会自动加载js/jquery.js这个文件，而不是jquery.js，相当于默认配置了：</p>
+<p>data-main需要给所有的脚本文件设置一个根路径。根据这个根路径，RequireJS将会去加载所有相关的模块。下面的脚本是一个使用data-main例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">baseUrl</span> : <span class="string">"js"</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>3.3 如果我们导入的文件是不符合require的规范或者导入文件来自本地服务器或者CDN或者其他的网站，这个时候上面的require方法就不能起作用了，这个时候我们需要配置文件的地址</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//配置函数require.config(&#123;&#125;)</span></div><div class="line">baseUrl——用于加载模块的根路径。</div><div class="line">paths——用于映射不存在根路径下面的模块路径。</div><div class="line">shims——配置在脚本/模块外面并没有使用RequireJS的函数依赖并且初始化函数。假设underscore并没有使用  RequireJS定义，但是你还是想通过RequireJS来使用它，那么你就需要在配置中把它定义为一个shim。</div><div class="line">deps——加载依赖关系数组</div></pre></td></tr></table></figure>
+<p>不符合规范 : 先来看一个简单的例子,文件目录如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">export</div><div class="line"></div><div class="line">- index.html</div><div class="line">- js</div><div class="line">  - sayhello.js</div><div class="line">  - main.js</div><div class="line">  - require.js</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//index.html  加如下代码</div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/require.js"</span> <span class="attr">data-main</span>=<span class="string">'js/main'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//sayhello.js</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"hello handsome you"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js </span></div><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span> : &#123;</div><div class="line">        <span class="attr">h</span> : <span class="string">'sayhello'</span>   <span class="comment">//模块h的路径是js/hello.js   因为data-main属性的作用</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">shim</span> : &#123;</div><div class="line">        <span class="attr">h</span> :&#123; <span class="attr">exports</span> : <span class="string">'hello'</span>&#125;  <span class="comment">//将hello函数暴露出去;如果少了这行代码会报错</span></div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"><span class="built_in">require</span>([<span class="string">'h'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">hello</span>)</span>&#123;</div><div class="line">    hello();</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>上面代码 exports: ‘hello’中的 hello，是我们在 hello.js 中定义的 hello 函数。当我们使用 function hello() {} 的方式定义一个函数的时候，它就是全局可用的。如果我们选择了把它 export给requirejs，那当我们的代码依赖于 hello 模块的时候，就可以拿到这个 hello 函数的引用了。</p>
+<p>所以： exports 可以把某个非requirejs方式的代码中的某一个全局变量暴露出去，当作该模块以引用。</p>
+<p>3.3.1 假如我想暴露多个sayhello.js中的全局变量呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//sayhello.js</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"hello handsome you"</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello1</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"hello1 handsome you"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个时候main.js不能再用export了，应该使用init来初始化这些接口</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span> : &#123;</div><div class="line">        <span class="attr">h</span> : <span class="string">'sayhello'</span> </div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//shim : &#123;</span></div><div class="line">    <span class="comment">//    h :&#123; exports : 'hello'&#125;</span></div><div class="line">    <span class="comment">//&#125;</span></div><div class="line">    shim : &#123;</div><div class="line">        <span class="attr">h</span> :&#123; <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> &#123;</div><div class="line">                <span class="attr">h0</span>: hello,</div><div class="line">                <span class="attr">h1</span>: hello1</div><div class="line">            &#125;</div><div class="line">        &#125;&#125;</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"><span class="built_in">require</span>([<span class="string">'h'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">he</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">    he.h0()</div><div class="line">    he.h1()</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>3.3.2 导入外部服务器的文件，requirejs支持跨域</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span> : &#123;</div><div class="line">        <span class="string">"jq"</span> : [<span class="string">"http://libs.baidu.com/jquery/2.0.3/jquery"</span>],</div><div class="line">        <span class="string">"a"</span> : <span class="string">"js/a"</span>   </div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"><span class="comment">//配置完之后，下面可以引用jquery模块</span></div><div class="line"><span class="built_in">require</span>([<span class="string">"jq"</span>,<span class="string">"a"</span>],<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="comment">//在这里面可以直接使用jquery的所有API</span></div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        alert(<span class="string">"load finished"</span>);  </div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>3.4 如何引入第三方不不符合AMD规范的模块呢？这个时候需要进行配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">  <span class="attr">shim</span>:&#123;</div><div class="line">    <span class="string">'underscore'</span>:&#123;</div><div class="line">      <span class="attr">exports</span>:<span class="string">"_"</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//配置之后，我们就可以在其他模块中引入underscore模块了</span></div><div class="line"><span class="built_in">require</span>(<span class="string">'underscore'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">_</span>)</span>&#123;</div><div class="line">   _.each([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], alert);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>3.5 如何引入第三方不符合AMD规范的插件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">shim</span>: &#123;</div><div class="line">        <span class="string">"underscore"</span> : &#123;</div><div class="line">            <span class="attr">exports</span> : <span class="string">"_"</span>;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"jquery.form"</span> : &#123;</div><div class="line">            <span class="attr">deps</span> : [<span class="string">"jquery"</span>]</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//</span></div></pre></td></tr></table></figure>
+<p>4 requirejs优势</p>
+<p>4.1并行加载</p>
+<pre><code>我们知道，`&lt;script&gt;&lt;/script&gt;` 标签会阻塞页面，加载 a.js 时，后面的所有文件都得等它加载完成并执行结束后才能开始加载、执行。而 require.js 的模块可以并行下载，没有依赖关系的模块还可以并行执行，大大加快页面访问速度。
+</code></pre><p>4.2 不愁依赖</p>
+<pre><code>在我们定义模块的时候，我们就已经决定好模块的依赖 – c 依赖 b，b 又依赖 a。当我想用 c 模块的功能时，我只要在 require函数的依赖里指定 c：
+
+require([&apos;c&apos;], function(c) {...});
+
+至于 c 依赖的模块，c 依赖的模块的依赖模块… 等等，require.js 会帮我们打理
+</code></pre><p> 4.3  减少全局冲突</p>
+<pre><code>通过 define 的方式，我们大量减少了全局变量，这样代码冲突的概率就极小极小 – JavaScript 界有句话说，全局变量是魔鬼，想想，我们能减少魔鬼的数量，我想是件好事。
+</code></pre><p>关于全局变量</p>
+<p>有一点需要说明的是，require.js 环境中并不是只有 define 和 require 几个全局变量。许多库都会向全局环境中暴露变量，以 jQuery 为例，1.7版本后，它虽然注册自己为 AMD 模块，但同时也向全局环境中暴露了 jQuery 与 $。所以以下代码中，虽然我们没有向回调函数传入一份引用，jQuery/$ 同样是存在的：</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/39-媒体查询响应式开发/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/10/39-媒体查询响应式开发/" itemprop="url">
+                  媒体查询 响应式开发
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-10T12:36:00+08:00">
+                2016-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mobile/" itemprop="url" rel="index">
+                    <span itemprop="name">mobile</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>媒体查询:响应式开发</p>
+<p>第一种不同终端的宽度自适应代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-class">.container</span> &#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">1200px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">1000px</span>;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span> auto;</div><div class="line">            <span class="attribute">background-color</span>: red;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> screen and (min-width:<span class="number">1200px</span>)&#123;</div><div class="line">            <span class="selector-tag">body</span>&#123;</div><div class="line">                <span class="comment">/*当屏幕大小最小满足1200px即大于1200px的时候 */</span></div><div class="line">                <span class="comment">/*background-color: pink;*/</span></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">1170px</span>;</div><div class="line">                <span class="attribute">background-color</span>: pink;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> screen and (min-width:<span class="number">992px</span>) and (max-width: <span class="number">1200px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">970px</span>;</div><div class="line">                <span class="attribute">background</span>: green;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> screen and (min-width: <span class="number">768px</span>) and (max-width: <span class="number">992px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">750px</span>;</div><div class="line">                <span class="attribute">background-color</span>: blue;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @<span class="keyword">media</span> screen and (max-width: <span class="number">768px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">                <span class="attribute">background-color</span>: orange;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>第二种不同终端宽度自适应代码 ：代码覆盖</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-tag">html</span>,<span class="selector-tag">body</span> &#123;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span> ;</div><div class="line">            <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="selector-class">.container</span> &#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">1200px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">1000px</span>;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span> auto;</div><div class="line">            <span class="attribute">background-color</span>: red;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">/*以覆盖的方式存在*/</span></div><div class="line">        @<span class="keyword">media</span> (max-width: <span class="number">768px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">                <span class="attribute">background-color</span>: orange;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span>  (min-width: <span class="number">768px</span>) &#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">750px</span>;</div><div class="line">                <span class="attribute">background-color</span>: blue;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> (min-width:<span class="number">992px</span>) &#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">970px</span>;</div><div class="line">                <span class="attribute">background</span>: green;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> (min-width:<span class="number">1200px</span>)&#123;</div><div class="line">                <span class="comment">/*当屏幕大小最小满足1200px即大于1200px的时候 */</span></div><div class="line">                <span class="comment">/*background-color: pink;*/</span></div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">1170px</span>;</div><div class="line">                <span class="attribute">background-color</span>: pink;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 
           
         
@@ -543,6 +903,149 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span> (<span class="params">a,b</span>)</span>&#123;</div><div class="line">       fn.age = <span class="number">19</span> ;</div><div class="line">       <span class="built_in">console</span>.log(a);<span class="comment">//1</span></div><div class="line">       <span class="built_in">console</span>.log(b);<span class="comment">//undefined</span></div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="built_in">console</span>.log(fn.prototype.constructor === fn);<span class="comment">//true</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> f = <span class="keyword">new</span> fn();</div><div class="line">   <span class="built_in">console</span>.dir(f);</div><div class="line"><span class="built_in">console</span>.log(f.__proto__ === fn.prototype );<span class="comment">//true</span></div><div class="line">   <span class="built_in">console</span>.log(f.__proto__.constructor == fn);<span class="comment">//true</span></div></pre></td></tr></table></figure>
 <p>8 函数的name属性</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> func1 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;  </div><div class="line"><span class="comment">// ES5  </span></div><div class="line">func1.name <span class="comment">// ""  </span></div><div class="line"><span class="comment">// ES6  </span></div><div class="line">func1.name <span class="comment">// "func1"  </span></div><div class="line"><span class="comment">//上面代码中，变量func1等于一个匿名函数， ES5 和 ES6 的name属性返回的值不一样。  </span></div><div class="line"><span class="comment">//如果将一个具名函数赋值给一个变量，则 ES5 和 ES6 的name属性都返回这个具名函数原本的名字。  </span></div><div class="line"><span class="keyword">const</span> bar = <span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123;&#125;;  </div><div class="line"><span class="comment">// ES5  </span></div><div class="line">bar.name <span class="comment">// "baz"  </span></div><div class="line"><span class="comment">// ES6  </span></div><div class="line">bar.name <span class="comment">// "baz"  </span></div><div class="line"><span class="comment">//Function构造函数返回的函数实例，name属性的值为 “anonymous” 。  </span></div><div class="line">(<span class="keyword">new</span> <span class="built_in">Function</span>).name <span class="comment">// "anonymous"  </span></div><div class="line"><span class="comment">//bind返回的函数，name属性值会加上 “bound ” 前缀。  </span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;&#125;;  </div><div class="line">foo.bind(&#123;&#125;).name <span class="comment">// "bound foo"  </span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;).bind(&#123;&#125;).name <span class="comment">// "bound "</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/01/137httpstatus/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/01/137httpstatus/" itemprop="url">
+                  http status
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-01T12:36:00+08:00">
+                2016-09-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/http-status/" itemprop="url" rel="index">
+                    <span itemprop="name">http status</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="HTTP状态码大全"><a href="#HTTP状态码大全" class="headerlink" title="HTTP状态码大全"></a>HTTP状态码大全</h2><p>完整的 HTTP 1.1规范说明书来自于RFC 2616，你可以在<a href="http://www.talentdigger.cn/home/link.php?url=d3d3LnJmYy1lZGl0b3Iub3JnLw%3D%3D" target="_blank" rel="external">http://www.talentdigger.cn/home/link.php?url=d3d3LnJmYy1lZGl0b3Iub3JnLw%3D%3D</a>在线查阅。HTTP 1.1的状态码被标记为新特性，因为许多浏览器只支持 HTTP 1.0。你应只把状态码发送给支持 HTTP 1.1的客户端，支持协议版本可以通过调用request.getRequestProtocol来检查。<br>本部分余下的内容会详细地介绍 HTTP 1.1中的状态码。这些状态码被分为五大类：<br>100-199 用于指定客户端应相应的某些动作。<br>200-299 用于表示请求成功。<br>300-399 用于已经移动的文件并且常被包含在定位头信息中指定新的地址信息。<br>400-499 用于指出客户端的错误。<br>500-599 用于支持服务器错误。<br>HttpServletResponse中的常量代表关联不同标准消息的状态码。在servlet程序中，你会更多地用到这些常量的标识来使用状态码。例如：你一般会使用response.setStatus(response.SC_NO_CONTENT)而不是 response.setStatus(204)，因为后者不易理解而且容易导致错误。但是，你应当注意到服务器允许对消息轻微的改变，而客户端只注意状态码的数字值。所以服务器可能只返回 HTTP/1.1 200 而不是 HTTP/1.1 200 OK。<br>100 (Continue/继续)<br>如果服务器收到头信息中带有100-continue的请求，这是指客户端询问是否可以在后续的请求中发送附件。在这种情况下，服务器用100(SC_CONTINUE)允许客户端继续或用417 (Expectation Failed)告诉客户端不同意接受附件。这个状态码是 HTTP 1.1中新加入的。<br>101 (Switching Protocols/转换协议)<br>101 (SC_SWITCHING_PROTOCOLS)状态码是指服务器将按照其上的头信息变为一个不同的协议。这是 HTTP 1.1中新加入的。<br>200 (OK/正常)<br>200 (SC_OK)的意思是一切正常。一般用于相应GET和POST请求。这个状态码对servlet是缺省的；如果没有调用setStatus方法的话，就会得到200。<br>201 (Created/已创建)<br>201 (SC_CREATED)表示服务器在请求的响应中建立了新文档；应在定位头信息中给出它的URL。<br>202 (Accepted/接受)<br>202 (SC_ACCEPTED)告诉客户端请求正在被执行，但还没有处理完。<br>203 (Non-Authoritative Information/非官方信息)<br>状态码203 (SC_NON_AUTHORITATIVE_INFORMATION)是表示文档被正常的返回，但是由于正在使用的是文档副本所以某些响应头信息可能不正确。这是 HTTP 1.1中新加入的。<br>204 (No Content/无内容)<br>在并没有新文档的情况下，204 (SC_NO_CONTENT)确保浏览器继续显示先前的文档。这各状态码对于用户周期性的重载某一页非常有用，并且你可以确定先前的页面是否已经更新。例如，某个servlet可能作如下操作：<br>int pageVersion =Integer.parseInt(request.getParameter(“pageVersion”));<br>if (pageVersion &gt;;= currentVersion) {<br>   response.setStatus(response.SC_NO_CONTENT);<br>} else {<br>       // Create regular page<br>}<br>但是，这种方法对通过刷新响应头信息或等价的HTML标记自动重载的页面起作用，因为它会返回一个204状态码停止以后的重载。但基于JavaScript脚本的自动重载在这种情况下仍然需要能够起作用。可以阅读本书7.2 ( HTTP 1.1 Response Headers and Their Meaning/HTTP 1.1响应头信息以及他们的意义)部分的详细讨论。<br>205 (Reset Content/重置内容)<br>重置内容205 (SC_RESET_CONTENT)的意思是虽然没有新文档但浏览器要重置文档显示。这个状态码用于强迫浏览器清除表单域。这是 HTTP 1.1中新加入的。<br>206 (Partial Content/局部内容)<br>206 (SC_PARTIAL_CONTENT)是在服务器完成了一个包含Range头信息的局部请求时被发送的。这是 HTTP 1.1中新加入的。<br>300 (Multiple Choices/多重选择)<br>300 (SC_MULTIPLE_CHOICES)表示被请求的文档可以在多个地方找到，并将在返回的文档中列出来。如果服务器有首选设置，首选项将会被列于定位响应头信息中。<br>301 (Moved Permanently)<br>301 (SC_MOVED_PERMANENTLY)状态是指所请求的文档在别的地方；文档新的URL会在定位响应头信息中给出。浏览器会自动连接到新的URL。<br>302 (Found/找到)<br>与301有些类似，只是定位头信息中所给的URL应被理解为临时交换地址而不是永久的。注意：在 HTTP 1.0中，消息是临时移动(Moved Temporarily)的而不是被找到，因此HttpServletResponse中的常量是SC_MOVED_TEMPORARILY不是我们以为的SC_FOUND。<br>注意<br>代表状态码302的常量是SC_MOVED_TEMPORARILY而不是SC_FOUND。<br>状态码302是非常有用的因为浏览器自动连接在定为响应头信息中给出的新URL。这非常有用，而且为此有一个专门的方法——sendRedirect。使用response.sendRedirect(url)比调用response.setStatus(response.SC_MOVED_TEMPORARILY)和response.setHeader(“Location”, url)多几个好处。首先，response.sendRedirect(url)方法明显要简单和容易。第二，servlet自动建立一页保存这一连接以提供给那些不能自动转向的浏览器显示。最后，在servlet 2.2版本（J2EE中的版本）中，sendRedirect能够处理相对路径，自动转换为绝对路径。但是你只能在2.1版本中使用绝对路径。<br>如果你将用户转向到站点的另一页中，你要用 HttpServletResponse 中的 encodeURL 方法传送URL。这么做可预防不断使用基于URL重写的会话跟踪的情况。URL重写是一种在你的网站跟踪不使用 cookies 的用户的方法。这是通过在每一个URL尾部附加路径信息实现的，但是 servlet 会话跟踪API会自动的注意这些细节。会话跟踪在第九章讨论，并且养成使用 encodeURL 的习惯会使以后添加会话跟踪的功能更容易很多。<br>核心技巧<br>如果你将用户转向到你的站点的其他页面，用 response.sendRedirect(response.encodeURL(url)) 的方式事先计划好会话跟踪(session tracking)要比只是调用 response.sendRedirect(url) 好的多。<br>这个状态码有时可以与301交换使用。例如，如果你错误的访问了<a href="http://www.talentdigger.cn/home/link.php?url=aG9zdC9%2BdXNlcg%3D%3D" target="_blank" rel="external">http://www.talentdigger.cn/home/link.php?url=aG9zdC9%2BdXNlcg%3D%3D</a>（路径信息不完整），有些服务器就会回复301状态码而有些则回复302。从技术上说，如果最初的请求是GET浏览器只是被假定自动转向。如果想了解更多细节，请看状态码307的讨论。<br>303 (See Other/参见其他信息)<br>这个状态码和 301、302 相似，只是如果最初的请求是 POST，那么新文档（在定位头信息中给出）药用 GET 找回。这个状态码是新加入 HTTP 1.1中的。<br>304 (Not Modified/为修正)<br>当客户端有一个缓存的文档，通过提供一个 If-Modified-Since 头信息可指出客户端只希望文档在指定日期之后有所修改时才会重载此文档，用这种方式可以进行有条件的请求。304 (SC_NOT_MODIFIED)是指缓冲的版本已经被更新并且客户端应刷新文档。另外，服务器将返回请求的文档及状态码 200。servlet一般情况下不会直接设置这个状态码。它们会实现getLastModified方法并根据修正日期让默认服务方法处理有条件的请求。这个方法的例程已在2.8部分(An Example Using Servlet Initialization and Page Modification Dates/一个使用servlet初始化和页面修正日期的例子)给出。<br>305 (Use Proxy/使用代理)<br>305 (SC_USE_PROXY)表示所请求的文档要通过定位头信息中的代理服务器获得。这个状态码是新加入 HTTP 1.1中的。<br>307 (Temporary Redirect/临时重定向)<br>浏览器处理307状态的规则与302相同。307状态被加入到 HTTP 1.1中是由于许多浏览器在收到302响应时即使是原始消息为POST的情况下仍然执行了错误的转向。只有在收到303响应时才假定浏览器会在POST请求时重定向。添加这个新的状态码的目的很明确：在响应为303时按照GET和POST请求转向；而在307响应时则按照GET请求转向而不是POST请求。注意：由于某些原因在HttpServletResponse中还没有与这个状态对应的常量。该状态码是新加入HTTP 1.1中的。<br>注意<br>在 HttpServletResponse 中没有 SC_TEMPORARY_REDIRECT 常量，所以你只能显示的使用307状态码。<br>400 (Bad Request/错误请求)<br>400 (SC_BAD_REQUEST)指出客户端请求中的语法错误。<br>401 (Unauthorized/未授权)<br>401 (SC_UNAUTHORIZED)表示客户端在授权头信息中没有有效的身份信息时访问受到密码保护的页面。这个响应必须包含一个WWW-Authenticate的授权信息头。例如，在本书4.5部分中的“Restricting Access to Web Pages./限制访问Web页。”<br>403 (Forbidden/禁止)<br>403 (SC_FORBIDDEN)的意思是除非拥有授权否则服务器拒绝提供所请求的资源。这个状态经常会由于服务器上的损坏文件或目录许可而引起。<br>404 (Not Found/未找到)<br>404 (SC_NOT_FOUND)状态每个网络程序员可能都遇到过，他告诉客户端所给的地址无法找到任何资源。它是表示“没有所访问页面”的标准方式。这个状态码是常用的响应并且在HttpServletResponse类中有专门的方法实现它：sendError(“message”)。相对于setStatus使用sendError得好处是：服务器会自动生成一个错误页来显示错误信息。但是，Internet Explorer 5浏览器却默认忽略你发挥的错误页面并显示其自定义的错误提示页面，虽然微软这么做违反了 HTTP 规范。要关闭此功能，在工具菜单里，选择Internet选项，进入高级标签页，并确认“显示友好的 HTTP 错误信息”选项（在我的浏览器中是倒数第8各选项）没有被选。但是很少有用户知道此选项，因此这个特性被IE5隐藏了起来使用户无法看到你所返回给用户的信息。而其他主流浏览器及IE4都完全的显示服务器生成的错误提示页面。可以参考图6-3及6-4中的例子。<br>核心警告<br>默认情况下，IE5忽略服务端生成的错误提示页面。<br>405 (Method Not Allowed/方法未允许)<br>405 (SC_METHOD_NOT_ALLOWED)指出请求方法(GET, POST, HEAD, PUT, DELETE, 等)对某些特定的资源不允许使用。该状态码是新加入 HTTP 1.1中的。<br>406 (Not Acceptable/无法访问)<br>406 (SC_NOT_ACCEPTABLE)表示请求资源的MIME类型与客户端中Accept头信息中指定的类型不一致。见本书7.2部分中的表7.1(HTTP 1.1 Response Headers and Their Meaning/HTTP 1.1响应头信息以及他们的意义)中对MIME类型的介绍。406是新加入 HTTP 1.1中的。<br>407 (Proxy Authentication Required/代理服务器认证要求)<br>407 (SC_PROXY_AUTHENTICATION_REQUIRED)与401状态有些相似，只是这个状态用于代理服务器。该状态指出客户端必须通过代理服务器的认证。代理服务器返回一个Proxy-Authenticate响应头信息给客户端，这会引起客户端使用带有Proxy-Authorization请求的头信息重新连接。该状态码是新加入 HTTP 1.1中的。<br>408 (Request Timeout/请求超时)<br>408 (SC_REQUEST_TIMEOUT)是指服务端等待客户端发送请求的时间过长。该状态码是新加入 HTTP 1.1中的。<br>409 (Conflict/冲突)<br>该状态通常与PUT请求一同使用，409 (SC_CONFLICT)状态常被用于试图上传版本不正确的文件时。该状态码是新加入 HTTP 1.1中的。<br>410 (Gone/已经不存在)<br>410 (SC_GONE)告诉客户端所请求的文档已经不存在并且没有更新的地址。410状态不同于404，410是在指导文档已被移走的情况下使用，而404则用于未知原因的无法访问。该状态码是新加入 HTTP 1.1中的。<br>411 (Length Required/需要数据长度)<br>411 (SC_LENGTH_REQUIRED)表示服务器不能处理请求（假设为带有附件的POST请求），除非客户端发送Content-Length头信息指出发送给服务器的数据的大小。该状态是新加入 HTTP 1.1的。<br>412 (Precondition Failed/先决条件错误)<br>412 (SC_PRECONDITION_FAILED)状态指出请求头信息中的某些先决条件是错误的。该状态是新加入 HTTP 1.1的。<br>413 (Request Entity Too Large/请求实体过大)<br>413 (SC_REQUEST_ENTITY_TOO_LARGE)告诉客户端现在所请求的文档比服务器现在想要处理的要大。如果服务器认为能够过一段时间处理，则会包含一个Retry-After的响应头信息。该状态是新加入 HTTP 1.1的。<br>414 (Request URI Too Long/请求URI过长)<br>414 (SC_REQUEST_URI_TOO_LONG)状态用于在URI过长的情况时。这里所指的“URI”是指URL中主机、域名及端口号之后的内容。例如：在URL–<a href="http://www.y2k-disaster.com:8080/we/look/silly/now/中URI是指/we/look/silly/now/。该状态是新加入" target="_blank" rel="external">http://www.y2k-disaster.com:8080/we/look/silly/now/中URI是指/we/look/silly/now/。该状态是新加入</a> HTTP 1.1的。<br>415 (Unsupported Media Type/不支持的媒体格式)<br>415 (SC_UNSUPPORTED_MEDIA_TYPE)意味着请求所带的附件的格式类型服务器不知道如何处理。该状态是新加入 HTTP 1.1的。<br>416 (Requested Range Not Satisfiable/请求范围无法满足)<br>416表示客户端包含了一个服务器无法满足的Range头信息的请求。该状态是新加入 HTTP 1.1的。奇怪的是，在servlet 2.1版本API的HttpServletResponse中并没有相应的常量代表该状态。<br>注意<br>在servlet 2.1的规范中，类HttpServletResponse并没有SC_REQUESTED_RANGE_NOT_SATISFIABLE 这样的常量，所以你只能直接使用416。在servlet 2.2版本之后都包含了此常量。<br>417 (Expectation Failed/期望失败)<br>如果服务器得到一个带有100-continue值的Expect请求头信息，这是指客户端正在询问是否可以在后面的请求中发送附件。在这种情况下，服务器也会用该状态(417)告诉浏览器服务器不接收该附件或用100 (SC_CONTINUE)状态告诉客户端可以继续发送附件。该状态是新加入 HTTP 1.1的。<br>500 (Internal Server Error/内部服务器错误)<br>500 (SC_INTERNAL_SERVER_ERROR) 是常用的“服务器错误”状态。该状态经常由CGI程序引起也可能（但愿不会如此！）由无法正常运行的或返回头信息格式不正确的servlet引起。<br>501 (Not Implemented/未实现)<br>501 (SC_NOT_IMPLEMENTED)状态告诉客户端服务器不支持请求中要求的功能。例如，客户端执行了如PUT这样的服务器并不支持的命令。<br>502 (Bad Gateway/错误的网关)<br>502 (SC_BAD_GATEWAY)被用于充当代理或网关的服务器；该状态指出接收服务器接收到远端服务器的错误响应。<br>503 (Service Unavailable/服务无法获得)<br>状态码503 (SC_SERVICE_UNAVAILABLE)表示服务器由于在维护或已经超载而无法响应。例如，如果某些线程或数据库连接池已经没有空闲则servlet会返回这个头信息。服务器可提供一个Retry-After头信息告诉客户端什么时候可以在试一次。<br>504 (Gateway Timeout/网关超时)<br>该状态也用于充当代理或网关的服务器；它指出接收服务器没有从远端服务器得到及时的响应。该状态是新加入 HTTP 1.1的。<br>505 (HTTP Version Not Supported/不支持的 HTTP 版本)<br>505 (SC_HTTP_VERSION_NOT_SUPPORTED)状态码是说服务器并不支持在请求中所标明 HTTP 版本。该状态是新加入 HTTP 1.1的。</p>
 
           
         
@@ -1447,481 +1950,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/13/134HTML5ApplicationCache/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/13/134HTML5ApplicationCache/" itemprop="url">
-                  HTML5 Application Cache
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-13T12:36:00+08:00">
-                2016-08-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/HTML5/" itemprop="url" rel="index">
-                    <span itemprop="name">HTML5</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/13/83-HTML本地存储cookies篇/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/13/83-HTML本地存储cookies篇/" itemprop="url">
-                  cookie
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-13T12:36:00+08:00">
-                2016-08-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/http-cookies/" itemprop="url" rel="index">
-                    <span itemprop="name">http cookies</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本地存储cookies篇</p>
-<h3 id="1-HTTP-cookie，通常直接叫做cookie，是客户端用来存储数据的一种选项，它既可以在客户端设置也可以在服务器端设置。cookie会跟随任意HTTP请求一起发送。"><a href="#1-HTTP-cookie，通常直接叫做cookie，是客户端用来存储数据的一种选项，它既可以在客户端设置也可以在服务器端设置。cookie会跟随任意HTTP请求一起发送。" class="headerlink" title="1 HTTP cookie，通常直接叫做cookie，是客户端用来存储数据的一种选项，它既可以在客户端设置也可以在服务器端设置。cookie会跟随任意HTTP请求一起发送。"></a>1 HTTP cookie，通常直接叫做cookie，是客户端用来存储数据的一种选项，它既可以在客户端设置也可以在服务器端设置。cookie会跟随任意HTTP请求一起发送。</h3><p>优点：兼容性好</p>
-<p>缺点：一是增加了网络流量；二则是它的数据容量有限，最多只能存储4KB的数据，浏览器之间各有不同；三是不安全。</p>
-<h3 id="2-cookie的用途及工作原理"><a href="#2-cookie的用途及工作原理" class="headerlink" title="2.cookie的用途及工作原理"></a>2.cookie的用途及工作原理</h3><p>那cookie具体能干什么呢？</p>
-<p>cookie 将信息存储于用户硬盘，因此可以作为全局变量，这是它最大的一个优点。它最根本的用途是 Cookie 能够帮助 Web 站点 <code>保存有关访问者的信息</code> ，以下列举cookie的几种小用途。</p>
-<p>① 保存用户登录信息。这应该是最常用的了。当您访问一个需要登录的界面，例如微博、百度及一些论坛，在登录过后一般都会有类似”下次自动登录”的选项，勾选过后下次就不需要重复验证。这种就可以通过cookie保存用户的id。</p>
-<p>② 创建购物车。购物网站通常把已选物品保存在cookie中，这样可以实现 <code>不同页面</code> 之间 <code>数据的同步</code> (同一个域名下是可以共享cookie的)，同时在提交订单的时候又会把这些cookie传到后台。</p>
-<p>③ 跟踪用户行为。例如百度联盟会通过cookie记录用户的偏好信息，然后向用户推荐个性化推广信息，所以浏览其他网页的时候经常会发现旁边的小广告都是自己最近百度搜过的东西。这是可以禁用的，这也是cookie的缺点之一。</p>
-<p>那么，cookie是怎么起作用的呢？</p>
-<p>在上一节中我们知道 cookie 是存在用户硬盘中，用户每次访问站点时，Web应用程序都可以读取 Cookie 包含的信息。当用户再次访问这个站点时，<strong>浏览器就会在本地硬盘上 查找 与该 URL 相关联的 Cookie 。如果该 Cookie 存在，浏览器就将它添加到 request header的Cookie字段中，与 http请求`一起发送到该站点。</strong></p>
-<p>在开发者工具network可以看到，如果有关该URL的cookie会被添加到请求上</p>
-<p>要注意的是，添加到 request header 中是 浏览器的行为 ，存储在cookie的数据 每次 都会被浏览器 <code>自动</code> 放在http请求中。因此，如果这些数据不是每次都要发给服务器的话，这样做无疑会增加网络流量，这也是cookie的缺点之一。为了避免这点，我们必须考虑什么样的数据才应该放在cookie中，而不是滥用cookie。每次请求都需要携带的信息，最典型的就是 身份验证了，其他的大多信息都不适合放在cookie中。</p>
-<p>cookie流程</p>
-<ol>
-<li>用户在浏览器输入url,发送请求,服务器接受请求</li>
-<li>服务器在响应报文中生成一个Set-Cookie报头,发给客户端</li>
-<li>浏览器取出响应中Set-Cookie中内容,以cookie.txt形式保存在客户端</li>
-<li>如果浏览器继续发送请求,浏览器会在硬盘中找到cookie文件,产生Cookie报头,与HTTP请求一起发送.</li>
-<li>服务器接受含Cookie报头的请求,处理其中的cookie信息,找到对应资源给客户端.</li>
-<li>浏览器每一次请求都会包含已有的cookie.</li>
-</ol>
-<h3 id="3-cookie属性"><a href="#3-cookie属性" class="headerlink" title="3 cookie属性"></a>3 cookie属性</h3><p>name、value 是 cookie 的名和值。domian 、Path 、 Expires/max-age 、Size 、Http 、 Secure等均属cookie的属性。</p>
-<p><strong>domain 和 path</strong></p>
-<p>这两个选项共同决定了cookie能被哪些页面共享。</p>
-<p><strong>domain 参数是用来控制 cookie对「哪个域」有效</strong>，默认为设置 cookie的那个域。这个值可以包含子域，也可以不包含它。如上图的例子，Domain选项中，可以是”.google.com.hk<code>&quot;(不包含子域,表示它对</code>google.com.hk<code>的所有子域都有效)，也可以是&quot;</code>www.google.com.hk”(包含子域)。</p>
-<p>path用来控制cookie发送的指定域的「路径」，默认为”/“，表示指定域下的所有路径都能访问。<strong>它是在域名的基础下，指定可以访问的路径</strong>。例如cookie设置为”<code>domain=.google.com.hk; path=/webhp</code>“，那么只有”<code>.google.com.hk/webhp</code>“及”<code>/webhp</code>“下的任一子目录如”<code>/webhp/aaa</code>“或”<code>/webhp/bbb</code>“会发送cookie信息，而”<code>.google.com.hk</code>“就不会发送，即使它们来自同一个域。</p>
-<h3 id="expries-max-age失效时间"><a href="#expries-max-age失效时间" class="headerlink" title="expries/max-age失效时间"></a>expries/max-age失效时间</h3><p>expries 和 max-age 是用来决定cookie的生命周期的，也就是cookie何时会被删除。</p>
-<p>expries 表示的是失效时间，准确讲是「时刻」，max-age表示的是生效的「时间段」，以「秒」为单位。</p>
-<p>若 <code>max-age</code> 为正值，则表示 cookie 会在 max-age 秒后失效。如例四中设置”max-age=10800;”，也就是生效时间是3个小时，那么 cookie 将在三小时后失效。</p>
-<p>若 <code>max-age</code> 为负值，则cookie将在浏览器会话结束后失效，即 session，max-age的默认值为-1。若 <code>max-age</code> 为0，则表示删除cookie。</p>
-<h3 id="secure"><a href="#secure" class="headerlink" title="secure"></a>secure</h3><p>默认情况为空，不指定 secure 选项，即不论是 http 请求还是 https 请求，均会发送cookie。</p>
-<p>是 cookie 的安全标志，是cookie中唯一的一个非键值对儿的部分。指定后，cookie只有在使用<code>SSL</code>连接（如<code>HTTPS</code>请求或其他安全协议请求的）时才会发送到服务器。</p>
-<h3 id="httponly（即http）"><a href="#httponly（即http）" class="headerlink" title="httponly（即http）"></a>httponly（即http）</h3><p><code>httponly</code>属性是用来限制客户端脚本对cookie的访问。将 cookie 设置成 httponly 可以减轻xss（<a href="http://baike.baidu.com/view/2633667.htm" target="_blank" rel="external">跨站脚本攻击 </a>Cross Site Scripting）攻击的危害，</p>
-<p>防止cookie被窃取，以增强cookie的安全性。（由于cookie中可能存放身份验证信息，放在cookie中容易泄露）</p>
-<p>默认情况是不指定 httponly，即可以通过 js 去访问。</p>
-<p>###4、如何利用以上属性去设置cookie？</p>
-<p><strong>服务器端设置</strong></p>
-<p>服务器通过发送一个名为 Set-Cookie 的HTTP头来创建一个cookie，作为 Response Headers 的一部分。如下图所示，每个Set-Cookie 表示一个 cookie（<strong>如果有多个cookie,需写多个Set-Cookie</strong>），每个属性也是以名/值对的形式（除了secure），属性间以分号加空格隔开。格式如下：</p>
-<p><strong>Set-Cookie: name=value[; expires=GMTDate][; domain=domain][; path=path][; secure]</strong></p>
-<p>只有cookie的名字和值是必需的。</p>
-<p>　　<strong>客户端设置</strong></p>
-<p>客户端设置cookie的格式和Set-Cookie头中使用的格式一样。如下：</p>
-<p><strong>document.cookie = “name=value[; expires=GMTDate][; domain=domain][; path=path][; secure]”</strong></p>
-<p>若想要添加多个cookie，只能重复执行 document.cookie（如上）。这可能和平时写的 js 不太一样，一般重复赋值是会覆盖的，</p>
-<p>但对于cookie，重复执行 document.cookie 并「不覆盖」，而是「添加」（针对「不同名」的）。</p>
-<h3 id="5、cookie的缺点"><a href="#5、cookie的缺点" class="headerlink" title="5、cookie的缺点"></a>5、cookie的缺点</h3><p>安全性：由于cookie在http中是明文传递的，其中包含的数据都可以被他人访问，可能会被篡改、盗用。</p>
-<p>大小限制：cookie的大小限制在4kb左右，不适合大量存储。</p>
-<p>增加流量：cookie每次请求都会被自动添加到Request Header中，无形中增加了流量。cookie信息越大，对服务器请求的时间越长</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/10/153cookie设置-读取-删除操作/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/10/153cookie设置-读取-删除操作/" itemprop="url">
-                  cookie设置 读取 删除操作
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-10T12:36:00+08:00">
-                2016-08-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/cookies-storage/" itemprop="url" rel="index">
-                    <span itemprop="name">cookies storage</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="cookie设置，读取，删除"><a href="#cookie设置，读取，删除" class="headerlink" title="cookie设置，读取，删除"></a>cookie设置，读取，删除</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">setCookie</span>(<span class="params">name,value,expiresHours</span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> cookieString = name+<span class="string">'='</span>+<span class="built_in">escape</span>(value);</div><div class="line">        <span class="keyword">if</span>(expiresHours &gt; <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">var</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">            date.setHours(date.getHours()+expiresHours);</div><div class="line">            cookieString = cookieString + <span class="string">";expires="</span>+date.toUTCString();</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//然后设置cookie</span></div><div class="line">        <span class="built_in">document</span>.cookie = cookieString ;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    setCookie(<span class="string">'malename'</span>,<span class="string">'Jhon'</span>,<span class="number">20</span>);</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getCookie</span>(<span class="params">name</span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> strCookie = <span class="built_in">document</span>.cookie ;</div><div class="line">        <span class="keyword">var</span> arrCookie = strCookie.split(<span class="string">';'</span>);</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; arrCookie.length ; i++)&#123;</div><div class="line">            <span class="keyword">var</span> arr = arrCookie[i].split(<span class="string">"="</span>);</div><div class="line">            <span class="keyword">if</span>(arr[<span class="number">0</span>] == name)&#123;</div><div class="line">                <span class="keyword">return</span> <span class="built_in">unescape</span>(arr[<span class="number">1</span>]);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                <span class="keyword">return</span> <span class="string">""</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(getCookie(<span class="string">'malename'</span>));</div><div class="line"><span class="comment">//    document.cookie = 'malename = v;expire'</span></div><div class="line">    <span class="comment">//删除一个cookie</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">deleteCookie</span>(<span class="params">name</span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">        date.setHours(date.getHours()<span class="number">-10</span>);</div><div class="line">        <span class="built_in">document</span>.cookie = name+<span class="string">'=v'</span>+<span class="string">';expires='</span>+date.toUTCString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">deleteCookie</span>(<span class="params">name</span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> date=<span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">        date.setTime(date.getTime()<span class="number">-10000</span>); <span class="comment">//设定一个过去的时间即可</span></div><div class="line">        <span class="built_in">document</span>.cookie=name+<span class="string">"=v; expires="</span>+date.toGMTString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">deleteCookie</span>(<span class="params">name</span>)</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">var</span> exp = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">        exp.setTime(exp.getTime() - <span class="number">1</span>);</div><div class="line">        <span class="keyword">var</span> cval=getCookie(name);</div><div class="line">        <span class="keyword">if</span>(cval!=<span class="literal">null</span>)</div><div class="line">            <span class="built_in">document</span>.cookie= name + <span class="string">"="</span>+cval+<span class="string">";expires="</span>+exp.toGMTString();</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"1"</span>);</div><div class="line">        deleteCookie(<span class="string">'malename'</span>);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1971,7 +1999,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">162</span>
+                <span class="site-state-item-count">165</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1982,7 +2010,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1993,7 +2021,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">76</span>
+                <span class="site-state-item-count">78</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
