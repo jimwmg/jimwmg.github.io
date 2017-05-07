@@ -1,0 +1,742 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="redux," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1 先贴上源码12345678910111213141516171819202122/** * Composes single-argument functions from right to left. The rightmost * function can take multiple arguments as it provides the signature for * the resul">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redux compose源码">
+<meta property="og:url" content="http://yoursite.com/2017/05/05/206Redux-compose源码/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="1 先贴上源码12345678910111213141516171819202122/** * Composes single-argument functions from right to left. The rightmost * function can take multiple arguments as it provides the signature for * the resul">
+<meta property="og:updated_time" content="2017-05-07T15:30:50.132Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redux compose源码">
+<meta name="twitter:description" content="1 先贴上源码12345678910111213141516171819202122/** * Composes single-argument functions from right to left. The rightmost * function can take multiple arguments as it provides the signature for * the resul">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/05/206Redux-compose源码/"/>
+
+
+
+
+
+  <title> Redux compose源码 | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/05/206Redux-compose源码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Redux compose源码
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-05T12:36:00+08:00">
+                2017-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redux/" itemprop="url" rel="index">
+                    <span itemprop="name">redux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-先贴上源码"><a href="#1-先贴上源码" class="headerlink" title="1 先贴上源码"></a>1 先贴上源码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Composes single-argument functions from right to left. The rightmost</div><div class="line"> * function can take multiple arguments as it provides the signature for</div><div class="line"> * the resulting composite function.</div><div class="line"> *</div><div class="line"> * @param &#123;...Function&#125; funcs The functions to compose.</div><div class="line"> * @returns &#123;Function&#125; A function obtained by composing the argument functions</div><div class="line"> * from right to left. For example, compose(f, g, h) is identical to doing</div><div class="line"> * (...args) =&gt; f(g(h(...args))).</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">compose</span>(<span class="params">...funcs</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (funcs.length === <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="params">arg</span> =&gt;</span> arg</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (funcs.length === <span class="number">1</span>) &#123;</div><div class="line">    <span class="keyword">return</span> funcs[<span class="number">0</span>]</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> funcs.reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> (...args) =&gt; a(b(...args)))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>经过bable编译器编译之后</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.defineProperty(exports, <span class="string">"__esModule"</span>, &#123;</div><div class="line">  <span class="attr">value</span>: <span class="literal">true</span></div><div class="line">&#125;);</div><div class="line">exports.default = compose;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">compose</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> _len = <span class="built_in">arguments</span>.length, funcs = <span class="built_in">Array</span>(_len), _key = <span class="number">0</span>; _key &lt; _len; _key++) &#123;</div><div class="line">    funcs[_key] = <span class="built_in">arguments</span>[_key];</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (funcs.length === <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">arg</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> arg;</div><div class="line">    &#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (funcs.length === <span class="number">1</span>) &#123;</div><div class="line">    <span class="keyword">return</span> funcs[<span class="number">0</span>];</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> funcs.reduce(<span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> a(b.apply(<span class="literal">undefined</span>, <span class="built_in">arguments</span>));</div><div class="line">    &#125;;</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="2-简化应用过程"><a href="#2-简化应用过程" class="headerlink" title="2 简化应用过程"></a>2 简化应用过程</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 由于 reduce / reduceRight 仅仅是方向的不同，因此下面用 reduce 说明即可</span></div><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</div><div class="line"><span class="comment">//封装的compose函数用的是这种reduce函数,没有传入初始值</span></div><div class="line"><span class="keyword">var</span> re1 = arr.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">total, i</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> total + i</div><div class="line">&#125;)</div><div class="line"><span class="built_in">console</span>.log(re1) <span class="comment">// 15</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> re2 = arr.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">total, i</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> total + i</div><div class="line">&#125;, <span class="number">100</span>) <span class="comment">// &lt;---------------传入一个初始值</span></div><div class="line"><span class="built_in">console</span>.log(re2) <span class="comment">// 115</span></div></pre></td></tr></table></figure>
+<h3 id="3-reduce函数"><a href="#3-reduce函数" class="headerlink" title="3 reduce函数"></a>3 reduce函数</h3><p>Array.prototype.reduce(callback ,[initialValue]) (reduceRight函数和reduce函数类似，只不是从数组的最后反向开始迭代);数组的reduce方法向callback函数传递四个参数，分别是</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">Parameters</div><div class="line"></div><div class="line">callback</div><div class="line"><span class="built_in">Function</span> to execute on each value <span class="keyword">in</span> the array, taking four <span class="built_in">arguments</span>:</div><div class="line"><span class="number">1</span> accumulator</div><div class="line">The accumulated value previously returned <span class="keyword">in</span> the last invocation <span class="keyword">of</span> the callback, or initialValue, <span class="keyword">if</span> supplied. (See below.)(如果initialValue提供了，那么第一次运行的时候，accumular值为initialValue，如果没有提供initialValue，那么accumular的值为数组中的第一个元素，currentValue为数组中的第二个元素，跳过第一个索引值)</div><div class="line"><span class="number">2</span> currentValue</div><div class="line">The current element being processed <span class="keyword">in</span> the array.</div><div class="line"><span class="number">3</span> currentIndex</div><div class="line">The index <span class="keyword">of</span> the current element being processed <span class="keyword">in</span> the array. Starts at index <span class="number">0</span>, <span class="keyword">if</span> an initialValue is provided, and at index <span class="number">1</span> otherwise.</div><div class="line"><span class="number">4</span> array</div><div class="line">The array reduce was called upon.</div><div class="line"><span class="number">5</span> initialValue</div><div class="line">Optional. Value to use <span class="keyword">as</span> the first argument to the first call <span class="keyword">of</span> the callback.</div><div class="line">Return value</div><div class="line">The value that results <span class="keyword">from</span> the reduction.</div></pre></td></tr></table></figure>
+<p>callback函数每次执行之后的结果作为第一个参数再次传递给callback函数</p>
+<h3 id="4-compose函数执行之后返回值是什么"><a href="#4-compose函数执行之后返回值是什么" class="headerlink" title="4 compose函数执行之后返回值是什么"></a>4 compose函数执行之后返回值是什么</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> funcs.reduce(<span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</div><div class="line">   <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">     <span class="keyword">return</span> a(b.apply(<span class="literal">undefined</span>, <span class="built_in">arguments</span>));</div><div class="line">   &#125;;</div><div class="line"> &#125;);</div></pre></td></tr></table></figure>
+<p>如上代码返回值是reduce函数执行后的结果</p>
+<ul>
+<li>如果是一个简单的数组进行reduce函数的运算,那么结果就很简单</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> ret = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].reduce(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> a+b ;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(ret);<span class="comment">//6</span></div></pre></td></tr></table></figure>
+<ul>
+<li>如果是一个由函数组成的数组进行reduce函数的运算,那么返回的结果就是一个函数的链式调用</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'./redux.min.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">func1</span>(<span class="params">num</span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'func1获取参数'</span>,num);</div><div class="line">      <span class="keyword">return</span> num + <span class="number">1</span> ;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">func2</span>(<span class="params">num</span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'func2获取参数'</span>,num);</div><div class="line">      <span class="keyword">return</span> num + <span class="number">1</span> ;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">func3</span>(<span class="params">num</span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'func1获取参数'</span>,num);</div><div class="line">      <span class="keyword">return</span> num + <span class="number">3</span> ;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> ret = Redux.compose(func1,func2,func3);</div><div class="line">    <span class="built_in">console</span>.dir(ret);<span class="comment">//可以看出结果是一个函数  function anonymous(t)</span></div><div class="line">    </div><div class="line">    </div><div class="line"></div><div class="line">    <span class="keyword">var</span> ret1 = Redux.compose(func1,func2,func3)(<span class="number">3</span>) ;</div><div class="line">    <span class="built_in">console</span>.log(ret1);</div><div class="line"></div><div class="line">    <span class="keyword">var</span> ret2 = func1(func2(func3(<span class="number">3</span>))); <span class="comment">//这个就是compose函数最终返回的最简单的函数形态</span></div><div class="line">    <span class="built_in">console</span>.log(ret2)</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redux/" rel="tag"># redux</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/05/205Redux-createStore源码/" rel="next" title="Redux createStore源码">
+                <i class="fa fa-chevron-left"></i> Redux createStore源码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/05/204ES6-import/" rel="prev" title="ES6 import">
+                ES6 import <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description">keep fighting！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">173</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">80</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-先贴上源码"><span class="nav-number">1.</span> <span class="nav-text">1 先贴上源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-简化应用过程"><span class="nav-number">2.</span> <span class="nav-text">2 简化应用过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-reduce函数"><span class="nav-number">3.</span> <span class="nav-text">3 reduce函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-compose函数执行之后返回值是什么"><span class="nav-number">4.</span> <span class="nav-text">4 compose函数执行之后返回值是什么</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
