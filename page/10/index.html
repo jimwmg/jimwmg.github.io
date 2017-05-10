@@ -270,6 +270,810 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/22/119-Object　API/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/22/119-Object　API/" itemprop="url">
+                  Object  API submit
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-22T22:00:00+08:00">
+                2016-09-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Object内置对象-API"><a href="#Object内置对象-API" class="headerlink" title="Object内置对象　API"></a>Object内置对象　API</h2><p>1 Object.getPrototypeOf( obj )  ,返回obj对象的构造函数的prototype属性(也就是obj对象的<strong> proto </strong> 属性对象)，每个构造函数都有一个prototype属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Test</span> (<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">    <span class="keyword">var</span> test = <span class="keyword">new</span> Test();</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(test));</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(test) === Test.prototype);<span class="comment">//true</span></div><div class="line"><span class="comment">//-------------------------------------------------------------------------</span></div><div class="line">	<span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="built_in">Object</span> ();</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(obj));</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(obj) == <span class="built_in">Object</span>.prototype);<span class="comment">//true</span></div></pre></td></tr></table></figure>
+<p>2 isPrototypeOf( )</p>
+<p>3 设置对象的原型属性<strong> proto </strong> </p>
+<p>3.1 Object.create( proto , prop )  用来设置对象的<strong> proto </strong> 的属性的指向；返回一个创建的对象;prop和Object.defineProperties(obj ,prop) 里面的prop格式一致,如下栗子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = <span class="built_in">Object</span>.create(&#123; <span class="attr">foo</span>: <span class="number">1</span> &#125;, &#123; <span class="comment">// foo is on obj's prototype chain.</span></div><div class="line">  bar: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="number">2</span>  <span class="comment">// bar is a non-enumerable property.</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">baz</span>: &#123;</div><div class="line">    <span class="attr">value</span>: <span class="number">3</span>,</div><div class="line">    <span class="attr">enumerable</span>: <span class="literal">true</span>  <span class="comment">// baz is an own enumerable property.</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> copy = <span class="built_in">Object</span>.assign(&#123;&#125;, obj);</div><div class="line"><span class="built_in">console</span>.log(copy); <span class="comment">// &#123; baz: 3 &#125;</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(obj);</div></pre></td></tr></table></figure>
+<p>obj结构如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Object  baz: 3</div><div class="line">	    bar: 2</div><div class="line">        __proto__: Object</div><div class="line">            foo: 1</div><div class="line">            __proto__: Object</div></pre></td></tr></table></figure>
+<p>3.2 Object.setPrototypeOf(obj,prototype)  prototype参数必须是一个对象或者null,否则会抛出异常，用来设置对象的<strong> proto </strong> 的属性的指向,返回obj对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">Test</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">this</span>.age = <span class="number">18</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> test = <span class="keyword">new</span> Test();</div><div class="line"><span class="comment">//    console.dir(Test);</span></div><div class="line"><span class="comment">//    console.log(Test.prototype);</span></div><div class="line">    <span class="keyword">var</span> obj1 = <span class="built_in">Object</span>.create(Test.prototype,&#123;</div><div class="line">        <span class="string">'name'</span>:&#123;</div><div class="line">            <span class="attr">writable</span>:<span class="literal">true</span>,</div><div class="line">            <span class="attr">value</span>:<span class="string">'JiM'</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    <span class="built_in">console</span>.log(obj1);</div><div class="line">    <span class="built_in">console</span>.log(obj1.__proto__ === Test.prototype );</div><div class="line"></div><div class="line">    <span class="keyword">var</span> obj1 = <span class="built_in">Object</span>.create(<span class="built_in">Object</span>.prototype,&#123;</div><div class="line">        <span class="string">'name1'</span>:&#123;</div><div class="line">            <span class="attr">writable</span>:<span class="literal">true</span>,</div><div class="line">            <span class="attr">value</span>:<span class="string">'JiM1'</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    <span class="built_in">console</span>.log(obj1);</div><div class="line">    <span class="built_in">console</span>.log(obj1.__proto__ === <span class="built_in">Object</span>.prototype );</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj1 = <span class="built_in">Object</span>.create(<span class="built_in">Array</span>.prototype,&#123;</div><div class="line">    <span class="string">'name2'</span>:&#123;</div><div class="line">        <span class="attr">writable</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">value</span>:<span class="string">'JiM2'</span></div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(obj1);</div><div class="line"><span class="built_in">console</span>.log(obj1.__proto__ === <span class="built_in">Array</span>.prototype );</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj1 = <span class="built_in">Object</span>.create(<span class="literal">null</span>,&#123;</div><div class="line">    <span class="string">'name3'</span>:&#123;</div><div class="line">        <span class="attr">writable</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">value</span>:<span class="string">'JiM3'</span></div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(obj1);</div><div class="line"><span class="built_in">console</span>.log(obj1.__proto__ === <span class="literal">null</span> );<span class="comment">//false</span></div><div class="line"><span class="built_in">console</span>.log(obj1.__proto__ == <span class="literal">null</span> );<span class="comment">//true</span></div><div class="line"></div><div class="line"> <span class="keyword">var</span> o = &#123;<span class="attr">foo</span>:<span class="string">"bar"</span>&#125;</div><div class="line">    <span class="keyword">var</span> obj1 = <span class="built_in">Object</span>.create(o,&#123;</div><div class="line">        <span class="string">'name4'</span>:&#123;</div><div class="line">            <span class="attr">writable</span>:<span class="literal">true</span>,</div><div class="line">            <span class="attr">value</span>:<span class="string">'JiM4'</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    <span class="built_in">console</span>.log(obj1);</div><div class="line">    <span class="built_in">console</span>.log(obj1.__proto__ === o );<span class="comment">//true</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> obj1 = <span class="built_in">Object</span>.create(Test,&#123;</div><div class="line">        <span class="string">'name5'</span>:&#123;</div><div class="line">            <span class="attr">writable</span>:<span class="literal">true</span>,</div><div class="line">            <span class="attr">value</span>:<span class="string">'JiM5'</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    <span class="built_in">console</span>.log(obj1);</div><div class="line">    <span class="built_in">console</span>.log(obj1.__proto__ === Test);</div><div class="line"></div><div class="line"><span class="comment">//proto 设置obj1的__proto__ 指向，必须是一个对象或者null否则会抛出异常; prop 设置 obj1 的属性值</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">name</span>:<span class="string">"JHOn"</span>&#125;;</div><div class="line"><span class="built_in">console</span>.log(obj);</div><div class="line"></div><div class="line"><span class="comment">//    Object.setPrototypeOf(obj,null);</span></div><div class="line"><span class="built_in">Object</span>.setPrototypeOf(obj,<span class="built_in">Array</span>.prototype);</div></pre></td></tr></table></figure>
+<p>4 Object.getOwnPropertyNames(obj )该函数可以将对象中<strong>可枚举以及不可枚举</strong>的key值都列举出来,返回一个key组成的数组</p>
+<p>The object whose enumerable <em>and non-enumerable</em> own properties are to be returned.</p>
+<p>An array of strings that correspond to the properties found directly upon the given object.</p>
+<p>5 Object.keys(obj)  该方法返回obj对象的所有<strong>可枚举</strong>的属性的键值组成的<strong>数组</strong>，不可枚举的属性键不会返回</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">var</span> obj = &#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>,<span class="attr">age</span>:<span class="number">12</span>,<span class="attr">gender</span>:<span class="string">"man"</span>&#125;;</div><div class="line">    <span class="built_in">Object</span>.defineProperty(obj,<span class="string">"email"</span>,&#123;</div><div class="line">        <span class="attr">value</span>:<span class="string">"Gemail"</span>,</div><div class="line">        <span class="attr">enumerable</span>:<span class="literal">false</span>  <span class="comment">//设置email为false不可枚举，便于检测</span></div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> obj )&#123;   <span class="comment">//遍历对象自身的和继承(__proto__上的属性)的可枚举的属性</span></div><div class="line">        <span class="built_in">console</span>.log(key); <span class="comment">//name age email</span></div><div class="line">    &#125;</div><div class="line"><span class="comment">//以下两种方法只遍历对象的原生属性,不会遍历对象的原型__proto__上的属性</span></div><div class="line">    <span class="keyword">var</span> arr = <span class="built_in">Object</span>.getOwnPropertyNames(obj);</div><div class="line">    <span class="built_in">console</span>.log(arr);  <span class="comment">//["name", "age", "gender", "email"] </span></div><div class="line">	<span class="keyword">var</span> arr1 = <span class="built_in">Object</span>.keys(obj);</div><div class="line">    <span class="built_in">console</span>.log(arr1);<span class="comment">//["name", "age", "gender"]</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/22/169XMIHttpRequest-Level2-FormData/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/22/169XMIHttpRequest-Level2-FormData/" itemprop="url">
+                  XMIHttpRequestLevel2FormData
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-22T00:00:00+08:00">
+                2016-09-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ajax/" itemprop="url" rel="index">
+                    <span itemprop="name">ajax</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1 首先来看下声明是FormData (查看MDN官方文档)</p>
+<p>XMLHttpRequest Level 2添加了一个新的接口FormData.利用FormData对象,我们可以通过JavaScript用一些键值对来模拟一系列表单控件,我们还可以使用XMLHttpRequest的[send()方法来异步的提交这个”表单”.比起普通的ajax,使用FormData的最大优点就是我们可以异步上传一个二进制文件.</p>
+<p>2 看下之前上传文件的限制</p>
+<p>3 用这个新特性上传文件的优势</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/21/82-HTML5  Storage 本地存储/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/21/82-HTML5  Storage 本地存储/" itemprop="url">
+                  HTML5  Storage
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-21T12:36:00+08:00">
+                2016-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTML5-storage/" itemprop="url" rel="index">
+                    <span itemprop="name">HTML5 storage</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>HTML5  Storage </p>
+<p>1 localStorage 存储数据没有时间限制，一周，一个月之后都可以使用</p>
+<p>2 sessionStorage  存储数据只是针对一个session进行，当用户关闭当前网页的时候，数据随即也被清除；</p>
+<p>3 当点击开发者工具里面的 clear storage的时候，localStorage会被删除，但是，sessionStorage不会被删除，只要浏览器窗口不被关闭，那么sessionStorage本地存储就不会被删除；</p>
+<p>如何判断浏览器是否支持HTML5这个新的API，如果window.loaclStorage  window.sessinoStorage 存在，那么证明浏览器支持该对象</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"按钮"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.2.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">     $(<span class="string">"input:button"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">         <span class="keyword">if</span>(<span class="built_in">window</span>.localStorage)&#123;  <span class="comment">//object转化为布尔为true</span></div><div class="line">             <span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">window</span>.localStorage);<span class="comment">//object</span></div><div class="line">             <span class="built_in">console</span>.log(<span class="built_in">window</span>.localStorage);</div><div class="line">         &#125;</div><div class="line">         <span class="keyword">if</span>(<span class="built_in">window</span>.sessionStorage)&#123;</div><div class="line">           	<span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">window</span>.sessionStorage);<span class="comment">//object</span></div><div class="line">             <span class="built_in">console</span>.log(<span class="built_in">window</span>.sessionStorage);</div><div class="line">         &#125;</div><div class="line">     &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>3 本地存储 localStorage  sessionStorage 对象常用方法如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="number">3.1</span> 获取localStorage对象或者sessionStorage对象里面的key值</div><div class="line">	 getItem(key)   localStorage.key   sessionStorage.key</div><div class="line"><span class="number">3.2</span> 增加localStorage对象或者sessionStorage对象里面的key值</div><div class="line">	 setItem(key,value) localStorage.key = <span class="string">"value"</span> sessionStorage.key = <span class="string">"value"</span></div><div class="line"><span class="number">3.3</span> removeItem(key)    删除localStorage对象或者sessionStorage对象里面的key值</div><div class="line"><span class="number">3.4</span> clear()		   清空localStorage对象或者sessionStorage对象里面的所有存储值</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">   localStorage.name = <span class="string">"jim"</span>;<span class="comment">//设置localStorage 对象 name 值</span></div><div class="line">   sessionStorage.name2=<span class="string">'wmg'</span>;<span class="comment">//设置sessionStorage对象 name值</span></div><div class="line">   localStorage.setItem(<span class="string">"age"</span>,<span class="number">12</span>);<span class="comment">//设置 localStorage 对象age值</span></div><div class="line">loaclStorage.getItem(<span class="string">"age"</span>);<span class="comment">//获取localStorage 对象里面的 age值</span></div><div class="line">   localStorage.clear();<span class="comment">//清除localStorage 对象里面所有的值</span></div></pre></td></tr></table></figure>
+<p>4 详说二者的不同</p>
+<ul>
+<li>loaclStorage 本地存储数据不会被销毁，除非用户主动删除,存储容量大 5M，对于基本的字符串的存储足够了；</li>
+<li>sessionStorage 本地存储数据很特别，引入了一个”浏览器窗口”的概念，sessionStorage是在一个<strong>同源</strong>  的<strong>同窗口</strong> 中始终存在的数据，</li>
+<li>浏览器窗口没有被关闭，那么就一直存在，即使刷新了页面  或者  进入<strong>同源</strong>另外一个页面，仍然存在</li>
+<li>浏览器窗口被关闭 或者 再次独立的打开同样的这个页面，两个窗口的sessionStorage并不通用</li>
+<li>简单解释来说就是:sessionStorage是仅仅存在于当前”浏览器窗口的”本地存储对象，”当前浏览器窗口”不关闭，则一直存在，关闭则自动销毁；</li>
+</ul>
+<p>大家可以看下这个栗子 综合考虑下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>LocalStorage<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.2.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">clickCounter</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> (Storage) !== <span class="string">"undefined"</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (sessionStorage.clickcount) &#123;</div><div class="line">                    sessionStorage.clickcount = <span class="built_in">Number</span>(sessionStorage.clickcount) + <span class="number">1</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">else</span> &#123;</div><div class="line">                    sessionStorage.clickcount = <span class="number">1</span>;</div><div class="line">                &#125;</div><div class="line">                $(<span class="string">'#result'</span>).html(<span class="string">''</span>);</div><div class="line">                $(<span class="string">'#result'</span>).append(<span class="string">'&lt;p&gt;'</span> + sessionStorage.clickcount + <span class="string">'&lt;/p&gt;'</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> &#123;</div><div class="line">                $(<span class="string">'#result'</span>).text(<span class="string">'抱歉您的浏览器不支持本地存储'</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">clickCounter2</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> (Storage) !== <span class="string">"undefined"</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (localStorage.clickcount) &#123;</div><div class="line">                    localStorage.clickcount = <span class="built_in">Number</span>(localStorage.clickcount) + <span class="number">1</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">else</span> &#123;</div><div class="line">                    localStorage.clickcount = <span class="number">1</span>;</div><div class="line">                &#125;</div><div class="line">                $(<span class="string">'#result2'</span>).html(<span class="string">''</span>);</div><div class="line">                $(<span class="string">'#result2'</span>).append(<span class="string">'&lt;p&gt;'</span> + localStorage.clickcount + <span class="string">'&lt;/p&gt;'</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> &#123;</div><div class="line">                $(<span class="string">'#result2'</span>).text(<span class="string">'抱歉您的浏览器不支持本地存储'</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"clickCounter()"</span> <span class="attr">type</span>=<span class="string">"button"</span>&gt;</span>sessionStorage查看单击次数<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"result"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>单击按钮查看统计次数<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"clickCounter2()"</span> <span class="attr">type</span>=<span class="string">"button"</span>&gt;</span>localStorage查看单击次数<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"result2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>单击按钮查看统计次数<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/19/177提高网页性能的方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/19/177提高网页性能的方法/" itemprop="url">
+                  提高网页性能的方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-19T12:36:00+08:00">
+                2016-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-文件合并（减少HTTP请求数量）"><a href="#1-文件合并（减少HTTP请求数量）" class="headerlink" title="1 文件合并（减少HTTP请求数量）"></a>1 文件合并（减少HTTP请求数量）</h3><ul>
+<li><strong>CSS Sprites</strong></li>
+</ul>
+<p>  利用css sprites将网站用到的图片合并成一张图片，通过<code>background-position</code>、<code>width</code>、<code>height</code>控制背景图位置来使用某一个图标，这种方式可以将多个图片请求缩减为一次，生成css sprites的工具也很多，grunt和gulp中都有相关的插件，CssGaga也不错。</p>
+<ul>
+<li><strong>合并js和css</strong></li>
+</ul>
+<p>  和精灵图一样，合并css和js文件也是减少HTTP请求很重要的方式，对css文件的合并目前来说没有什么争议，但是对于当前js模块化盛行，将所有js文件合并成一个文件，仿佛是一种倒退。正确的方式是遵守编译型语言的模式，保持js的模块化，在生成过程中只对初始请求用到的js文件生成目标文件。</p>
+<h3 id="2-使用内容发布网络（减少HTTP请求时间）"><a href="#2-使用内容发布网络（减少HTTP请求时间）" class="headerlink" title="2 使用内容发布网络（减少HTTP请求时间）"></a>2 使用内容发布网络（减少HTTP请求时间）</h3><p>  HTTP请求时间另一个影响因素是你与网站web服务器所处的距离，显然距离越远，请求所需的时间也越久，通过CDN可以大大改善这一点。</p>
+<p>  CDN是分布在多个不同地理位置的web服务器，用于更加有效的向用户发布内容。CDN最主要的功能是给终端用户存放静态文件，另外也提供下载、安全服务等功能。</p>
+<p>​       CDN的全称是Content Delivery Network，即<a href="http://baike.baidu.com/item/%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C" target="_blank" rel="external">内容分发网络</a>。其基本思路是尽可能避开互联网上有可能影响数据传输速度和稳定性的瓶颈和环节，使内容传输的更快、更稳定。通过在网络各处放置<a href="http://baike.baidu.com/item/%E8%8A%82%E7%82%B9%E6%9C%8D%E5%8A%A1%E5%99%A8" target="_blank" rel="external">节点服务器</a>所构成的在现有的互联网基础之上的一层智能<a href="http://baike.baidu.com/item/%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C" target="_blank" rel="external">虚拟网络</a>，CDN系统能够实时地根据<a href="http://baike.baidu.com/item/%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F" target="_blank" rel="external">网络流量</a>和各节点的连接、负载状况以及到用户的距离和响应时间等综合信息将用户的请求重新导向离用户最近的服务节点上。其目的是使用户可就近取得所需内容，解决 Internet网络拥挤的状况，提高用户访问网站的响应速度。</p>
+<h3 id="3-设置浏览器缓存（避免重复HTTP请求）"><a href="#3-设置浏览器缓存（避免重复HTTP请求）" class="headerlink" title="3 设置浏览器缓存（避免重复HTTP请求）"></a>3 设置浏览器缓存（避免重复HTTP请求）</h3><ul>
+<li><strong>使用Expire/Cache-control</strong></li>
+</ul>
+<p>  浏览器通过使用缓存可以避免每次都进行重复的请求，HTTP 1.0和HTTP1.1分别有不同的缓存实现方式，<code>Expires</code>(1.0)和<code>Cache-control</code>(1.1)。Web服务器通过expires告诉客户端在指定的时间内，都使用该文件的缓存副本，不再向服务端重复发出请求，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Expires: Thu, 01 Dec 2016 16:00:00 GMT （GMT格式）</div></pre></td></tr></table></figure>
+<p>  这个设置意味着截止到2016年12月1日，都可以使用该缓存副本，无需再发出请求。</p>
+<p>  Expires这种通过截止日期的方式，存在一个限制：要求客户端和服务端时钟严格同步，而HTTP 1.1引入的Cache-Control通过指定一个以秒为单位的时间指定缓存日期，则不存该限制，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Cache-Control: max-age=31536000</div></pre></td></tr></table></figure>
+<p>  这个设置意味缓存时间为一年，推荐使用Cache-Control，但是在支持HTTP 1.1的情况下，另外要注意的一点：<strong>Cache-Control和Expire同时存在时，Cache-Control具有更高的优先级</strong>。</p>
+<ul>
+<li><strong>配置或移除ETag</strong></li>
+</ul>
+<p>  使用Expire/Cache-Control可以避免第二次访问时，使用本地缓存避免重复HTTP请求，提高网站速度。然而，在用户点击了浏览器刷新或者在expire已过期的情况下，仍然会向服务端发出HTTP GET请求，而此时如果该文件并没有发生变化，服务端不会返回整个文件而是会返回304 Not Modified状态码。</p>
+<p>  服务端判断该文件是否发生变化的依据有两个：Last-Modified（最新修改日期）和ETag（实体标签）;</p>
+<p>  <code>ETag</code>（Entity Tags）是在HTTP 1.1引入的，与Last-Modified同时存在时要有更高的优先级。服务端通过对比客户端发来的ETag（If-None-Match）和当前ETag，若相同返回304 Not Modifed，否则返回整个文件以及200 OK。</p>
+<p>  ETag存在一个问题：当浏览器向一个服务器发送GET请求原始组件，之后又向另一台服务器请求该组件时，ETag是不匹配的，当然，如果你的网站寄宿在一台服务器上不存在这个问题，而现在很多网站使用多台服务器，ETag的存在就大大降低验证有效性的成功率。</p>
+<p>  存在这个问题是时的解决办法是对ETag进行配置，移除服务器innode值只保留修改时间戳和大小作为ETag值，或者直接移除ETag，使用<code>Last-Modified</code>来验证文件有效性。</p>
+<h3 id="4-压缩组件（减小HTTP请求大小）"><a href="#4-压缩组件（减小HTTP请求大小）" class="headerlink" title="4 压缩组件（减小HTTP请求大小）"></a>4 压缩组件（减小HTTP请求大小）</h3><p>  通过对HTTP传输的文件进行压缩减小HTTP请求的大小，提高请求速度，GZIP是目前最常用也是最有效的压缩方式。</p>
+<p>  然而，并非所有的资源文件都需要压缩，压缩的成本包括服务端需要花费CPU周期进行压缩，而客户端也需要对压缩文件进行解压缩，必须结合自己网站进行权衡。现在绝大多数网站都对其HTML文档进行压缩，部分网站选择对js、css进行压缩，几乎没有网站对图片、PDF等文件进行GZIP压缩，原因在于这些文件是已经被压缩过的，采用HTTP压缩已经被过压缩的东西并不能使它更小。事实上，添加标头，压缩字典，并校验响应体实际上使它变得更大，而且还浪费了CPU。</p>
+<p>  如何对网站开启GZIP，需要在所使用的web服务器（IIS、Nginx、Apache等）中进行设置。</p>
+<h3 id="5-CSS文件放在首部"><a href="#5-CSS文件放在首部" class="headerlink" title="5 CSS文件放在首部"></a>5 CSS文件放在首部</h3><p>  将CSS文件放在首部和放在尾部，并不影响HTTP请求，因此从请求时间上来讲是一致的，然而从用户体验的角度，将CSS文件放在首部，会获得更好的用户体验。</p>
+<p>  原因在于浏览器是从上到下依次解析html文档，将CSS文件置于头部，页面会首先对CSS文件发出请求，随后加载DOM树并对其进行渲染，页面会逐步呈现在用户面前。</p>
+<p>  而与之相反，如果将CSS文件放置在尾部，页面加载完整DOM之后请求CSS文件，然后对整个DOM树渲染并呈现给用户，从用户的角度，在css文件没有请求完成之前，整个页面是出于<code>白屏</code>状态的，<code>白屏</code>是浏览器的一种行为，<code>David Hyatt</code>对其的解释是这样的</p>
+<blockquote>
+<p>在样式树没有完全加载之前，渲染dom树就是一种浪费，因为在样式树加载完成之后会再次渲染，出现FOUC(无样式内容闪烁)问题。</p>
+</blockquote>
+<p>  另外要注意的一点，使用<code>link</code>而不是<code>@import</code>引入css样式表，使用<code>@import</code>引入的样式即使写在首部，也会在文档最后加载。</p>
+<h3 id="6-JS文件放在尾部"><a href="#6-JS文件放在尾部" class="headerlink" title="6 JS文件放在尾部"></a>6 JS文件放在尾部</h3><p>  HTTP请求是并行的，不同浏览器并行下载的数目也不一样（2、4、或者8个），并行下载提高了HTTP请求的速度。而将JS文件放在首部，不仅会阻塞后面文件的下载而且会阻塞页面的渲染。</p>
+<p>  为什么会这样呢？原因有两个：</p>
+<ul>
+<li>JS文件中可能存在document.write修改页面的内容，因此页面会在脚本执行完成之后才可使渲染。</li>
+<li>不同JS文件不管大小如何，可能存在依赖关系，因此必须按照顺序进行执行，因此在加载脚本的时候并行下载是禁止的。</li>
+</ul>
+<p>  所以，最好的方式是讲js文件放置在尾部，等页面所有可视化组件加载完成之后再进行请求，提高用户体验。7</p>
+<h3 id="7-图片如果太多的话，使用懒加载的方式"><a href="#7-图片如果太多的话，使用懒加载的方式" class="headerlink" title="7 图片如果太多的话，使用懒加载的方式"></a>7 图片如果太多的话，使用懒加载的方式</h3><p>:判断图片位置距离页面顶部的距离，先不加载图片，当用户滚动到该位置的时候将图片的src属性赋值为实际值，data-src可以先缓存图片的真实路径，方便取出；</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/19/105-javascript    this 和= 经典面试题 /">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/19/105-javascript    this 和= 经典面试题 /" itemprop="url">
+                  javascript经典面试题理解this
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-19T12:36:00+08:00">
+                2016-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="javascript-this-经典面试题"><a href="#javascript-this-经典面试题" class="headerlink" title="javascript    this  经典面试题"></a>javascript    this  经典面试题</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"1"</span>);&#125;;<span class="comment">//这个不属于Foo的属性</span></div><div class="line">       <span class="keyword">return</span> <span class="keyword">this</span> ;</div><div class="line"> <span class="comment">//如果作为构造函数，那么返回的this就是实例化对象，</span></div><div class="line"> <span class="comment">//如果作为函数直接执行，那么返回的this就是全局的window对象</span></div><div class="line">   &#125;</div><div class="line">   Foo.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"2"</span>); &#125;;</div><div class="line">   Foo.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">"3"</span>);&#125;;</div><div class="line">   <span class="keyword">var</span> getName =<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"4"</span>);&#125;;</div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"5"</span>);&#125;;</div></pre></td></tr></table></figure>
+<p>预解析之后</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> getName;<span class="comment">//只提升变量声明</span></div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"5"</span>);&#125;;<span class="comment">//提升函数声明，覆盖变量var声明</span></div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"1"</span>);&#125;;<span class="comment">//这个不属于Foo的属性</span></div><div class="line">       <span class="keyword">return</span> <span class="keyword">this</span> ;<span class="comment">//如果作为构造函数，那么返回的this就是实例化对象，如果作为函数直接执行，那么返回的this就是全局的window对象</span></div><div class="line">   &#125;</div><div class="line">   Foo.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"2"</span>); &#125;;</div><div class="line">   Foo.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">"3"</span>);&#125;;</div><div class="line">   getName =<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"4"</span>);&#125;;</div></pre></td></tr></table></figure>
+<p>可以在控制台输出看下数据结构</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.dir(Foo);</div><div class="line"><span class="keyword">var</span> res = Foo.getName();<span class="comment">//注意没有返回值，如果将Foo看成对象，</span></div><div class="line"><span class="built_in">console</span>.log(res);</div></pre></td></tr></table></figure>
+<p>看下面的求值过程</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"> 	Foo.getName();<span class="comment">//2</span></div><div class="line">    getName();<span class="comment">//4</span></div><div class="line">    Foo().getName();</div><div class="line"><span class="comment">//1 先执行了Foo()  函数，Foo函数第一句，getName没有用var声明，改变了输出4的getName,变为输出1</span></div><div class="line"><span class="comment">//2 第二句 返回了this,代表当前指向环境的window;相当于执行了 window.getName();</span></div><div class="line">    getName();<span class="comment">//1   直接调用getName ,上面一行代码改变后的结果</span></div><div class="line"></div><div class="line"><span class="comment">//运算符的优先级  ()  &gt; 成员访问 .  &gt; new 操作符</span></div><div class="line">    <span class="keyword">new</span> Foo.getName();<span class="comment">//2     new一个构造函数的时候，构造函数内部的代码会一行一行执行;</span></div><div class="line"><span class="comment">//   等价于 new (Foo.getName)();</span></div><div class="line">    <span class="keyword">new</span> Foo().getName();<span class="comment">//3  Foo作为构造哦函数，没有给实例化的对象添加任何属性，只能去原型上找</span></div><div class="line"><span class="comment">//  等价于 (new Foo()).getName();</span></div><div class="line">    <span class="keyword">new</span> <span class="keyword">new</span> Foo().getName();<span class="comment">//3</span></div><div class="line"><span class="comment">//  等价于  new (new Foo().getName)();</span></div></pre></td></tr></table></figure>
+<p>————————————- = 运算符面试题</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">/*</span></div><div class="line">    面试题</div><div class="line">    */</div><div class="line">    <span class="comment">// 基本类型和引用类型</span></div><div class="line">    <span class="comment">// 引用类型变量和对象属性（在内存实际上就是内存地址）</span></div><div class="line">    <span class="keyword">var</span> a = &#123;<span class="attr">n</span>:<span class="number">1</span>&#125;;</div><div class="line">    <span class="keyword">var</span> b = a;</div><div class="line">    a.x = a = &#123;<span class="attr">n</span>:<span class="number">2</span>&#125;;<span class="comment">//运算符的优先级 .的优先级最高  赋值操作是从右向左运算的</span></div><div class="line">    <span class="built_in">console</span>.log(a.x);<span class="comment">//undefined</span></div><div class="line">    <span class="built_in">console</span>.log(b.x);<span class="comment">//&#123;n:2&#125;</span></div><div class="line"><span class="comment">/*</span></div><div class="line">我们可以先尝试交换下连等赋值顺序（a = a.x = &#123;n: 2&#125;;），可以发现输出不变，即顺序不影响结果。</div><div class="line"></div><div class="line">那么现在来解释对象连等赋值的问题：按照es5规范，题中连等赋值等价于</div><div class="line">a.x = (a = &#123;n: 2&#125;);，按优先获取左引用（lref），然后获取右引用（rref）的顺序，a.x和a中的a都指向了&#123;n: 1&#125;。至此，至关重要或者说最迷惑的一步明确。(a = &#123;n: 2&#125;)执行完成后，变量a指向&#123;n: 2&#125;，并返回&#123;n: 2&#125;;接着执行a.x = &#123;n: 2&#125;，这里的a就是b（指向&#123;n: 1&#125;），所以b.x就指向了&#123;n: 2&#125;。</div><div class="line">*/</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/19/49-underscorejs template模板引擎的使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -953,387 +1757,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/13/135apacheVirtual以及Ajax/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/13/135apacheVirtual以及Ajax/" itemprop="url">
-                  apache virtual and Cross Origin
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-13T12:36:00+08:00">
-                2016-09-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/http/" itemprop="url" rel="index">
-                    <span itemprop="name">http</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>写在前面:有兴趣的还是可以阅读下httpd.conf以及httpd-vhosts.conf 文件里面的注释，方便理解；</p>
-<h3 id="1-如何搭建本地apache服务器"><a href="#1-如何搭建本地apache服务器" class="headerlink" title="1 如何搭建本地apache服务器?"></a>1 如何搭建本地apache服务器?</h3><p>下载wamp软件，安装完毕之后，启动apache服务器，在浏览器URL地址栏输入127.0.0.1或者localhost便可以进入apache主页(此时服务器默认的访问路径是(D是我安装在D盘) D/wamp/www/    文件夹下面的index开头的文件,)</p>
-<p>1.1 配置服务器访问路径</p>
-<p>找到wamp —&gt;bin —&gt;apache  目录下面的   httpd.conf  修改默认访问路径,将 D/wamp/www/ 比如修改为 F:/mywork/</p>
-<ul>
-<li><p>httpd.conf  中 DocumentRoot 可以修改默认访问的路径  F:/mywork/</p>
-</li>
-<li><p>httpd.conf 中 Directory 也要修改默认路径F:/web/</p>
-</li>
-<li><p>如果该路径F:/mywork/  里面有index.html  index.php 等以index命名的文件,会直接打开该文件，如果没有则进入F:/mywork/该目录</p>
-</li>
-<li><p>为什么会默认打开index开头的文件呢？在httpd.conf文件中,如下代码设置了默认打开目录下面的文件名字</p>
-<p> DirectoryIndex决定打开虚拟主机的时候，默认打开的文件名称</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;IfModule dir_module&gt;</div><div class="line">    DirectoryIndex index.php index.php3 index.html index.htm</div><div class="line">&lt;/IfModule&gt;</div></pre></td></tr></table></figure>
-<ul>
-<li>访问自己的服务器的三种方式：本机的IP地址   127.0.0.1  localhost    httpd.conf   文件中listen 可以更改端口</li>
-<li>此时在通过localhost或者127.0.0.1 再次进入的时候就会进入F:/mywork目录里面来(如果该目录下面有index开头的文件会默认直接打开该文件，如果没有的话则打开该目录) </li>
-<li>只有在这里配置了目录之后，在配置虚拟主机的时候，虚拟主机的目录也必须是这个目录，或者这个目录的子目录</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot; F:/mywork/&quot;    //如果在虚拟主机配置的目录和F:/web不一致，则没有权限进入该目录，无论是通过localhost 还是通过127.0.0.1 都无法进入虚拟主机，必须要和服务器设置的访问路径保持一致;</div><div class="line">    ServerName test.com</div><div class="line">    ServerAlias www.test.com</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
-<p>1.2 配置服务器<strong>通过域名访问</strong> 虚拟主机</p>
-<ul>
-<li>先要明确配置虚拟主机的目的，上面第一步所实现的功能是，我们可以通过localhsot或者127.0.0.1以及本机ip地址来访问我们的服务器(也就是后来修改的文件目录 F:/mywork/)</li>
-</ul>
-<p>httpd.conf 文件中找到 # Virtual hosts 打开这行代码下面一行的 # 号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Include conf/extra/httpd-vhosts.conf</div></pre></td></tr></table></figure>
-<p>当我们打开虚拟主机之后，重启apache服务，在通过localhost或者127.0.0.1已经无法进入 F:/mywork/目录，需要重新配置wamp —&gt;bin —&gt;apache—&gt;extra—&gt;httpd-vhosts.conf文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">VirtualHost example:</div><div class="line"># Almost any Apache directive may go into a VirtualHost container.</div><div class="line"># The first VirtualHost section is used for all requests that do not</div><div class="line"># match a ServerName or ServerAlias in any &lt;VirtualHost&gt; block.</div><div class="line">也就是说当我们设置虚拟主机的时候，Apache在所有的VirtualHost container中如果没有找到匹配的serverName或者ServerAlias的时候，会直接进入第一个Virtual Block</div></pre></td></tr></table></figure>
-<p>如下配置，我设置了三个主机，分别是mainVirtual   myVirtual1    myVirtual2  对应不同的路径，但是都是F:/web/或者F:/web/的子目录，然后通过 ServerName  ServerAlias设置的对应值，在浏览器的URL地址栏就可以访问了</p>
-<p>1.2.1 设置host文件 C:\Windows\System32\drivers\etc  下面的host文件,我们在这里配置的域名，如果在URL地址栏输入该域名，我们就可以访问这个本机虚拟主机；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>   www.mainVirtual.com</div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>   www.myVirtual1.com</div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>   www.myVirtual2.com</div></pre></td></tr></table></figure>
-<p>1.2.2 设置wamp —&gt;bin —&gt;apache—&gt;extra—&gt;httpd-vhosts.conf文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">#  operation by JiM</div><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot;F:/web/&quot;</div><div class="line">    ServerName  mainVirtual.com   </div><div class="line">    ServerAlias www.mainVirtual.com</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div><div class="line"># this is JiM&apos;s test for the Virtual container for myVirtual1</div><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot;F:/web/myVirtual1&quot;</div><div class="line">    ServerName myVirtual1.com    </div><div class="line">    ServerAlias www.myVirtual1.com</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div><div class="line"># this is JiM&apos;s test the Virtual container for myVirtual2</div><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot;F:/web/myVirtual2&quot;</div><div class="line">    ServerName myVirtual2.com    </div><div class="line">    ServerAlias www.myVirtual2.com</div><div class="line">    DirectoryIndex doc.html     //假如文件目录下有一个doc命名的文件，则DirectoryIndex的设置可以默认打开该文件</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
-<p>1.2.3 这个时候我们通过www.mainVirtual.com    www.myVirtual1.com   www.myVirtual2.com就可以访问我们对应的主机咯(每个路径对应的目录要事先创建好)</p>
-<h3 id="2-在本地搭建的服务器测试跨域的几种方案-同一域名下的不同子域之间也受同源策略的限制"><a href="#2-在本地搭建的服务器测试跨域的几种方案-同一域名下的不同子域之间也受同源策略的限制" class="headerlink" title="2 在本地搭建的服务器测试跨域的几种方案(同一域名下的不同子域之间也受同源策略的限制)"></a>2 在本地搭建的服务器测试跨域的几种方案(同一域名下的不同子域之间也受同源策略的限制)</h3><p>假如 我在之前搭建的www.myVirtual1.com域下，也就是F:/web/myVirtual1文件夹下面有一个文件 test1.php  </p>
-<p>www.myVirtual2.com这个域内的文件想访问www.myVirtual1.com下面的test1.php文件</p>
-<p>URL(Uniform Resource Locator) 地址用于描述一个网络上的资源,  基本格式如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scheme://host[:port#]/path/.../[?query-string][#anchor]</div></pre></td></tr></table></figure>
-<p>scheme  host   port三者有一个不一样就发生了跨域，如何解决跨域？</p>
-<p>2.1 Access-Control-Allow-Origin:域名   表示设置允许哪个域名进行访问</p>
-<p>header(“Access-Control-Allow-Origin: <a href="http://www.myvirtual2.com" target="_blank" rel="external">http://www.myvirtual2.com</a>“) 通过对访问的跨域资源设置响应头，允许某个指定的域名来访问该文件;</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//F:/web/myVirtual1/test1 .php     这个是我的虚拟主机1 里面的文件</span></div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    header(<span class="string">"Access-Control-Allow-Origin: http://www.myvirtual2.com"</span>);</div><div class="line">    $username = $_GET[<span class="string">'username'</span>];</div><div class="line">    $array = [<span class="string">"Jhon"</span>,<span class="string">"Jim"</span>,<span class="string">"James"</span>,<span class="string">"Robe"</span>];</div><div class="line">    $flag = in_array($username,$array);</div><div class="line">    <span class="keyword">if</span>($flag)&#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">'您可以登录'</span>;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">"该用户名已经被注册"</span>;</div><div class="line">    &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>这个是虚拟主机2 里面的请求文件</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"test1.php"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span>/&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"message"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">id</span>=<span class="string">"psw"</span> <span class="attr">name</span>=<span class="string">"psw"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        $(<span class="string">'#username'</span>).blur(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> username = $(<span class="keyword">this</span>).val();</div><div class="line">            <span class="built_in">console</span>.log(username);</div><div class="line">            $.ajax(&#123;</div><div class="line">                <span class="attr">url</span>:<span class="string">'http://www.myvirtual1.com/test1.php?username=Jhon'</span>,</div><div class="line">                <span class="attr">type</span>:<span class="string">'get'</span>,</div><div class="line">                <span class="attr">data</span>:&#123;<span class="string">"username"</span>: username&#125; ,<span class="comment">//代表发送到服务器的数据</span></div><div class="line">                success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="comment">//如果请求成功了，则可以执行该函数</span></div><div class="line">                    <span class="built_in">console</span>.log(data);</div><div class="line">                    $(<span class="string">"#message"</span>).html(data)  ;</div><div class="line">                &#125;</div><div class="line">            &#125;)</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>2.2 通过script标签 src属性</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> </div><div class="line">    header(<span class="string">"Content-Type:text/script;charset=utf-8"</span>);<span class="comment">//如果没有这个响应头，在开发者network里面可以查看请求和响应的详细信息,默认返回的是Content-Type:text/html文本格式的数据，不过这个也不影响，script标签还是会将其解析成javascript代码运行</span></div><div class="line">    $callback = $_GET[<span class="string">'callback'</span>];</div><div class="line">    $username = $_GET[<span class="string">'username'</span>];</div><div class="line">    $array = [<span class="string">"Jhon"</span>,<span class="string">"Jim"</span>,<span class="string">"James"</span>,<span class="string">"Robe"</span>];</div><div class="line">    $flag = in_array($username,$array);</div><div class="line">    $data = <span class="string">"&#123;0:'您可以登录',1:'该用户已经被注册'&#125;"</span>;</div><div class="line">    <span class="keyword">echo</span> $callback.<span class="string">'('</span>.$data.<span class="string">','</span>.$flag.<span class="string">')'</span>;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    </div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>请注册<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">method</span>=<span class="string">"get"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span>/&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"message"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">id</span>=<span class="string">"psw"</span> <span class="attr">name</span>=<span class="string">"psw"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getInfo</span>(<span class="params">arg,flag</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(flag)&#123;</div><div class="line">            <span class="built_in">console</span>.log(arg);</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">typeof</span> arg);</div><div class="line">            $(<span class="string">"#message"</span>).html(arg[<span class="number">0</span>]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"this count has been rejected"</span>);</div><div class="line">            $(<span class="string">"#message"</span>).html(arg[<span class="number">1</span>]);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'http://www.myvirtual1.com/test1.php?callback=getInfo&amp;username=Jhon'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>2.3 jQuery.ajax通过jsonp来进行跨域请求,本质上使用script标签发送请求,获取到的数据作为javascript代码直接执行</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//F:/web/myVirtual1/test1 .php</div><div class="line">&lt;?php</div><div class="line">    header("Content-Type:text/script;charset=utf-8");</div><div class="line">    $callback = $_GET['callback'];</div><div class="line">    $username = $_GET['username'];</div><div class="line">    $array = ["Jhon","Jim","James","Robe"];</div><div class="line">    $flag = in_array($username,$array);</div><div class="line">    $data = "&#123;0:'您可以登录',1:'该用户已经被注册'&#125;</div><div class="line">    echo $callback.'('.$data.','.$flag.')';</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span>  </div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>请注册<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">method</span>=<span class="string">"get"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span>/&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"message"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">id</span>=<span class="string">"psw"</span> <span class="attr">name</span>=<span class="string">"psw"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getInfo</span>(<span class="params">arg,flag</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(flag);</div><div class="line">      <span class="comment">//这个flag一直是undefined,因为echo:flase不会有任何结果，不想改了，主要是理解跨域</span></div><div class="line">        <span class="keyword">if</span>(flag)&#123;</div><div class="line">            <span class="built_in">console</span>.log(arg);</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">typeof</span> arg);</div><div class="line">            $(<span class="string">"#message"</span>).html(arg[<span class="number">0</span>]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"this count has been rejected"</span>);</div><div class="line">            $(<span class="string">"#message"</span>).html(arg[<span class="number">1</span>]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        $(<span class="string">'#username'</span>).blur(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> username = $(<span class="keyword">this</span>).val();</div><div class="line">            $.ajax(&#123;</div><div class="line">                <span class="attr">url</span>:<span class="string">'http://www.myvirtual1.com/test1.php'</span>,</div><div class="line">                <span class="attr">type</span>:<span class="string">'get'</span>,</div><div class="line">                <span class="attr">dataType</span>:<span class="string">'jsonp'</span>,</div><div class="line">                <span class="attr">jsonpCallback</span>:<span class="string">'getInfo'</span>,<span class="comment">//用来替换jQuery自动生成的函数名,以便于直接执行getInfo函数</span></div><div class="line">                data:&#123;<span class="string">"username"</span>: username&#125; ,<span class="comment">//代表发送到服务器的数据</span></div><div class="line">            &#125;)</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>2.4 通过反向代理进行跨域访问</p>
-<p>反向代理作用1：减轻源服务器负载　　2：保障源服务器安全　　3：对源服务器进行负载均衡(Load Balance)。通过在服务器端设置代理服务，可以进行跨域访问</p>
-<p>打开httpd-conf文件,打开以下两行代码中的#号</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">LoadModule proxy_module modules/mod_proxy.so </div><div class="line">LoadModule proxy_http_module modules/mod_proxy_http.so</div></pre></td></tr></table></figure>
-<p>我们在新建两个虚拟主机</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    ServerAdmin webmaster@dummy-host.example.com</div><div class="line">    DocumentRoot &quot;F:/web/4myvirtual4&quot;</div><div class="line">    ServerName myvirtual4.com</div><div class="line">    ServerAlias www.myvirtual4.com</div><div class="line">    ErrorLog &quot;logs/dummy-host.example.com-error.log&quot;</div><div class="line">    CustomLog &quot;logs/dummy-host.example.com-access.log&quot; common</div><div class="line">&lt;/VirtualHost&gt;</div><div class="line">&lt;VirtualHost *:80&gt;</div><div class="line">    DocumentRoot &quot;F:/web/5myvirtual5&quot;</div><div class="line">    ServerName myvirtual5.com</div><div class="line">    ServerAlias www.myvirtual5.com</div><div class="line">    ProxyRequests Off</div><div class="line">    ProxyPass /api http://www.myvirtual4.com</div><div class="line">#这个时候访问http://www.myvirtual5.com/api 其实就是访问 http://www.myvirtual4.com</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure>
-<ul>
-<li>ProxyRequests Off 指令是指采用反向(reverse)代理</li>
-<li>ProxyPass 指令允许将一个远端服务器映射到本地服务器的 URL 空间中。</li>
-</ul>
-<p>在F:/web/5myvirtual5 下面有一个文件 01proxy.html</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    $.ajax(&#123;</div><div class="line">        <span class="attr">type</span>:<span class="string">'get'</span>,</div><div class="line">        <span class="attr">url</span>:<span class="string">'/api/01proxy.php'</span>,</div><div class="line">        <span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(data);</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>在F:/web/4myvirtual4 下有一个文件 01proxy.php</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"> <span class="keyword">echo</span> <span class="string">'this is sonme data from virtual4'</span></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>2.5 通过document.domain 设置<strong>同一主域不同子域</strong>中的页面相同的主域名，来允许不同子域之间进行访问</p>
-<p>2.6 通过HTML5postMessage方法进行跨域操作，参见我的博客HTML5-postMessage</p>
-<p>2.7  绕开浏览器，直接通过服务器端发送请求</p>
-<p>2.8 关于其他跨域问题，比如其他的服务器会通过请求的referer信息进行访问的限制，可以通过设置</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">''</span>&gt;</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/13/100-类数组转化为数组/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/13/100-类数组转化为数组/" itemprop="url">
-                  ArrayLikeChangedToArray
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-13T12:36:00+08:00">
-                2016-09-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="类数组对象转换为数组对象的简单理解"><a href="#类数组对象转换为数组对象的简单理解" class="headerlink" title="类数组对象转换为数组对象的简单理解"></a>类数组对象转换为数组对象的简单理解</h3><h3 id="一-关于类数组对象：只包含使用从零-0-开始，且自然递增的整数做键名，并且定义了length表示元素个数的对象"><a href="#一-关于类数组对象：只包含使用从零-0-开始，且自然递增的整数做键名，并且定义了length表示元素个数的对象" class="headerlink" title="一 : 关于类数组对象：只包含使用从零  0  开始，且自然递增的整数做键名，并且定义了length表示元素个数的对象"></a>一 : 关于类数组对象：只包含使用从零  0  开始，且自然递增的整数做键名，并且定义了length表示元素个数的对象</h3><p>JavaScript中有一些著名的类数组对象，它们看起来很像数组：</p>
-<ul>
-<li>拥有length属性   这里强调一下，<strong>必须有length属性，且length属性的值必须和元素键值对个数保持一致</strong> 如果没有length属性，那么就不是类数组</li>
-<li>元素按序保存在对象中，可以通过索引访问</li>
-</ul>
-<p>但实际和数组又不是一回事：</p>
-<ul>
-<li>没有数组的很多方法</li>
-<li>也会有数组没有的方法(e.g. NodeList的item()方法)</li>
-<li>有些类数组对象是动态变化的(e.g. NodeList的值是基于DOM结构动态执行查询的结果)</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arrLike = &#123;</div><div class="line">       <span class="number">0</span>:<span class="number">7</span>,</div><div class="line">       <span class="number">1</span>:<span class="number">8</span>,</div><div class="line">       <span class="number">2</span>:<span class="number">9</span>,</div><div class="line">       <span class="attr">length</span>:<span class="number">2</span>   <span class="comment">//length属性值小于3 最后一个9不会被添加进去</span></div><div class="line">   &#125;</div><div class="line">   <span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line">   arr1.push.apply(arr1,arrLike);</div><div class="line">    <span class="built_in">console</span>.dir(arr1);</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arrLike = &#123;</div><div class="line">       <span class="number">0</span>:<span class="number">7</span>,</div><div class="line">       <span class="number">1</span>:<span class="number">8</span>,</div><div class="line">       <span class="number">2</span>:<span class="number">9</span>,</div><div class="line">       <span class="attr">length</span>:<span class="number">3</span>   <span class="comment">//length属性值等于3 </span></div><div class="line">   &#125;</div><div class="line">   <span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line">   arr1.push.apply(arr1,arrLike)</div><div class="line">    <span class="built_in">console</span>.dir(arr1);</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arrLike = &#123;</div><div class="line">        <span class="number">0</span>:<span class="number">7</span>,</div><div class="line">        <span class="number">1</span>:<span class="number">8</span>,</div><div class="line">        <span class="number">2</span>:<span class="number">9</span>,</div><div class="line">        <span class="attr">length</span>:<span class="number">5</span>	<span class="comment">//length属性值大于3 </span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line">    arr1.push.apply(arr1,arrLike)</div><div class="line">     <span class="built_in">console</span>.dir(arr1);</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arrLike = &#123;</div><div class="line">       <span class="number">1</span>:<span class="number">8</span>,  </div><div class="line">       <span class="number">2</span>:<span class="number">9</span>,</div><div class="line">       <span class="attr">length</span>:<span class="number">5</span>   <span class="comment">//缺少索引为0 的键</span></div><div class="line">   &#125;</div><div class="line">   <span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line">   arr1.push.apply(arr1,arrLike)</div><div class="line">   <span class="built_in">console</span>.dir(arr1);</div></pre></td></tr></table></figure>
-<p>通过以上四种情况，大家可以在自己电脑上输出看下结果，类数组对象的定义大家应该会有一种新的认识；</p>
-<h3 id="二-将-类数组对象-转换为-数组对象"><a href="#二-将-类数组对象-转换为-数组对象" class="headerlink" title="二 : 将     类数组对象     转换为     数组对象"></a>二 : 将     类数组对象     转换为     数组对象</h3><ul>
-<li>slice 和splice方法都可以，slice不会改变原数组，splice会将改变原数组</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Array</span>.prototype.slice.call(arraylike, <span class="number">0</span>);</div><div class="line"><span class="built_in">Array</span>.prototype.splice.call(arrLike,<span class="number">0</span>);</div><div class="line"></div><div class="line"><span class="built_in">Array</span>.prototype.slice.apply(arrayLike,[<span class="number">0</span>]) ;<span class="comment">//注意咯，这里必须是 数组形式的参数,</span></div><div class="line"><span class="built_in">Array</span>.prototype.splice.apply(arrLike,[<span class="number">0</span>]);</div><div class="line"><span class="comment">//参数会传递给slice或者splice方法</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">  <span class="keyword">var</span> arrLike = &#123;</div><div class="line">        <span class="number">0</span>:<span class="string">"name"</span>,</div><div class="line">        <span class="number">1</span>:<span class="string">"age"</span>,</div><div class="line">        <span class="number">2</span>:<span class="string">"address"</span>,</div><div class="line">        <span class="attr">length</span>:<span class="number">3</span></div><div class="line">    &#125;</div><div class="line"><span class="comment">//    var ret = Array.prototype.slice.call(arrLike,0);</span></div><div class="line"><span class="comment">//    var ret = Array.prototype.splice.call(arrLike,0);</span></div><div class="line"><span class="comment">//    var ret = Array.prototype.slice.apply(arrLike,[0]);</span></div><div class="line"><span class="comment">//    var ret = Array.prototype.splice.apply(arrLike,[0]);</span></div><div class="line">     <span class="built_in">console</span>.dir(ret);</div></pre></td></tr></table></figure>
-<ul>
-<li>push + apply + 空数组(apply会将传入的数组或者类数组拆分开以单个元素的形式传递给push,然后push就可以正常的往数组里面加元素咯)</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">   <span class="keyword">var</span> arrLike = &#123;</div><div class="line">        <span class="number">0</span>:<span class="string">"name"</span>,</div><div class="line">        <span class="number">1</span>:<span class="string">"age"</span>,</div><div class="line">        <span class="number">2</span>:<span class="string">"address"</span>,</div><div class="line">        <span class="attr">length</span>:<span class="number">3</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> ret = [];</div><div class="line">    <span class="built_in">Array</span>.prototype.push.apply(ret,arrLike);</div><div class="line">	<span class="comment">//Array.prototype.push.call(ret,arrLike);  //这个会将arrLike作为一个整体直接push进ret数组中</span></div><div class="line"><span class="comment">//arrLike  必须是一个伪数组，length属性不可少，索引值必须从 0 开始递增，不是</span></div><div class="line">    <span class="built_in">console</span>.dir(ret);</div><div class="line"><span class="comment">//这个方法的关键还是要理解apply方法会对传入的数组进行拆分，这个真的很重要</span></div></pre></td></tr></table></figure>
-<p>以上的栗子，大家可以将类数组的length属性去掉试一下看看，就会发现这个属性对于<strong>类数组</strong> 定义的重要性了 </p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/13/176src和href的区别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1477,511 +1900,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/12/172ClientRenderOrServerRender/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/12/172ClientRenderOrServerRender/" itemprop="url">
-                  ClientRenderOrServerRender
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-12T12:36:00+08:00">
-                2016-09-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/template/" itemprop="url" rel="index">
-                    <span itemprop="name">template</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>模板引擎 （Template Engine）是Web开发中将展现层和数据分离的一项技术。模板引擎根据一定的语义，将数据填充到模板中，产生最终的HTML页面。模板引擎渲染的位置可分为客户端和服务器端。</p>
-<p><strong>服务器端渲染</strong>：模板引擎在服务器端将模板和数据合成，返回最终的HTML页面</p>
-<ul>
-<li>客户端渲染通常使用JavaScript脚本，如果某些客户端不支持JavaScript，就需要在服务器端渲染；</li>
-<li>搜索引擎通常不执行JavaScript脚本，要做到SEO友好，就必须实现服务器端渲染；</li>
-<li>SEO 很多爬虫是不认的。</li>
-<li>首次打开速度，各种加载 速度很慢。</li>
-</ul>
-<p><strong>客户端渲染</strong>：将模板和数据分别传送到客户端，在客户端由JavaScript模板引擎渲染出最终的HTML视图。</p>
-<ul>
-<li>可以对模板文件（相对静态）进行缓存和负载平衡，对于流量很大的公众站点非常有价值；</li>
-<li>由于将模板渲染的计算转移到客户端，可降低服务器负荷；</li>
-<li>各种原来服务器做的事情丢给客户端做了，减少开销。</li>
-<li>如果一个前端页面的内容分别来自多个后台系统，而这些后台的架构各不相同（Java、.NET、Ruby等），则服务器端渲染需要采用不同的技术，模板资源无法共享。客户端渲染则不存在这个问题，不同的后台系统可采用相同的客户端渲染技术，这样互相之间的模板资源可以公用，前端页面的整合非常容易；</li>
-</ul>
-<p>注意问题</p>
-<ul>
-<li>客户端渲染和服务端渲染的时候，文件的语法格式不能一样，否则会冲突</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/143requirejs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/10/143requirejs/" itemprop="url">
-                  require js
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-10T12:36:00+08:00">
-                2016-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1  函数调用的复杂性，在一个命名空间的概念下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">//命名空间的概念下</span></div><div class="line">    <span class="keyword">var</span> M = M || &#123;&#125;;</div><div class="line">    M.m = M.m || &#123;&#125;;<span class="comment">//||找true运算，undefined返回false</span></div><div class="line">    M.m.module1 = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//        some code here</span></div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">func1</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</div><div class="line">            <span class="attr">func2</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)();</div><div class="line">    M.m.module2 = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">//        some code here</span></div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">func1</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</div><div class="line">            <span class="attr">func2</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)();</div><div class="line"></div><div class="line">    <span class="comment">//调用每个模块下面的方法，如果M 和 m更加长，那么调用起来是不是废了老劲了</span></div><div class="line">    M.m.module1.func1();</div><div class="line">    M.m.module1.func2();</div><div class="line">    M.m.module2.func1();</div><div class="line">    M.m.module2.func2();</div></pre></td></tr></table></figure>
-<p>2 导入一个公共接口，本着面向对象的思想在进行简化  对外开发一个接口  www.myexcute.com</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//导入一个接口,就像导入jQuery一样</span></div><div class="line">   (<span class="function"><span class="keyword">function</span>(<span class="params">$,module1</span>)</span>&#123;</div><div class="line">       <span class="comment">//some code here</span></div><div class="line">       <span class="comment">//jQuery的所有方法可以使用</span></div><div class="line">       <span class="comment">//$.extend</span></div><div class="line">       <span class="comment">//M.m.module1 接口所有的方法可以用</span></div><div class="line">       module1.func1();<span class="comment">//这种调用的方式比起上面的调用是不简化了不少</span></div><div class="line">       module1.func2();</div><div class="line">   &#125;)(jQuery, M.m.module1);</div><div class="line"></div><div class="line">   (<span class="function"><span class="keyword">function</span>(<span class="params">$,module2</span>)</span>&#123;   </div><div class="line">       <span class="comment">//some code here</span></div><div class="line">       <span class="comment">//jQuery的所有方法可以使用</span></div><div class="line">       <span class="comment">//$.extend</span></div><div class="line">       <span class="comment">//M.m.module1 接口所有的方法可以用</span></div><div class="line">       module2.func1();</div><div class="line">       module2.func2();</div><div class="line">   &#125;)(jQuery, M.m.module2);</div></pre></td></tr></table></figure>
-<p>虽然这个样子，代码冲突的可能性已经很小，但是代码依赖的问题，多脚本的管理、阻塞的问题，仍旧无法解决</p>
-<p>3 此时require.js便初露头角</p>
-<p>简单地说，有两点，一、模块作用域自成一体，不污染全局空间；二、模块指明依赖关系，并且依赖是通过参数传递的形式导入的，无需通过全局对象引用 – 依赖同样不污染全局空间。<br>定义模块</p>
-<p>3.1 如何定义模块   </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">define(id? , dependencies ? , factory) ; ?表示可选项</div></pre></td></tr></table></figure>
-<p>模块可以分为两种，第一种是无依赖的模块</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//math.js</span></div><div class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> a+b;</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">add</span> : add</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>第二种是有依赖的模块 dependencies是一个数组形式的参数，factory函数接受的参数是依赖模块的返回值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//getWidth.js文件</span></div><div class="line">define([<span class="string">'jquery'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">$</span>)</span>&#123;  <span class="comment">//jquery.js和getWidth.js在同一目录下</span></div><div class="line">   <span class="keyword">var</span> width = $(<span class="built_in">window</span>).width();</div><div class="line">    <span class="keyword">return</span> width;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>3.2 如何导入模块  require([‘module1’,’module2’ ],callback) 传入的依赖必须是一个数组形式存在的，callback是依赖传入完毕之后执行的逻辑;如果模块有返回值，则会直接传递给callback函数的形参，如果函数没有返回值，那么传递的callback形参的值是undefined      文件目录如下 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">test </div><div class="line"></div><div class="line">- index.html</div><div class="line">- js</div><div class="line">  - require.js</div><div class="line">  - jquery.js</div><div class="line">  - main.js    //入口文件</div><div class="line">  - getWidth.js</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js  require请求的是模块的路径，因为使用了data-main属性，require默认访问路径是main.js所在目录，也就是js/</span></div><div class="line"><span class="built_in">require</span>([<span class="string">'getWidth'</span>,<span class="string">'jquery'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">ret</span>)</span>&#123; <span class="comment">//这里的jquery是引入的本地文件</span></div><div class="line">    <span class="built_in">console</span>.log(ret);</div><div class="line">&#125;)</div><div class="line"><span class="comment">//等价于  js/getWidth.js      js/jquery.js</span></div></pre></td></tr></table></figure>
-<p><a href="http://www.tuicool.com/articles/uUrUzqr" target="_blank" rel="external">关于requirejs的实现原理</a></p>
-<p>indx.html文件中引入requirejs</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'require.js'</span> <span class="attr">data-main</span> = <span class="string">"js/main"</span>&gt;</span><span class="undefined"></span></div></pre></td></tr></table></figure>
-<p>加载requirejs脚本的script标签加入了data-main属性，这个属性指定的js将在加载完reuqire.js后处理，我们把require.config的配置加入到data-main后，就可以使每一个页面都使用这个配置，然后页面中就可以直接使用<code>require</code>来加载所有的短模块名</p>
-<p>data-main还有一个重要的功能，当script标签指定data-main属性时，require会默认的将data-main指定的js为根路径，是什么意思呢？如上面的data-main=”js/main”设定后，我们在使用require([‘jquery’])后(不配置jquery的paths)，require会自动加载js/jquery.js这个文件，而不是jquery.js，相当于默认配置了：</p>
-<p>data-main需要给所有的脚本文件设置一个根路径。根据这个根路径，RequireJS将会去加载所有相关的模块。下面的脚本是一个使用data-main例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">baseUrl</span> : <span class="string">"js"</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>3.3 如果我们导入的文件是不符合require的规范或者导入文件来自本地服务器或者CDN或者其他的网站，这个时候上面的require方法就不能起作用了，这个时候我们需要配置文件的地址</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//配置函数require.config(&#123;&#125;)</span></div><div class="line">baseUrl——用于加载模块的根路径。</div><div class="line">paths——用于映射不存在根路径下面的模块路径。</div><div class="line">shims——配置在脚本/模块外面并没有使用RequireJS的函数依赖并且初始化函数。假设underscore并没有使用  RequireJS定义，但是你还是想通过RequireJS来使用它，那么你就需要在配置中把它定义为一个shim。</div><div class="line">deps——加载依赖关系数组</div></pre></td></tr></table></figure>
-<p>不符合规范 : 先来看一个简单的例子,文件目录如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">export</div><div class="line"></div><div class="line">- index.html</div><div class="line">- js</div><div class="line">  - sayhello.js</div><div class="line">  - main.js</div><div class="line">  - require.js</div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//index.html  加如下代码</div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/require.js"</span> <span class="attr">data-main</span>=<span class="string">'js/main'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//sayhello.js</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"hello handsome you"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js </span></div><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span> : &#123;</div><div class="line">        <span class="attr">h</span> : <span class="string">'sayhello'</span>   <span class="comment">//模块h的路径是js/hello.js   因为data-main属性的作用</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">shim</span> : &#123;</div><div class="line">        <span class="attr">h</span> :&#123; <span class="attr">exports</span> : <span class="string">'hello'</span>&#125;  <span class="comment">//将hello函数暴露出去;如果少了这行代码会报错</span></div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"><span class="built_in">require</span>([<span class="string">'h'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">hello</span>)</span>&#123;</div><div class="line">    hello();</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>上面代码 exports: ‘hello’中的 hello，是我们在 hello.js 中定义的 hello 函数。当我们使用 function hello() {} 的方式定义一个函数的时候，它就是全局可用的。如果我们选择了把它 export给requirejs，那当我们的代码依赖于 hello 模块的时候，就可以拿到这个 hello 函数的引用了。</p>
-<p>所以： exports 可以把某个非requirejs方式的代码中的某一个全局变量暴露出去，当作该模块以引用。</p>
-<p>3.3.1 假如我想暴露多个sayhello.js中的全局变量呢？</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//sayhello.js</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"hello handsome you"</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello1</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"hello1 handsome you"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个时候main.js不能再用export了，应该使用init来初始化这些接口</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span> : &#123;</div><div class="line">        <span class="attr">h</span> : <span class="string">'sayhello'</span> </div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//shim : &#123;</span></div><div class="line">    <span class="comment">//    h :&#123; exports : 'hello'&#125;</span></div><div class="line">    <span class="comment">//&#125;</span></div><div class="line">    shim : &#123;</div><div class="line">        <span class="attr">h</span> :&#123; <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> &#123;</div><div class="line">                <span class="attr">h0</span>: hello,</div><div class="line">                <span class="attr">h1</span>: hello1</div><div class="line">            &#125;</div><div class="line">        &#125;&#125;</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"><span class="built_in">require</span>([<span class="string">'h'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">he</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">    he.h0()</div><div class="line">    he.h1()</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>3.3.2 导入外部服务器的文件，requirejs支持跨域</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span> : &#123;</div><div class="line">        <span class="string">"jq"</span> : [<span class="string">"http://libs.baidu.com/jquery/2.0.3/jquery"</span>],</div><div class="line">        <span class="string">"a"</span> : <span class="string">"js/a"</span>   </div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"><span class="comment">//配置完之后，下面可以引用jquery模块</span></div><div class="line"><span class="built_in">require</span>([<span class="string">"jq"</span>,<span class="string">"a"</span>],<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="comment">//在这里面可以直接使用jquery的所有API</span></div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        alert(<span class="string">"load finished"</span>);  </div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>3.4 如何引入第三方不不符合AMD规范的模块呢？这个时候需要进行配置</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">  <span class="attr">shim</span>:&#123;</div><div class="line">    <span class="string">'underscore'</span>:&#123;</div><div class="line">      <span class="attr">exports</span>:<span class="string">"_"</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//配置之后，我们就可以在其他模块中引入underscore模块了</span></div><div class="line"><span class="built_in">require</span>(<span class="string">'underscore'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">_</span>)</span>&#123;</div><div class="line">   _.each([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], alert);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>3.5 如何引入第三方不符合AMD规范的插件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">shim</span>: &#123;</div><div class="line">        <span class="string">"underscore"</span> : &#123;</div><div class="line">            <span class="attr">exports</span> : <span class="string">"_"</span>;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"jquery.form"</span> : &#123;</div><div class="line">            <span class="attr">deps</span> : [<span class="string">"jquery"</span>]</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//</span></div></pre></td></tr></table></figure>
-<p>4 requirejs优势</p>
-<p>4.1并行加载</p>
-<pre><code>我们知道，`&lt;script&gt;&lt;/script&gt;` 标签会阻塞页面，加载 a.js 时，后面的所有文件都得等它加载完成并执行结束后才能开始加载、执行。而 require.js 的模块可以并行下载，没有依赖关系的模块还可以并行执行，大大加快页面访问速度。
-</code></pre><p>4.2 不愁依赖</p>
-<pre><code>在我们定义模块的时候，我们就已经决定好模块的依赖 – c 依赖 b，b 又依赖 a。当我想用 c 模块的功能时，我只要在 require函数的依赖里指定 c：
-
-require([&apos;c&apos;], function(c) {...});
-
-至于 c 依赖的模块，c 依赖的模块的依赖模块… 等等，require.js 会帮我们打理
-</code></pre><p> 4.3  减少全局冲突</p>
-<pre><code>通过 define 的方式，我们大量减少了全局变量，这样代码冲突的概率就极小极小 – JavaScript 界有句话说，全局变量是魔鬼，想想，我们能减少魔鬼的数量，我想是件好事。
-</code></pre><p>关于全局变量</p>
-<p>有一点需要说明的是，require.js 环境中并不是只有 define 和 require 几个全局变量。许多库都会向全局环境中暴露变量，以 jQuery 为例，1.7版本后，它虽然注册自己为 AMD 模块，但同时也向全局环境中暴露了 jQuery 与 $。所以以下代码中，虽然我们没有向回调函数传入一份引用，jQuery/$ 同样是存在的：</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/39-媒体查询响应式开发/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/10/39-媒体查询响应式开发/" itemprop="url">
-                  媒体查询 响应式开发
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-10T12:36:00+08:00">
-                2016-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mobile/" itemprop="url" rel="index">
-                    <span itemprop="name">mobile</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>媒体查询:响应式开发</p>
-<p>第一种不同终端的宽度自适应代码：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-class">.container</span> &#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">1200px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">1000px</span>;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span> auto;</div><div class="line">            <span class="attribute">background-color</span>: red;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> screen and (min-width:<span class="number">1200px</span>)&#123;</div><div class="line">            <span class="selector-tag">body</span>&#123;</div><div class="line">                <span class="comment">/*当屏幕大小最小满足1200px即大于1200px的时候 */</span></div><div class="line">                <span class="comment">/*background-color: pink;*/</span></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">1170px</span>;</div><div class="line">                <span class="attribute">background-color</span>: pink;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> screen and (min-width:<span class="number">992px</span>) and (max-width: <span class="number">1200px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">970px</span>;</div><div class="line">                <span class="attribute">background</span>: green;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> screen and (min-width: <span class="number">768px</span>) and (max-width: <span class="number">992px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">750px</span>;</div><div class="line">                <span class="attribute">background-color</span>: blue;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @<span class="keyword">media</span> screen and (max-width: <span class="number">768px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">                <span class="attribute">background-color</span>: orange;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>第二种不同终端宽度自适应代码 ：代码覆盖</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-tag">html</span>,<span class="selector-tag">body</span> &#123;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span> ;</div><div class="line">            <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="selector-class">.container</span> &#123;</div><div class="line">            <span class="attribute">width</span>: <span class="number">1200px</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">1000px</span>;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span> auto;</div><div class="line">            <span class="attribute">background-color</span>: red;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">/*以覆盖的方式存在*/</span></div><div class="line">        @<span class="keyword">media</span> (max-width: <span class="number">768px</span>)&#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">                <span class="attribute">background-color</span>: orange;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span>  (min-width: <span class="number">768px</span>) &#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">750px</span>;</div><div class="line">                <span class="attribute">background-color</span>: blue;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> (min-width:<span class="number">992px</span>) &#123;</div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">970px</span>;</div><div class="line">                <span class="attribute">background</span>: green;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        @<span class="keyword">media</span> (min-width:<span class="number">1200px</span>)&#123;</div><div class="line">                <span class="comment">/*当屏幕大小最小满足1200px即大于1200px的时候 */</span></div><div class="line">                <span class="comment">/*background-color: pink;*/</span></div><div class="line">            <span class="selector-class">.container</span> &#123;</div><div class="line">                <span class="attribute">width</span>: <span class="number">1170px</span>;</div><div class="line">                <span class="attribute">background-color</span>: pink;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2031,7 +1949,7 @@ require([&apos;c&apos;], function(c) {...});
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">173</span>
+                <span class="site-state-item-count">178</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2053,7 +1971,7 @@ require([&apos;c&apos;], function(c) {...});
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">80</span>
+                <span class="site-state-item-count">83</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
