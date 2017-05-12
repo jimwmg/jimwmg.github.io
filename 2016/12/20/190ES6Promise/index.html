@@ -87,16 +87,22 @@
 
 
 
-<meta name="description" content="keep fighting！">
+<meta name="description" content="1 Promise定义Promise是一种异步编程的解决方案,是一个对象(构造函数),从该对象可以获取异步操作的消息
+Promise对象的特点
+（1）对象的状态不受外界影响。Promise对象代表一个异步操作，有三种状态：Pending（进行中）、Resolved（已完成，又称 Fulfilled）和Rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ES6-Promise">
 <meta property="og:url" content="http://yoursite.com/2016/12/20/190ES6Promise/index.html">
 <meta property="og:site_name" content="JiM-W">
-<meta property="og:description" content="keep fighting！">
-<meta property="og:updated_time" content="2017-04-13T14:27:40.928Z">
+<meta property="og:description" content="1 Promise定义Promise是一种异步编程的解决方案,是一个对象(构造函数),从该对象可以获取异步操作的消息
+Promise对象的特点
+（1）对象的状态不受外界影响。Promise对象代表一个异步操作，有三种状态：Pending（进行中）、Resolved（已完成，又称 Fulfilled）和Rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这">
+<meta property="og:updated_time" content="2017-05-11T13:22:41.081Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6-Promise">
-<meta name="twitter:description" content="keep fighting！">
+<meta name="twitter:description" content="1 Promise定义Promise是一种异步编程的解决方案,是一个对象(构造函数),从该对象可以获取异步操作的消息
+Promise对象的特点
+（1）对象的状态不受外界影响。Promise对象代表一个异步操作，有三种状态：Pending（进行中）、Resolved（已完成，又称 Fulfilled）和Rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这">
 
 
 
@@ -363,7 +369,73 @@
       
 
       
-        
+        <h3 id="1-Promise定义"><a href="#1-Promise定义" class="headerlink" title="1 Promise定义"></a>1 Promise定义</h3><p>Promise是一种异步编程的解决方案,是一个对象(构造函数),从该对象可以获取异步操作的消息</p>
+<p>Promise对象的特点</p>
+<p>（1）对象的状态不受外界影响。<code>Promise</code>对象代表一个异步操作，有三种状态：<code>Pending</code>（进行中）、<code>Resolved</code>（已完成，又称 Fulfilled）和<code>Rejected</code>（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。这也是<code>Promise</code>这个名字的由来，它的英语意思就是“承诺”，表示其他手段无法改变。</p>
+<p>（2）一旦状态改变，就不会再变，任何时候都可以得到这个结果。<code>Promise</code>对象的状态改变，只有两种可能：从<code>Pending</code>变为<code>Resolved</code>和从<code>Pending</code>变为<code>Rejected</code>。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果。如果改变已经发生了，你再对<code>Promise</code>对象添加回调函数，也会立即得到这个结果。这与事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的。</p>
+<p>缺点</p>
+<p>(1) 首先，无法取消<code>Promise</code>，一旦新建它就会立即执行，无法中途取消。</p>
+<p>(2) 当新建promise对象的时候,Promise里面必须传入回调函数,否则内部会抛出错误</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>()  <span class="comment">//报错</span></div></pre></td></tr></table></figure>
+<p>(3) 当处于Pendding状态的时候,无法确切知道处于哪个阶段的状态</p>
+<p>我们可以打印出来看下有什么</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.dir(<span class="built_in">Promise</span>);</div><div class="line"><span class="comment">//我们可以看到起原型上有 then 和catch等方法</span></div><div class="line"><span class="comment">// var promise = new Promise();  Promise是一个构造函数,构造函数中必须传入一个函数作为参数,否则会报错</span></div><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);<span class="comment">//</span></div><div class="line">  <span class="comment">// resolve();</span></div><div class="line">  reject();</div><div class="line">&#125;)</div><div class="line"><span class="built_in">console</span>.log(promise);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//promise实例上有如下属性 </div><div class="line">Promise</div><div class="line">[[PromiseStatus]]:&quot;resolved&quot;</div><div class="line">[[PromiseValue]]:undefined</div></pre></td></tr></table></figure>
+<h3 id="2-基本使用-Promise是一个构造函数-该构造函数接受一个函数作为参数-必须的"><a href="#2-基本使用-Promise是一个构造函数-该构造函数接受一个函数作为参数-必须的" class="headerlink" title="2 基本使用 Promise是一个构造函数,该构造函数接受一个函数作为参数(必须的)"></a>2 基本使用 Promise是一个构造函数,该构造函数接受一个函数作为参数(必须的)</h3><p>写在前面,promise对象创建的时候立即执行&gt;同步&gt;异步&gt;回调函数</p>
+<p>接受的函数中又有两个函数作为参数,</p>
+<ul>
+<li>Promise构造函数中必须有一个函数作为构造函数的参数,作为参数的函数的参数有两个函数</li>
+<li>一个是resolve函数,在异步操作成功的时候执行该函数,将Pendding状态改变为Resolved</li>
+<li>一个是reject函数,在异步操作失败的时候执行该函数,将Pendding状态改变为Rejected</li>
+<li>创建promise对象之后,根据异步操作成功与否,调用resolve或者reject函数,改变状态的结果,then方法会根据改变的状态结果调用响应的回调函数,then方法接受两个函数,<ul>
+<li>第一个函数在Resolved状态的时候执行</li>
+<li>第二个函数在Rejected状态的时候执行</li>
+</ul>
+</li>
+</ul>
+<p>基本的实现思路是</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">  <span class="comment">// ... some code</span></div><div class="line"></div><div class="line">  <span class="keyword">if</span> (<span class="comment">/* 异步操作成功 */</span>)&#123;</div><div class="line">    resolve(value);</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    reject(error);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">promise.then(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</div><div class="line">  <span class="comment">// success</span></div><div class="line">&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</div><div class="line">  <span class="comment">// failure</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>如下demo所示</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'promise对象创建之后立即执行'</span>);</div><div class="line">            <span class="comment">// resolve();</span></div><div class="line">            <span class="comment">// rejecte();</span></div><div class="line">            </div><div class="line">        &#125;)</div><div class="line">       <span class="built_in">console</span>.log(<span class="string">'helloWorld'</span>);</div><div class="line"></div><div class="line">        promise.then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'this is the status of Resolved'</span>);</div><div class="line">            </div><div class="line">        &#125;,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'this is the status of Rejected'</span>);</div><div class="line">            </div><div class="line">        &#125;)</div></pre></td></tr></table></figure>
+<ul>
+<li>当打开resolve()的注释的时候,改变了promise实例的状态,触发then函数中的第一个回调函数的执行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">promise对象创建之后立即执行</div><div class="line">helloWorld</div><div class="line">this is the status of Resolved</div></pre></td></tr></table></figure>
+<ul>
+<li>当打开reject()的注释的时候,改变了promise实例的状态,触发then函数中的第二个回调函数的执行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">promise对象创建之后立即执行</div><div class="line">helloWorld</div><div class="line">this is the status of Rejected</div></pre></td></tr></table></figure>
+<h3 id="3-实例化一个Promise对象的时候传入Promise构造函数的参数是一个函数-该函数立即执行"><a href="#3-实例化一个Promise对象的时候传入Promise构造函数的参数是一个函数-该函数立即执行" class="headerlink" title="3 实例化一个Promise对象的时候传入Promise构造函数的参数是一个函数,该函数立即执行"></a>3 实例化一个Promise对象的时候传入Promise构造函数的参数是一个函数,该函数立即执行</h3><p>内部实现大概是这个样子的,我猜 ; 所以才会有上面的输处顺序</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">f1</span>)</span>&#123;</div><div class="line">  f1()</div><div class="line">&#125;</div><div class="line"><span class="keyword">new</span> foo(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'f1 is exected'</span>);</div><div class="line">&#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="4-如果-resolve-或者-reject-函数执行的时候有参数-那么参数会传递给then方法中相应的回调函数"><a href="#4-如果-resolve-或者-reject-函数执行的时候有参数-那么参数会传递给then方法中相应的回调函数" class="headerlink" title="4 如果 resolve 或者 reject 函数执行的时候有参数,那么参数会传递给then方法中相应的回调函数"></a>4 如果 resolve 或者 reject 函数执行的时候有参数,那么参数会传递给then方法中相应的回调函数</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</div><div class="line">    <span class="keyword">var</span> res = <span class="string">'RES'</span>;</div><div class="line">    <span class="keyword">var</span> rej = <span class="string">'REJ'</span>;</div><div class="line">    resolve(res); </div><div class="line">    reject(rej);</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  promise.then(<span class="function"><span class="params">value</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'这是通过resolve函数传递过来的参数'</span>,value);</div><div class="line"></div><div class="line">     &#125;,value =&gt; &#123;<span class="built_in">console</span>.log(<span class="string">'这是通过reject函数传递过来的参数'</span>,value);</div><div class="line">  &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>另外,一般而言reject函数的参数一般是一个ERROR对象的实例,resolve函数的参数也可能是另外一个Promise对象的实例</p>
+<p>先看下面一段代码,</p>
+<ul>
+<li>如果promise对象不是另外一个promise对象的resolve函数的参数,那么promise实例 p1 p2的状态互不影响</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">       <span class="keyword">var</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line"></div><div class="line">       &#125;)</div><div class="line"></div><div class="line">       <span class="keyword">var</span> p2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">           resolve() ;</div><div class="line">       &#125;)</div><div class="line"></div><div class="line">       <span class="built_in">console</span>.log(<span class="string">'p1'</span>,p1); <span class="comment">//p1 Pendding</span></div><div class="line">       <span class="built_in">console</span>.log(<span class="string">'p2'</span>,p2);<span class="comment">//p2 Resolved</span></div><div class="line">       </div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>但是如果promise实例是另外一个promise对象的resolve的参数的话,那么promise实例将会和resolve参数的promise对象的状态保持一致</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="keyword">var</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">			<span class="comment">//此时p1对象的状态是Pendding</span></div><div class="line">        &#125;)</div><div class="line"></div><div class="line">        <span class="keyword">var</span> p2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">            resolve(p1) ; <span class="comment">//将p1对象作为resolve函数的参数</span></div><div class="line">        &#125;)</div><div class="line"></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'p1'</span>,p1);<span class="comment">//p1 Pendding</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'p2'</span>,p2);<span class="comment">//p2 Pendding</span></div><div class="line">        </div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>改变p1对象的状态</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="keyword">var</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">            resolve();<span class="comment">//此时p1对象的状态是Resolved</span></div><div class="line">        &#125;)</div><div class="line"></div><div class="line">        <span class="keyword">var</span> p2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">            resolve(p1) ;</div><div class="line">        &#125;)</div><div class="line"></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'p1'</span>,p1);<span class="comment">//p1 Resolved</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'p2'</span>,p2);<span class="comment">//p2 Resolved</span></div><div class="line">        </div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">       <span class="keyword">var</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">           <span class="comment">// resolve();</span></div><div class="line">           reject();</div><div class="line">       &#125;)</div><div class="line"></div><div class="line">       <span class="keyword">var</span> p2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">           resolve(p1) ;</div><div class="line">       &#125;)</div><div class="line"></div><div class="line">       <span class="built_in">console</span>.log(<span class="string">'p1'</span>,p1);</div><div class="line">       <span class="built_in">console</span>.log(<span class="string">'p2'</span>,p2);</div><div class="line">       </div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="5-Promise-prototype-then-Promise-prototype-catch"><a href="#5-Promise-prototype-then-Promise-prototype-catch" class="headerlink" title="5 Promise.prototype.then     Promise.prototype.catch"></a>5 Promise.prototype.then     Promise.prototype.catch</h3><ul>
+<li>then方法是定义在Prototype构造函数原型上的一个方法</li>
+<li>该方法接受两个函数作为参数<ul>
+<li>第一个参数函数在promise实例状态变为Resolved的时候会执行</li>
+<li>第二个参数函数在promise实例状态变为Rejected的时候会执行</li>
+</ul>
+</li>
+<li>该方法返回值是 另外一个promise对象</li>
+<li>catch方法:当一个Promise实例的状态变为Rejected的时候会调用catch方法里面的回调函数</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="keyword">var</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">            resolve()</div><div class="line">        &#125;)</div><div class="line"></div><div class="line">        <span class="keyword">var</span> ret = p.then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'this is the status of Resolved'</span>);  </div><div class="line">        &#125;)</div><div class="line"></div><div class="line">        <span class="built_in">console</span>.log(ret);<span class="comment">//Promise对象</span></div><div class="line">        </div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</div><div class="line">        reject();</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">    p.catch(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'REJECTED'</span>);    </div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>基本使用暂时到此,后期其他方法会有时间更新  ===========  2017/5/11    21:21</p>
+
       
     </div>
 
@@ -415,8 +487,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/12/21/170NodeJs-Util-net/" rel="prev" title="NodeJs Util net">
-                NodeJs Util net <i class="fa fa-chevron-right"></i>
+              <a href="/2016/12/21/170NodeJs-Util-net/" rel="prev" title="NodeJs Util">
+                NodeJs Util <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -464,8 +536,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpg"
@@ -480,7 +561,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">178</span>
+                <span class="site-state-item-count">181</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -527,6 +608,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Promise定义"><span class="nav-number">1.</span> <span class="nav-text">1 Promise定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-基本使用-Promise是一个构造函数-该构造函数接受一个函数作为参数-必须的"><span class="nav-number">2.</span> <span class="nav-text">2 基本使用 Promise是一个构造函数,该构造函数接受一个函数作为参数(必须的)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-实例化一个Promise对象的时候传入Promise构造函数的参数是一个函数-该函数立即执行"><span class="nav-number">3.</span> <span class="nav-text">3 实例化一个Promise对象的时候传入Promise构造函数的参数是一个函数,该函数立即执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-如果-resolve-或者-reject-函数执行的时候有参数-那么参数会传递给then方法中相应的回调函数"><span class="nav-number">4.</span> <span class="nav-text">4 如果 resolve 或者 reject 函数执行的时候有参数,那么参数会传递给then方法中相应的回调函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Promise-prototype-then-Promise-prototype-catch"><span class="nav-number">5.</span> <span class="nav-text">5 Promise.prototype.then     Promise.prototype.catch</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

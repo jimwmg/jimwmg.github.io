@@ -270,6 +270,546 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/15/128NodeJsEvent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/15/128NodeJsEvent/" itemprop="url">
+                  NodeJs Event
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-15T12:36:00+08:00">
+                2017-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1 events事件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//引入events模块并创建eventEmitter对象</span></div><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventEmitter = <span class="keyword">new</span> events.EventEmitter();</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//声明事件函数</span></div><div class="line"><span class="keyword">var</span> eventNameHandle = <span class="function"><span class="keyword">function</span> <span class="title">eventName</span>(<span class="params"></span>)</span>&#123;&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//绑定事件处理程序，并触发执行</span></div><div class="line">eventEmitter.on(<span class="string">'eventName'</span>,eventNameHandle);</div><div class="line">eventEmitter.emit(<span class="string">'eventName'</span>);</div></pre></td></tr></table></figure>
+<p>2 我们可以输出 events 模块  console.log(events); 查看其所包含内容</p>
+<p>events模块只提供了一个对象: events.EventEmitter .该对象的核心就是事件的触发和事件的监听的整体封装；</p>
+<p>events.EventEmitter 对象提供了多个属性，比如on可以绑定事件 emit用于触发事件,当事件触发的时候，注册到这个事件的监听器会被依次调用，事件参数作为回调函数参数传递；</p>
+<p>on(event,listener)   emit(event,arg1,arg2,····)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventsEmitter = <span class="keyword">new</span> events.EventEmitter();</div><div class="line">eventsEmitter.on(<span class="string">"eventName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener1"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.on(<span class="string">"eventName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener2"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line"><span class="comment">//以下给同一个事件注册了两个监听器</span></div><div class="line">eventsEmitter.on(<span class="string">"anotherName"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener3"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.emit(<span class="string">'eventName'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line"><span class="comment">//eventsEmitter.emit('anothertName','argone','argtwo');</span></div></pre></td></tr></table></figure>
+<p>once(event,listener)  为指定事件注册一个单次监听器，即监听器最多只能触发一次，触发之后马上解绑</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> eventsEmitter = <span class="keyword">new</span> events.EventEmitter();</div><div class="line">eventsEmitter.once(<span class="string">"name1"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">arg1,arg2</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"listener4"</span>,arg1,arg2);</div><div class="line">&#125;);</div><div class="line">eventsEmitter.emit(<span class="string">'name1'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line">eventsEmitter.emit(<span class="string">'name1'</span>,<span class="string">'argone'</span>,<span class="string">'argtwo'</span>);</div><div class="line"><span class="comment">//在node终端执行的时候，即使emit了两次，该事件监听器也只执行一次，而on绑定的事件可以多次执行</span></div></pre></td></tr></table></figure>
+<p>addListener(event,listener) 给指定事件添加一个事件监听器，到监听器数组的尾部</p>
+<p>removeListener(event,listener) 删除指定事件的listener，此操作会影响处于被删监听器之后的那些监听器的索引</p>
+<p>listenerCount(emmit,listener)  emmit是 new events.EventEmitter()对象，所有的事件都是通过该对象进行绑定，触发等操作。该方法可以返回指定事件的监听器数量</p>
+<p>listeners(event)  该方法返回某个事件上的监听器所组成的数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>);</div><div class="line"><span class="keyword">var</span> emmit = <span class="keyword">new</span> events.EventEmitter();</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">listener1</span> (<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is listernr1"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">listener2</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"this is listener2"</span>);</div><div class="line">&#125;</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener1);</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener2);<span class="comment">//给event1注册两个监听器，listenerConut可以得到该事件的监听器数量</span></div><div class="line"><span class="comment">//let count = emmit.listenerCount(emmit,'event1');</span></div><div class="line"><span class="keyword">let</span> count = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter.listenerCount(emmit,<span class="string">'event1'</span>);</div><div class="line"><span class="built_in">console</span>.log(count);<span class="comment">//2</span></div><div class="line"><span class="built_in">console</span>.log(emmit.listeners(<span class="string">'event1'</span>));</div><div class="line"><span class="comment">//[ [Function: listener1], [Function: listener2] ]</span></div><div class="line">emmit.emit(<span class="string">'event1'</span>);</div><div class="line">emmit.removeListener(<span class="string">'event1'</span>,listener1);</div><div class="line">emmit.on(<span class="string">'event1'</span>,listener1);<span class="comment">//这个监听事件被移除，不会再次被触发</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/08/131NodeJsFS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/08/131NodeJsFS/" itemprop="url">
+                  NodeJsFileSystem WriteFileAndReadFile
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-08T12:36:00+08:00">
+                2017-01-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="FileSystem"><a href="#FileSystem" class="headerlink" title="FileSystem"></a>FileSystem</h3><p>文件 I/O 是由简单封装的标准 POSIX 函数提供的。 通过 require(‘fs’)使用该模块。 <strong>所有的方法都有异步和同步的形式。</strong></p>
+<ul>
+<li><p>异步形式始终以完成回调作为它最后一个参数。 传给完成回调的参数取决于具体方法，但第一个参数总是留给异常。 如果操作成功完成，则第一个参数会是 null或 undefined，如果操作失败，则第一个参数将是一个错误对象；</p>
+<p>需要注意一点，异步操作无法通过try-catch来捕获异常</p>
+</li>
+<li><p>当使用同步形式时，任何异常都会被立即抛出。 可以使用 try/catch 来处理异常，或让它们往上冒泡。</p>
+</li>
+</ul>
+<h3 id="nodejs-fs"><a href="#nodejs-fs" class="headerlink" title="nodejs fs"></a>nodejs fs</h3><p>1 读取文件操作readFile(file,options,callback)</p>
+<ul>
+<li>file是要读取的文件的路径</li>
+<li>options<ul>
+<li>encoding  <string> | null     //默认值是null,所以如果不指定编码方式，读取文件的结果<strong>默认返回的值是二进制数据</strong>,返回的结果会作为参数传递给callback回调函数</string></li>
+<li>flag  <string>  默认是  ‘r’</string></li>
+</ul>
+</li>
+<li>callback 回调函数又有两个参数，第一个参数是error对象，第二个参数是读取到的数据<ul>
+<li>如果读取文件成功，err返回null  data返回读取到的文件数据;(如果字符编码未指定，则返回原始的buffer数据)</li>
+<li>如果读取文件失败，err返回一个错误对象，data返回undefined;</li>
+</ul>
+</li>
+<li>注意读取文件的内容返回的结果要么是<strong>Buffer类型</strong>的数据，要么是<strong>字符串类型</strong>的数据</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建文件读取对象</span></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">fs.readFile(<span class="string">'input.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123; <span class="comment">//假如input.txt里面的内容是  hello world</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);<span class="comment">//我们可以打印出来回调函数的参数进行查看，即使文件读取失败，回调函数也会执行</span></div><div class="line">  <span class="built_in">console</span>.log(err);</div><div class="line">  <span class="built_in">console</span>.log(data);<span class="comment">//readFile返回的data数据是buffer类型的数据</span></div><div class="line">  <span class="keyword">if</span>(err)&#123;</div><div class="line">    <span class="built_in">console</span>.log(err.stack);</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(data.toString());<span class="comment">//需要调用toString方法转化为字符串</span></div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"program is done"</span>);</div><div class="line"><span class="comment">//program is done</span></div><div class="line"><span class="comment">//hello world </span></div><div class="line"><span class="comment">//程序无阻塞运行</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//readFile语法</span></div><div class="line">fs.readFile(<span class="string">'etc/passwd'</span>,(err,data)=&gt;&#123;</div><div class="line">  <span class="keyword">if</span>(err) <span class="keyword">throw</span> err;  <span class="comment">//使用箭头函数可以使代码更加简洁</span></div><div class="line">  <span class="built_in">console</span>.log(data);</div><div class="line">&#125;);</div><div class="line"><span class="comment">//readFile用于异步读取文件内容，</span></div></pre></td></tr></table></figure>
+<p>2 写入文件的操作writeFile(file,data,[option],callback)</p>
+<ul>
+<li>file可以是文件名或者文件描述</li>
+<li>data是异步地写入的数据内容，可以是一个string或者buffer</li>
+<li>option 编码格式，如果data是一个buffer,则默认encoding是utf-8</li>
+<li>callback 回调函数,该回调函数里面只有一个参数就是err错误处理对象，如果写入成功err返回null</li>
+</ul>
+<p>看下面这个简单的例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">fs.writeFile(<span class="string">'../write.txtf'</span>,<span class="string">'hello nodejs'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (err)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"写入文件失败"</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"写入文件成功"</span>);</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"pro is done"</span>);</div></pre></td></tr></table></figure>
+<p>需要注意的是，我们只能写入字符串或者Buffer类型的数据，如果写入复杂数据类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">fs.writeFileSync(<span class="string">'./text'</span>,<span class="string">' sync write'</span>); <span class="comment">// 写入文件的内容是    sync write  </span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,&#123;<span class="attr">name</span>:<span class="string">"Jhon"</span>&#125;);<span class="comment">//写入文件的内容是[object Object]</span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;);<span class="comment">//写入文件的内容是  function()&#123;&#125; </span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]); <span class="comment">//写入文件的内容是  1,2,3</span></div><div class="line">fs.writeFileSync(<span class="string">'./text.txt'</span>,<span class="number">1</span>);<span class="comment">//写入文件的内容是 1</span></div></pre></td></tr></table></figure>
+<p>3 以上文件的读写都是异步进行的，不会阻塞程序的执行，同时我们在日常工作中通过服务器端的数据的读写也会经常用到这两个API </p>
+<p>4 对于异步 的任务，很多时候，每个任务的执行先后顺序是无法控制的，那么如何去解决这个问题？</p>
+<p><strong>此时，如果需要异步任务按照我们的意愿顺序进行，那么则需要将形成异步嵌套，形成一个回调链</strong></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/28/167NodeJs事件驱动/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/28/167NodeJs事件驱动/" itemprop="url">
+                  NodeJs 事件驱动
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-28T12:36:00+08:00">
+                2016-12-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-在了解nodejs的事件驱动模型的时候，先来看下传统线程网络模型"><a href="#1-在了解nodejs的事件驱动模型的时候，先来看下传统线程网络模型" class="headerlink" title="1 在了解nodejs的事件驱动模型的时候，先来看下传统线程网络模型"></a>1 在了解nodejs的事件驱动模型的时候，先来看下传统线程网络模型</h3><p>1.1 <strong>传统线程网络模型</strong></p>
+<p>发起请求，请求进入web服务器(IIS、Apache)之后,会在线程池中分配一个线程来线性同步完成请求处理，直到请求处理完成并发出响应,结束之后线程池回收。</p>
+<p>这就会就会带来以下几个问题 :</p>
+<ul>
+<li>由于线程池中线程个数有限,对于频繁请求时,就会出现等待,严重的甚至会把服务器挂掉</li>
+<li>同时线程的增多也会占用大量的 CPU 时间来处理内存上下文切换， 而且还容易遭受低速连接攻击</li>
+<li>对于高并发的时候,为了防止出现脏数据就会使用锁来解决,一些I/O事务可能消耗很长得时间,这样就会出现一些线程等待,效率低下</li>
+</ul>
+<p>1.2 <strong>Node.Js使用事件驱动模型</strong></p>
+<p>当web server接收到请求，就把它关闭然后进行处理，然后去服务下一个web请求。当这个请求完成，它被放回处理队列，当到达队列开头，这个结果被返回给用户。这个模型非常高效可扩展性非常强，因为webserver一直接受请求而不等待任何读写操作。（这也被称之为非阻塞式IO或者事件驱动IO）</p>
+<p>Node.js 的异步机制是基于事件的，所有的   磁盘 I/O 、   网络通信、  数据库查询   客户端的请求  都以<strong>非阻塞</strong>的方式请求，返回的结果由事件循环来处理。如图 描述了这个机制。Node.js 进程在同一时刻只会处理一个事件，完成后立即进入事件循环检查并处理后面的事件。<br>这样做的好处是CPU 和内存在同一时间集中处理一件事，同时尽可能让耗时的 I/O 操作并行执行</p>
+<p>Nodejs事假驱动机制是通过Nodejs内部通过 单线程高效率地 维护事件队列来实现的，没有多线程的资源占用和频繁的上下文切换</p>
+<ul>
+<li>像<a href="http://lib.csdn.net/base/javase" target="_blank" rel="external">Java</a>、<a href="http://lib.csdn.net/base/python" target="_blank" rel="external">Python</a>这个可以具有多线程的语言。多线程同步模式是这样的，将cpu分成几个线程，每个线程同步运行。 </li>
+<li>而node.js采用<strong>单线程异步非阻塞</strong>模式，也就是说每一个计算独占cpu，遇到I/O请求不阻塞后面的计算，当I/O完成后，以事件的方式通知，继续执行计算</li>
+</ul>
+<p>1.3 <strong>同步与异步</strong></p>
+<p>同步和异步关注的是消息通信机制 (synchronous communication/ asynchronous communication)</p>
+<ul>
+<li>所谓同步，就是在发出一个调用之后，在没有得到结果，该调用就不会返回；得到返回值之后，该调用返回</li>
+<li>所谓异步，就是在发出一个调用之后，直接返回该调用，所以没有返回结果；也就是说当一个异步调用发出后，调用者不会立刻得到结果，而是在调用发出后，被调用者通过状态的变化通知调用者，或者通过回调函数处理这个调用</li>
+</ul>
+<p>举个通俗的例子：你打电话问书店老板有没有《分布式系统》这本书，如果是同步通信机制，书店老板会说，你稍等，”我查一下”，然后开始查啊查，等查好了（可能是5秒，也可能是一天）告诉你结果（返回结果）。而异步通信机制，书店老板直接告诉你我查一下啊，查好了打电话给你，然后直接挂电话了（不返回结果）。然后查好了，他会主动打电话给你。在这里老板通过“回电”这种方式来回调。</p>
+<p>异步操作的时候回调函数的第一个参数通常是上一步传入的错误对象，异步操作不能使用try-catch捕获异常，因为在回调函数运行的时候，上一步的操作早就结束了，错误的栈也已经不存在了，所以只能将错误数据传递给回调函数进行处理</p>
+<p>1.4 <strong>阻塞与非阻塞</strong></p>
+<p>常见I/O阻塞  磁盘读取 、   网络通信、  数据库查询   客户端的请求</p>
+<p>阻塞和非阻塞关注的是程序在<strong>等待调用结果（消息，返回值）时的状态.</strong></p>
+<ul>
+<li>阻塞调用是指调用结果返回之前，当前线程会被挂起。调用线程只有在得到结果之后才会返回。 </li>
+<li>非阻塞调用指在不能立刻得到结果之前，该调用不会阻塞当前线程。</li>
+</ul>
+<p>还是上面的例子，你打电话问书店老板有没有《分布式系统》这本书，你如果是阻塞式调用，你会一直把自己“挂起”，直到得到这本书有没有的结果，如果是非阻塞式调用，你不管老板有没有告诉你，你自己先一边去玩了，<br>当然你也要偶尔过几分钟check一下老板有没有返回结果。在这里阻塞与非阻塞与是否同步异步无关。跟老板通过什么方式回答你结果无关。</p>
+<p>1.5  线程和进程</p>
+<ul>
+<li>多线程单进程     </li>
+</ul>
+<p>多线程的 设计之初就是为了在共享的内存程序空间中，实现并行 处理任务，从而达到充分利用CPU的效果。多线程的缺点就是在于执行的时候上下文的切换开销比较大，使得程序的编写和调用复杂化</p>
+<ul>
+<li>单线程多进程</li>
+</ul>
+<p>为了避免多线程造成的使用不便的问题，有的语言选择使用单线程保持调用的简单化，采用启动多进程的方式来达到充分利用CPU和提升整体的并行处理能力。它的缺点在于业务逻辑复杂的时候，涉及多个I/O操作的时候，因为业务逻辑不能分布到多个进程之间，事务处理时长要远远大于多线程模式。</p>
+<p>2 代码实现，理解上述概念</p>
+<p>2.1 阻塞与非阻塞</p>
+<p>假如hello.txt</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hello world</div></pre></td></tr></table></figure>
+<p>以下程序会<strong>非阻塞运行</strong>，当我们发起一个文件读取操作的时候，不会阻塞js代码的执行，后续的js代码会继续执行，当文件读取完毕之后，会调用回调函数；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">fs.readFile(<span class="string">'hello.txt'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(err)&#123;</div><div class="line">        <span class="built_in">console</span>.log(err.stack);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(data.toString());</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"pro is don"</span>);</div><div class="line"><span class="comment">//pro is don </span></div><div class="line"><span class="comment">//hello world</span></div></pre></td></tr></table></figure>
+<p>以下程序会<strong>阻塞运行</strong>，当我们发起一个文件读取操作的时候，会阻塞js代码的执行，当文件读取完毕之后，后续的js代码才开始执行</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>);</div><div class="line"><span class="keyword">var</span> data = fs.readFileSync(<span class="string">'hello.js'</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(data.toString());</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"pro is done"</span>);</div><div class="line"><span class="comment">//hello world</span></div><div class="line"><span class="comment">//pro is don</span></div></pre></td></tr></table></figure>
+<p>2.2  事件循环线程与事件队列</p>
+<p>对于遇到I/O操作，node.js不会停止后面的文件的内容的执行，会继续执行后续代码，然后另外一个线程处理I/O，处理完毕之后，将回调函数放入事件队列等待执行</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"begin"</span>);</div><div class="line"></div><div class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"Timeout1"</span>);</div><div class="line">&#125;,<span class="number">100</span>)</div><div class="line">fs.readFile(<span class="string">'hello.tet'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(err)&#123;</div><div class="line">        <span class="built_in">console</span>.log(err.stack);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(data.toString());</div><div class="line">&#125;);</div><div class="line"></div><div class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"Timeout2"</span>);</div><div class="line">&#125;,<span class="number">0</span>)</div><div class="line"><span class="comment">//即使设置为0，最少也会有5ms的延迟</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"end"</span>);</div></pre></td></tr></table></figure>
+<p>输出如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">begin </div><div class="line">end </div><div class="line">timeout2</div><div class="line">timeout1</div><div class="line">helloworld</div></pre></td></tr></table></figure>
+<p>需要注意的是 setTimeout和readFile的操作，会将回调函数放入事件队列，回调函数执行的顺序取决于文件读取的速度，以及延时任务的时间的大小比较；</p>
+<p>通俗来讲，假如文件读取的用了200ms ，那么执行顺序就是上面的输出结果</p>
+<p>假如文件读取用了50ms，那么执行顺序就是</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">begin </div><div class="line">end </div><div class="line">timeout2</div><div class="line">helloworld</div><div class="line">timeout1</div></pre></td></tr></table></figure>
+<p>3 </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/21/170NodeJs-Util-net/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -293,7 +833,7 @@
               
                 
                 <a class="post-title-link" href="/2016/12/21/170NodeJs-Util-net/" itemprop="url">
-                  NodeJs Util net
+                  NodeJs Util
                 </a>
               
             
@@ -369,8 +909,7 @@
       
         
           
-            <p>1 Node.js Net 模块提供了一些用于底层的网络通信的小工具，包含了创建服务器/客户端的方法，我们可以通过以下方式引入该模块：</p>
-<p>1.1 net相关API</p>
+            <h3 id="1-Node-js-Net-模块提供了一些用于底层的网络通信的小工具，包含了创建服务器-客户端的方法，我们可以通过以下方式引入该模块："><a href="#1-Node-js-Net-模块提供了一些用于底层的网络通信的小工具，包含了创建服务器-客户端的方法，我们可以通过以下方式引入该模块：" class="headerlink" title="1 Node.js Net 模块提供了一些用于底层的网络通信的小工具，包含了创建服务器/客户端的方法，我们可以通过以下方式引入该模块："></a>1 Node.js Net 模块提供了一些用于底层的网络通信的小工具，包含了创建服务器/客户端的方法，我们可以通过以下方式引入该模块：</h3><p>1.1 net相关API</p>
 <p>net.js 文件</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> net  = <span class="built_in">require</span>(<span class="string">'net'</span>);</div><div class="line"><span class="built_in">console</span>.log(net);</div></pre></td></tr></table></figure>
 <p>执行命令  node  net.js</p>
@@ -387,6 +926,8 @@
 <li>data事件，当接收到数据的时候触发该事件，向该事件的监听器传入</li>
 <li>end事件，当socket连接的另一端发出FIN包时被触发，也就是说数据传输完毕的时候触发该事件</li>
 </ul>
+<h3 id="2-Nodejs-path模块"><a href="#2-Nodejs-path模块" class="headerlink" title="2 Nodejs.path模块"></a>2 Nodejs.path模块</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 格式化路径</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'normalization : '</span> + path.normalize(<span class="string">'/test/test1//2slashes/1slash/tab/..'</span>));</div><div class="line"></div><div class="line"><span class="comment">// 连接路径,用于根据电脑的不同的操作系统连接路径 </span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'joint path : '</span> + path.join(<span class="string">'/test'</span>, <span class="string">'test1'</span>, <span class="string">'2slashes/1slash'</span>, <span class="string">'tab'</span>, <span class="string">'..'</span>));</div><div class="line"></div><div class="line"><span class="comment">// 转换为绝对路径,会解析文件所在路径的绝对路径,如果是服务器就是相对于服务器根目录所在路径,如果是磁盘就是相对于磁盘的根目录</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'resolve : '</span> + path.resolve(<span class="string">'main.js'</span>));</div><div class="line"></div><div class="line"><span class="comment">// 路径中文件的后缀名</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'ext name : '</span> + path.extname(<span class="string">'main.js'</span>));</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ node main.js 执行main.js文件</div><div class="line">  </div><div class="line">normalization : /test/test1/<span class="number">2</span>slashes/<span class="number">1</span>slash</div><div class="line">joint path : /test/test1/<span class="number">2</span>slashes/<span class="number">1</span>slash</div><div class="line">resolve : /web/com/<span class="number">1427176256_27423</span>/main.js</div><div class="line">ext name : .js</div></pre></td></tr></table></figure>
 
           
         
@@ -529,7 +1070,73 @@
       
         
           
-            
+            <h3 id="1-Promise定义"><a href="#1-Promise定义" class="headerlink" title="1 Promise定义"></a>1 Promise定义</h3><p>Promise是一种异步编程的解决方案,是一个对象(构造函数),从该对象可以获取异步操作的消息</p>
+<p>Promise对象的特点</p>
+<p>（1）对象的状态不受外界影响。<code>Promise</code>对象代表一个异步操作，有三种状态：<code>Pending</code>（进行中）、<code>Resolved</code>（已完成，又称 Fulfilled）和<code>Rejected</code>（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。这也是<code>Promise</code>这个名字的由来，它的英语意思就是“承诺”，表示其他手段无法改变。</p>
+<p>（2）一旦状态改变，就不会再变，任何时候都可以得到这个结果。<code>Promise</code>对象的状态改变，只有两种可能：从<code>Pending</code>变为<code>Resolved</code>和从<code>Pending</code>变为<code>Rejected</code>。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果。如果改变已经发生了，你再对<code>Promise</code>对象添加回调函数，也会立即得到这个结果。这与事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的。</p>
+<p>缺点</p>
+<p>(1) 首先，无法取消<code>Promise</code>，一旦新建它就会立即执行，无法中途取消。</p>
+<p>(2) 当新建promise对象的时候,Promise里面必须传入回调函数,否则内部会抛出错误</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>()  <span class="comment">//报错</span></div></pre></td></tr></table></figure>
+<p>(3) 当处于Pendding状态的时候,无法确切知道处于哪个阶段的状态</p>
+<p>我们可以打印出来看下有什么</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.dir(<span class="built_in">Promise</span>);</div><div class="line"><span class="comment">//我们可以看到起原型上有 then 和catch等方法</span></div><div class="line"><span class="comment">// var promise = new Promise();  Promise是一个构造函数,构造函数中必须传入一个函数作为参数,否则会报错</span></div><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);<span class="comment">//</span></div><div class="line">  <span class="comment">// resolve();</span></div><div class="line">  reject();</div><div class="line">&#125;)</div><div class="line"><span class="built_in">console</span>.log(promise);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//promise实例上有如下属性 </div><div class="line">Promise</div><div class="line">[[PromiseStatus]]:&quot;resolved&quot;</div><div class="line">[[PromiseValue]]:undefined</div></pre></td></tr></table></figure>
+<h3 id="2-基本使用-Promise是一个构造函数-该构造函数接受一个函数作为参数-必须的"><a href="#2-基本使用-Promise是一个构造函数-该构造函数接受一个函数作为参数-必须的" class="headerlink" title="2 基本使用 Promise是一个构造函数,该构造函数接受一个函数作为参数(必须的)"></a>2 基本使用 Promise是一个构造函数,该构造函数接受一个函数作为参数(必须的)</h3><p>写在前面,promise对象创建的时候立即执行&gt;同步&gt;异步&gt;回调函数</p>
+<p>接受的函数中又有两个函数作为参数,</p>
+<ul>
+<li>Promise构造函数中必须有一个函数作为构造函数的参数,作为参数的函数的参数有两个函数</li>
+<li>一个是resolve函数,在异步操作成功的时候执行该函数,将Pendding状态改变为Resolved</li>
+<li>一个是reject函数,在异步操作失败的时候执行该函数,将Pendding状态改变为Rejected</li>
+<li>创建promise对象之后,根据异步操作成功与否,调用resolve或者reject函数,改变状态的结果,then方法会根据改变的状态结果调用响应的回调函数,then方法接受两个函数,<ul>
+<li>第一个函数在Resolved状态的时候执行</li>
+<li>第二个函数在Rejected状态的时候执行</li>
+</ul>
+</li>
+</ul>
+<p>基本的实现思路是</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">  <span class="comment">// ... some code</span></div><div class="line"></div><div class="line">  <span class="keyword">if</span> (<span class="comment">/* 异步操作成功 */</span>)&#123;</div><div class="line">    resolve(value);</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    reject(error);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">promise.then(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</div><div class="line">  <span class="comment">// success</span></div><div class="line">&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</div><div class="line">  <span class="comment">// failure</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>如下demo所示</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'promise对象创建之后立即执行'</span>);</div><div class="line">            <span class="comment">// resolve();</span></div><div class="line">            <span class="comment">// rejecte();</span></div><div class="line">            </div><div class="line">        &#125;)</div><div class="line">       <span class="built_in">console</span>.log(<span class="string">'helloWorld'</span>);</div><div class="line"></div><div class="line">        promise.then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'this is the status of Resolved'</span>);</div><div class="line">            </div><div class="line">        &#125;,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'this is the status of Rejected'</span>);</div><div class="line">            </div><div class="line">        &#125;)</div></pre></td></tr></table></figure>
+<ul>
+<li>当打开resolve()的注释的时候,改变了promise实例的状态,触发then函数中的第一个回调函数的执行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">promise对象创建之后立即执行</div><div class="line">helloWorld</div><div class="line">this is the status of Resolved</div></pre></td></tr></table></figure>
+<ul>
+<li>当打开reject()的注释的时候,改变了promise实例的状态,触发then函数中的第二个回调函数的执行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">promise对象创建之后立即执行</div><div class="line">helloWorld</div><div class="line">this is the status of Rejected</div></pre></td></tr></table></figure>
+<h3 id="3-实例化一个Promise对象的时候传入Promise构造函数的参数是一个函数-该函数立即执行"><a href="#3-实例化一个Promise对象的时候传入Promise构造函数的参数是一个函数-该函数立即执行" class="headerlink" title="3 实例化一个Promise对象的时候传入Promise构造函数的参数是一个函数,该函数立即执行"></a>3 实例化一个Promise对象的时候传入Promise构造函数的参数是一个函数,该函数立即执行</h3><p>内部实现大概是这个样子的,我猜 ; 所以才会有上面的输处顺序</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">f1</span>)</span>&#123;</div><div class="line">  f1()</div><div class="line">&#125;</div><div class="line"><span class="keyword">new</span> foo(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'f1 is exected'</span>);</div><div class="line">&#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="4-如果-resolve-或者-reject-函数执行的时候有参数-那么参数会传递给then方法中相应的回调函数"><a href="#4-如果-resolve-或者-reject-函数执行的时候有参数-那么参数会传递给then方法中相应的回调函数" class="headerlink" title="4 如果 resolve 或者 reject 函数执行的时候有参数,那么参数会传递给then方法中相应的回调函数"></a>4 如果 resolve 或者 reject 函数执行的时候有参数,那么参数会传递给then方法中相应的回调函数</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</div><div class="line">    <span class="keyword">var</span> res = <span class="string">'RES'</span>;</div><div class="line">    <span class="keyword">var</span> rej = <span class="string">'REJ'</span>;</div><div class="line">    resolve(res); </div><div class="line">    reject(rej);</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  promise.then(<span class="function"><span class="params">value</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'这是通过resolve函数传递过来的参数'</span>,value);</div><div class="line"></div><div class="line">     &#125;,value =&gt; &#123;<span class="built_in">console</span>.log(<span class="string">'这是通过reject函数传递过来的参数'</span>,value);</div><div class="line">  &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>另外,一般而言reject函数的参数一般是一个ERROR对象的实例,resolve函数的参数也可能是另外一个Promise对象的实例</p>
+<p>先看下面一段代码,</p>
+<ul>
+<li>如果promise对象不是另外一个promise对象的resolve函数的参数,那么promise实例 p1 p2的状态互不影响</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">       <span class="keyword">var</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line"></div><div class="line">       &#125;)</div><div class="line"></div><div class="line">       <span class="keyword">var</span> p2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">           resolve() ;</div><div class="line">       &#125;)</div><div class="line"></div><div class="line">       <span class="built_in">console</span>.log(<span class="string">'p1'</span>,p1); <span class="comment">//p1 Pendding</span></div><div class="line">       <span class="built_in">console</span>.log(<span class="string">'p2'</span>,p2);<span class="comment">//p2 Resolved</span></div><div class="line">       </div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>但是如果promise实例是另外一个promise对象的resolve的参数的话,那么promise实例将会和resolve参数的promise对象的状态保持一致</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="keyword">var</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">			<span class="comment">//此时p1对象的状态是Pendding</span></div><div class="line">        &#125;)</div><div class="line"></div><div class="line">        <span class="keyword">var</span> p2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">            resolve(p1) ; <span class="comment">//将p1对象作为resolve函数的参数</span></div><div class="line">        &#125;)</div><div class="line"></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'p1'</span>,p1);<span class="comment">//p1 Pendding</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'p2'</span>,p2);<span class="comment">//p2 Pendding</span></div><div class="line">        </div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>改变p1对象的状态</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="keyword">var</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">            resolve();<span class="comment">//此时p1对象的状态是Resolved</span></div><div class="line">        &#125;)</div><div class="line"></div><div class="line">        <span class="keyword">var</span> p2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">            resolve(p1) ;</div><div class="line">        &#125;)</div><div class="line"></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'p1'</span>,p1);<span class="comment">//p1 Resolved</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'p2'</span>,p2);<span class="comment">//p2 Resolved</span></div><div class="line">        </div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">       <span class="keyword">var</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">           <span class="comment">// resolve();</span></div><div class="line">           reject();</div><div class="line">       &#125;)</div><div class="line"></div><div class="line">       <span class="keyword">var</span> p2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">           resolve(p1) ;</div><div class="line">       &#125;)</div><div class="line"></div><div class="line">       <span class="built_in">console</span>.log(<span class="string">'p1'</span>,p1);</div><div class="line">       <span class="built_in">console</span>.log(<span class="string">'p2'</span>,p2);</div><div class="line">       </div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="5-Promise-prototype-then-Promise-prototype-catch"><a href="#5-Promise-prototype-then-Promise-prototype-catch" class="headerlink" title="5 Promise.prototype.then     Promise.prototype.catch"></a>5 Promise.prototype.then     Promise.prototype.catch</h3><ul>
+<li>then方法是定义在Prototype构造函数原型上的一个方法</li>
+<li>该方法接受两个函数作为参数<ul>
+<li>第一个参数函数在promise实例状态变为Resolved的时候会执行</li>
+<li>第二个参数函数在promise实例状态变为Rejected的时候会执行</li>
+</ul>
+</li>
+<li>该方法返回值是 另外一个promise对象</li>
+<li>catch方法:当一个Promise实例的状态变为Rejected的时候会调用catch方法里面的回调函数</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="keyword">var</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">            resolve()</div><div class="line">        &#125;)</div><div class="line"></div><div class="line">        <span class="keyword">var</span> ret = p.then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'this is the status of Resolved'</span>);  </div><div class="line">        &#125;)</div><div class="line"></div><div class="line">        <span class="built_in">console</span>.log(ret);<span class="comment">//Promise对象</span></div><div class="line">        </div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</div><div class="line">        reject();</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">    p.catch(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'REJECTED'</span>);    </div><div class="line">    &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>基本使用暂时到此,后期其他方法会有时间更新  ===========  2017/5/11    21:21</p>
+
           
         
       
@@ -1514,449 +2121,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/01/120-ES6变量声明 let const/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/01/120-ES6变量声明 let const/" itemprop="url">
-                  ES6 let const
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-01T12:36:00+08:00">
-                2016-12-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ES6/" itemprop="url" rel="index">
-                    <span itemprop="name">ES6</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="ES6变量声明-let-const"><a href="#ES6变量声明-let-const" class="headerlink" title="ES6变量声明 let const"></a>ES6变量声明 let const</h2><h3 id="1-let声明"><a href="#1-let声明" class="headerlink" title="1 let声明"></a>1 let声明</h3><p>1.1 let声明的变量和var声明变量一样，都可以从父级作用域获取变量</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> x = <span class="number">9</span> ;<span class="comment">//全局声明 let x ;</span></div><div class="line">   ~<span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="built_in">console</span>.log(x);<span class="comment">//9 可以访问父作用域内let声明的变量</span></div><div class="line">   &#125;();</div><div class="line">   &#123;</div><div class="line">       x = x + <span class="number">3</span> ; <span class="comment">//</span></div><div class="line">       <span class="built_in">console</span>.log(x);<span class="comment">//12</span></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>1.2  let 声明的变量必须 <strong>先声明</strong> 在  <strong>使用</strong> , 所有在声明之前的使用都会报错; 在同一个作用域内用let声明的变量不允许重复(暂时性死区) var却可以在同一作用域内重复声明同名变量 ;</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">       <span class="keyword">var</span> b = <span class="number">8</span> ;</div><div class="line">       <span class="keyword">var</span> b = <span class="number">999</span>;</div><div class="line">       <span class="built_in">console</span>.log(b);<span class="comment">//999  var声明变量可以重复声明名称相同的变量</span></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> x = <span class="number">9</span> ;</div><div class="line">&#123;</div><div class="line">    <span class="keyword">let</span> x = x + <span class="number">3</span> ; <span class="comment">//Uncaught ReferenceError: x is not defined</span></div><div class="line">  <span class="comment">//对于let在一个作用域内，必须先声明在使用,这里需要注意,赋值运算是从右向左进行的,</span></div><div class="line">    <span class="built_in">console</span>.log(x);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>2 const声明</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">/* 1 const声明，可以声明一个常量，该常量在声明的同时必须初始化，如果不初始化会报错，</span></div><div class="line">       2 const声明可以声明一个复杂数据类型，同时该复杂数据类型也必须初始化</div><div class="line">        3 const声明本质上其实是保证所声明的变量指向的内存地址是不能变化的，比如声明基本数据类型，声明之后不可改变</div><div class="line">        如果声明一个复杂数据类型，同样不能重新赋值</div><div class="line">    *</div><div class="line">    * */</div><div class="line"><span class="comment">//   -----------------------------</span></div><div class="line"><span class="comment">//    基本数据类型,声明之后不能重新赋值，</span></div><div class="line">    <span class="keyword">const</span> p = <span class="number">9</span> ;</div><div class="line">    p = <span class="number">8</span> ; <span class="comment">//Uncaught TypeError: Assignment to constant variable.</span></div><div class="line"><span class="comment">//    --------------------------------</span></div><div class="line"><span class="comment">//    复杂数据类型，声明后该变量指向内存中的指针不能再修改，但是复杂数据类型内部的数据结构还是可变的</span></div><div class="line">    <span class="keyword">const</span> o = &#123;&#125;;<span class="comment">//指向一个地址，改地址存放一个空的对象</span></div><div class="line">    o.name = <span class="string">"Jhon"</span>;<span class="comment">//内部数据结构是可变的</span></div><div class="line">    <span class="built_in">console</span>.log(o);</div><div class="line">    o = &#123;&#125;;<span class="comment">//Uncaught TypeError: Assignment to constant variable.</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/30/113-利用defineProperty获取闭包内部数据/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/30/113-利用defineProperty获取闭包内部数据/" itemprop="url">
-                  利用defineProperty获取闭包内部数据
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-30T12:36:00+08:00">
-                2016-11-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="利用defineProperty获取闭包内部数据"><a href="#利用defineProperty获取闭包内部数据" class="headerlink" title="利用defineProperty获取闭包内部数据"></a>利用defineProperty获取闭包内部数据</h3><p>1 defineProperty的使用方法:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.defineProperty(obj,property,&#123;</div><div class="line">        <span class="attr">value</span>:<span class="string">"属性值"</span>,</div><div class="line">        <span class="attr">writable</span>:<span class="literal">false</span>,<span class="comment">//控制属性是否可以重新赋值</span></div><div class="line">        configurable:<span class="literal">false</span>,<span class="comment">//控制属性是否可以被删除</span></div><div class="line">        enumerable:<span class="literal">false</span>,<span class="comment">//是否可枚举</span></div><div class="line">        get:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.propertyValue;</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">set</span>:<span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;      </div><div class="line">            <span class="keyword">this</span>.propertyValue = value;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
-<p>2 利用给定接口获取闭包内部数据</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> person = &#123;</div><div class="line">        <span class="attr">name</span>: <span class="string">'Vincent'</span>,</div><div class="line">        <span class="attr">age</span>: <span class="number">24</span>,</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">run</span>: <span class="function"><span class="keyword">function</span>(<span class="params">k</span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> person[k];</div><div class="line">        &#125;,</div><div class="line">    &#125;</div><div class="line">&#125;());</div><div class="line"><span class="comment">//在不改变上面的代码情况下， 怎么得到原有的 person 对象？</span></div><div class="line"><span class="comment">//解决：</span></div><div class="line"><span class="built_in">Object</span>.defineProperty(<span class="built_in">Object</span>.prototype, <span class="string">'self'</span>, </div><div class="line">    &#123;</div><div class="line">        <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">configurable</span>: <span class="literal">true</span></div><div class="line">    &#125;);</div><div class="line">o.run(<span class="string">'self'</span>); <span class="comment">// 输出 person</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/30/173Nodejs-Express/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/30/173Nodejs-Express/" itemprop="url">
-                  Nodejs Express
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-30T12:36:00+08:00">
-                2016-11-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index">
-                    <span itemprop="name">nodejs</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1  Express 是一个基于 Node.js 平台的极简、灵活的 web 应用开发框架，它提供一系列强大的特性，帮助你创建各种 Web 和移动设备应用。[express作者jk]</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2001,7 +2170,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">178</span>
+                <span class="site-state-item-count">181</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

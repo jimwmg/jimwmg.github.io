@@ -270,6 +270,206 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/26/198seajs基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/26/198seajs基础/" itemprop="url">
+                  seajs基础
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-26T12:36:00+08:00">
+                2017-04-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/seajs/" itemprop="url" rel="index">
+                    <span itemprop="name">seajs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="模块标识"><a href="#模块标识" class="headerlink" title="模块标识"></a>模块标识</h2><p>模块标识是一个字符串，用来标识模块。在 require、 require.async 等加载函数中，第一个参数都是模块标识。</p>
+<ul>
+<li>顶级标识始终相对 base 基础路径解析。</li>
+<li>绝对路径和根路径始终相对当前页面解析。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Sea.js 中的模块标识是 CommonJS 模块标识 的超集:</div><div class="line"></div><div class="line">一个模块标识由斜线（/）分隔的多项组成。</div><div class="line">每一项必须是小驼峰字符串、 . 或 .. 。</div><div class="line">模块标识可以不包含文件后缀名，比如 .js 。</div><div class="line">模块标识可以是 相对 或 顶级 标识。如果第一项是 . 或 ..，则该模块标识是相对标识。</div><div class="line">顶级标识根据模块系统的基础路径来解析。</div><div class="line">相对标识相对 require 所在模块的路径来解析。</div><div class="line">注意，符合上述规范的标识肯定是 Sea.js 的模块标识，但 Sea.js 能识别的模块标识不需要完全符合以上规范。 比如，除了大小写字母组成的小驼峰字符串，Sea.js 的模块标识字符串还可以包含下划线（_）和连字符（-）， 甚至可以是 http://、https://、file:/// 等协议开头的绝对路径。</div><div class="line"></div><div class="line">相对标识</div><div class="line"></div><div class="line">相对标识以 . 开头，只出现在模块环境中（define 的 factory 方法里面）。相对标识永远相对当前模块的 URI 来解析：</div><div class="line"></div><div class="line">// 在 http://example.com/js/a.js 的 factory 中：</div><div class="line">require.resolve(&apos;./b&apos;);</div><div class="line">  // =&gt; http://example.com/js/b.js</div><div class="line"></div><div class="line">// 在 http://example.com/js/a.js 的 factory 中：</div><div class="line">require.resolve(&apos;../c&apos;);</div><div class="line">  // =&gt; http://example.com/c.js</div><div class="line">顶级标识</div><div class="line"></div><div class="line">顶级标识不以点（.）或斜线（/）开始， 会相对模块系统的基础路径（即 Sea.js 的 base 路径）来解析：</div><div class="line"></div><div class="line">// 假设 base 路径是：http://example.com/assets/</div><div class="line"></div><div class="line">// 在模块代码里：</div><div class="line">require.resolve(&apos;gallery/jquery/1.9.1/jquery&apos;);</div><div class="line">  // =&gt; http://example.com/assets/gallery/jquery/1.9.1/jquery.js</div><div class="line">模块系统的基础路径即 base 的默认值，与 sea.js 的访问路径相关：</div><div class="line"></div><div class="line">如果 sea.js 的访问路径是：</div><div class="line">  http://example.com/assets/sea.js</div><div class="line"></div><div class="line">则 base 路径为：</div><div class="line">  http://example.com/assets/</div><div class="line">当 sea.js 的访问路径中含有版本号时，base 不会包含 seajs/x.y.z 字串。 当 sea.js 有多个版本时，这样会很方便。</div><div class="line"></div><div class="line">如果 sea.js 的路径是：</div><div class="line">  http://example.com/assets/seajs/1.0.0/sea.js</div><div class="line"></div><div class="line">则 base 路径是：</div><div class="line">  http://example.com/assets/</div><div class="line">当然，也可以手工配置 base 路径：</div><div class="line"></div><div class="line">seajs.config(&#123;</div><div class="line">  base: &apos;http://code.jquery.com/&apos;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 在模块代码里：</div><div class="line">require.resolve(&apos;jquery&apos;);</div><div class="line">  // =&gt; http://code.jquery.com/jquery.js</div><div class="line">普通路径</div><div class="line"></div><div class="line">除了相对和顶级标识之外的标识都是普通路径。普通路径的解析规则，和 HTML 代码中的 &lt;script src=&quot;...&quot;&gt;&lt;/script&gt; 一样，会相对当前页面解析。</div><div class="line"></div><div class="line">// 假设当前页面是 http://example.com/path/to/page/index.html</div><div class="line"></div><div class="line">// 绝对路径是普通路径：</div><div class="line">require.resolve(&apos;http://cdn.com/js/a&apos;);</div><div class="line">  // =&gt; http://cdn.com/js/a.js</div><div class="line"></div><div class="line">// 根路径是普通路径：</div><div class="line">require.resolve(&apos;/js/b&apos;);</div><div class="line">  // =&gt; http://example.com/js/b.js</div><div class="line"></div><div class="line">// use 中的相对路径始终是普通路径：</div><div class="line">seajs.use(&apos;./c&apos;);</div><div class="line">  // =&gt; 加载的是 http://example.com/path/to/page/c.js</div><div class="line"></div><div class="line">seajs.use(&apos;../d&apos;);</div><div class="line">  // =&gt; 加载的是 http://example.com/path/to/d.js</div><div class="line">提示：</div><div class="line"></div><div class="line">顶级标识始终相对 base 基础路径解析。</div><div class="line">绝对路径和根路径始终相对当前页面解析。</div><div class="line">require 和 require.async 中的相对路径相对当前模块路径来解析。</div><div class="line">seajs.use 中的相对路径始终相对当前页面来解析。</div><div class="line">文件后缀的自动添加规则</div><div class="line"></div><div class="line">Sea.js 在解析模块标识时， 除非在路径中有问号（?）或最后一个字符是井号（#），否则都会自动添加 JS 扩展名（.js）。如果不想自动添加扩展名，可以在路径末尾加上井号（#）。</div><div class="line"></div><div class="line">// &quot;.js&quot; 后缀可以省略：</div><div class="line">require.resolve(&apos;http://example.com/js/a&apos;);</div><div class="line">require.resolve(&apos;http://example.com/js/a.js&apos;);</div><div class="line">  // =&gt; http://example.com/js/a.js</div><div class="line"></div><div class="line">// &quot;.css&quot; 后缀不可省略：</div><div class="line">require.resolve(&apos;http://example.com/css/a.css&apos;);</div><div class="line">  // =&gt; http://example.com/css/a.css</div><div class="line"></div><div class="line">// 当路径中有问号（&quot;?&quot;）时，不会自动添加后缀：</div><div class="line">require.resolve(&apos;http://example.com/js/a.json?callback=define&apos;);</div><div class="line">  // =&gt; http://example.com/js/a.json?callback=define</div><div class="line"></div><div class="line">// 当路径以井号（&quot;#&quot;）结尾时，不会自动添加后缀，且在解析时，会自动去掉井号：</div><div class="line">require.resolve(&apos;http://example.com/js/a.json#&apos;);</div><div class="line">  // =&gt; http://example.com/js/a.json</div></pre></td></tr></table></figure>
+<h2 id="1-seajs-use-用来加载一个模块"><a href="#1-seajs-use-用来加载一个模块" class="headerlink" title="1 seajs.use   用来加载一个模块"></a>1 seajs.use   用来加载一个模块</h2><p>加载的模块中的代码会被执行,所以加载的模块暴露出来的方法都可以使用;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">seajs.use(id, callback?)</div><div class="line"><span class="comment">// 加载一个模块</span></div><div class="line">seajs.use(<span class="string">'./a'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 加载一个模块，在加载完成时，执行回调</span></div><div class="line">seajs.use(<span class="string">'./a'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">a</span>) </span>&#123;</div><div class="line">  a.doSomething();</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 加载多个模块，在加载完成时，执行回调</span></div><div class="line">seajs.use([<span class="string">'./a'</span>, <span class="string">'./b'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">  a.doSomething();</div><div class="line">  b.doSomething();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>注意：seajs.use 与 DOM ready 事件没有任何关系。如果某些操作要确保在 DOM ready 后执行，需要使用 jquery 等类库来保证。比如</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">seajs.use([<span class="string">'jquery'</span>, <span class="string">'./main'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">$, main</span>) </span>&#123;</div><div class="line">    $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        main.init();</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">seajs.use(&quot;abc/main&quot;);  //导入seajs.js同级的abc文件夹下的main.js模块的（后缀名可略去不写）.因为这是顶级标识</div></pre></td></tr></table></figure>
+<p>##2 <a href="">seajs.config</a><code>Object</code></p>
+<p>所谓的配置文件可以理解为对模块标识的一个变量表示,进行简化模块标识的操作;</p>
+<h3 id="baseUrl-object"><a href="#baseUrl-object" class="headerlink" title="baseUrl object"></a>baseUrl <code>object</code></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">seajs.config(&#123;</div><div class="line">	<span class="comment">// Sea.js 的基础路径（修改这个就不是路径就不是相对于seajs文件了）</span></div><div class="line">	base: <span class="string">'http://example.com/path/to/base/'</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="aliasObject"><a href="#aliasObject" class="headerlink" title="aliasObject"></a><a href="">alias</a><code>Object</code></h3><p>别名配置，配置之后可在模块中使用require调用 <code>require(&#39;jquery&#39;);</code> </p>
+<p>用变量表示<strong>文件</strong>，解决路径层级过深和实现路径映射</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">seajs.config(&#123;</div><div class="line">    alias: &#123; &apos;jquery&apos;: &apos;jquery/jquery/1.10.1/jquery&apos; &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define(function(require, exports, module) &#123;</div><div class="line">    //引用jQuery模块</div><div class="line">    var $ = require(&apos;jquery&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="pathsObject"><a href="#pathsObject" class="headerlink" title="pathsObject"></a><a href="">paths</a><code>Object</code></h3><p>设置路径，方便跨目录调用。通过灵活的设置path可以在不影响<code>base</code>的情况下指定到某个目录。</p>
+<p>（用变量表示<strong>路径</strong>，解决路径层级过深的问题）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">seajs.config(&#123;</div><div class="line">    //设置路径</div><div class="line">    paths: &#123;</div><div class="line">        &apos;gallery&apos;: &apos;https://a.alipayobjects.com/gallery&apos;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    // 设置别名，方便调用</div><div class="line">    alias: &#123;</div><div class="line">        &apos;underscore&apos;: &apos;gallery/underscore&apos;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define(function(require, exports, module) &#123;</div><div class="line">    var _ = require(&apos;underscore&apos;);</div><div class="line">     //=&gt; 加载的是 https://a.alipayobjects.com/gallery/underscore.js</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="varsObject"><a href="#varsObject" class="headerlink" title="varsObject"></a><a href="">vars</a><code>Object</code></h3><p>变量配置。有些场景下，模块路径在运行时才能确定，这时可以使用 <code>vars</code> 变量来配置。</p>
+<p><code>vars</code> 配置的是模块标识中的变量值，在模块标识中用 <code>{key}</code> 来表示变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">seajs.config(&#123;</div><div class="line">    // 变量配置</div><div class="line">    vars: &#123;</div><div class="line">        &apos;locale&apos;: &apos;zh-cn&apos;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define(function(require, exports, module) &#123;</div><div class="line">  var lang = require(&apos;./i18n/&#123;locale&#125;.js&apos;);</div><div class="line">     //=&gt; 加载的是 path/to/i18n/zh-cn.js</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="mapArray"><a href="#mapArray" class="headerlink" title="mapArray"></a><a href="">map</a><code>Array</code></h3><p>该配置可对模块路径进行映射修改，可用于路径转换、在线调试等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">seajs.config(&#123;</div><div class="line">    map: [</div><div class="line">        [ &apos;.js&apos;, &apos;-debug.js&apos; ]</div><div class="line">    ]</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define(function(require, exports, module) &#123;</div><div class="line">    var a = require(&apos;./a&apos;);</div><div class="line">    //=&gt; 加载的是 path/to/a-debug.js</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="preloadArray"><a href="#preloadArray" class="headerlink" title="preloadArray"></a><a href="">preload</a><code>Array</code></h3><p>使用<code>preload</code>配置项，可以在普通模块加载前，提前加载并初始化好指定模块。</p>
+<p><code>preload</code>中的空字符串会被忽略掉。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// 在老浏览器中，提前加载好 ES5 和 json 模块</div><div class="line">seajs.config(&#123;</div><div class="line">    preload: [</div><div class="line">        Function.prototype.bind ? &apos;&apos; : &apos;es5-safe&apos;,</div><div class="line">        this.JSON ? &apos;&apos; : &apos;json&apos;</div><div class="line">    ]</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>注意：<code>preload</code>中的配置，需要等到 use 时才加载。比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">seajs.config(&#123;</div><div class="line">    preload: &apos;a&apos;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 在加载 b 之前，会确保模块 a 已经加载并执行好</div><div class="line">seajs.use(&apos;./b&apos;);</div></pre></td></tr></table></figure>
+<p>preload 配置不能放在模块文件里面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">seajs.config(&#123;</div><div class="line">    preload: &apos;a&apos;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">define(function(require, exports) &#123;</div><div class="line">    // 此处执行时，不能保证模块 a 已经加载并执行好</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="debugBoolean"><a href="#debugBoolean" class="headerlink" title="debugBoolean"></a><a href="">debug</a><code>Boolean</code></h3><p>值为<code>true</code>时，加载器不会删除动态插入的 script 标签。插件也可以根据<code>debug</code>配置，来决策 log 等信息的输出。</p>
+<h3 id="baseString"><a href="#baseString" class="headerlink" title="baseString"></a><a href="">base</a><code>String</code></h3><p>Sea.js 在解析顶级标识时，会相对 base 路径来解析。</p>
+<p>注意：一般请不要配置 base 路径，把 sea.js 放在合适的路径往往更简单一致。</p>
+<h3 id="charsetString-Function"><a href="#charsetString-Function" class="headerlink" title="charsetString | Function"></a><a href="">charset</a><code>String | Function</code></h3><p>获取模块文件时，<script> 或 <link> 标签的<code>charset</code>属性。 默认是<code>utf-8</code></p>
+<p><code>charset</code>还可以是一个函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">seajs.config(&#123;</div><div class="line">    charset: function(url) &#123;</div><div class="line">        // xxx 目录下的文件用 gbk 编码加载</div><div class="line">        if (url.indexOf(&apos;http://example.com/js/xxx&apos;) === 0) &#123;</div><div class="line">          return &apos;gbk&apos;;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 其他文件用 utf-8 编码</div><div class="line">        return &apos;utf-8&apos;;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">seajs.config(&#123;</div><div class="line">	<span class="comment">// Sea.js 的基础路径（修改这个就不是路径就不是相对于seajs文件了）</span></div><div class="line">	base: <span class="string">'http://example.com/path/to/base/'</span>,</div><div class="line">	<span class="comment">// 别名配置（用变量表示文件，解决路径层级过深和实现路径映射）</span></div><div class="line">	alias: &#123;</div><div class="line">		<span class="string">'es5-safe'</span>: <span class="string">'gallery/es5-safe/0.9.3/es5-safe'</span>,</div><div class="line">		<span class="string">'json'</span>: <span class="string">'gallery/json/1.0.2/json'</span>,</div><div class="line">		<span class="string">'jquery'</span>: <span class="string">'jquery/jquery/1.10.1/jquery'</span></div><div class="line">	&#125;,</div><div class="line">	<span class="comment">// 路径配置（用变量表示路径，解决路径层级过深的问题）</span></div><div class="line">	paths: &#123;</div><div class="line">		<span class="string">'gallery'</span>: <span class="string">'https://a.alipayobjects.com/gallery'</span></div><div class="line">	&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="3-模块的定义"><a href="#3-模块的定义" class="headerlink" title="3 模块的定义"></a>3 模块的定义</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">define(factory) <span class="comment">//define 是一个全局函数，用来定义模块。</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">define 接受 factory 参数，factory 可以是一个函数，也可以是一个对象或字符串。</div><div class="line"></div><div class="line">factory 为对象、字符串时，表示模块的接口就是该对象、字符串。比如可以如下定义一个 <span class="built_in">JSON</span> 数据模块：</div><div class="line"></div><div class="line">define(&#123; <span class="string">"foo"</span>: <span class="string">"bar"</span> &#125;);</div><div class="line">也可以通过字符串定义模板模块：</div><div class="line"></div><div class="line">define(<span class="string">'I am a template. My name is &#123;&#123;name&#125;&#125;.'</span>);</div><div class="line">factory 为函数时，表示是模块的构造方法。执行该构造方法，可以得到模块向外提供的接口。factory 方法在执行时，默认会传入三个参数：<span class="built_in">require</span>、exports 和 <span class="built_in">module</span>：</div><div class="line"></div><div class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require, exports, module</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// 模块代码</span></div><div class="line"></div><div class="line">&#125;);</div><div class="line">define define(id?, deps?, factory)</div><div class="line"></div><div class="line">define 也可以接受两个以上参数。字符串 id 表示模块标识，数组 deps 是模块依赖。比如：</div><div class="line"></div><div class="line">define(<span class="string">'hello'</span>, [<span class="string">'jquery'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">require, exports, module</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// 模块代码</span></div><div class="line"></div><div class="line">&#125;);</div><div class="line">id 和 deps 参数可以省略。省略时，可以通过构建工具自动生成。</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 所有模块都通过 define 来定义</span></div><div class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require, exports, module</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// 通过 require 引入依赖</span></div><div class="line">  <span class="keyword">var</span> $ = <span class="built_in">require</span>(<span class="string">'jquery'</span>);</div><div class="line">  <span class="keyword">var</span> Spinning = <span class="built_in">require</span>(<span class="string">'./spinning'</span>);</div><div class="line"></div><div class="line">  <span class="comment">// 通过 exports 对外提供接口</span></div><div class="line">  exports.doSomething = ...</div><div class="line"></div><div class="line">  <span class="comment">// 或者通过 module.exports 提供整个接口</span></div><div class="line">  <span class="built_in">module</span>.exports = ...</div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="4-关于模块标识和路径问题"><a href="#4-关于模块标识和路径问题" class="headerlink" title="4 关于模块标识和路径问题"></a>4 关于模块标识和路径问题</h2><h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a><a href="">常见问题</a></h3><h3 id="关于模块标识"><a href="#关于模块标识" class="headerlink" title="关于模块标识"></a><a href="">关于模块标识</a></h3><p>Seajs模块标识主要以<code>小驼峰字符串</code>、<code>.</code>或<code>..</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// 在 http://example.com/js/a.js 的 factory 中：</div><div class="line">require.resolve(&apos;./b&apos;);</div><div class="line">  // =&gt; http://example.com/js/b.js</div><div class="line"></div><div class="line">// 在 http://example.com/js/a.js 的 factory 中：</div><div class="line">require.resolve(&apos;../c&apos;);</div><div class="line">  // =&gt; http://example.com/c.js</div></pre></td></tr></table></figure>
+<p>分为 <strong>相对</strong> 与 <strong>顶级</strong> 标识。以<code>.</code>或<code>..</code>开头，则为相对标识 。以<code>小驼峰字符串</code>开关，则为顶级标识。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 假设 base 路径是：http://example.com/assets/</div><div class="line"></div><div class="line">// 在模块代码里：</div><div class="line">require.resolve(&apos;gallery/jquery/1.9.1/jquery&apos;);</div><div class="line">  // =&gt; http://example.com/assets/gallery/jquery/1.9.1/jquery.js</div></pre></td></tr></table></figure>
+<h3 id="关于路径"><a href="#关于路径" class="headerlink" title="关于路径"></a><a href="">关于路径</a></h3><p>Seajs除了相对与顶级标识之外，还可以使用普通路径来加载模块。</p>
+<p>就到当前页面的脚本分析（可以右键查看源码）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">//sea.js的路径，即 base 路径，相对于当前页面</div><div class="line">&lt;script src=&quot;http://yslove.net/actjs/assets/sea-modules/seajs/2.1.1/sj.js&quot;&gt;&lt;/script&gt;</div><div class="line"></div><div class="line">&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">//配置Seajs</div><div class="line">seajs.config(&#123;</div><div class="line">    alias: &#123;</div><div class="line">        //顶级标识，基于 base 路径</div><div class="line">        &apos;actjs&apos;: &apos;actjs/core/0.0.7/core.js&apos;,</div><div class="line">            // =&gt; http://</div><div class="line">        &apos;position&apos;: &apos;actjs/util/0.0.2/position.js&apos;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">seajs.config(&#123;</div><div class="line">    alias: &#123;</div><div class="line">        //普通路径，相对于当前页面</div><div class="line">        &apos;affix&apos;: &apos;../../actjs/assets/widget/src/widget-affix.js&apos;,</div><div class="line"></div><div class="line">        //相对标识，相对于当前页面</div><div class="line">        &apos;init&apos;: &apos;./src/init.js&apos;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<h2 id="5-其他函数"><a href="#5-其他函数" class="headerlink" title="5 其他函数"></a>5 其他函数</h2><h3 id="seajs-resloveFunction"><a href="#seajs-resloveFunction" class="headerlink" title="seajs.resloveFunction"></a><a href="">seajs.reslove</a><code>Function</code></h3><p>类似<code>require.resolve</code>，会利用模块系统的内部机制对传入的字符串参数进行路径解析。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">seajs.resolve(&apos;jquery&apos;);</div><div class="line">// =&gt; http://path/to/jquery.js</div><div class="line"></div><div class="line">seajs.resolve(&apos;./a&apos;, &apos;http://example.com/to/b.js&apos;);</div><div class="line">// =&gt; http://example.com/to/a.js</div></pre></td></tr></table></figure>
+<p>seajs.resolve 方法不光可以用来调试路径解析是否正确，还可以用在插件开发环境中。</p>
+<p><a href="http://yslove.net/seajs/">seajs简易文档</a></p>
+<p><a href="https://github.com/seajs/seajs/issues/242">CMD语法规范</a></p>
+</script></p>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/25/194reactContext/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -370,6 +570,406 @@
         
           
             
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/25/196npm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/25/196npm/" itemprop="url">
+                  npm
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-25T12:36:00+08:00">
+                2017-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/npm/" itemprop="url" rel="index">
+                    <span itemprop="name">npm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="本地安装"><a href="#本地安装" class="headerlink" title="本地安装"></a>本地安装</h3><p>npm install  模块名</p>
+<ul>
+<li>\1. 将安装包放在 ./node_modules 下（运行 npm 命令时所在的目录），如果没有 node_modules 目录，会在当前执行 npm 命令的目录下生成 node_modules 目录。</li>
+<li>\2. 可以通过 require() 来引入本地安装的包。</li>
+</ul>
+<h3 id="全局安装"><a href="#全局安装" class="headerlink" title="全局安装"></a>全局安装</h3><ul>
+<li>\1. 将安装包放在 /usr/local 下或者你 node 的安装目录。</li>
+<li>\2. 可以直接在命令行里使用。</li>
+</ul>
+<h3 id="模块操作"><a href="#模块操作" class="headerlink" title="模块操作"></a>模块操作</h3><p>创建模块</p>
+<p>$ npm init<br>This utility will walk you through creating a package.json file.<br>It only covers the most common items, and tries to guess sensible defaults.</p>
+<p>更新模块</p>
+<p>$ npm update  module</p>
+<h3 id="npm-install-msbuild"><a href="#npm-install-msbuild" class="headerlink" title="npm install msbuild:"></a>npm install msbuild:</h3><ul>
+<li><strong>会</strong>把msbuild包安装到node_modules目录中</li>
+<li><strong>不会</strong>修改package.json</li>
+<li>之后运行npm install命令时，<strong>不会</strong>自动安装msbuild</li>
+</ul>
+<h3 id="npm-install-msbuild-–save"><a href="#npm-install-msbuild-–save" class="headerlink" title="npm install msbuild –save:"></a>npm install msbuild –save:</h3><ul>
+<li><strong>会</strong>把msbuild包安装到node_modules目录中</li>
+<li><strong>会</strong>在package.json的<strong>dependencies</strong>属性下添加msbuild</li>
+<li>之后运行npm install命令时，<strong>会</strong>自动安装msbuild到node_modules目录中</li>
+<li>之后运行npm install –production或者注明NODE_ENV变量值为production时，<strong>会</strong>自动安装msbuild到node_modules目录中</li>
+</ul>
+<h3 id="npm-install-msbuild-–save-dev"><a href="#npm-install-msbuild-–save-dev" class="headerlink" title="npm install msbuild –save-dev:"></a>npm install msbuild –save-dev:</h3><ul>
+<li><strong>会</strong>把msbuild包安装到node_modules目录中</li>
+<li><strong>会</strong>在package.json的<strong>devDependencies</strong>属性下添加msbuild</li>
+<li>之后运行npm install命令时，<strong>会</strong>自动安装msbuild到node_modules目录中</li>
+<li>之后运行npm install –production或者注明NODE_ENV变量值为production时，<strong>不会</strong>自动安装msbuild到node_modules目录中</li>
+</ul>
+<h3 id="使用原则"><a href="#使用原则" class="headerlink" title="使用原则:"></a>使用原则:</h3><h4 id="运行时需要用到的包使用–save，否则使用–save-dev。"><a href="#运行时需要用到的包使用–save，否则使用–save-dev。" class="headerlink" title="运行时需要用到的包使用–save，否则使用–save-dev。"></a>运行时需要用到的包使用–save，否则使用–save-dev。</h4><h3 id="通过package-json进行安装"><a href="#通过package-json进行安装" class="headerlink" title="通过package.json进行安装"></a>通过package.json进行安装</h3><p>如果我们的项目依赖了很多package，一个一个地安装那将是个体力活。我们可以将项目依赖的包都在package.json这个文件里声明，然后一行命令搞定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install</div></pre></td></tr></table></figure>
+<h3 id="npm-ls：查看安装了哪些包"><a href="#npm-ls：查看安装了哪些包" class="headerlink" title="npm ls：查看安装了哪些包"></a>npm ls：查看安装了哪些包</h3><p>运行如下命令，就可以查看<strong>当前目录</strong>安装了哪些package</p>
+<h3 id="npm-ls-pkg：查看特定package的信息"><a href="#npm-ls-pkg：查看特定package的信息" class="headerlink" title="npm ls pkg：查看特定package的信息"></a>npm ls pkg：查看特定package的信息</h3><p>运行如下命令，输出grunt-cli的信息</p>
+<h3 id="npm-update-pkg：package更新"><a href="#npm-update-pkg：package更新" class="headerlink" title="npm update pkg：package更新"></a>npm update pkg：package更新</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm update grunt-cli</div></pre></td></tr></table></figure>
+<h3 id="npm-search-pgk：搜索"><a href="#npm-search-pgk：搜索" class="headerlink" title="npm search pgk：搜索"></a>npm search pgk：搜索</h3><p>输入如下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm search grunt-cli</div></pre></td></tr></table></figure>
+<h3 id="packjson文件属性解释"><a href="#packjson文件属性解释" class="headerlink" title="packjson文件属性解释"></a>packjson文件属性解释</h3><p><a href="http://javascript.ruanyifeng.com/nodejs/npm.html" target="_blank" rel="external">npmRyf</a></p>
+<p><a href="http://www.cnblogs.com/PeunZhang/p/5553574.html" target="_blank" rel="external">npm常用命令总结</a></p>
+<p><a href="http://www.cnblogs.com/tzyy/p/5193811.html" target="_blank" rel="external">npm命令详解</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/25/195Redux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/25/195Redux/" itemprop="url">
+                  Redux
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-25T12:36:00+08:00">
+                2017-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redux/" itemprop="url" rel="index">
+                    <span itemprop="name">redux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>建议先看这篇GitHub上的基础 <a href="https://github.com/happypoulp/redux-tutorial" target="_blank" rel="external">Redux基础</a>              <a href="https://www.w3ctech.com/topic/1561" target="_blank" rel="external">深入浅出Redux3</a></p>
+<h3 id="1-action-创建函数-仅仅是一个函数，作用是用来生成一个action，action本质是一个javascript对象"><a href="#1-action-创建函数-仅仅是一个函数，作用是用来生成一个action，action本质是一个javascript对象" class="headerlink" title="1   action 创建函数     仅仅是一个函数，作用是用来生成一个action，action本质是一个javascript对象"></a>1   action 创建函数     仅仅是一个函数，作用是用来生成一个action，action本质是一个javascript对象</h3><p>这个函数会返回一个 Action 对象，这个对象里描述了“页面发生了什么”。随后这个对象会被传入到 Reducer 中。</p>
+<p>官方定义:Actions are payloads of information that send data from your application to your store. They are the only source of information for the store. You send them to the store using store.dispatch().</p>
+<p><strong>Action</strong> 是把数据从应用（这里之所以不叫 view 是因为这些数据有可能是服务器响应，用户输入或其它非 view 的数据 ）传到 store 的有效载荷。它是 store 数据的<strong>唯一</strong>来源。一般来说你会通过 <a href="http://cn.redux.js.org/docs/api/Store.html#dispatch" target="_blank" rel="external"><code>store.dispatch()</code></a> 将 action 传到 store。</p>
+<p>描述发生了什么</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> actionCreator = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// ...that creates an action (yeah, the name action creator is pretty obvious now) and returns it</span></div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">type</span>: <span class="string">'AN_ACTION'</span>,</div><div class="line">        <span class="attr">name</span>:<span class="string">'Jhon'</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Redux约定Action内使用一个<strong>字符串类型</strong>的type字段来表示将要执行的动作，比如上栗的 AN_ACTION，除了type之外可以存放其他要操作的数据；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;createStore&#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"><span class="keyword">var</span> userReducer = <span class="function"><span class="keyword">function</span>(<span class="params">state = &#123;&#125;,action</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'userReducer was called with '</span>,state,<span class="string">'and action'</span>,action); </div><div class="line">    <span class="keyword">switch</span>(action.type)&#123;</div><div class="line">        <span class="keyword">case</span> <span class="string">'SET_NAME'</span> :</div><div class="line">            <span class="keyword">return</span> &#123;</div><div class="line">                ...state,</div><div class="line">                <span class="attr">name</span> : action.name </div><div class="line">            &#125;</div><div class="line">        <span class="keyword">default</span> :</div><div class="line">            <span class="keyword">return</span> state ;</div><div class="line">    &#125;   </div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> store_0 = createStore(userReducer);</div></pre></td></tr></table></figure>
+<p>传入store_0的可以是一个action对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">store_0.dispatch(&#123;<span class="attr">type</span>:<span class="string">'SET_NAME'</span>,<span class="attr">name</span> : <span class="string">"Jhon"</span>&#125;);</div><div class="line"><span class="comment">//userReducer was called with  &#123;&#125; and action &#123; type: 'SET_NAME', name: 'Jhon' &#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'store_0 state after action'</span>,store_0.getState());</div><div class="line"><span class="comment">////store_0 state after action  &#123; name: 'Jhon' &#125;</span></div></pre></td></tr></table></figure>
+<p>同样也可以是一个action创建函数，该函数返回action对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setNameActionCreator</span>(<span class="params">name</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">type</span> : <span class="string">'SET_NAME'</span>,</div><div class="line">        name </div><div class="line">      <span class="comment">//这里用到了ES6声明对象的简洁语法</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">store_0.dispatch(setNameActionCreator(<span class="string">'JiM'</span>));</div><div class="line"><span class="comment">//userReducer was called with  &#123; name: 'Jhon' &#125; and action &#123; type: 'SET_NAME', name: 'JiM' &#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'store_0 state after action'</span>,store_0.getState());</div><div class="line"><span class="comment">//store_0 state after action  &#123; name: 'JiM' &#125;</span></div></pre></td></tr></table></figure>
+<h3 id="2-reducer"><a href="#2-reducer" class="headerlink" title="2 reducer"></a>2 reducer</h3><p>根据action更新state，reducer 就是一个纯函数，接收旧的 state 和 action，返回新的 state。</p>
+<p>官方定义:Actions describe the fact that something happened, but don’t specify how the application’s state changes in response. This is the job of a reducer.</p>
+<p>之所以称作 reducer 是因为它将被传递给 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce" target="_blank" rel="external"><code>Array.prototype.reduce(reducer, ?initialValue)</code></a> 方法。保持 reducer 纯净非常重要。<strong>永远不要</strong>在 reducer 里做这些操作：</p>
+<ul>
+<li>修改传入参数；</li>
+<li>执行有副作用的操作，如 API 请求和路由跳转；</li>
+<li>调用非纯函数，如 <code>Date.now()</code> 或 <code>Math.random()</code>。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(previousState, action) =&gt; newState</div><div class="line"><span class="comment">//How do I handle data modifications?</span></div><div class="line"><span class="comment">//     Using reducers (called "stores" in traditional flux).</span></div><div class="line"><span class="comment">//     A reducer is a subscriber to actions.</span></div><div class="line"><span class="comment">//     A reducer is just a function that receives the current state of your application, the action,</span></div><div class="line"><span class="comment">//     and returns a new state modified (or reduced as they call it)</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">todoApp</span>(<span class="params">state = &#123;&#125;, action</span>) </span>&#123;</div><div class="line">  <span class="keyword">switch</span> (action.type) &#123;</div><div class="line">    <span class="keyword">case</span> SET_VISIBILITY_FILTER:</div><div class="line">      <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;, state, &#123;</div><div class="line">        <span class="attr">visibilityFilter</span>: action.filter</div><div class="line">      &#125;)</div><div class="line">    <span class="keyword">default</span>:</div><div class="line">      <span class="keyword">return</span> state</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>传入state的默认值可以是null  undefined  [ ] 布尔类型 字符串等</strong> ,也就是说，reducer函数可以处理任何数据结构类型，根据需求不同可以传入不同的state默认值；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;createStore&#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myReducer</span>(<span class="params">state = null,action</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'myReducer was called with state'</span>,state,<span class="string">'and action'</span>,action);</div><div class="line">    <span class="keyword">switch</span>(action.type)&#123;</div><div class="line">        <span class="keyword">case</span> <span class="string">'SOMETHING'</span> :</div><div class="line">            <span class="keyword">return</span> &#123;</div><div class="line">                ...state ,</div><div class="line">                <span class="attr">message</span> : <span class="string">'done'</span></div><div class="line">            &#125;</div><div class="line">        <span class="keyword">default</span> : </div><div class="line">            <span class="keyword">return</span> state</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> store_0 = createStore(myReducer)</div></pre></td></tr></table></figure>
+<p>如果随着我们的业务越来越复杂，如何让不同的reducer进行合并呢？redux提供了combineReducers函数，该函数接受一个对象，会执行传入的所有的reducer；</p>
+<p><code>combineReducers</code> 生成了一个类似于Reducer的函数。为什么是类似于，因为它不是真正的Reducer，它只是一个调用Reducer的函数，只不过它接收的参数与真正的Reducer一模一样~</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;createStore,combineReducers&#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"><span class="keyword">var</span> userReducer = <span class="function"><span class="keyword">function</span>(<span class="params">state = &#123;&#125;,action</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'userReducer was called with the state'</span>,state,<span class="string">'and action'</span>,action);</div><div class="line">    <span class="keyword">switch</span>(action.type)&#123;</div><div class="line">        <span class="keyword">case</span> <span class="string">'SOmething'</span> : </div><div class="line">            <span class="keyword">return</span> &#123;</div><div class="line">                ...state,</div><div class="line">                <span class="attr">message</span>:action.value</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        <span class="keyword">default</span> :</div><div class="line">            <span class="keyword">return</span> state ;        </div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> itemsReducer = <span class="function"><span class="keyword">function</span>(<span class="params">state = [],action</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'itemsReducer was called with the state'</span>,state,<span class="string">'and action'</span>,action);</div><div class="line">    <span class="keyword">switch</span>(action.type)&#123;</div><div class="line">        <span class="comment">//etc </span></div><div class="line"></div><div class="line">        <span class="keyword">default</span> :</div><div class="line">            <span class="keyword">return</span> state ;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> reducer = combineReducers(&#123;userReducer,itemsReducer&#125;);</div><div class="line"><span class="comment">//其实等价于 var reducer = combineReducers(&#123;userReducer:userReducer,itemsReducer:itemsReducer&#125;);</span></div><div class="line"><span class="comment">//ES6对象新的语法特性</span></div><div class="line"><span class="comment">//这行代码执行之后输出</span></div><div class="line"><span class="comment">/*</span></div><div class="line">userReducer was called with the state &#123;&#125; and action &#123; type: '@@redux/INIT' &#125;</div><div class="line">userReducer was called with the state &#123;&#125; and action &#123; type: '@@redux/PROBE_UNKNOWN_ACTION_q.y.p.r.j.q.z.6.7.x.t.b.a.6.j.b.r.z.f.r' &#125;</div><div class="line">itemsReducer was called with the state [] and action &#123; type: '@@redux/INIT' &#125;</div><div class="line">itemsReducer was called with the state [] and action &#123; type: '@@redux/PROBE_UNKNOWN_ACTION_f.y.3.u.2.q.q.w.d.h.q.c.w.p.g.2.p.g.b.9' &#125;</div><div class="line"></div><div class="line">*/</div><div class="line"><span class="built_in">console</span>.log(combineReducers);<span class="comment">//[Function: combineReducers]</span></div><div class="line"><span class="built_in">console</span>.log(reducer);<span class="comment">//[Function: combination]  可以看出combineReducers这个函数调用一系列的reducer然后返回一个新的reducer函数</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> store_0 = createStore(reducer);</div><div class="line"><span class="comment">/**</span></div><div class="line"> * userReducer was called with the state &#123;&#125; and action &#123; type: '@@redux/INIT' &#125;</div><div class="line">itemsReducer was called with the state [] and action &#123; type: '@@redux/INIT' &#125;</div><div class="line"></div><div class="line"> */</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'store_0 state after initialization'</span>,store_0.getState());</div><div class="line"><span class="comment">//输出如下: store_0 state after initialization &#123; userReducer: &#123;&#125;, itemsReducer: [] &#125;</span></div></pre></td></tr></table></figure>
+<p>看下combineReducers底层实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">combineReducers</span>(<span class="params">reducers</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// 过滤reducers，把非function类型的过滤掉~</span></div><div class="line">  <span class="keyword">var</span> finalReducers = pick(reducers, (val) =&gt; <span class="keyword">typeof</span> val === <span class="string">'function'</span>);</div><div class="line"></div><div class="line">  <span class="comment">// 一开始我一直以为这个没啥用，后来我发现，这个函数太重要了。它在一开始，就已经把你的State改变了。变成了，Reducer的key 和 Reducer返回的initState组合。</span></div><div class="line">  <span class="keyword">var</span> defaultState = mapValues(finalReducers, () =&gt; <span class="literal">undefined</span>);</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">combination</span>(<span class="params">state = defaultState, action</span>) </span>&#123;</div><div class="line">    <span class="comment">// finalReducers 是 reducers</span></div><div class="line">    <span class="keyword">var</span> finalState = mapValues(finalReducers, (reducer, key) =&gt; &#123;</div><div class="line"></div><div class="line">      <span class="comment">// state[key] 是当前Reducer所对应的State，可以理解为当前的State</span></div><div class="line">      <span class="keyword">var</span> previousStateForKey = state[key];</div><div class="line">      <span class="keyword">var</span> nextStateForKey = reducer(previousStateForKey, action);</div><div class="line"></div><div class="line">      <span class="keyword">return</span> nextStateForKey;      </div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">// finalState 是 Reducer的key和stat的组合。。</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从上面的源码可以看出，combineReducers 生成一个类似于Reducer的函数<code>combination</code>。</p>
+<p>当使用combination的时候，combination会把所有子Reducer都执行一遍，子Reducer通过action.type 匹配操作，因为是执行所有子Reducer，所以如果两个子Reducer匹配的action.type是一样的，那么都会成功匹配。</p>
+<p>注意:</p>
+<ol>
+<li><p><strong>不要修改 state。</strong> 使用 <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign" target="_blank" rel="external"><code>Object.assign()</code></a> 新建了一个副本。不能这样使用 <code>Object.assign(state, {visibilityFilter: action.filter })</code>，因为它会改变第一个参数的值。你<strong>必须</strong>把第一个参数设置为空对象。你也可以开启对ES7提案<a href="http://cn.redux.js.org/docs/recipes/UsingObjectSpreadOperator.html" target="_blank" rel="external">对象展开运算符</a>的支持, 从而使用 <code>{ ...state, ...newState }</code> 达到相同的目的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">state = &#123;name:&apos;Jhon&apos;,age:18&#125;       &#123;...state,address : &apos;China&apos;&#125;  </div><div class="line">=&gt; &#123; name: &apos;Jhon&apos;, age: 18, address: &apos;China&apos; &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>在 default 情况下返回旧的 state。</strong>遇到未知的 action 时，一定要返回旧的 <code>state</code>。if you don’t, you’ll end up having your reducer return undefined (and lose your state).</p>
+<p><strong>我们可以看下源代码为什么必须返回一个state;如下所示，如果reducer函数没有显式返回state,那么 currentReducer()函数执行之后，函数的默认返回值是undefined;这就是为什么我们会失去state的根本原因；</strong></p>
+<p>在使用combineReducers方法时，它也会检测你的函数写的是否标准。如果不标准，那么会抛出一个大大的错误！！</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// currentState 是当前的State，currentReducer 是当前的Reducer</span></div><div class="line">currentState = currentReducer(currentState, action);</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p><strong>注意每个 reducer 只负责管理全局 state 中它负责的一部分。每个 reducer 的 state 参数都不同，分别对应它管理的那部分 state 数据</strong></p>
+</li>
+</ol>
+<h3 id="3-store"><a href="#3-store" class="headerlink" title="3 store"></a>3 store</h3><p>store就是将action和reducers联系到一起的<strong>对象</strong>；注意也就是一个<strong>javascript对象</strong>，这个对象里面有一些方法；</p>
+<ul>
+<li>维持应用的 state；</li>
+<li>提供 <a href="http://cn.redux.js.org/docs/api/Store.html#getState" target="_blank" rel="external"><code>getState()</code></a> 方法获取 state；</li>
+<li>提供 <a href="http://cn.redux.js.org/docs/api/Store.html#dispatch" target="_blank" rel="external"><code>dispatch(action)</code></a> 唯一一个方法更新 state；action是一个对象，可以直接传入对象，也可以传入定义action</li>
+<li>通过 <a href="http://cn.redux.js.org/docs/api/Store.html#subscribe" target="_blank" rel="external"><code>subscribe(listener)</code></a> 注册监听器，每当state状态改变的时候，注册的函数就会被调用</li>
+<li>通过 <a href="http://cn.redux.js.org/docs/api/Store.html#subscribe" target="_blank" rel="external"><code>replaceReducer(listener)</code></a> 返回的函数注销监听器。用于替换创建store的reducer</li>
+<li><strong>Redux 应用只有一个单一的 store</strong>。当需要拆分数据处理逻辑时，你应该使用 <a href="http://cn.redux.js.org/docs/basics/Reducers.html#splitting-reducers" target="_blank" rel="external">reducer 组合</a> 而不是创建多个 store。</li>
+</ul>
+<p>官方定义:In the previous sections, we defined the actions that represent the facts about “what happened” and the reducers that update the state according to those actions.</p>
+<p>The Store is the object that brings them together. The store has the following responsibilities:</p>
+<ul>
+<li>Holds application state;</li>
+<li>Allows access to state via getState();</li>
+<li>Allows state to be updated via dispatch(action);</li>
+<li>Registers listeners via subscribe(listener).</li>
+</ul>
+<p>如何创建一个store?</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建Store非常简单。createStore 有两个参数，Reducer 和 initialState。</span></div><div class="line"><span class="keyword">let</span> store = createStore(rootReducers, initialState);</div></pre></td></tr></table></figure>
+<p><strong><code>...</code>是对象扩展运算符，会将对象展开</strong> , 同时也会将数组展开</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span></div><div class="line"><span class="keyword">var</span> reducer = <span class="function"><span class="keyword">function</span> (<span class="params">...args</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Reducer was called with args'</span>, args)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> store_1 = createStore(reducer) ;<span class="comment">//</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建的store_1打印输出如下,可以看出store_1是一个对象，该对象有如下的方法(函数);</span></div><div class="line">&#123; <span class="attr">dispatch</span>: [<span class="built_in">Function</span>: dispatch],</div><div class="line">  <span class="attr">subscribe</span>: [<span class="built_in">Function</span>: subscribe],</div><div class="line">  <span class="attr">getState</span>: [<span class="built_in">Function</span>: getState],</div><div class="line">  <span class="attr">replaceReducer</span>: [<span class="built_in">Function</span>: replaceReducer] &#125;</div></pre></td></tr></table></figure>
+<p>当我们创建reduex实例的时候，需要传递一个函数，也就是说createStore( reducer ,optional) 第一个参数需要传入函数处理逻辑；reducer是一个函数，reducer接受两个参数，第一个是state 第二是 action；</p>
+<p> <strong>当执行createStore的时候，传入的第一个函数会被执行</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addItem</span>(<span class="params">text</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">type</span>: types.ADD_ITEM,</div><div class="line">    text</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 新增数据</span></div><div class="line">store.dispatch(addItem(<span class="string">'Read the docs'</span>));</div></pre></td></tr></table></figure>
+<p>看下dispatch底层是如何实现的:dispatch 核心源码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">dispatch</span>(<span class="params">action</span>) </span>&#123;</div><div class="line">  <span class="comment">// currentReducer 是当前的Reducer</span></div><div class="line">  currentState = currentReducer(currentState, action);</div><div class="line"></div><div class="line">  listeners.slice().forEach(<span class="function"><span class="keyword">function</span> (<span class="params">listener</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> listener();</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  <span class="keyword">return</span> action;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到其实就是把当前的Reducer执行了。并且传入State和Action。</p>
+<p><strong>dispatch异步实现</strong></p>
+<p>subscribe(listener) 可以使我们的state状态改变的时候，将数据的变化反映到视图view层</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">import</span> &#123;createStore,combineReducers&#125; <span class="keyword">from</span> <span class="string">'Redux'</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> itemReducers = <span class="function"><span class="keyword">function</span>(<span class="params">state = [],action</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'itemsReducers was called with '</span>,state,<span class="string">'and action'</span>,action);</div><div class="line"></div><div class="line">    <span class="keyword">switch</span>(action.type)&#123;</div><div class="line">        <span class="keyword">case</span> <span class="string">'ADD_ITEM'</span> : </div><div class="line">            <span class="keyword">return</span> [</div><div class="line">                ...state,</div><div class="line">                action.item</div><div class="line">            ]</div><div class="line">        <span class="keyword">default</span> :</div><div class="line">            <span class="keyword">return</span> state ;   </div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> reducers = combineReducers(&#123;<span class="attr">items</span> : itemReducers &#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> store_0 = createStore(reducers);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(store_0.getState());</div><div class="line"></div><div class="line">store_0.subscribe(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//这个事件只有在state改变了才会触发，此时不会触发，因为还没有改变state,没有传入action</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'store_0 has been updated,lasted store state '</span>,store_0.getState());</div><div class="line">    <span class="comment">//update your view </span></div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">var</span> addItemActionCreator = <span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">type</span> : <span class="string">'ADD_ITEM'</span>,</div><div class="line">        item </div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">store_0.dispatch(addItemActionCreator(&#123;<span class="attr">id</span>:<span class="number">4</span>,<span class="attr">description</span>:<span class="string">'anything'</span>&#125;));</div><div class="line"></div><div class="line"><span class="comment">//这一行代码执行之后，上面的subscribe函数才会被触发</span></div></pre></td></tr></table></figure>
+
           
         
       
@@ -575,160 +1175,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/24/192React-Optimizing-Performance/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/24/192React-Optimizing-Performance/" itemprop="url">
-                  React Optimizing Performance
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-24T12:36:00+08:00">
-                2017-04-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/react/" itemprop="url" rel="index">
-                    <span itemprop="name">react</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-首先理解shouldComponentUpdate-作用"><a href="#1-首先理解shouldComponentUpdate-作用" class="headerlink" title="1 首先理解shouldComponentUpdate  作用"></a>1 首先理解shouldComponentUpdate  作用</h3><p>shouldComponentUpdate: 这是一个和性能非常相关的方法，在每一次render方法之前被调用。它提供了一个机会让你决定是否要对组件进行实际的render</p>
-<p>它是react性能优化非常重要的一环。组件接受新的state或者props时调用，我们可以设置在此对比前后两个props和state是否相同，如果相同则返回false阻止更新，因为相同的属性状态一定会生成相同的dom树，这样就不需要创造新的dom树和旧的dom树进行diff算法对比，节省大量性能，尤其是在dom结构复杂的时候。不过调用this.forceUpdate会跳过此步骤。</p>
-<p>In some cases, your component can speed all of this up by overriding the lifecycle function <code>shouldComponentUpdate</code>, which is triggered before the re-rendering process starts. The default implementation of this function returns <code>true</code>, leaving React to perform the update:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shouldComponentUpdate(nextProps, nextState) &#123;</div><div class="line">  return true;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>If you know that in some situations your component doesn’t need to update, you can return <code>false</code> from <code>shouldComponentUpdate</code> instead, to skip the whole rendering process, including calling <code>render()</code> on this component and below.</p>
-<p>也就是说，如果shouldComponentUpdate返回true,那么React会调用render方法重新渲染页面，如果返回false,则React不会调用render方法。该方法接受两个参数，一个是下一个状态，一个是下一个props.可以和原来的props和state做对比;</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">CounterButton</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(props) &#123;</div><div class="line">    <span class="keyword">super</span>(props);</div><div class="line">    <span class="keyword">this</span>.state = &#123;<span class="attr">count</span>: <span class="number">1</span>&#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  shouldComponentUpdate(nextProps, nextState) &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.props.color !== nextProps.color) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.state.count !== nextState.count) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      <span class="xml"><span class="tag">&lt;<span class="name">button</span></span></span></div><div class="line">        <span class="attr">color</span>=<span class="string">&#123;this.props.color&#125;</span></div><div class="line">        <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt; this.setState(state =&gt; (&#123;count: state.count + 1 &#125;))&#125;&gt;</div><div class="line">        Count: &#123;this.state.count&#125;</div><div class="line">      <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">    ReactDOM.render(</div><div class="line">        <span class="xml"><span class="tag">&lt;<span class="name">CounterButton</span> /&gt;</span>,</span></div><div class="line">        document.getElementById('root')</div><div class="line">    )</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>当我们改动一下代码，当count值改变之后，比较前后两者的值，如果不相等，返回false；此时不会更新视图,也就是说React没有再次调用render函数去重新渲染视图。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="keyword">this</span>.state.count !== nextState.count) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h3 id="2-React-PureComponent"><a href="#2-React-PureComponent" class="headerlink" title="2 React.PureComponent"></a>2 React.PureComponent</h3><p>In this code, <code>shouldComponentUpdate</code> is just checking if there is any change in <code>props.color</code>or <code>state.count</code>. If those values don’t change, the component doesn’t update. If your component got more complex, you could use a similar pattern of doing a “shallow comparison” between all the fields of <code>props</code> and <code>state</code> to determine if the component should update. This pattern is common enough that React provides a helper to use this logic - just inherit from <code>React.PureComponent</code>. So this code is a simpler way to achieve the same thing:</p>
-<p>React同样提供了简单的方法，可以不让我们每次都要写shouldComponnetUpdate判断props和state的状态</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">class CounterButton extends React.PureComponent &#123;</div><div class="line">  constructor(props) &#123;</div><div class="line">    super(props);</div><div class="line">    this.state = &#123;count: 1&#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    return (</div><div class="line">      <span class="tag">&lt;<span class="name">button</span></span></div><div class="line">        <span class="attr">color</span>=<span class="string">&#123;this.props.color&#125;</span></div><div class="line">        <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt; this.setState(state =&gt; (&#123;count: state.count + 1&#125;))&#125;&gt;</div><div class="line">        Count: &#123;this.state.count&#125;</div><div class="line">      <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/24/191Refs-And-DOM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -847,6 +1293,160 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">onSubmit</span> = <span class="string">&#123;this.handleSubmit&#125;</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span> = <span class="string">'this can not be changed'</span> <span class="attr">ref</span> = <span class="string">&#123;(input)</span>=&gt;</span>&#123;console.log(input);console.log(this);</div><div class="line">                    this.input = input ;</div><div class="line">                    &#125;&#125;/&gt;</div><div class="line"></div><div class="line">                    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"click to submit"</span>  <span class="attr">ref</span> = <span class="string">&#123;(input)</span>=&gt;</span>&#123;console.log(input);this.input = input ;</div><div class="line">                    &#125;&#125;/&gt;</div><div class="line">                <span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>改成defaultValue可以重新写入  defaultValue = ‘this can not be changed’</p>
 <p>除了input之外  Likewise, <code>&lt;input type=&quot;checkbox&quot;&gt;</code> and <code>&lt;input type=&quot;radio&quot;&gt;</code> support <code>defaultChecked</code>, and <code>&lt;select&gt;</code> and <code>&lt;textarea&gt;</code> supports <code>defaultValue</code>.也是一样的道理</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/24/192React-Optimizing-Performance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/24/192React-Optimizing-Performance/" itemprop="url">
+                  React Optimizing Performance
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-24T12:36:00+08:00">
+                2017-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/react/" itemprop="url" rel="index">
+                    <span itemprop="name">react</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-首先理解shouldComponentUpdate-作用"><a href="#1-首先理解shouldComponentUpdate-作用" class="headerlink" title="1 首先理解shouldComponentUpdate  作用"></a>1 首先理解shouldComponentUpdate  作用</h3><p>shouldComponentUpdate: 这是一个和性能非常相关的方法，在每一次render方法之前被调用。它提供了一个机会让你决定是否要对组件进行实际的render</p>
+<p>它是react性能优化非常重要的一环。组件接受新的state或者props时调用，我们可以设置在此对比前后两个props和state是否相同，如果相同则返回false阻止更新，因为相同的属性状态一定会生成相同的dom树，这样就不需要创造新的dom树和旧的dom树进行diff算法对比，节省大量性能，尤其是在dom结构复杂的时候。不过调用this.forceUpdate会跳过此步骤。</p>
+<p>In some cases, your component can speed all of this up by overriding the lifecycle function <code>shouldComponentUpdate</code>, which is triggered before the re-rendering process starts. The default implementation of this function returns <code>true</code>, leaving React to perform the update:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shouldComponentUpdate(nextProps, nextState) &#123;</div><div class="line">  return true;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>If you know that in some situations your component doesn’t need to update, you can return <code>false</code> from <code>shouldComponentUpdate</code> instead, to skip the whole rendering process, including calling <code>render()</code> on this component and below.</p>
+<p>也就是说，如果shouldComponentUpdate返回true,那么React会调用render方法重新渲染页面，如果返回false,则React不会调用render方法。该方法接受两个参数，一个是下一个状态，一个是下一个props.可以和原来的props和state做对比;</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">CounterButton</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(props) &#123;</div><div class="line">    <span class="keyword">super</span>(props);</div><div class="line">    <span class="keyword">this</span>.state = &#123;<span class="attr">count</span>: <span class="number">1</span>&#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  shouldComponentUpdate(nextProps, nextState) &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.props.color !== nextProps.color) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.state.count !== nextState.count) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      <span class="xml"><span class="tag">&lt;<span class="name">button</span></span></span></div><div class="line">        <span class="attr">color</span>=<span class="string">&#123;this.props.color&#125;</span></div><div class="line">        <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt; this.setState(state =&gt; (&#123;count: state.count + 1 &#125;))&#125;&gt;</div><div class="line">        Count: &#123;this.state.count&#125;</div><div class="line">      <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">    ReactDOM.render(</div><div class="line">        <span class="xml"><span class="tag">&lt;<span class="name">CounterButton</span> /&gt;</span>,</span></div><div class="line">        document.getElementById('root')</div><div class="line">    )</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>当我们改动一下代码，当count值改变之后，比较前后两者的值，如果不相等，返回false；此时不会更新视图,也就是说React没有再次调用render函数去重新渲染视图。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="keyword">this</span>.state.count !== nextState.count) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="2-React-PureComponent"><a href="#2-React-PureComponent" class="headerlink" title="2 React.PureComponent"></a>2 React.PureComponent</h3><p>In this code, <code>shouldComponentUpdate</code> is just checking if there is any change in <code>props.color</code>or <code>state.count</code>. If those values don’t change, the component doesn’t update. If your component got more complex, you could use a similar pattern of doing a “shallow comparison” between all the fields of <code>props</code> and <code>state</code> to determine if the component should update. This pattern is common enough that React provides a helper to use this logic - just inherit from <code>React.PureComponent</code>. So this code is a simpler way to achieve the same thing:</p>
+<p>React同样提供了简单的方法，可以不让我们每次都要写shouldComponnetUpdate判断props和state的状态</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">class CounterButton extends React.PureComponent &#123;</div><div class="line">  constructor(props) &#123;</div><div class="line">    super(props);</div><div class="line">    this.state = &#123;count: 1&#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    return (</div><div class="line">      <span class="tag">&lt;<span class="name">button</span></span></div><div class="line">        <span class="attr">color</span>=<span class="string">&#123;this.props.color&#125;</span></div><div class="line">        <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt; this.setState(state =&gt; (&#123;count: state.count + 1&#125;))&#125;&gt;</div><div class="line">        Count: &#123;this.state.count&#125;</div><div class="line">      <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
@@ -1212,173 +1812,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/19/185react-Event/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/185react-Event/" itemprop="url">
-                  react Event
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-19T12:36:00+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/react/" itemprop="url" rel="index">
-                    <span itemprop="name">react</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-Handling-events-with-React-elements-is-very-similar-to-handling-events-on-DOM-elements-There-are-some-syntactic-differences"><a href="#1-Handling-events-with-React-elements-is-very-similar-to-handling-events-on-DOM-elements-There-are-some-syntactic-differences" class="headerlink" title="1 Handling events with React elements is very similar to handling events on DOM elements. There are some syntactic differences:"></a>1 Handling events with React elements is very similar to handling events on DOM elements. There are some syntactic differences:</h3><ul>
-<li>React events are named using camelCase, rather than lowercase.</li>
-<li>With JSX you pass a function as the event handler, rather than a string.</li>
-<li>函数的this指向null,而原先的HTML绑定时间this指向的是绑定事件的元素</li>
-<li>react并不会真正的绑定事件到每一个具体的元素上，而是采用事件代理的模式：在根节点document上为每种事件添加唯一的Listener，然后通过事件对象的event.target找到真实的触发元素。这样从触发元素到顶层节点之间的所有节点如果有绑定这个事件，React都会触发对应的事件处理函数。这就是所谓的React模拟事件系统。</li>
-</ul>
-<p>建议先了解下箭头函数，我也有些过关于箭头函数的博文</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onclick</span>=<span class="string">"console.log('The link was clicked.'); console.log(this);return false"</span>&gt;</span></div><div class="line">  Click me  </div><div class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onclick</span>=<span class="string">"console.log('The link was clicked.');"</span>&gt;</span></div><div class="line">  Click me</div><div class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>以上：这里面的this代表的是a标签  ；可以通过return false阻止默认事件   ；事件绑定命名用小写字母</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">ActionLink</span>(<span class="params">props</span>)</span>&#123;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">HandlerClick</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">            e.preventDefault();</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">            </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">            <span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onClick</span> = <span class="string">&#123;HandlerClick&#125;</span>&gt;</span>click me react<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></div><div class="line">        )</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    ReactDOM.render(</div><div class="line">        <span class="xml"><span class="tag">&lt;<span class="name">ActionLink</span> /&gt;</span>,</span></div><div class="line">        document.getElementById('root')</div><div class="line">    )</div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>以上：这里面的this代表的是null  ；不可以通过return false阻止默认事件 ，只能用e.preventDefalut()  ；事件绑定命名用驼峰命名的方式</p>
-<p>以上函数声明组件等价于以下class类声明组件，重点注意this指向null,而不是元素标签,为了使handle函数内部的this不是指向null或者undefined，需要我们手动绑定这些函数执行的时候this的指向</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   </div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">   <span class="class"><span class="keyword">class</span> <span class="title">ActionLink</span>  <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">       HandlerClick(e)&#123;</div><div class="line">           e.preventDefault();</div><div class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       render()&#123;</div><div class="line">           <span class="keyword">return</span> (</div><div class="line">               <span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onClick</span> = <span class="string">&#123;this.HandlerClick&#125;</span>&gt;</span>click me react<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></div><div class="line">           )</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   ReactDOM.render(</div><div class="line">       <span class="xml"><span class="tag">&lt;<span class="name">ActionLink</span> /&gt;</span>,</span></div><div class="line">       document.getElementById('root')</div><div class="line">   )</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>那么如何使得HandlerClick函数内部的this指向改变？</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   </div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">   <span class="class"><span class="keyword">class</span> <span class="title">ActionLink</span>  <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">       <span class="keyword">constructor</span>(props)&#123;</div><div class="line">           <span class="keyword">super</span>(props);</div><div class="line">           <span class="keyword">this</span>.HandlerClick = <span class="keyword">this</span>.HandlerClick.bind(<span class="keyword">this</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       HandlerClick(e)&#123;</div><div class="line">           e.preventDefault();</div><div class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       render()&#123;</div><div class="line">           <span class="keyword">return</span> (</div><div class="line">               <span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span> <span class="attr">onClick</span> = <span class="string">&#123;this.HandlerClick&#125;</span>&gt;</span>click me bind<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></div><div class="line">           )</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   ReactDOM.render(</div><div class="line">       <span class="xml"><span class="tag">&lt;<span class="name">ActionLink</span> /&gt;</span>,</span></div><div class="line">       document.getElementById('root')</div><div class="line">   )</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>这个时候可以发现控制台输出的this指向的是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ActionLink &#123;props: Object, context: Object, refs: Object, updater: Object, HandlerClick: function…&#125;</div></pre></td></tr></table></figure>
-<h3 id="2-接下来走一个改变this指向应用的实例"><a href="#2-接下来走一个改变this指向应用的实例" class="headerlink" title="2 接下来走一个改变this指向应用的实例"></a>2 接下来走一个改变this指向应用的实例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">   <span class="class"><span class="keyword">class</span> <span class="title">Toggle</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">       <span class="keyword">constructor</span>(props)&#123;</div><div class="line">           <span class="keyword">super</span>(props);</div><div class="line">           <span class="keyword">this</span>.state = &#123;<span class="attr">isToggleOn</span> : <span class="literal">true</span>&#125;;</div><div class="line">           <span class="keyword">this</span>.handlerClick = <span class="keyword">this</span>.handlerClick.bind(<span class="keyword">this</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       handlerClick()&#123;</div><div class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">           <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>)=&gt;</span>(&#123;<span class="attr">isToggleOn</span> : !prevState.isToggleOn&#125;));</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       render()&#123;</div><div class="line">           <span class="keyword">return</span> (</div><div class="line">               <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span> = <span class="string">&#123;this.handlerClick&#125;</span>&gt;</span></span></div><div class="line">                   &#123;this.state.isToggleOn?'on':'off'&#125;</div><div class="line">               <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">           );</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   ReactDOM.render(</div><div class="line">       <span class="xml"><span class="tag">&lt;<span class="name">Toggle</span> /&gt;</span>,</span></div><div class="line">       document.getElementById('root')</div><div class="line">   )</div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>同样使用箭头函数也可以达到类似的效果，改变render函数，一定要明确箭头函数的特性，同时()不要忘记加；</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">render()&#123;</div><div class="line">           return (</div><div class="line">               <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span> = <span class="string">&#123;()</span>=&gt;</span>this.handlerClick()&#125;&gt;</div><div class="line">                   &#123;this.state.isToggleOn?'on':'off'&#125;</div><div class="line">               <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">           );</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
-<p>理解箭头函数</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">'btn'</span> <span class="attr">value</span> = <span class="string">'button'</span>  <span class="attr">type</span>=<span class="string">"button"</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">arrow</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'this is arrow func'</span>);</div><div class="line">            </div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>).onclick = <span class="function"><span class="params">()</span>=&gt;</span>arrow()</div><div class="line">        <span class="comment">//等价于</span></div><div class="line">        <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)(<span class="params"></span></span></div><div class="line">        	arrow() ;</div><div class="line">        )</div><div class="line">        //当点击按钮的时候 <span class="title">onclick</span>的事件监听函数执行,该函数执行的过程中,内部代码 <span class="title">arrow</span>(<span class="params"></span>)会执行函数<span class="title">arrow</span>，所以这就是(<span class="params"></span>)不要忘记加的原因</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>控制台输出的this都是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Toggle &#123;props: Object, handlerClick:function (),context: Object, refs: Object, updater: Object, state: Object…&#125;</div></pre></td></tr></table></figure>
-<h3 id="3-使用箭头函数注意细节"><a href="#3-使用箭头函数注意细节" class="headerlink" title="3 使用箭头函数注意细节"></a>3 使用箭头函数注意细节</h3><p>但是如果使用以下写法就不会绑定this到Togglel了</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/19/187isNaN-And-NumberisNaN/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1513,393 +1946,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/19/186react-Compare-Vue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/186react-Compare-Vue/" itemprop="url">
-                  react Compare Vue
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-19T12:36:00+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-react和vue优劣对比"><a href="#1-react和vue优劣对比" class="headerlink" title="1 react和vue优劣对比"></a>1 react和vue优劣对比</h3><p>1.1 react  </p>
-<ul>
-<li>更适合大型应用和更好的可测试性</li>
-<li>Web端和移动端原生APP通用</li>
-<li>更大的生态系统，更多的支持和好用的工具，大量数据渲染react优势明显</li>
-<li>可以创建一个同时适用于Web端和原生APP的框架</li>
-<li>react由facebook维护，并且相应的社区以及组件都比较成熟</li>
-</ul>
-<p>1.2 vue </p>
-<ul>
-<li>模板和渲染函数的弹性选择</li>
-<li>简单的语法和项目配置</li>
-<li>更快的渲染速度和更小的体积</li>
-<li>更加适合小且快，‘简单能用’，的单页面应用程序</li>
-<li>vue 不适合持续的工程迭代，因为数据可以在view和model双向流动，但是带来的一个缺点是：工程规模比较大的时候，数据双向流动会带来难以预测的结果</li>
-<li>vue是尤雨溪个人开发和维护，相应 的社区和组件不够成熟</li>
-</ul>
-<h3 id="2-react-和-vue-技术点对比"><a href="#2-react-和-vue-技术点对比" class="headerlink" title="2 react 和 vue 技术点对比"></a>2 react 和 vue 技术点对比</h3><p>2.1 react </p>
-<ul>
-<li>采用ES6语法规范以及jsx语法</li>
-<li>创建virtualDOM ,因为虚拟DOM是内存数据，大大提高了性能。</li>
-<li>组件化的开发思路，带来了UI功能模块之间的分离</li>
-<li>数据绑定: 采用单向数据流</li>
-<li>React可以拓展到服务端，移动端Native部分</li>
-</ul>
-<p>2.2 vue</p>
-<ul>
-<li>采用模板语法，通过模板渲染前端页面</li>
-<li>同时借鉴了angular和react,更加轻量级、简单、快捷</li>
-<li>数据绑定默认单向数据流，也可以实现双向绑定</li>
-<li>同样可以组件化开发，对于部署小型应用特别方便</li>
-<li>Vue因为比较轻量，还能用于业务场景非常轻的页面中。</li>
-</ul>
-<p>### </p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/19/184reactStateAndLifeCycle/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/184reactStateAndLifeCycle/" itemprop="url">
-                  react State 和 lifeCycle
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-19T12:36:00+08:00">
-                2017-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/react/" itemprop="url" rel="index">
-                    <span itemprop="name">react</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-先来看下函数定义组件"><a href="#1-先来看下函数定义组件" class="headerlink" title="1 先来看下函数定义组件"></a>1 先来看下函数定义组件</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="xml"></span></div><div class="line">    function Clock(props)&#123;</div><div class="line">        return (</div><div class="line">            <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">p</span>&gt;</span>hello world<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">p</span>&gt;</span>it is &#123;props.date.toLocaleTimeString()&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        );</div><div class="line">    &#125;  </div><div class="line"></div><div class="line">    function tick ()&#123;</div><div class="line">        ReactDOM.render(</div><div class="line">            <span class="tag">&lt;<span class="name">Clock</span> <span class="attr">date</span> = <span class="string">&#123;new</span> <span class="attr">Date</span>()&#125;/&gt;</span>,</div><div class="line">           document.getElementById('root')</div><div class="line">        )</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    setInterval(tick,1000);</div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>如何让Clock拥有自动更新UI的能力？就像这个样子实现功能？</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ReactDOM.render(</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">Clock</span> /&gt;</span>,</span></div><div class="line">  document.getElementById('root')</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>To implement this, we need to add “state” to the <code>Clock</code> component.</p>
-<p>State is similar to props, but it is private and fully controlled by the component.</p>
-<p>We <a href="https://facebook.github.io/react/docs/components-and-props.html#functional-and-class-components" target="_blank" rel="external">mentioned before</a> that components defined as classes have some additional features. Local state is exactly that: a feature available only to classes.</p>
-<h3 id="2-将函数定义组件的方式改为类定义组件"><a href="#2-将函数定义组件的方式改为类定义组件" class="headerlink" title="2 将函数定义组件的方式改为类定义组件"></a>2 将函数定义组件的方式改为类定义组件</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">class Clock extends React.Component&#123;</div><div class="line">        render()&#123;</div><div class="line">            return (</div><div class="line">                <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">p</span>&gt;</span>hello world<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">p</span>&gt;</span>it is &#123;this.props.date.toLocaleTimeString()&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            );</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>2.1 如何将当前状态添加进类定义的组件？如何将 date 属性从props 对象迁移至 state对象？</p>
-<ul>
-<li>添加一个constructor构造函数  将date赋值给this.state </li>
-<li>我们需要将this.props.date   改成  this.state.date</li>
-<li>移除掉组件上的date</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">class Clock extends React.Component&#123;</div><div class="line">        constructor(props) &#123;</div><div class="line">            super(props);</div><div class="line">            this.state = &#123;date : new Date()&#125;   //第一步</div><div class="line">        &#125;</div><div class="line"></div><div class="line"></div><div class="line">        render()&#123;</div><div class="line">            return (</div><div class="line">                <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">p</span>&gt;</span>hello world<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">p</span>&gt;</span>it is &#123;this.state.date.toLocaleTimeString()&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span>  //第二步</div><div class="line">                <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            );</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    ReactDOM.render(</div><div class="line">        <span class="tag">&lt;<span class="name">Clock</span> /&gt;</span>,   //第三步</div><div class="line">        document.getElementById('root')</div><div class="line">    )</div></pre></td></tr></table></figure>
-<p>2.2 接下来就需要设定定时器，可以是组件Clock设置自己的定时器，并且可以自动更新</p>
-<p>Adding Lifecycle Methods to a Class</p>
-<p>In applications with many components, it’s very important to free up resources taken by the components when they are destroyed.</p>
-<p>We want to <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setInterval" target="_blank" rel="external">set up a timer</a> whenever the <code>Clock</code> is rendered to the DOM for the first time. This is called “mounting” in React.</p>
-<p>We also want to <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/clearInterval" target="_blank" rel="external">clear that timer</a> whenever the DOM produced by the <code>Clock</code> is removed. This is called “unmounting” in React.</p>
-<p><strong>We can declare special methods on the component class to run some code when a component mounts and unmounts:</strong></p>
-<p>我们可以在组件上定义一些特殊的方法，当组件装配或者装卸的时候，运行某些代码</p>
-<p>React有两个内置的方法 componentDidMount()   componentWillUnmount()</p>
-<p>These methods are called “lifecycle hooks”.</p>
-<ul>
-<li>The <code>componentDidMount()</code> hook runs after the component output has been rendered to the DOM. This is a good place to set up a timer:</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">componentDidMount() &#123;</div><div class="line">    <span class="keyword">this</span>.timerID = setInterval(</div><div class="line">      <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span>.tick(),</div><div class="line">      <span class="number">1000</span></div><div class="line">    );</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>We will tear down the timer in the <code>componentWillUnmount()</code> lifecycle hook:</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">componentWillUnmount() &#123;</div><div class="line">    clearInterval(<span class="keyword">this</span>.timerID);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p>完整代码如下：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    </div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Clock</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">        <span class="keyword">constructor</span>(props) &#123;</div><div class="line">            <span class="keyword">super</span>(props);</div><div class="line">            <span class="keyword">this</span>.state = &#123;<span class="attr">date</span> : <span class="keyword">new</span> <span class="built_in">Date</span>()&#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        tick()&#123;</div><div class="line">            <span class="keyword">this</span>.setState(</div><div class="line">                &#123;<span class="attr">date</span>:<span class="keyword">new</span> <span class="built_in">Date</span>()&#125;</div><div class="line">            );</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        componentDidMount()&#123;</div><div class="line">            <span class="keyword">this</span>.timerID = setInterval(<span class="function"><span class="params">()</span>=&gt;</span><span class="keyword">this</span>.tick(),<span class="number">1000</span>)</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        componentWillUnmount()&#123;</div><div class="line">            clearInterval(<span class="keyword">this</span>.timerID)</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        </div><div class="line">        render()&#123;</div><div class="line">            <span class="keyword">return</span> (</div><div class="line">                <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><div class="line">                    <span class="tag">&lt;<span class="name">p</span>&gt;</span>hello world<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">p</span>&gt;</span>it is &#123;this.state.date.toLocaleTimeString()&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            );</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    ReactDOM.render(</div><div class="line">        <span class="xml"><span class="tag">&lt;<span class="name">Clock</span> /&gt;</span>,</span></div><div class="line">        document.getElementById('root')</div><div class="line">    )</div><div class="line">    </div><div class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>Let’s quickly recap what’s going on and the order in which the methods are called:</p>
-<p>1) When <code>&lt;Clock /&gt;</code> is passed to <code>ReactDOM.render()</code>, React calls the constructor of the <code>Clock</code> component. Since <code>Clock</code> needs to display the current time, it initializes <code>this.state</code>with an object including the current time. We will later update this state.</p>
-<p>2) React then calls the <code>Clock</code> component’s <code>render()</code> method. This is how React learns what should be displayed on the screen. React then updates the DOM to match the <code>Clock</code>‘s render output.</p>
-<p>3) When the <code>Clock</code> output is inserted in the DOM, React calls the <code>componentDidMount()</code>lifecycle hook. Inside it, the <code>Clock</code> component asks the browser to set up a timer to call <code>tick()</code> once a second.</p>
-<p>4) Every second the browser calls the <code>tick()</code> method. Inside it, the <code>Clock</code> component schedules a UI update by calling <code>setState()</code> with an object containing the current time. Thanks to the <code>setState()</code> call, React knows the state has changed, and calls <code>render()</code>method again to learn what should be on the screen. This time, <code>this.state.date</code> in the <code>render()</code> method will be different, and so the render output will include the updated time. React updates the DOM accordingly.</p>
-<p>5) If the <code>Clock</code> component is ever removed from the DOM, React calls the <code>componentWillUnmount()</code> lifecycle hook so the timer is stopped.</p>
-<h3 id="3-setState-函数"><a href="#3-setState-函数" class="headerlink" title="3 setState( )函数"></a>3 setState( )函数</h3><p>3.1 接受一个对象作为参数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">this</span>.setState(&#123;<span class="attr">comment</span>: <span class="string">'Hello'</span>&#125;);</div></pre></td></tr></table></figure>
-<p>3.2 接受一个函数作为参数,箭头函数返回值还是一个对象,也可以直接接受一个函数，返回一个对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState, props</span>) =&gt;</span> (&#123;</div><div class="line">  <span class="attr">counter</span>: prevState.counter + props.increment</div><div class="line">&#125;));</div><div class="line"></div><div class="line"><span class="comment">//如果用用箭头函数自定义对象  需要用小括号将花括号包起来，这个时候返回的结果才是一个对象</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">this</span>.setState(<span class="function"><span class="keyword">function</span>(<span class="params">prevState, props</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">counter</span>: prevState.counter + props.increment</div><div class="line">  &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>3.3 注意对于state和props，它们的值可能被异步更新，所以当我们计算它们的下一个状态值的时候，不能依赖它们的当前值，比如如下demo不会更新</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Wrong</span></div><div class="line"><span class="keyword">this</span>.setState(&#123;</div><div class="line">  <span class="attr">counter</span>: <span class="keyword">this</span>.state.counter + <span class="keyword">this</span>.props.increment,</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">CounterButton</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">        <span class="keyword">constructor</span>(props)&#123;</div><div class="line">            <span class="keyword">super</span>(props);</div><div class="line">            <span class="keyword">this</span>.state = &#123;<span class="attr">count</span> : <span class="number">1</span> &#125;</div><div class="line">        &#125;</div><div class="line">        render()&#123;</div><div class="line">            <span class="keyword">return</span> (</div><div class="line">                <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">color</span> = <span class="string">&#123;this.props.color&#125;</span> </span></span></div><div class="line">                <span class="attr">onClick</span> = <span class="string">&#123;()</span>=&gt;this.setState(&#123;count : this.state.count++&#125;)&#125;&gt;</div><div class="line">                    count : &#123;this.state.count&#125;</div><div class="line">                <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">            );</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    ReactDOM.render(</div><div class="line">        <span class="xml"><span class="tag">&lt;<span class="name">CounterButton</span> /&gt;</span>,</span></div><div class="line">        document.getElementById('root')</div><div class="line">    )</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Correct</span></div><div class="line"><span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState, props</span>) =&gt;</span> (&#123;</div><div class="line">  <span class="attr">counter</span>: prevState.counter + props.increment</div><div class="line">&#125;));</div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">CounterButton</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">        <span class="keyword">constructor</span>(props)&#123;</div><div class="line">            <span class="keyword">super</span>(props);</div><div class="line">            <span class="keyword">this</span>.state = &#123;<span class="attr">count</span> : <span class="number">1</span> &#125;</div><div class="line">        &#125;</div><div class="line">        render()&#123;</div><div class="line">            <span class="keyword">return</span> (</div><div class="line">                <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">color</span> = <span class="string">&#123;this.props.color&#125;</span> </span></span></div><div class="line">                <span class="attr">onClick</span> = <span class="string">&#123;()</span> =&gt; this.setState(state=&gt;(&#123;count:state.count + 1&#125;))&#125;&gt;</div><div class="line">                    count : &#123;this.state.count&#125;</div><div class="line">                <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">            );</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    ReactDOM.render(</div><div class="line">        <span class="xml"><span class="tag">&lt;<span class="name">CounterButton</span> /&gt;</span>,</span></div><div class="line">        document.getElementById('root')</div><div class="line">    )</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>或者直接传入setState一个函数，该函数显示的返回一个对象</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">'text/babel'</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">CounterButton</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">        <span class="keyword">constructor</span>(props) &#123;</div><div class="line">          <span class="keyword">super</span>(props);</div><div class="line">          <span class="keyword">this</span>.state = &#123;<span class="attr">count</span>: <span class="number">1</span>&#125;;</div><div class="line">        &#125;</div><div class="line">        render() &#123;</div><div class="line">          <span class="keyword">return</span> (</div><div class="line">            <span class="xml"><span class="tag">&lt;<span class="name">button</span></span></span></div><div class="line">              <span class="attr">color</span>=<span class="string">&#123;this.props.color&#125;</span></div><div class="line">              <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt; this.setState(function(state)&#123;</div><div class="line">                  return &#123;</div><div class="line">                      count : state.count + 1 </div><div class="line">                  &#125;</div><div class="line">              &#125;)&#125;&gt;</div><div class="line">              Count: &#123;this.state.count&#125;</div><div class="line">            <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">          );</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">    ReactDOM.render(</div><div class="line">        <span class="xml"><span class="tag">&lt;<span class="name">CounterButton</span> /&gt;</span>,</span></div><div class="line">        document.getElementById('root')</div><div class="line">    )</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>以下贴上一段React中关于setstate的源码，便于理解；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">ReactComponent.prototype.setState = <span class="function"><span class="keyword">function</span>(<span class="params">partialState, callback</span>) </span>&#123;</div><div class="line">  (<span class="string">"production"</span> !== <span class="string">"development"</span> ? invariant(</div><div class="line">    <span class="keyword">typeof</span> partialState === <span class="string">'object'</span> ||</div><div class="line">    <span class="keyword">typeof</span> partialState === <span class="string">'function'</span> ||</div><div class="line">    partialState == <span class="literal">null</span>,</div><div class="line">    <span class="string">'setState(...): takes an object of state variables to update or a '</span> +</div><div class="line">    <span class="string">'function which returns an object of state variables.'</span></div><div class="line">  ) : invariant(<span class="keyword">typeof</span> partialState === <span class="string">'object'</span> ||</div><div class="line">  <span class="keyword">typeof</span> partialState === <span class="string">'function'</span> ||</div><div class="line">  partialState == <span class="literal">null</span>));</div><div class="line">  <span class="keyword">if</span> (<span class="string">"production"</span> !== <span class="string">"development"</span>) &#123;</div><div class="line">    (<span class="string">"production"</span> !== <span class="string">"development"</span> ? warning(</div><div class="line">      partialState != <span class="literal">null</span>,</div><div class="line">      <span class="string">'setState(...): You passed an undefined or null state object; '</span> +</div><div class="line">      <span class="string">'instead, use forceUpdate().'</span></div><div class="line">    ) : <span class="literal">null</span>);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p>setState会自动调用render函数，触发视图的重新渲染，如果仅仅只是state数据的变化而没有调用setState，并不会触发更新。</p>
-<h3 id="4-react组件生命周期"><a href="#4-react组件生命周期" class="headerlink" title="4 react组件生命周期"></a>4 react组件生命周期</h3><p>对于自定义组件，唯一必须实现的方法就是render()，除此之外，还有一些方法会在组件生命周期中被调用，如下</p>
-<ul>
-<li>constructor: 构造函数，组件被创建时执行；</li>
-<li>componentDidMount: 当组件添加到DOM树之后执行；</li>
-<li>componentWillUnmount: 当组件从DOM树中移除之后执行，在React中可以认为组件被销毁；</li>
-<li>componentDidUpdate: 当组件更新时执行。</li>
-<li>shouldComponentUpdate: 这是一个和性能非常相关的方法，在每一次render方法之前被调用。它提供了一个机会让你决定是否要对组件进行实际的render</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shouldComponentUpdate(nextProps, nextState) &#123;</div><div class="line">  <span class="keyword">return</span> nextProps.id !== <span class="keyword">this</span>.props.id;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>当此函数返回false时，组件就不会调用render方法从而避免了虚拟DOM的创建和内存中的Diff比较，从而有助于提高性能。当返回true时，则会进行正常的render的逻辑。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1944,7 +1995,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">178</span>
+                <span class="site-state-item-count">181</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

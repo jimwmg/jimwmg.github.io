@@ -103,7 +103,7 @@
 3.灵活 −React可以与已知的库或框架很好地配合。
 4.JSX − JSX 是 JavaScript 语法的扩展。React 开发不一定使用 JSX ，但我们建议使用它。
 5.组件 − 通过 React 构建组件，使得代码更加容易得到复用，能够">
-<meta property="og:updated_time" content="2017-05-09T07:13:23.064Z">
+<meta property="og:updated_time" content="2017-05-12T08:03:31.564Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="react 元素渲染和组件">
 <meta name="twitter:description" content="react特点
@@ -399,7 +399,7 @@
 <li>在定义一个组件的时候,output的所有的标签必须被正确的闭合，这样子react框架才能正确识别每个标签</li>
 </ul>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">render()&#123;</div><div class="line">return (</div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">onSubmit</span> = <span class="string">&#123;this.handleSubmit&#125;</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"name"</span>&gt;</span>name</div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span> = <span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"gender"</span> <span class="attr">value</span> = <span class="string">&#123;this.state.value&#125;</span> <span class="attr">onChange</span> = <span class="string">&#123;this.handleChange&#125;/</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span>  <span class="attr">value</span>=<span class="string">"submit"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line">)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>注意每一个input标签里面的 最后的  /  不能缺少</strong></p>
+<p><strong>注意每一个input标签里面的 最后的  /  不能缺少</strong> </p>
 <p><strong>Components must return a single root element.</strong> </p>
 <h3 id="2-react-元素的不可变性"><a href="#2-react-元素的不可变性" class="headerlink" title="2 react 元素的不可变性"></a>2 react 元素的不可变性</h3><p>2.1 React Only Updates What’s Necessary</p>
 <p>React DOM compares the element and its children to the previous one, and only applies the DOM updates necessary to bring the DOM to the desired state.</p>
@@ -458,6 +458,8 @@
 <p>The <code>render()</code> function should be pure, meaning that it does not modify component state, it returns the same result each time it’s invoked, and it does not directly interact with the browser. If you need to interact with the browser, perform your work in <code>componentDidMount()</code>or the other lifecycle methods instead. Keeping <code>render()</code> pure makes components easier to think about.</p>
 <p>需要注意的是:</p>
 <p><code>render()</code> will not be invoked if <a href="https://facebook.github.io/react/docs/react-component.html#shouldcomponentupdate" target="_blank" rel="external"><code>shouldComponentUpdate()</code></a> returns false.</p>
+<h3 id="6-PropTypes"><a href="#6-PropTypes" class="headerlink" title="6 PropTypes"></a>6 PropTypes</h3><p>该属性用来规范组件的props属性的类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">React.PropTypes.array           // 陣列</div><div class="line"></div><div class="line">React.PropTypes.bool.isRequired // Boolean 且必要。</div><div class="line"></div><div class="line">React.PropTypes.func            // 函式</div><div class="line"></div><div class="line">React.PropTypes.number          // 數字</div><div class="line"></div><div class="line">React.PropTypes.object          // 物件</div><div class="line"></div><div class="line">React.PropTypes.string          // 字串</div><div class="line"></div><div class="line">React.PropTypes.node            // 任何類型的: numbers, strings, elements 或者任何這種類型的陣列</div><div class="line"></div><div class="line">React.PropTypes.element         // React 元素</div><div class="line"></div><div class="line">React.PropTypes.instanceOf(XXX) // 某種XXX類別的實體</div><div class="line"></div><div class="line">React.PropTypes.oneOf([&apos;foo&apos;, &apos;bar&apos;]) // 其中一個字串</div><div class="line"></div><div class="line">React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.array]) // 其中一種格式類型</div><div class="line"></div><div class="line">React.PropTypes.arrayOf(React.PropTypes.string)  // 某種類型的陣列(字串類型)</div><div class="line"></div><div class="line">React.PropTypes.objectOf(React.PropTypes.string) // 具有某種屬性類型的物件(字串類型)</div><div class="line"></div><div class="line">React.PropTypes.shape(&#123;                          // 是否符合指定格式的物件</div><div class="line"></div><div class="line">  color: React.PropTypes.string,</div><div class="line">  fontSize: React.PropTypes.number</div><div class="line">&#125;);</div><div class="line">React.PropTypes.any.isRequired  // 可以是任何格式，且必要。</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -500,8 +502,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/18/182jsx/" rel="next" title="jsx基础">
-                <i class="fa fa-chevron-left"></i> jsx基础
+              <a href="/2017/04/13/180面试题/" rel="next" title="面试题">
+                <i class="fa fa-chevron-left"></i> 面试题
               </a>
             
           </div>
@@ -510,8 +512,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/18/181svn/" rel="prev" title="svn">
-                svn <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/18/182jsx/" rel="prev" title="jsx基础">
+                jsx基础 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -584,7 +586,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">178</span>
+                <span class="site-state-item-count">181</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -641,7 +643,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#react特点"><span class="nav-number">1.</span> <span class="nav-text">react特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React的原理"><span class="nav-number">2.</span> <span class="nav-text">React的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-HTML-标签-vs-React-组件"><span class="nav-number">3.</span> <span class="nav-text">1 HTML 标签 vs. React 组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-react-元素的不可变性"><span class="nav-number">4.</span> <span class="nav-text">2 react 元素的不可变性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-react组件"><span class="nav-number">5.</span> <span class="nav-text">3 react组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-组件的属性"><span class="nav-number">6.</span> <span class="nav-text">4 组件的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-组件的render函数"><span class="nav-number">7.</span> <span class="nav-text">5 组件的render函数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#react特点"><span class="nav-number">1.</span> <span class="nav-text">react特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React的原理"><span class="nav-number">2.</span> <span class="nav-text">React的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-HTML-标签-vs-React-组件"><span class="nav-number">3.</span> <span class="nav-text">1 HTML 标签 vs. React 组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-react-元素的不可变性"><span class="nav-number">4.</span> <span class="nav-text">2 react 元素的不可变性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-react组件"><span class="nav-number">5.</span> <span class="nav-text">3 react组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-组件的属性"><span class="nav-number">6.</span> <span class="nav-text">4 组件的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-组件的render函数"><span class="nav-number">7.</span> <span class="nav-text">5 组件的render函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-PropTypes"><span class="nav-number">8.</span> <span class="nav-text">6 PropTypes</span></a></li></ol></div>
             
 
           </div>
