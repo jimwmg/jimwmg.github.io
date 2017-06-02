@@ -1,0 +1,771 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="router," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="以下是我结合官方文档的学习笔记,文末有官方文档的链接.
+1 react-router中一个属性exact 的使用,默认是true,详见API文档解析1234567891011121314151617const BasicExample = () =&amp;gt; (  &amp;lt;Router&amp;gt;    &amp;lt;div&amp;gt;      &amp;lt;ul&amp;gt;        &amp;lt;li&amp;gt;&amp;lt;L">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React-router">
+<meta property="og:url" content="http://yoursite.com/2017/05/16/219React-router/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="以下是我结合官方文档的学习笔记,文末有官方文档的链接.
+1 react-router中一个属性exact 的使用,默认是true,详见API文档解析1234567891011121314151617const BasicExample = () =&amp;gt; (  &amp;lt;Router&amp;gt;    &amp;lt;div&amp;gt;      &amp;lt;ul&amp;gt;        &amp;lt;li&amp;gt;&amp;lt;L">
+<meta property="og:updated_time" content="2017-05-19T08:16:21.889Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React-router">
+<meta name="twitter:description" content="以下是我结合官方文档的学习笔记,文末有官方文档的链接.
+1 react-router中一个属性exact 的使用,默认是true,详见API文档解析1234567891011121314151617const BasicExample = () =&amp;gt; (  &amp;lt;Router&amp;gt;    &amp;lt;div&amp;gt;      &amp;lt;ul&amp;gt;        &amp;lt;li&amp;gt;&amp;lt;L">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/16/219React-router/"/>
+
+
+
+
+
+  <title> React-router | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/16/219React-router/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                React-router
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-16T12:36:00+08:00">
+                2017-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/react/" itemprop="url" rel="index">
+                    <span itemprop="name">react</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>以下是我结合官方文档的学习笔记,文末有官方文档的链接.</p>
+<h3 id="1-react-router中一个属性exact-的使用-默认是true-详见API文档解析"><a href="#1-react-router中一个属性exact-的使用-默认是true-详见API文档解析" class="headerlink" title="1 react-router中一个属性exact 的使用,默认是true,详见API文档解析"></a>1 react-router中一个属性<code>exact</code> 的使用,默认是true,详见API文档解析</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> BasicExample = <span class="function"><span class="params">()</span> =&gt;</span> (</div><div class="line">  &lt;Router&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">      &lt;ul&gt;</div><div class="line">        &lt;li&gt;&lt;Link to="/"&gt;Home&lt;/Link&gt;&lt;/li&gt;</div><div class="line">        &lt;li&gt;&lt;Link to="/about"&gt;About&lt;/Link&gt;&lt;/li&gt;</div><div class="line">        &lt;li&gt;&lt;Link to="/topics"&gt;Topics&lt;/Link&gt;&lt;/li&gt;</div><div class="line">      &lt;/ul&gt;</div><div class="line"></div><div class="line">      &lt;hr/&gt;</div><div class="line"></div><div class="line">      &lt;Route exact path="/" component=&#123;Home&#125;/&gt;</div><div class="line">      &lt;Route path="/about" component=&#123;About&#125;/&gt;</div><div class="line">      &lt;Route path="/topics" component=&#123;Topics&#125;/&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/Router&gt;</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>如上,当 URL is <code>/about</code> <code>/</code>  <code>/about</code>两者都会render </p>
+<p>如下所示,当url是 <code>/repo</code> 的时候  Repo 和RepoTest两者也是都会渲染.当然也可以通过设置exact属性进行精确匹配.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;Router&gt;</div><div class="line">   &lt;div&gt;</div><div class="line">     &lt;ul&gt;</div><div class="line">       &lt;li&gt;</div><div class="line">         &lt;Link to=&apos;/about&apos;&gt;About&lt;/Link&gt;</div><div class="line">       &lt;/li&gt;</div><div class="line">       &lt;li&gt;</div><div class="line">         &lt;Link to=&apos;./repo&apos;&gt;Repo&lt;/Link&gt;</div><div class="line">       &lt;/li&gt;</div><div class="line">       &lt;li&gt;</div><div class="line">         &lt;Link to=&apos;./repo/test&apos;&gt;RepoTest&lt;/Link&gt;</div><div class="line">       &lt;/li&gt;</div><div class="line">     &lt;/ul&gt;</div><div class="line">     &lt;Route exact path=&apos;/&apos; render=&#123;()=&gt;(&lt;div&gt;Welcome&lt;/div&gt;)&#125;&gt;&lt;/Route&gt;</div><div class="line">     &lt;Route path=&apos;/repo&apos; component=&#123;Repo&#125;&gt; &lt;/Route&gt;</div><div class="line">     &lt;Route path=&apos;/repo/test&apos; component=&#123;RepoTest&#125;&gt;&lt;/Route&gt;</div><div class="line">   </div><div class="line">   &lt;/div&gt;</div><div class="line"> &lt;/Router&gt;</div></pre></td></tr></table></figure>
+<h3 id="2-match对象"><a href="#2-match对象" class="headerlink" title="2 match对象"></a>2 match对象</h3><p>其中path属性值就是Route组件的path属性值,url是根据地址栏动态解析的,params是解析URL地址的时候params对象</p>
+<p>match对象是实时生成的,当url地址不同 的时候,match对象也会跟着变化,大家可以多点击几次,看下math对象所有的属性是什么值.</p>
+<p>当url地址栏匹配到Route对应的路径的时候,组件中的match对象才存在,否则为null </p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  BrowserRouter <span class="keyword">as</span> Router,</div><div class="line">  Route,</div><div class="line">  Link</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> CustomLinkExample = <span class="function"><span class="params">()</span> =&gt;</span> (</div><div class="line">  &lt;Router&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">      &lt;OldSchoolMenuLink activeOnlyWhenExact=&#123;true&#125; to="/" label="Home"/&gt;</div><div class="line">      &lt;OldSchoolMenuLink to="/about" label="About"/&gt;</div><div class="line">      &lt;hr/&gt;</div><div class="line">      &lt;Route exact path="/" component=&#123;Home&#125;/&gt;</div><div class="line">      &lt;Route path="/about" component=&#123;About&#125;/&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/Router&gt;</div><div class="line">)</div><div class="line"></div><div class="line">const OldSchoolMenuLink = (&#123; label, to, activeOnlyWhenExact &#125;) =&gt; (</div><div class="line">  &lt;Route path=&#123;to&#125; exact=&#123;activeOnlyWhenExact&#125; children=&#123;(&#123; match &#125;) =&gt; &#123;</div><div class="line">    console.log(match);//对于官网的demo做了如下改动,当url路径为 / 的时候,第一个OldSchoolMenuLink组件返回的Route对象children函数中match对象存在,而第二个OldSchoolMenuLink组件返回的Route组件中的children函数中却没有match对象,为null </div><div class="line">    return (&lt;div className=&#123;match ? 'active' : ''&#125;&gt;</div><div class="line">      &#123;match ? '&gt; ' : ''&#125;&lt;Link to=&#123;to&#125;&gt;&#123;label&#125;&lt;/Link&gt;</div><div class="line">    &lt;/div&gt;)</div><div class="line">  &#125;</div><div class="line">    </div><div class="line">  &#125;/&gt;</div><div class="line">)</div><div class="line"></div><div class="line">const Home = () =&gt; (</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;h2&gt;Home&lt;/h2&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">)</div><div class="line"></div><div class="line">const About = () =&gt; (</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;h2&gt;About&lt;/h2&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">)</div><div class="line"></div><div class="line">export default CustomLinkExample</div></pre></td></tr></table></figure>
+<p>A <code>match</code> object contains information about how a <code>&lt;Route path&gt;</code> matched the URL. <code>match</code> objects contain the following properties:</p>
+<ul>
+<li><code>params</code> - (object) Key/value pairs parsed from the URL corresponding to the dynamic segments of the path<ul>
+<li>key值是  <code>:id</code> 之类的变量名  value 是即时匹配到的路径<strong>字符串</strong></li>
+</ul>
+</li>
+<li><code>isExact</code> - (boolean) <code>true</code> if the entire URL was matched (no trailing characters)</li>
+<li><code>path</code> - (string) The path pattern used to match. Useful for building nested <code>&lt;Route&gt;</code>s</li>
+<li><code>url</code> - (string) The matched portion of the URL. Useful for building nested <code>&lt;Link&gt;</code>s</li>
+</ul>
+<p>You’ll have access <code>match</code> objects in various places:</p>
+<ul>
+<li><a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/Route.md#component" target="_blank" rel="external">Route component</a> as <code>this.props.match</code></li>
+<li><a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/Route.md#render-func" target="_blank" rel="external">Route render</a> as <code>({ match }) =&gt; ()</code></li>
+<li><a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/Route.md#children-func" target="_blank" rel="external">Route children</a> as <code>({ match }) =&gt; ()</code></li>
+<li><a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/withRouter.md" target="_blank" rel="external">withRouter</a> as <code>this.props.match</code></li>
+<li><a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/matchPath.md" target="_blank" rel="external">matchPath</a> as the return value</li>
+</ul>
+<p>If a Route does not have a <code>path</code>, and therefore always matches, you’ll get the closest parent match. Same goes for <code>withRouter</code>.</p>
+<p><code>Route</code>组件要渲染的组件component,通过Router可以向该组件传递match对象;对于官网的demo我做了一些改动,方便理解</p>
+<p>通过点击不同的链接,观察地址栏和控制台的输出,应该可以有一个基础的认识.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  BrowserRouter <span class="keyword">as</span> Router,</div><div class="line">  Route,</div><div class="line">  Link</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(Route);</div><div class="line"><span class="built_in">console</span>.log(<span class="xml"><span class="tag">&lt;<span class="name">Route</span>/&gt;</span></span>);</div><div class="line"></div><div class="line"><span class="keyword">const</span> Home = <span class="function"><span class="params">()</span>=&gt;</span>(</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>this is my Home<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">const</span> About = <span class="function"><span class="params">()</span>=&gt;</span>(</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>this is about handsome me<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment">// const Topics = ()=&gt;(</span></div><div class="line"><span class="comment">//   &lt;div&gt;</span></div><div class="line"><span class="comment">//     &lt;h2&gt;this is all Topics&lt;/h2&gt;</span></div><div class="line">  </div><div class="line"><span class="comment">//   &lt;/div&gt;</span></div><div class="line"><span class="comment">// )</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> Topic = <span class="function">(<span class="params">&#123; match &#125;</span>) =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Topic'</span>,match);<span class="comment">//改动1 </span></div><div class="line">  <span class="keyword">return</span> (</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><div class="line">     <span class="tag">&lt;<span class="name">h3</span>&gt;</span>&#123;match.params.topicId&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  )</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">const</span> Topics = <span class="function">(<span class="params">&#123;match&#125;</span>)=&gt;</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Topics'</span>,match);<span class="comment">//改动2 </span></div><div class="line">  <span class="keyword">return</span> (</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><div class="line">      <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Topics<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span> &gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">&#123;</span>`$&#123;<span class="attr">match.url</span>&#125;/<span class="attr">rendering</span>`&#125;&gt;</span>Rendering with React<span class="tag">&lt;/<span class="name">Link</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">&#123;</span>`$&#123;<span class="attr">match.url</span>&#125;/<span class="attr">components</span>`&#125;&gt;</span>Components<span class="tag">&lt;/<span class="name">Link</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">&#123;</span>`$&#123;<span class="attr">match.url</span>&#125;/<span class="attr">porps</span>`&#125;&gt;</span>props<span class="tag">&lt;/<span class="name">Link</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&#123;</span>`$&#123;<span class="attr">match.url</span>&#125;/<span class="attr">:topicId</span>`&#125; <span class="attr">component</span>=<span class="string">&#123;Topic&#125;</span>&gt;</span><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">Route</span> <span class="attr">exact</span> <span class="attr">path</span>=<span class="string">&#123;match.url&#125;</span> <span class="attr">render</span>=<span class="string">&#123;()</span>=&gt;</span>(<span class="tag">&lt;<span class="name">h3</span>&gt;</span>please select a topic<span class="tag">&lt;/<span class="name">h3</span>&gt;</span>)&#125;&gt;<span class="tag">&lt;/<span class="name">Route</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  )</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> BasicExample = <span class="function"><span class="params">()</span>=&gt;</span>(</div><div class="line"> &lt;Router&gt;</div><div class="line">   &lt;div&gt; </div><div class="line">    &lt;ul&gt;</div><div class="line">      &lt;li&gt;</div><div class="line">        &lt;Link to='/'&gt;Home&lt;/Link&gt;</div><div class="line">      &lt;/li&gt;</div><div class="line">      &lt;li&gt;</div><div class="line">        &lt;Link to='/about'&gt;About&lt;/Link&gt;</div><div class="line">      &lt;/li&gt;</div><div class="line">      &lt;li&gt;</div><div class="line">        &lt;Link to='/topics'&gt;Topics&lt;/Link&gt;</div><div class="line">      &lt;/li&gt;</div><div class="line"></div><div class="line">      &lt;hr/&gt;</div><div class="line"></div><div class="line">      &lt;Route path='/' component=&#123;Home&#125;/&gt;</div><div class="line">      &lt;Route path='/about' component=&#123;About&#125;/&gt;</div><div class="line">      &lt;Route path='/topics' component=&#123;Topics&#125;/&gt;</div><div class="line">    &lt;/ul&gt;</div><div class="line">  </div><div class="line">  &lt;/div&gt;</div><div class="line"> </div><div class="line"> &lt;/Router&gt;</div><div class="line">)</div><div class="line"></div><div class="line">export default BasicExample</div></pre></td></tr></table></figure>
+<h3 id="3-Router中的组件的props对象"><a href="#3-Router中的组件的props对象" class="headerlink" title="3 Router中的组件的props对象"></a>3 Router中的组件的props对象</h3><p>一般情况下,我们的组件的props属性直接通过定义可以取到,如下所示,可以通过props获取name属性的值</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(props)</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello &#123;props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></div><div class="line">&#125;</div><div class="line">&lt;Welcome name = <span class="string">'Jhon'</span>/&gt;</div></pre></td></tr></table></figure>
+<p>当一个组件作为Route的component属性的值的时候,此时组件中的属性会多了location  history match这三个对象</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  BrowserRouter <span class="keyword">as</span> Router,</div><div class="line">  Route,</div><div class="line">  Link</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> ParamsExample = <span class="function"><span class="params">()</span> =&gt;</span> (</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">Router</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Accounts<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">"/netflix"</span>&gt;</span>Netflix<span class="tag">&lt;/<span class="name">Link</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">"/zillow-group"</span>&gt;</span>Zillow Group<span class="tag">&lt;/<span class="name">Link</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">"/yahoo"</span>&gt;</span>Yahoo<span class="tag">&lt;/<span class="name">Link</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">"/modus-create"</span>&gt;</span>Modus Create<span class="tag">&lt;/<span class="name">Link</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"></div><div class="line">      <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">"/:id"</span> <span class="attr">component</span>=<span class="string">&#123;Child&#125;/</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">Router</span>&gt;</span></div><div class="line">)</div><div class="line">//改动官网的demo,便于理解</div><div class="line">const Child = (props) =&gt; &#123;</div><div class="line">  console.log(props);//此时props对象包括 &#123;location ,match,history&#125;</div><div class="line">  return (</div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">h3</span>&gt;</span>ID: &#123;props.match.params.id&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">     <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  )</div><div class="line">  </div><div class="line">&#125;</div><div class="line">export default ParamsExample</div></pre></td></tr></table></figure>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//官方源代码如下,两者达到的效果是一样的</span></div><div class="line"><span class="keyword">const</span> Child = <span class="function">(<span class="params">&#123; match &#125;</span>) =&gt;</span> (</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>ID: &#123;match.params.id&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">)</div><div class="line"><span class="comment">//这里用到了ES6中对象的解构赋值</span></div></pre></td></tr></table></figure>
+<h3 id="3-withRouter-Redict"><a href="#3-withRouter-Redict" class="headerlink" title="3 withRouter Redict"></a>3 withRouter Redict</h3><p>对象的解构赋值,前面仅仅是一个标记,后面才是变量</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="keyword">var</span> name = <span class="string">'Jhon'</span></div><div class="line">  <span class="keyword">const</span> &#123;<span class="attr">com</span>:COM&#125; = &#123;<span class="attr">com</span>:name&#125; ;</div><div class="line">  <span class="built_in">console</span>.log(COM);<span class="comment">//Jhon</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>源码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> withRouter = <span class="function"><span class="keyword">function</span> <span class="title">withRouter</span>(<span class="params">Component</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> C = <span class="function"><span class="keyword">function</span> <span class="title">C</span>(<span class="params">props</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> wrappedComponentRef = props.wrappedComponentRef,</div><div class="line">        remainingProps = _objectWithoutProperties(props, [<span class="string">'wrappedComponentRef'</span>]);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> _react2.default.createElement(_Route2.default, &#123; <span class="attr">render</span>: <span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params">routeComponentProps</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> _react2.default.createElement(Component, _extends(&#123;&#125;, remainingProps, routeComponentProps, &#123; <span class="attr">ref</span>: wrappedComponentRef &#125;));</div><div class="line">      &#125; &#125;);</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  C.displayName = <span class="string">'withRouter('</span> + (Component.displayName || Component.name) + <span class="string">')'</span>;</div><div class="line">  C.WrappedComponent = Component;</div><div class="line">  C.propTypes = &#123;</div><div class="line">    <span class="attr">wrappedComponentRef</span>: _propTypes2.default.func</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> (<span class="number">0</span>, _hoistNonReactStatics2.default)(C, Component);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">exports.default = withRouter;</div></pre></td></tr></table></figure>
+<p>学习了这么几天,我算是明白了.自己还是原来的自己,这么多年来一直没变.遇到问题总是刚正面,有时候确实很浪费时间和精力,其实有时候多看一些,多了解一些再去正面硬刚这些源码和问题,可能效率会更高.</p>
+<p><a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/Route.md" target="_blank" rel="external">react-routerAPI文档解析</a></p>
+<p><a href="https://reacttraining.com/react-router/web/example/basic" target="_blank" rel="external">官方文档</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/router/" rel="tag"># router</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/16/220React-router-中的Route组件详解/" rel="next" title="React-router 中的Route组件详解">
+                <i class="fa fa-chevron-left"></i> React-router 中的Route组件详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/17/221React-router-Prompt/" rel="prev" title="React-router Prompt">
+                React-router Prompt <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description">keep fighting！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">190</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-react-router中一个属性exact-的使用-默认是true-详见API文档解析"><span class="nav-number">1.</span> <span class="nav-text">1 react-router中一个属性exact 的使用,默认是true,详见API文档解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-match对象"><span class="nav-number">2.</span> <span class="nav-text">2 match对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Router中的组件的props对象"><span class="nav-number">3.</span> <span class="nav-text">3 Router中的组件的props对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-withRouter-Redict"><span class="nav-number">4.</span> <span class="nav-text">3 withRouter Redict</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
