@@ -99,7 +99,7 @@ crea">
 本文主要理解redux在react中期的作用,以及react-redux如何将react和redux连接起来
 Provider connect 源码解读
 crea">
-<meta property="og:updated_time" content="2017-05-19T05:24:40.733Z">
+<meta property="og:updated_time" content="2017-06-02T10:35:24.843Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从react到react-redux到react-redux-react-redux">
 <meta name="twitter:description" content="前言,对于初学者来说,这个demo理解起来相对简单,只需要create-react-app  ,然后 npm install react-redux  npm install redux 即可.(react官方文档和redux官方文档)
@@ -414,9 +414,11 @@ crea">
 <ul>
 <li>该函数在每次store中的state状态树更新的时候都会<strong>调用该函数,</strong>通过本案例点击按钮看到控制台输出可以深化理解</li>
 <li>该函数返回的对象必须是plain object</li>
+<li><strong>默认为空,不会将state状态添加到component组件中</strong></li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function mapStateToProps(state) &#123;</div><div class="line">   return &#123; todos: state.todos &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>2)<strong>mapDispatchToProps(dispatch, [ownProps])：</strong>函数:</p>
+<p>默认会将dispatch函数添加到component组件中props属性上.</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapDispatchToProps</span>(<span class="params">dispatch</span>) </span>&#123;</div><div class="line">   <span class="keyword">return</span> &#123;</div><div class="line">      <span class="attr">todoActions</span>: bindActionCreators(todoActionCreators, dispatch),</div><div class="line">      <span class="attr">counterActions</span>: bindActionCreators(counterActionCreators, dispatch)</div><div class="line">   &#125;;</div><div class="line">&#125;</div><div class="line"><span class="comment">//这里面mapDispatchToProps函数接受的参数其实就是store.dispatch函数,bindActionCreators函数接受两个参数,一个是actionCreator,一个是dispatch函数</span></div></pre></td></tr></table></figure>
 <p>3)<strong>mergeProps(stateProps, dispatchProps, ownProps)：</strong></p>
 <p>将mapStateToProps() 与 mapDispatchToProps()返回的对象和<strong>容器组件</strong>自身的props(本案例就是WrapToggle组件的props:  wrapProps=’WarpToggleProps)合并成新的props并传入被包裹的组件(Toggle)。默认返回 Object.assign({}, ownProps, stateProps, dispatchProps) 的结果。</p>
@@ -549,7 +551,7 @@ crea">
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">190</span>
+                <span class="site-state-item-count">194</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -571,7 +573,7 @@ crea">
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-count">89</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

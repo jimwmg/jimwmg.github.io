@@ -270,6 +270,663 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/15/217React-createElement/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/15/217React-createElement/" itemprop="url">
+                  React createElement源码解读
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-15T12:36:00+08:00">
+                2017-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-先看下大概的源码"><a href="#1-先看下大概的源码" class="headerlink" title="1  先看下大概的源码"></a>1  先看下大概的源码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ReactElement = <span class="function"><span class="keyword">function</span>(<span class="params">type, key, ref, self, source, owner, props</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> element = &#123;</div><div class="line">    <span class="comment">// This tag allow us to uniquely identify this as a React Element</span></div><div class="line">    $$<span class="keyword">typeof</span>: REACT_ELEMENT_TYPE,</div><div class="line"></div><div class="line">    <span class="comment">// Built-in properties that belong on the element</span></div><div class="line">    type: type,</div><div class="line">    <span class="attr">key</span>: key,</div><div class="line">    <span class="attr">ref</span>: ref,</div><div class="line">    <span class="attr">props</span>: props,</div><div class="line"></div><div class="line">    <span class="comment">// Record the component responsible for creating this element.</span></div><div class="line">    _owner: owner,</div><div class="line">  &#125;;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">  <span class="keyword">return</span> element;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">ReactElement.createElement = <span class="function"><span class="keyword">function</span>(<span class="params">type, config, children</span>) </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">  <span class="keyword">return</span> ReactElement(</div><div class="line">    type,</div><div class="line">    key,</div><div class="line">    ref,</div><div class="line">    self,</div><div class="line">    source,</div><div class="line">    ReactCurrentOwner.current,</div><div class="line">    props</div><div class="line">  );</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>可以看出React.createElement函数返回的是一个对象,大概是这个形式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  type,</div><div class="line">  key,</div><div class="line">  props: &#123;</div><div class="line">    children</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="2-我们平时进行元素渲染的时候-一般都是这么写"><a href="#2-我们平时进行元素渲染的时候-一般都是这么写" class="headerlink" title="2 我们平时进行元素渲染的时候 ,一般都是这么写"></a>2 我们平时进行元素渲染的时候 ,一般都是这么写</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">React.render(</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span>&gt;</span>content<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span>,</div><div class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'example'</span>)</div><div class="line">);</div></pre></td></tr></table></figure>
+<p><strong>其实 <code>&lt;div /&gt;</code>  这样用 尖括号包起来的部分可以看做是jsx的一个语法糖,他其实是封装了React.createElement方法,注意返回值是一个javascript对象</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">React.render(</div><div class="line">    React.createElement(<span class="string">'div'</span>, <span class="literal">null</span>,</div><div class="line">        React.createElement(<span class="string">'div'</span>, <span class="literal">null</span>,</div><div class="line">            React.createElement(<span class="string">'div'</span>, <span class="literal">null</span>, <span class="string">'content'</span>)</div><div class="line">        )</div><div class="line">    ),</div><div class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'example'</span>)</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>箭头函数中的运用  如果要返回一个对象,需要用 ( ) 将表达式包起来 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">const App = () =&gt; (</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;AddTodo /&gt;</div><div class="line">    &lt;VisibleTodoList /&gt;</div><div class="line">    &lt;Footer /&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>如上代码 <code>&lt; &gt;</code> 包起来的jsx代码返回的是一个对象,所以该箭头函数返回的就是一个js对象</p>
+<h3 id="3-React-createElement函数的参数"><a href="#3-React-createElement函数的参数" class="headerlink" title="3 React.createElement函数的参数"></a>3 React.createElement函数的参数</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ReactElement.createElement = <span class="function"><span class="keyword">function</span>(<span class="params">type, config, children</span>)</span></div></pre></td></tr></table></figure>
+<p>从源码来看,我们可以看出其接受三个参数,第一个是type类型,也就是我们这个组件是一个HTML元素,还是一个函数组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(&lt;div /&gt;); //type是字符串 div </div><div class="line">//-------------------------</div><div class="line">function Welcome(props)&#123;</div><div class="line">  return &lt;h1&gt;hello &#123;props.name&#125;&lt;/h1&gt;</div><div class="line">&#125;</div><div class="line">var element = &lt;Welcome name = 'Jhon'/&gt;</div><div class="line">console.log(element);//type 是function</div></pre></td></tr></table></figure>
+<p>React会根据type类型首字母判断是一个HTML元素还是一个组件函数,小写字母会被当成字符串,作为type类型,大写字母会被当成组件函数,进行递归渲染.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">type</span>: (string | ReactClass),</div><div class="line">  <span class="attr">props</span>: <span class="built_in">Object</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="4-ReactDOM-render函数"><a href="#4-ReactDOM-render函数" class="headerlink" title="4 ReactDOM.render函数"></a>4 ReactDOM.render函数</h3><p>简单理解,该函数接受两个参数,一个是要渲染的javascript对象,一个是渲染后的DOM元素要放置的位置</p>
+<p>今天上班时候在地铁上看的,来到公司简单总结下.</p>
+<p><a href="http://mp.weixin.qq.com/s/IC3oMQLnz7hvKaN01JS_Zw" target="_blank" rel="external">参考:前端早读课</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/12/216React-Redux-Router学习路线/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/12/216React-Redux-Router学习路线/" itemprop="url">
+                  React Redux Router学习路线
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-12T12:36:00+08:00">
+                2017-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redux/" itemprop="url" rel="index">
+                    <span itemprop="name">redux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-React-Redux-Router学习"><a href="#1-React-Redux-Router学习" class="headerlink" title="1 React Redux Router学习"></a>1 React Redux Router学习</h3><p>首先英文得要过关,因为需要看英文文档 ;</p>
+<p>第一步 <a href="https://facebook.github.io/react/docs/hello-world.html" target="_blank" rel="external">react</a>      <a href="https://github.com/ruanyf/react-demos" target="_blank" rel="external">demo</a>  <a href="https://hulufei.gitbooks.io/react-tutorial/content/introduction.html" target="_blank" rel="external">react概览</a></p>
+<p>第二步 <a href="http://www.redux.org.cn/docs/api/index.html" target="_blank" rel="external">redux</a>      <a href="https://github.com/happypoulp/redux-tutorial" target="_blank" rel="external">demo</a>    <a href="https://github.com/kenberkeley/redux-simple-tutorial" target="_blank" rel="external">源码实现</a></p>
+<p>第三步 <a href="http://react-guide.github.io/react-router-cn/" target="_blank" rel="external">router</a>     <a href="https://reacttraining.com/react-router/web/guides/quick-start" target="_blank" rel="external">demo</a>     <a href="https://github.com/ReactTraining/react-router/tree/master/packages/react-router/docs" target="_blank" rel="external">API</a></p>
+<p>学习方法推荐,基础最重要,源码很重要 </p>
+<ul>
+<li>github上搜索  分别单独搜索  react   redux   react-router    react-redux   react-redux -router</li>
+<li>google搜索  说句实话,谷歌要比百度靠谱太多,google搜索都是干货,百度甩给你的可能是bug</li>
+<li>知乎搜索 react ,有一些话题以及问题会由比较好的链接</li>
+</ul>
+<h3 id="2-项目理解"><a href="#2-项目理解" class="headerlink" title="2 项目理解"></a>2 项目理解</h3><p><a href="https://github.com/kenberkeley/react-demo" target="_blank" rel="external">react-redux-router </a></p>
+<p><a href="https://github.com/reactjs/redux" target="_blank" rel="external">react-redux</a>         <a href="http://huziketang.com/books/react/lesson1" target="_blank" rel="external">推荐:一步步实现Redux </a></p>
+<p><a href="https://github.com/reactjs/react-router-tutorial/tree/master/lessons" target="_blank" rel="external">react-router</a></p>
+<p><a href="https://github.com/bailicangdu/react-pxq" target="_blank" rel="external">React和redux 通过react-redux结合 </a></p>
+<h3 id="3-我的博客也有一些自己学习的总结-感兴趣也可以看下"><a href="#3-我的博客也有一些自己学习的总结-感兴趣也可以看下" class="headerlink" title="3 我的博客也有一些自己学习的总结,感兴趣也可以看下."></a>3 我的博客也有一些自己学习的总结,感兴趣也可以看下.</h3><p>后期会补充,欢迎交流</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/12/223React-概览学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/12/223React-概览学习笔记/" itemprop="url">
+                  React 概览学习笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-12T12:36:00+08:00">
+                2017-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/react/" itemprop="url" rel="index">
+                    <span itemprop="name">react</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这是一些比较碎的知识点整理,不建议大家阅读,仅仅是自己的一些总结而已</p>
+<p>1 组件的props属性</p>
+<ul>
+<li>可以通过扩展运算符展开进行写入组件,这种方式省去了我们要一个个写属性的麻烦</li>
+<li>属性键值相同的话,后面的会覆盖前面的</li>
+</ul>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> props = &#123; <span class="attr">foo</span>: <span class="string">'default'</span>,<span class="attr">bar</span>:<span class="string">'baz'</span> &#125;;</div><div class="line"><span class="keyword">var</span> component = <span class="xml"><span class="tag">&lt;<span class="name">Component</span> &#123;<span class="attr">...props</span>&#125; <span class="attr">foo</span>=<span class="string">&#123;</span>'<span class="attr">override</span>'&#125; /&gt;</span>;</span></div><div class="line">console.log(component.props.foo); // 'override'</div></pre></td></tr></table></figure>
+<p>2 组件的ref属性</p>
+<ul>
+<li><p>组件的ref属性可以用在DOM元素上,如果用在DOM元素上,那么该属性将会等于一个callback函数,该函数接受此DOM元素作为参数</p>
+</li>
+<li><p>When the <code>ref</code> attribute is used on a custom component declared as a class, the <code>ref</code>callback receives the mounted instance of the component as its argument</p>
+<p>如果组件的ref属性用在class声明的组件上,那么回调函数接受的参数是实例化的组件</p>
+</li>
+<li><p>组件在装载或者卸载之后,ref指向的callback函数会立即执行,可以在组件中通过componentDidMount函数来进行判断</p>
+</li>
+<li><p>​</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/11/215Redux-Provider-Connect/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/11/215Redux-Provider-Connect/" itemprop="url">
+                  Redux Provider Connect
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-11T12:36:00+08:00">
+                2017-05-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redux/" itemprop="url" rel="index">
+                    <span itemprop="name">redux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>我是一个不信邪的人,所以无论如何我也要把这个搞明白</p>
+<p>先来看下直接在React中使用Redux</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> store = createStore(reducer)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</div><div class="line"></div><div class="line">  componentWillMount()&#123;</div><div class="line">    store.subscribe(<span class="function">(<span class="params">state</span>)=&gt;</span><span class="keyword">this</span>.setState(state))</div><div class="line">  &#125;</div><div class="line"><span class="comment">//以下在React组件中直接通过store使用Redux提供的状态管理</span></div><div class="line">  render()&#123;</div><div class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Comp</span> <span class="attr">state</span>=<span class="string">&#123;this.state&#125;</span></span></span></div><div class="line">                 <span class="attr">onIncrease</span>=<span class="string">&#123;()</span>=&gt;store.dispatch(actions.increase())&#125;</div><div class="line">                 onDecrease=&#123;()=&gt;store.dispatch(actions.decrease())&#125;</div><div class="line">    /&gt;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>那么为什么还要使用react-redux呢?</p>
+<p>React推崇的是单向数据流，自上而下进行数据的传递，但是由下而上或者不在一条数据流上的组件之间的通信就会变的复杂。解决通信问题的方法很多，如果只是父子级关系，父级可以将一个回调函数当作属性传递给子级，子级可以直接调用函数从而和父级通信。</p>
+<p>组件层级嵌套到比较深，<strong>可以使用上下文getChildContext来传递信息，这样在不需要将函数一层层往下传，任何一层的子级都可以通过this.context直接访问。</strong></p>
+<p>兄弟关系的组件之间无法直接通信，它们只能利用同一层的上级作为中转站。而如果兄弟组件都是最高层的组件，为了能够让它们进行通信，必须在它们外层再套一层组件，这个外层的组件起着保存数据，传递信息的作用，这其实就是redux所做的事情。</p>
+<p>组件之间的信息还可以通过全局事件来传递。不同页面可以通过参数传递数据，下个页面可以用location.param来获取。其实react本身很简单，难的在于如何优雅高效的实现组件之间数据的交流。</p>
+<p>###1Provider核心源码 </p>
+<p><strong>Provider</strong>是一个组件，它接受store作为props，然后通过context往下传，这样react中任何组件都可以通过context获取store。也就意味着我们可以在任何一个组件里利用dispatch(action)来触发reducer改变state，并用subscribe监听state的变化，然后用getState获取变化后的值。但是并不推荐这样做，它会让数据流变的混乱，过度的耦合也会影响组件的复用，维护起来也更麻烦。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Provider = <span class="function"><span class="keyword">function</span> (<span class="params">_Component</span>) </span>&#123;</div><div class="line">  _inherits(Provider, _Component);</div><div class="line"></div><div class="line">  Provider.prototype.getChildContext = <span class="function"><span class="keyword">function</span> <span class="title">getChildContext</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> &#123; <span class="attr">store</span>: <span class="keyword">this</span>.store &#125;;</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">Provider</span>(<span class="params">props, context</span>) </span>&#123;</div><div class="line">    _classCallCheck(<span class="keyword">this</span>, Provider);</div><div class="line"></div><div class="line">    <span class="keyword">var</span> _this = _possibleConstructorReturn(<span class="keyword">this</span>, _Component.call(<span class="keyword">this</span>, props, context));</div><div class="line">    <span class="comment">//这行代码是我加的测试代码,在控制台输出的就是一个Provider对象</span></div><div class="line">    <span class="built_in">console</span>.log(_this);</div><div class="line">    </div><div class="line">    _this.store = props.store;</div><div class="line">    <span class="keyword">return</span> _this;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  Provider.prototype.render = <span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> _react.Children.only(<span class="keyword">this</span>.props.children);</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> Provider;</div><div class="line">&#125;(_react.Component);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">Provider &#123;props: Object, context: Object, refs: Object, updater: Object&#125;</div><div class="line">context:Object</div><div class="line">props:Object</div><div class="line">children:Object</div><div class="line">$$typeof:Symbol(react.element)</div><div class="line">key:null</div><div class="line">props:Object</div><div class="line">ref:null</div><div class="line">type:function App()</div><div class="line">_owner:null</div><div class="line">_store:Object</div><div class="line">_self:null</div><div class="line">_source:Object</div><div class="line">__proto__:Object</div><div class="line">store:Object</div><div class="line">__proto__:Object</div><div class="line">refs:Object</div><div class="line">state:null</div><div class="line">store:Object</div><div class="line">updater:Object</div><div class="line">_reactInternalIns</div></pre></td></tr></table></figure>
+<p>使用如下:provider的主要作用就是将store作为props对象中的一个属性传递给Provider实例化的之后的对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> store = createStore(reducer)</div><div class="line"></div><div class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="keyword">return</span> (</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">Provider</span> <span class="attr">store</span>=<span class="string">&#123;store&#125;</span>&gt;</span></span></div><div class="line">      <span class="tag">&lt;<span class="name">FilterLink</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">Provider</span>&gt;</span></div><div class="line">  )</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>此时store是Provider对象的props中的一个属性之一.</p>
+<p>=========</p>
+<p>after four hours  我有点信邪了  , 毕竟我是才学这个的小白.</p>
+<p><code>Provider</code> 内的任何一个组件（比如这里的 <code>FilterLink</code>），如果需要使用 <code>store</code> 中的数据，就必须是「被 connect 过的」组件——使用 <code>connect</code> 方法对「你编写的组件（<code>Link</code>）」进行包装后的产物。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">const FilterLink = connect(</div><div class="line">  mapStateToProps,</div><div class="line">  mapDispatchToProps</div><div class="line">)(Link)</div></pre></td></tr></table></figure>
+<h3 id="2-connect函数-connect-mapStateToProps-mapDispatchToProps-mergeProps"><a href="#2-connect函数-connect-mapStateToProps-mapDispatchToProps-mergeProps" class="headerlink" title="2  connect函数   connect(mapStateToProps, mapDispatchToProps, mergeProps)"></a>2  connect函数   connect(mapStateToProps, mapDispatchToProps, mergeProps)</h3><p>Connects a React component to a Redux store.</p>
+<p>It does not modify the component class passed to it. Instead, it returns a new, connected component class, for you to use.</p>
+<p>connect函数的主要作用是将React组件和Redux的store联系起来</p>
+<p><strong>往根本去说其实是将redux的store对象中的 state  dispatch 这些属性添加(映射)到 react组件的props属性上</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(props)</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello &#123;props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></div><div class="line">    &#125;</div><div class="line"> &lt;Welcome name = <span class="string">'Jhon'</span>/&gt; </div><div class="line">   <span class="comment">//一般情况下我们组件中传递props参数的时候,是通过这种方式传递的</span></div></pre></td></tr></table></figure>
+<p>而connect函数的作用就是向props组件中添加属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params">mapStateToProps, mapDispatchToProps, mergeProps, options = &#123;&#125;</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">wrapWithConnect</span>(<span class="params">WrappedComponent</span>) </span>&#123;</div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Connect</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">      <span class="keyword">constructor</span>(props, context) &#123;</div><div class="line">        <span class="comment">// 从祖先Component处获得store</span></div><div class="line">        <span class="keyword">this</span>.store = props.store || context.store</div><div class="line">        <span class="keyword">this</span>.stateProps = computeStateProps(<span class="keyword">this</span>.store, props)</div><div class="line">        <span class="keyword">this</span>.dispatchProps = computeDispatchProps(<span class="keyword">this</span>.store, props)</div><div class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">storeState</span>: <span class="literal">null</span> &#125;</div><div class="line">        <span class="comment">// 对stateProps、dispatchProps、parentProps进行合并</span></div><div class="line">        <span class="keyword">this</span>.updateState()</div><div class="line">      &#125;</div><div class="line">      shouldComponentUpdate(nextProps, nextState) &#123;</div><div class="line">        <span class="comment">// 进行判断，当数据发生改变时，Component重新渲染</span></div><div class="line">        <span class="keyword">if</span> (propsChanged || mapStateProducedChange || dispatchPropsChanged) &#123;</div><div class="line">          <span class="keyword">this</span>.updateState(nextProps)</div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">        componentDidMount() &#123;</div><div class="line">          <span class="comment">// 改变Component的state</span></div><div class="line">          <span class="keyword">this</span>.store.subscribe(() = &#123;</div><div class="line">            <span class="keyword">this</span>.setState(&#123;</div><div class="line">              <span class="attr">storeState</span>: <span class="keyword">this</span>.store.getState()</div><div class="line">            &#125;)</div><div class="line">          &#125;)</div><div class="line">        &#125;</div><div class="line">        render() &#123;</div><div class="line">          <span class="comment">// 生成包裹组件Connect</span></div><div class="line">          <span class="keyword">return</span> (</div><div class="line">            <span class="xml"><span class="tag">&lt;<span class="name">WrappedComponent</span> &#123;<span class="attr">...this.nextState</span>&#125; /&gt;</span></span></div><div class="line">          )</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">      Connect.contextTypes = &#123;</div><div class="line">        store: storeShape</div><div class="line">      &#125;</div><div class="line">      return Connect;</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<h4 id="2-1-看一个组件的声明"><a href="#2-1-看一个组件的声明" class="headerlink" title="2.1 看一个组件的声明"></a>2.1 看一个组件的声明</h4><p>Link.js  组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> PropTypes <span class="keyword">from</span> <span class="string">'prop-types'</span></div><div class="line"><span class="comment">//这里面的&#123;active,children,onClick&#125; 其实就是props,只不过是以对象的直接形式出现的,</span></div><div class="line"><span class="comment">//另外直接进行了解构赋值操作</span></div><div class="line"><span class="keyword">const</span> Link = <span class="function">(<span class="params">&#123; active, children, onClick &#125;</span>) =&gt;</span> &#123;</div><div class="line">  <span class="keyword">if</span> (active) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;children&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> (</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span></span></span></div><div class="line">       <span class="attr">onClick</span>=<span class="string">&#123;e</span> =&gt; &#123;</div><div class="line">         e.preventDefault()</div><div class="line">         onClick()</div><div class="line">       &#125;&#125;</div><div class="line">    &gt;</div><div class="line">      &#123;children&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">  )</div><div class="line">&#125;</div><div class="line"><span class="comment">//限定组件属性的数据类型</span></div><div class="line">Link.propTypes = &#123;</div><div class="line">  <span class="attr">active</span>: PropTypes.bool.isRequired,</div><div class="line">  <span class="attr">children</span>: PropTypes.node.isRequired,</div><div class="line">  <span class="attr">onClick</span>: PropTypes.func.isRequired</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'link组件'</span>,&lt;Link/&gt;);</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> Link</div></pre></td></tr></table></figure>
+<p>为了方便大家看懂bable转码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> Link = <span class="function"><span class="keyword">function</span> <span class="title">Link</span>(<span class="params">_ref</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> active = _ref.active,</div><div class="line">      children = _ref.children,</div><div class="line">      _onClick = _ref.onClick;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (active) &#123;</div><div class="line">    <span class="keyword">return</span> React.createElement(</div><div class="line">      <span class="string">"span"</span>,</div><div class="line">      <span class="literal">null</span>,</div><div class="line">      children</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> React.createElement(</div><div class="line">    <span class="string">"a"</span>,</div><div class="line">    &#123; <span class="attr">href</span>: <span class="string">"#"</span>,</div><div class="line">      <span class="attr">onClick</span>: <span class="function"><span class="keyword">function</span> <span class="title">onClick</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">        e.preventDefault();</div><div class="line">        _onClick();</div><div class="line">      &#125;</div><div class="line">    &#125;,</div><div class="line">    children</div><div class="line">  );</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="2-2-这个时候我们需要注意下-active-children-onClick-来自何方"><a href="#2-2-这个时候我们需要注意下-active-children-onClick-来自何方" class="headerlink" title="2.2 这个时候我们需要注意下{ active, children, onClick }来自何方?"></a>2.2 这个时候我们需要注意下{ active, children, onClick }来自何方?</h4><p>FilterLink.js(container容器)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> &#123; connect &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span></div><div class="line"><span class="keyword">import</span> &#123; setVisibilityFilter &#125; <span class="keyword">from</span> <span class="string">'../actions'</span></div><div class="line"><span class="keyword">import</span> Link <span class="keyword">from</span> <span class="string">'../components/Link'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> mapStateToProps = <span class="function">(<span class="params">state, ownProps</span>) =&gt;</span> (&#123;</div><div class="line">  <span class="attr">active</span>: ownProps.filter === state.visibilityFilter</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function">(<span class="params">dispatch, ownProps</span>) =&gt;</span> (&#123;</div><div class="line">  <span class="attr">onClick</span>: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    dispatch(setVisibilityFilter(ownProps.filter))</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'Link'</span>,&lt;Link/&gt;);</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">const</span> FilterLink = connect(</div><div class="line">  mapStateToProps,</div><div class="line">  mapDispatchToProps</div><div class="line">)(Link)</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'FilterLink'</span>,&lt;FilterLink/&gt;);</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> FilterLink</div></pre></td></tr></table></figure>
+<ul>
+<li>mapStateToProps(state,ownProps) 这个函数的作用就是将store对象中的state状态赋值给组件的props属性</li>
+<li>mapDispatchToProps(dispatch, ownProps)这个函数的作用就是将store对象中dispatch方法给到props属性</li>
+</ul>
+<p>源码暂时没有告破</p>
+<p><a href="http://taobaofed.org/blog/2016/08/18/react-redux-connect/" target="_blank" rel="external">参考</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/11/218React-redux Demo案例/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -411,9 +1068,11 @@
 <ul>
 <li>该函数在每次store中的state状态树更新的时候都会<strong>调用该函数,</strong>通过本案例点击按钮看到控制台输出可以深化理解</li>
 <li>该函数返回的对象必须是plain object</li>
+<li><strong>默认为空,不会将state状态添加到component组件中</strong></li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function mapStateToProps(state) &#123;</div><div class="line">   return &#123; todos: state.todos &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>2)<strong>mapDispatchToProps(dispatch, [ownProps])：</strong>函数:</p>
+<p>默认会将dispatch函数添加到component组件中props属性上.</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapDispatchToProps</span>(<span class="params">dispatch</span>) </span>&#123;</div><div class="line">   <span class="keyword">return</span> &#123;</div><div class="line">      <span class="attr">todoActions</span>: bindActionCreators(todoActionCreators, dispatch),</div><div class="line">      <span class="attr">counterActions</span>: bindActionCreators(counterActionCreators, dispatch)</div><div class="line">   &#125;;</div><div class="line">&#125;</div><div class="line"><span class="comment">//这里面mapDispatchToProps函数接受的参数其实就是store.dispatch函数,bindActionCreators函数接受两个参数,一个是actionCreator,一个是dispatch函数</span></div></pre></td></tr></table></figure>
 <p>3)<strong>mergeProps(stateProps, dispatchProps, ownProps)：</strong></p>
 <p>将mapStateToProps() 与 mapDispatchToProps()返回的对象和<strong>容器组件</strong>自身的props(本案例就是WrapToggle组件的props:  wrapProps=’WarpToggleProps)合并成新的props并传入被包裹的组件(Toggle)。默认返回 Object.assign({}, ownProps, stateProps, dispatchProps) 的结果。</p>
@@ -644,6 +1303,148 @@
 <h3 id="5-从缓存中解析模块"><a href="#5-从缓存中解析模块" class="headerlink" title="5 从缓存中解析模块"></a>5 从缓存中解析模块</h3><p>Every filesystem access is cached, so that multiple parallel or serial requests to the same file occur faster. In <a href="https://webpack.js.org/configuration/watch/#watch" target="_blank" rel="external">watch mode</a>, only modified files are evicted from the cache. If watch mode is off, then the cache gets purged before every compilation.</p>
 <p>每一个文件都会被缓存,所以对于同一文件的并行的请求将可以更快的请求到模块,在观察者模式下,只用改变了的文件将会从缓存中抽出,如果观察者模式关闭,那么每次编译之前都会清理缓存.</p>
 
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/09/210React-Component/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/09/210React-Component/" itemprop="url">
+                  React-Component
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-09T12:36:00+08:00">
+                2017-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
           
         
       
@@ -1192,828 +1993,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/09/210React-Component/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/09/210React-Component/" itemprop="url">
-                  React-Component
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-09T12:36:00+08:00">
-                2017-05-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/08/209return小结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/08/209return小结/" itemprop="url">
-                  return小结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-08T12:36:00+08:00">
-                2017-05-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1 函数执行的时候,如果遇到return,则终止当前函数的执行,直接返回return后面的结果</p>
-<p>2 for(var k in  obj ) {   }  循环,只有在obj被定义的情况下,才会执行for后面的代码块</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="keyword">var</span> obj = &#123;<span class="attr">name</span>:<span class="string">'Jhon'</span>,<span class="attr">age</span>:<span class="number">13</span>&#125;;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'2'</span>);</div><div class="line">            </div><div class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> k <span class="keyword">in</span> obj )&#123;</div><div class="line">              <span class="comment">//如果obj为定义,则for语句后面的代码块不会执行</span></div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span> ;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//如果obj是一个对象,下面的代码不会执行,函数在执行的时候,遇到return就会直接退出当前函数执行,返回return的值</span></div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'11'</span>);</div><div class="line">            </div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span> ;</div><div class="line"></div><div class="line">            cconsole.log(<span class="string">'1'</span>);</div><div class="line">            </div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">var</span> a = f1(obj);<span class="comment">//传入obj</span></div><div class="line">        <span class="keyword">var</span> b = f1();<span class="comment">//不传值,默认undefined</span></div><div class="line">        <span class="built_in">console</span>.log(a);<span class="comment">//false</span></div><div class="line">        <span class="built_in">console</span>.log(b);<span class="comment">//true</span></div><div class="line">        </div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">isEmptyObject</span>(<span class="params">obj</span>) </span>&#123;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">var</span> k <span class="keyword">in</span> obj) &#123;</div><div class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">            &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/05/208Redux-applyMiddleware源码/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/05/208Redux-applyMiddleware源码/" itemprop="url">
-                  Redux applyMiddleware源码
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-05T12:36:00+08:00">
-                2017-05-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/redux/" itemprop="url" rel="index">
-                    <span itemprop="name">redux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>今天是周日,昨天玩了一天,嗯,该放松还是得放松嘛,今天来学习下.</p>
-<h3 id="1-还是先贴上源码"><a href="#1-还是先贴上源码" class="headerlink" title="1 还是先贴上源码"></a>1 还是先贴上源码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> compose <span class="keyword">from</span> <span class="string">'./compose'</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Creates a store enhancer that applies middleware to the dispatch method</div><div class="line"> * of the Redux store. This is handy for a variety of tasks, such as expressing</div><div class="line"> * asynchronous actions in a concise manner, or logging every action payload.</div><div class="line"> *</div><div class="line"> * See `redux-thunk` package as an example of the Redux middleware.</div><div class="line"> *</div><div class="line"> * Because middleware is potentially asynchronous, this should be the first</div><div class="line"> * store enhancer in the composition chain.</div><div class="line"> *</div><div class="line"> * Note that each middleware will be given the `dispatch` and `getState` functions</div><div class="line"> * as named arguments.</div><div class="line"> *</div><div class="line"> * @param &#123;...Function&#125; middlewares The middleware chain to be applied.</div><div class="line"> * @returns &#123;Function&#125; A store enhancer applying the middleware.</div><div class="line"> */</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">applyMiddleware</span>(<span class="params">...middlewares</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">createStore</span>) =&gt;</span> (reducer, preloadedState, enhancer) =&gt; &#123;</div><div class="line">    <span class="keyword">const</span> store = createStore(reducer, preloadedState, enhancer)</div><div class="line">    <span class="keyword">let</span> dispatch = store.dispatch</div><div class="line">    <span class="keyword">let</span> chain = []</div><div class="line"></div><div class="line">    <span class="keyword">const</span> middlewareAPI = &#123;</div><div class="line">      <span class="attr">getState</span>: store.getState,</div><div class="line">      <span class="attr">dispatch</span>: <span class="function">(<span class="params">action</span>) =&gt;</span> dispatch(action)</div><div class="line">    &#125;</div><div class="line">    chain = middlewares.map(<span class="function"><span class="params">middleware</span> =&gt;</span> middleware(middlewareAPI))</div><div class="line">    dispatch = compose(...chain)(store.dispatch)</div><div class="line"><span class="comment">/*</span></div><div class="line"> // 例如，chain 为 [M3, M2, M1]，而 compose 是从右到左进行“包裹”的</div><div class="line">      // 那么，M1 的 dispatch 参数为 store.dispatch（见【降低逼格写法】的【锚点-2】）</div><div class="line">      // 往后，M2 的 dispatch 参数为 M1 的中间件处理逻辑哥（见【降低逼格写法】的【锚点-3】）</div><div class="line">      // 同样，M3 的 dispatch 参数为 M2 的中间件处理逻辑哥</div><div class="line">      // 最后，我们得到串联后的中间件链：M3(M2(M1(store.dispatch)))</div><div class="line">      */</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      ...store,</div><div class="line">      dispatch</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>由于目前对这个源码理解还是不够透彻,索性拿别人的作为记录得了,后期自己深入研究在自己写demo.</p>
-<p>下面这个就是一个简单的中间件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">const</span> printStateMiddleware = <span class="function">(<span class="params">&#123; getState &#125;</span>) =&gt;</span> next =&gt; <span class="function"><span class="params">action</span> =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'state before dispatch'</span>, getState())</div><div class="line">  </div><div class="line">  <span class="keyword">let</span> returnValue = next(action)</div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'state after dispatch'</span>, getState())</div><div class="line"></div><div class="line">  <span class="keyword">return</span> returnValue</div><div class="line">&#125;</div><div class="line"></div><div class="line">-------------------------------------------------</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">printStateMiddleware</span>(<span class="params">middlewareAPI</span>) </span>&#123; <span class="comment">// 记为【锚点-1】，中间件内可用的 API</span></div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">dispatch</span>) </span>&#123;                 <span class="comment">// 记为【锚点-2】，传入上级中间件处理逻辑（若无则为原 store.dispatch）</span></div><div class="line"></div><div class="line">    <span class="comment">// 下面记为【锚点-3】，整个函数将会被传到下级中间件（如果有的话）作为它的 dispatch 参数</span></div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">action</span>) </span>&#123; <span class="comment">// &lt;---------------------------------------------- 这货就叫做【中间件处理逻辑哥】吧</span></div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'state before dispatch'</span>, middlewareAPI.getState())</div><div class="line">  </div><div class="line">      <span class="keyword">var</span> returnValue = dispatch(action) <span class="comment">// 还记得吗，dispatch 的返回值其实还是 action</span></div><div class="line">  </div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'state after dispatch'</span>, middlewareAPI.getState())</div><div class="line"></div><div class="line">      <span class="keyword">return</span> returnValue <span class="comment">// 继续传给下一个中间件作为参数 action</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>如果觉得代码有点晦涩难懂,可以进行下babel转化为ES5 如下:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.defineProperty(exports, <span class="string">"__esModule"</span>, &#123;</div><div class="line">  <span class="attr">value</span>: <span class="literal">true</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> _extends = <span class="built_in">Object</span>.assign || <span class="function"><span class="keyword">function</span> (<span class="params">target</span>) </span>&#123; <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; <span class="built_in">arguments</span>.length; i++) &#123; <span class="keyword">var</span> source = <span class="built_in">arguments</span>[i]; <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> source) &#123; <span class="keyword">if</span> (<span class="built_in">Object</span>.prototype.hasOwnProperty.call(source, key)) &#123; target[key] = source[key]; &#125; &#125; &#125; <span class="keyword">return</span> target; &#125;;</div><div class="line"></div><div class="line">exports.default = applyMiddleware;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">_toConsumableArray</span>(<span class="params">arr</span>) </span>&#123; <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(arr)) &#123; <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, arr2 = <span class="built_in">Array</span>(arr.length); i &lt; arr.length; i++) &#123; arr2[i] = arr[i]; &#125; <span class="keyword">return</span> arr2; &#125; <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="built_in">Array</span>.from(arr); &#125; &#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">applyMiddleware</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> _len = <span class="built_in">arguments</span>.length, middlewares = <span class="built_in">Array</span>(_len), _key = <span class="number">0</span>; _key &lt; _len; _key++) &#123;</div><div class="line">    middlewares[_key] = <span class="built_in">arguments</span>[_key];</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">createStore</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">reducer, preloadedState, enhancer</span>) </span>&#123;</div><div class="line">      <span class="keyword">var</span> store = createStore(reducer, preloadedState, enhancer);</div><div class="line">      <span class="keyword">var</span> _dispatch = store.dispatch;</div><div class="line">      <span class="keyword">var</span> chain = [];</div><div class="line"></div><div class="line">      <span class="keyword">var</span> middlewareAPI = &#123;</div><div class="line">        <span class="attr">getState</span>: store.getState,</div><div class="line">        <span class="attr">dispatch</span>: <span class="function"><span class="keyword">function</span> <span class="title">dispatch</span>(<span class="params">action</span>) </span>&#123;</div><div class="line">          <span class="keyword">return</span> _dispatch(action);</div><div class="line">        &#125;</div><div class="line">      &#125;;</div><div class="line">      chain = middlewares.map(<span class="function"><span class="keyword">function</span> (<span class="params">middleware</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> middleware(middlewareAPI);</div><div class="line">      &#125;);</div><div class="line">      _dispatch = compose.apply(<span class="literal">undefined</span>, _toConsumableArray(chain))(store.dispatch);</div><div class="line"></div><div class="line">      <span class="keyword">return</span> _extends(&#123;&#125;, store, &#123;</div><div class="line">        <span class="attr">dispatch</span>: _dispatch</div><div class="line">      &#125;);</div><div class="line">    &#125;;</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>先从整体上把控下Redux所谓的API都有什么 : </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Redux 有五个 API，分别是：</div><div class="line"></div><div class="line">      createStore(reducer, [initialState])</div><div class="line">      combineReducers(reducers)</div><div class="line">      applyMiddleware(...middlewares)</div><div class="line">      bindActionCreators(actionCreators, dispatch)</div><div class="line">      compose(...functions)</div><div class="line"></div><div class="line">createStore 生成的 store 有四个 API，分别是：</div><div class="line"></div><div class="line">    getState()</div><div class="line">    dispatch(action)</div><div class="line">    subscribe(listener)</div><div class="line">    replaceReducer(nextReducer)</div></pre></td></tr></table></figure>
-<h3 id="2-通过源码分析下applyMiddleware这个函数做了什么工作"><a href="#2-通过源码分析下applyMiddleware这个函数做了什么工作" class="headerlink" title="2 通过源码分析下applyMiddleware这个函数做了什么工作:"></a>2 通过源码分析下applyMiddleware这个函数做了什么工作:</h3><p>2.1 返回一个新的store创建器</p>
-<p>首先返回一个函数,该函数接受Redux.createStore这个API作为参数,也就是说</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">applyMiddleware(...middleWares) = <span class="function"><span class="keyword">function</span> (<span class="params">createStore</span>)</span>&#123; &#125;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> enhancedCreateStore = Redux.applyMiddleware(...Middlewares)(Redux.createStore);</div></pre></td></tr></table></figure>
-<p>上面这行代码返回的结果也是一个函数,而这个函数被赋值给enhancedCreateStore</p>
-<p>正常的创建store的函数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> store = Redux.createStore(reducer, preloadedState, enhancer);</div></pre></td></tr></table></figure>
-<p>增强createStore之后的创建store函数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> store = enhancedCreateStore(reducer, preloadedState, enhancer);</div></pre></td></tr></table></figure>
-<p>2.2 新的store创建器返回的结果增加了原来的dispatch函数功能,从源码中可以看出返回的值和最基础的createStore一样返回的是一个下面的对象:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> &#123;</div><div class="line">  dispatch,</div><div class="line">  subscribe,</div><div class="line">  getState,</div><div class="line">  replaceReducer,</div><div class="line">  [$$observable]: observable</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>只不过dispatch函数增加了一些功能而已.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> &#123;</div><div class="line">  ...store,</div><div class="line">  dispatch</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>以上分析就是applyMiddleware函数所做的一些工作.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">原 createStore ————</div><div class="line">                  │</div><div class="line">                  ↓</div><div class="line">return enhancer1(createStore)(reducer, preloadedState, enhancer2)</div><div class="line">   |</div><div class="line">   ├———————→ createStore 增强版 1</div><div class="line">                    │</div><div class="line">                    ↓</div><div class="line">return enhancer2(createStore1)(reducer, preloadedState, enhancer3)</div><div class="line">   |</div><div class="line">   ├———————————→ createStore 增强版 1+2</div><div class="line">                        │</div><div class="line">                        ↓</div><div class="line">return enhancer3(createStore1+2)(reducer, preloadedState, applyMiddleware(m1,m2,m3))</div><div class="line">   |</div><div class="line">   ├————————————————————→ createStore 增强版 1+2+3</div><div class="line">                                     │</div><div class="line">                                     ↓</div><div class="line">return appleMiddleware(m1,m2,m3)(createStore1+2+3)(reducer, preloadedState)</div><div class="line">   |</div><div class="line">   ├——————————————————————————————————→ 生成最终增强版 store</div></pre></td></tr></table></figure>
-<h3 id="3-走一个小的功能看下具体的效果"><a href="#3-走一个小的功能看下具体的效果" class="headerlink" title="3 走一个小的功能看下具体的效果"></a>3 走一个小的功能看下具体的效果</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./redux.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">/** Action Creators */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">inc</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123; <span class="attr">type</span>: <span class="string">'INCREMENT'</span> &#125;;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">dec</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123; <span class="attr">type</span>: <span class="string">'DECREMENT'</span> &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">reducer</span>(<span class="params">state, action</span>) </span>&#123;</div><div class="line">  state = state || &#123; <span class="attr">counter</span>: <span class="number">0</span> &#125;;</div><div class="line"></div><div class="line">  <span class="keyword">switch</span> (action.type) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'INCREMENT'</span>:</div><div class="line">      <span class="keyword">return</span> &#123; <span class="attr">counter</span>: state.counter + <span class="number">1</span> &#125;;</div><div class="line">    <span class="keyword">case</span> <span class="string">'DECREMENT'</span>:</div><div class="line">      <span class="keyword">return</span> &#123; <span class="attr">counter</span>: state.counter - <span class="number">1</span> &#125;;</div><div class="line">    <span class="keyword">default</span>:</div><div class="line">      <span class="keyword">return</span> state;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">printStateMiddleware</span>(<span class="params">middlewareAPI</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">dispatch</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">action</span>) </span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'dispatch 前：'</span>, middlewareAPI.getState());</div><div class="line">      <span class="keyword">var</span> returnValue = dispatch(action);</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'dispatch 后：'</span>, middlewareAPI.getState(), <span class="string">'\n'</span>);</div><div class="line">      <span class="keyword">return</span> returnValue;</div><div class="line">    &#125;;</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> enhancedCreateStore = Redux.applyMiddleware(printStateMiddleware)(Redux.createStore);</div><div class="line"><span class="keyword">var</span> store = enhancedCreateStore(reducer);</div><div class="line"></div><div class="line">store.dispatch(inc());</div><div class="line">store.dispatch(inc());</div><div class="line">store.dispatch(dec());</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div><div class="line">控制台输出：</div><div class="line"></div><div class="line">dispatch 前：&#123; counter: 0 &#125;</div><div class="line">dispatch 后：&#123; counter: 1 &#125;</div><div class="line"></div><div class="line">dispatch 前：&#123; counter: 1 &#125;</div><div class="line">dispatch 后：&#123; counter: 2 &#125;</div><div class="line"></div><div class="line">dispatch 前：&#123; counter: 2 &#125;</div><div class="line">dispatch 后：&#123; counter: 1 &#125;</div></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a><a href="https://github.com/kenberkeley/redux-simple-tutorial/blob/master/redux-advanced-tutorial.md" target="_blank" rel="external">参考</a></h3><p>非常感谢作者能从源码的角度剖析文章.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/05/205Redux-createStore源码/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/05/205Redux-createStore源码/" itemprop="url">
-                  Redux createStore源码
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-05T12:36:00+08:00">
-                2017-05-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/redux/" itemprop="url" rel="index">
-                    <span itemprop="name">redux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###1 先贴上createStore源码</p>
-<p>看了源码我对redux的认识才开始清晰,现在终于明白,不看源码学框架就是没事儿找刺激啊,不知道底层如何实现,学起来就是举步维艰;</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> isPlainObject <span class="keyword">from</span> <span class="string">'lodash/isPlainObject'</span></div><div class="line"><span class="keyword">import</span> $$observable <span class="keyword">from</span> <span class="string">'symbol-observable'</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * These are private action types reserved by Redux.</div><div class="line"> * For any unknown actions, you must return the current state.</div><div class="line"> * If the current state is undefined, you must return the initial state.</div><div class="line"> * Do not reference these action types directly in your code.</div><div class="line"> */</div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> ActionTypes = &#123;</div><div class="line">  <span class="attr">INIT</span>: <span class="string">'@@redux/INIT'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Creates a Redux store that holds the state tree.</div><div class="line"> * The only way to change the data in the store is to call `dispatch()` on it.</div><div class="line"> *</div><div class="line"> * There should only be a single store in your app. To specify how different</div><div class="line"> * parts of the state tree respond to actions, you may combine several reducers</div><div class="line"> * into a single reducer function by using `combineReducers`.</div><div class="line"> *</div><div class="line"> * @param &#123;Function&#125; reducer A function that returns the next state tree, given</div><div class="line"> * the current state tree and the action to handle.</div><div class="line"> *</div><div class="line"> * @param &#123;any&#125; [preloadedState] The initial state. You may optionally specify it</div><div class="line"> * to hydrate the state from the server in universal apps, or to restore a</div><div class="line"> * previously serialized user session.</div><div class="line"> * If you use `combineReducers` to produce the root reducer function, this must be</div><div class="line"> * an object with the same shape as `combineReducers` keys.</div><div class="line"> *</div><div class="line"> * @param &#123;Function&#125; [enhancer] The store enhancer. You may optionally specify it</div><div class="line"> * to enhance the store with third-party capabilities such as middleware,</div><div class="line"> * time travel, persistence, etc. The only store enhancer that ships with Redux</div><div class="line"> * is `applyMiddleware()`.</div><div class="line"> *</div><div class="line"> * @returns &#123;Store&#125; A Redux store that lets you read the state, dispatch actions</div><div class="line"> * and subscribe to changes.</div><div class="line"> */</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">createStore</span>(<span class="params">reducer, preloadedState, enhancer</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> preloadedState === <span class="string">'function'</span> &amp;&amp; <span class="keyword">typeof</span> enhancer === <span class="string">'undefined'</span>) &#123;</div><div class="line">    enhancer = preloadedState</div><div class="line">    preloadedState = <span class="literal">undefined</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> enhancer !== <span class="string">'undefined'</span>) &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> enhancer !== <span class="string">'function'</span>) &#123;</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Expected the enhancer to be a function.'</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> enhancer(createStore)(reducer, preloadedState)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> reducer !== <span class="string">'function'</span>) &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Expected the reducer to be a function.'</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">let</span> currentReducer = reducer</div><div class="line">  <span class="keyword">let</span> currentState = preloadedState</div><div class="line">  <span class="keyword">let</span> currentListeners = []</div><div class="line">  <span class="keyword">let</span> nextListeners = currentListeners</div><div class="line">  <span class="keyword">let</span> isDispatching = <span class="literal">false</span></div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">ensureCanMutateNextListeners</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (nextListeners === currentListeners) &#123;</div><div class="line">      nextListeners = currentListeners.slice()</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Reads the state tree managed by the store.</div><div class="line">   *</div><div class="line">   * @returns &#123;any&#125; The current state tree of your application.</div><div class="line">   */</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getState</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> currentState</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Adds a change listener. It will be called any time an action is dispatched,</div><div class="line">   * and some part of the state tree may potentially have changed. You may then</div><div class="line">   * call `getState()` to read the current state tree inside the callback.</div><div class="line">   *</div><div class="line">   * You may call `dispatch()` from a change listener, with the following</div><div class="line">   * caveats:</div><div class="line">   *</div><div class="line">   * 1. The subscriptions are snapshotted just before every `dispatch()` call.</div><div class="line">   * If you subscribe or unsubscribe while the listeners are being invoked, this</div><div class="line">   * will not have any effect on the `dispatch()` that is currently in progress.</div><div class="line">   * However, the next `dispatch()` call, whether nested or not, will use a more</div><div class="line">   * recent snapshot of the subscription list.</div><div class="line">   *</div><div class="line">   * 2. The listener should not expect to see all state changes, as the state</div><div class="line">   * might have been updated multiple times during a nested `dispatch()` before</div><div class="line">   * the listener is called. It is, however, guaranteed that all subscribers</div><div class="line">   * registered before the `dispatch()` started will be called with the latest</div><div class="line">   * state by the time it exits.</div><div class="line">   *</div><div class="line">   * @param &#123;Function&#125; listener A callback to be invoked on every dispatch.</div><div class="line">   * @returns &#123;Function&#125; A function to remove this change listener.</div><div class="line">   */</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">subscribe</span>(<span class="params">listener</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> listener !== <span class="string">'function'</span>) &#123;</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Expected listener to be a function.'</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">let</span> isSubscribed = <span class="literal">true</span></div><div class="line"></div><div class="line">    ensureCanMutateNextListeners()</div><div class="line">    nextListeners.push(listener)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">unsubscribe</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span> (!isSubscribed) &#123;</div><div class="line">        <span class="keyword">return</span></div><div class="line">      &#125;</div><div class="line"></div><div class="line">      isSubscribed = <span class="literal">false</span></div><div class="line"></div><div class="line">      ensureCanMutateNextListeners()</div><div class="line">      <span class="keyword">const</span> index = nextListeners.indexOf(listener)</div><div class="line">      nextListeners.splice(index, <span class="number">1</span>)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Dispatches an action. It is the only way to trigger a state change.</div><div class="line">   *</div><div class="line">   * The `reducer` function, used to create the store, will be called with the</div><div class="line">   * current state tree and the given `action`. Its return value will</div><div class="line">   * be considered the **next** state of the tree, and the change listeners</div><div class="line">   * will be notified.</div><div class="line">   *</div><div class="line">   * The base implementation only supports plain object actions. If you want to</div><div class="line">   * dispatch a Promise, an Observable, a thunk, or something else, you need to</div><div class="line">   * wrap your store creating function into the corresponding middleware. For</div><div class="line">   * example, see the documentation for the `redux-thunk` package. Even the</div><div class="line">   * middleware will eventually dispatch plain object actions using this method.</div><div class="line">   *</div><div class="line">   * @param &#123;Object&#125; action A plain object representing “what changed”. It is</div><div class="line">   * a good idea to keep actions serializable so you can record and replay user</div><div class="line">   * sessions, or use the time travelling `redux-devtools`. An action must have</div><div class="line">   * a `type` property which may not be `undefined`. It is a good idea to use</div><div class="line">   * string constants for action types.</div><div class="line">   *</div><div class="line">   * @returns &#123;Object&#125; For convenience, the same action object you dispatched.</div><div class="line">   *</div><div class="line">   * Note that, if you use a custom middleware, it may wrap `dispatch()` to</div><div class="line">   * return something else (for example, a Promise you can await).</div><div class="line">   */</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">dispatch</span>(<span class="params">action</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (!isPlainObject(action)) &#123;</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(</div><div class="line">        <span class="string">'Actions must be plain objects. '</span> +</div><div class="line">        <span class="string">'Use custom middleware for async actions.'</span></div><div class="line">      )</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> action.type === <span class="string">'undefined'</span>) &#123;</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(</div><div class="line">        <span class="string">'Actions may not have an undefined "type" property. '</span> +</div><div class="line">        <span class="string">'Have you misspelled a constant?'</span></div><div class="line">      )</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (isDispatching) &#123;</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Reducers may not dispatch actions.'</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      <span class="comment">//最初始的值是false</span></div><div class="line">      isDispatching = <span class="literal">true</span></div><div class="line">      currentState = currentReducer(currentState, action)</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">      <span class="comment">//执行完try之后,还是将该值重置为false</span></div><div class="line">      isDispatching = <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">const</span> listeners = currentListeners = nextListeners</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; listeners.length; i++) &#123;</div><div class="line">      <span class="keyword">const</span> listener = listeners[i]</div><div class="line">      listener()</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> action</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Replaces the reducer currently used by the store to calculate the state.</div><div class="line">   *</div><div class="line">   * You might need this if your app implements code splitting and you want to</div><div class="line">   * load some of the reducers dynamically. You might also need this if you</div><div class="line">   * implement a hot reloading mechanism for Redux.</div><div class="line">   *</div><div class="line">   * @param &#123;Function&#125; nextReducer The reducer for the store to use instead.</div><div class="line">   * @returns &#123;void&#125;</div><div class="line">   */</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">replaceReducer</span>(<span class="params">nextReducer</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> nextReducer !== <span class="string">'function'</span>) &#123;</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Expected the nextReducer to be a function.'</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    currentReducer = nextReducer</div><div class="line">    dispatch(&#123; <span class="attr">type</span>: ActionTypes.INIT &#125;)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Interoperability point for observable/reactive libraries.</div><div class="line">   * @returns &#123;observable&#125; A minimal observable of state changes.</div><div class="line">   * For more information, see the observable proposal:</div><div class="line">   * https://github.com/tc39/proposal-observable</div><div class="line">   */</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">observable</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> outerSubscribe = subscribe</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      <span class="comment">/**</span></div><div class="line">       * The minimal observable subscription method.</div><div class="line">       * @param &#123;Object&#125; observer Any object that can be used as an observer.</div><div class="line">       * The observer object should have a `next` method.</div><div class="line">       * @returns &#123;subscription&#125; An object with an `unsubscribe` method that can</div><div class="line">       * be used to unsubscribe the observable from the store, and prevent further</div><div class="line">       * emission of values from the observable.</div><div class="line">       */</div><div class="line">      subscribe(observer) &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> observer !== <span class="string">'object'</span>) &#123;</div><div class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'Expected the observer to be an object.'</span>)</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">observeState</span>(<span class="params"></span>) </span>&#123;</div><div class="line">          <span class="keyword">if</span> (observer.next) &#123;</div><div class="line">            observer.next(getState())</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        observeState()</div><div class="line">        <span class="keyword">const</span> unsubscribe = outerSubscribe(observeState)</div><div class="line">        <span class="keyword">return</span> &#123; unsubscribe &#125;</div><div class="line">      &#125;,</div><div class="line"></div><div class="line">      [$$observable]() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// When a store is created, an "INIT" action is dispatched so that every</span></div><div class="line">  <span class="comment">// reducer returns their initial state. This effectively populates</span></div><div class="line">  <span class="comment">// the initial state tree.</span></div><div class="line">  dispatch(&#123; <span class="attr">type</span>: ActionTypes.INIT &#125;)</div><div class="line"></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    dispatch,</div><div class="line">    subscribe,</div><div class="line">    getState,</div><div class="line">    replaceReducer,</div><div class="line">    [$$observable]: observable</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>var store = createStore(reducer , preLoadState , enhancer) 定义一个store的时候可以传递reducer函数,state初始状态<ul>
-<li>注意createStore之后,会先默认执行dispatch函数一次,看源码注意下这一点.通过这次默认执行dispatch函数,reducer函数就会执行,可以初始化state状态</li>
-<li>dispatch函数执行的时候,由于刚创建store并没有通过subscribe绑定listeners,所以listeners在createStore的时候不会执行.</li>
-</ul>
-</li>
-<li>getState( )函数用来获取state下一个状态</li>
-<li>dispatch(action)函数,<ul>
-<li>用来根据不同的action,调用reducer函数改变state状态</li>
-<li>依次执行所有通过subscribe订阅到listeners数组中的函数;</li>
-<li>返回一个传入的action对象</li>
-</ul>
-</li>
-<li>subscribe( listener ) 用来向listeners数组中添加监听器</li>
-<li>replaceReducer( nextReducer ) 替换 reducer 为 nextReducer</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dispatch不同的action,然后触发reducer函数</div><div class="line">定义reducer函数的时候,reducer函数接受两个参数,一个是state,一个是action,</div><div class="line">因为reducer函数在执行的时候,是在dispatch函数内部执行,所以reducer函数的action来自于dispatch的参数action,reducer函数的state可以来自于自己,也可以来自于定义store的时候</div></pre></td></tr></table></figure>
-<h3 id="2-我们来结合一个小栗子看下createStore在状态管理过程中所扮演的角色"><a href="#2-我们来结合一个小栗子看下createStore在状态管理过程中所扮演的角色" class="headerlink" title="2 我们来结合一个小栗子看下createStore在状态管理过程中所扮演的角色"></a>2 我们来结合一个小栗子看下createStore在状态管理过程中所扮演的角色</h3><p>2.1 还是老惯例,看下引入redux之后,文件中对象有什么</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'./redux.min.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">        <span class="built_in">console</span>.log(Redux);</div><div class="line">        <span class="built_in">console</span>.log(Redux.createStore);</div><div class="line">        </div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Object &#123;__esModule: true,</div><div class="line">createStore: function, </div><div class="line">combineReducers: function, </div><div class="line">bindActionCreators: function, </div><div class="line">applyMiddleware: function…&#125;</div><div class="line">applyMiddleware:function o()</div><div class="line">bindActionCreators:function u(t,e)</div><div class="line">combineReducers:function i(t)</div><div class="line">compose:function n()</div><div class="line">createStore:function o(t,e)</div><div class="line">__esModule:true</div></pre></td></tr></table></figure>
-<p>2.2 reducer函数的定义为什么总是第一个参数是state,第二个参数是action?</p>
-<p>我们定义的reducer函数要返回一个reducer处理之后的state,赋值给currentState,然后通过getState就可以获取当前状态;</p>
-<p>源码中有如下两行代码,可以看出</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> currentReducer = reducer; </div><div class="line">currentState = currentReducer(currentState, action);</div></pre></td></tr></table></figure>
-<ul>
-<li>当我们创建一个store的时候,createStore接受两个参数,一个是reducer函数,一个是initialState初始状态,</li>
-<li>然后 var currentReducer = reducer ;  var currentState = initialState;</li>
-<li>当我们调用dispatch的时候,dispatch执行的过程中,会调用reducer函数,reducer函数就是我们处理state的方法</li>
-<li>dispatch函数中在调用reducer的时候,会向其中传递两个参数,一个是initialState对象,一个是action对象;dispatch函数执行后返回的是传入的action</li>
-<li>注意定义reducer的时候,必须要返回一个state状态,防治state状态的丢失.</li>
-</ul>
-<p>2.3 初始化state的两种方式,</p>
-<ul>
-<li>通过createStore(reducer , initialState)</li>
-<li>通过reducer(state = initialState , action )</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'./redux.min.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">   </div><div class="line">        <span class="comment">//action 创建器</span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">createActionOne</span> (<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">return</span> &#123;</div><div class="line">                <span class="attr">type</span> : <span class="string">'INCREAMENT'</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">createActionTwo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">return</span> &#123;</div><div class="line">                <span class="attr">type</span> : <span class="string">'DECREASE'</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//reducer处理函数</span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">reducer</span> (<span class="params">state = &#123;count : <span class="number">0</span> &#125;,action</span>)</span>&#123;</div><div class="line">            <span class="comment">// state = state || &#123;count : 0 &#125;</span></div><div class="line">            <span class="keyword">switch</span> (action.type) &#123;</div><div class="line">                <span class="keyword">case</span> <span class="string">"INCREAMENT"</span> :</div><div class="line">                    <span class="keyword">return</span> &#123;<span class="attr">conut</span> : state.count+<span class="number">1</span>&#125;;</div><div class="line">                <span class="keyword">case</span> <span class="string">"DECREASE"</span> :</div><div class="line">                    <span class="keyword">return</span> &#123;<span class="attr">count</span> : state.count<span class="number">-1</span>&#125;;</div><div class="line">                <span class="keyword">default</span> :</div><div class="line">                    <span class="keyword">return</span> state ;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//store状态管理器的创建</span></div><div class="line">        </div><div class="line">        <span class="keyword">var</span> store = Redux.createStore(reducer);</div><div class="line">        <span class="built_in">console</span>.log( store.getState() );</div><div class="line">        store.dispatch(createActionOne());</div><div class="line">        <span class="built_in">console</span>.log( store.getState() );</div><div class="line"></div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'./redux.min.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">     </div><div class="line">        <span class="comment">//action 创建器</span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">createActionOne</span> (<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">return</span> &#123;</div><div class="line">                <span class="attr">type</span> : <span class="string">'INCREAMENT'</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">createActionTwo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">return</span> &#123;</div><div class="line">                <span class="attr">type</span> : <span class="string">'DECREASE'</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//reducer处理函数</span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">reducer</span> (<span class="params">state ,action</span>)</span>&#123;</div><div class="line">            <span class="comment">// state = state || &#123;count : 0 &#125;</span></div><div class="line">            <span class="keyword">switch</span> (action.type) &#123;</div><div class="line">                <span class="keyword">case</span> <span class="string">"INCREAMENT"</span> :</div><div class="line">                    <span class="keyword">return</span> &#123;<span class="attr">conut</span> : state.count+<span class="number">1</span>&#125;;</div><div class="line">                <span class="keyword">case</span> <span class="string">"DECREASE"</span> :</div><div class="line">                    <span class="keyword">return</span> &#123;<span class="attr">count</span> : state.count<span class="number">-1</span>&#125;;</div><div class="line">                <span class="keyword">default</span> :</div><div class="line">                    <span class="keyword">return</span> state ;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//store状态管理器的创建</span></div><div class="line">        <span class="keyword">var</span> initialState = &#123;<span class="attr">count</span> : <span class="number">10</span> &#125;</div><div class="line">        <span class="keyword">var</span> store = Redux.createStore(reducer,initialState);</div><div class="line">        <span class="built_in">console</span>.log( store.getState() );</div><div class="line">        store.dispatch(createActionOne());</div><div class="line">        <span class="built_in">console</span>.log( store.getState() );</div><div class="line">        </div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<h3 id="3-ES6语法新特性-bable在线编译工具"><a href="#3-ES6语法新特性-bable在线编译工具" class="headerlink" title="3 ES6语法新特性                   bable在线编译工具"></a>3 ES6语法新特性                   <a href="http://babeljs.io/learn-es2015/" target="_blank" rel="external">bable在线编译工具</a></h3><p>ES6</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">reducer</span> (<span class="params">state = &#123;count : <span class="number">0</span> &#125;,action</span>)</span>&#123;</div><div class="line">            <span class="comment">// state = state || &#123;count : 0 &#125;</span></div><div class="line">            <span class="keyword">switch</span> (action.type) &#123;</div><div class="line">                <span class="keyword">case</span> <span class="string">"INCREAMENT"</span> :</div><div class="line">                    <span class="keyword">return</span> &#123;<span class="attr">conut</span> : state.count+<span class="number">1</span>&#125;;</div><div class="line">                <span class="keyword">case</span> <span class="string">"DECREASE"</span> :</div><div class="line">                    <span class="keyword">return</span> &#123;<span class="attr">count</span> : state.count<span class="number">-1</span>&#125;;</div><div class="line">                <span class="keyword">default</span> :</div><div class="line">                    <span class="keyword">return</span> state ;</div><div class="line">            &#125;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-<p>经过转化为ES5</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">reducer</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> state = <span class="built_in">arguments</span>.length &gt; <span class="number">0</span> &amp;&amp; <span class="built_in">arguments</span>[<span class="number">0</span>] !== <span class="literal">undefined</span> ? <span class="built_in">arguments</span>[<span class="number">0</span>] : &#123; <span class="attr">count</span>: <span class="number">0</span> &#125;;</div><div class="line">    <span class="keyword">var</span> action = <span class="built_in">arguments</span>[<span class="number">1</span>];</div><div class="line"></div><div class="line">    <span class="comment">// state = state || &#123;count : 0 &#125;</span></div><div class="line">    <span class="keyword">switch</span> (action.type) &#123;</div><div class="line">        <span class="keyword">case</span> <span class="string">"INCREAMENT"</span>:</div><div class="line">            <span class="keyword">return</span> &#123; <span class="attr">conut</span>: state.count + <span class="number">1</span> &#125;;</div><div class="line">        <span class="keyword">case</span> <span class="string">"DECREASE"</span>:</div><div class="line">            <span class="keyword">return</span> &#123; <span class="attr">count</span>: state.count - <span class="number">1</span> &#125;;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">return</span> state;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="4-参考"><a href="#4-参考" class="headerlink" title="4 参考"></a>4 参考</h3><p><a href="https://github.com/kenberkeley/redux-simple-tutorial/blob/master/redux-advanced-tutorial.md" target="_blank" rel="external">源码解读</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/05/204ES6-import/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/05/204ES6-import/" itemprop="url">
-                  ES6 import
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-05T12:36:00+08:00">
-                2017-05-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ES6/" itemprop="url" rel="index">
-                    <span itemprop="name">ES6</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-了解ES6-模块加载和Common-js模块加载的区别"><a href="#1-了解ES6-模块加载和Common-js模块加载的区别" class="headerlink" title="1 了解ES6 模块加载和Common.js模块加载的区别"></a>1 了解ES6 模块加载和Common.js模块加载的区别</h3><p>1.1 Common.js语法中的模块加载加载得是引用的模块暴露出来的module.exports 整体</p>
-<p>1.2 ES6的模块加载可以’静态加载,也就是说加载部分接口,而不是加载整个对象’</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// CommonJS模块</span></div><div class="line"><span class="keyword">let</span> &#123; stat, exists, readFile &#125; = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 等同于</span></div><div class="line"><span class="keyword">let</span> _fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="keyword">let</span> stat = _fs.stat;</div><div class="line"><span class="keyword">let</span> exists = _fs.exists;</div><div class="line"><span class="keyword">let</span> readfile = _fs.readfile;</div></pre></td></tr></table></figure>
-<p>上面代码的实质是整体加载<code>fs</code>模块（即加载<code>fs</code>的所有方法），生成一个对象（<code>_fs</code>），然后再从这个对象上面读取3个方法。这种加载称为“运行时加载”，因为只有运行时才能得到这个对象，导致完全没办法在编译时做“静态优化”。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ES6模块</span></div><div class="line"><span class="keyword">import</span> &#123; stat, exists, readFile &#125; <span class="keyword">from</span> <span class="string">'fs'</span>;</div></pre></td></tr></table></figure>
-<p>ES6 模块不是对象，而是通过<code>export</code>命令显式指定输出的代码，再通过<code>import</code>命令输入。</p>
-<p>上面代码的实质是从<code>fs</code>模块加载3个方法，其他方法不加载。这种加载称为“编译时加载”或者静态加载，即 ES6 可以在编译时就完成模块加载，效率要比 CommonJS 模块的加载方式高。当然，这也导致了没法引用 ES6 模块本身，因为它不是对象。</p>
-<p>注意: ES6 模块之中，顶层的<code>this</code>指向<code>undefined</code>，即不应该在顶层代码使用<code>this</code>。</p>
-<h3 id="2-ES6模块的命令组成"><a href="#2-ES6模块的命令组成" class="headerlink" title="2 ES6模块的命令组成"></a>2 ES6模块的命令组成</h3><p>主要有export和import两个命令组成;export用于规定模块对外的接口;import用于输入其他模块提供的功能接口</p>
-<p>2.1 export</p>
-<p>profile.js文件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//第一种写法</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">var</span> name = <span class="string">'JiM'</span>;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'this is a func'</span>);</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//-----------------------------------------------</span></div><div class="line"><span class="comment">//第二种写法</span></div><div class="line"><span class="keyword">var</span> name1 = <span class="string">'Jhon'</span> ;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span> (<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'this is a func1'</span>);</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> &#123; name1,f1 &#125; ;<span class="comment">//注意暴露出去的写法必须用&#123;&#125;包起来</span></div></pre></td></tr></table></figure>
-<p>main.js</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;name ,name1 ,f,f1&#125; <span class="keyword">from</span> <span class="string">'./profile.js'</span>;</div></pre></td></tr></table></figure>
-<p>最后，<code>export</code>命令可以出现在模块的任何位置，只要处于模块顶层就可以。如果处于块级作用域内，就会报错，下一节的<code>import</code>命令也是如此。这是因为处于条件代码块之中，就没法做静态优化了，违背了ES6模块的设计初衷。</p>
-<p><strong>export default </strong> 用来指定模块默认输出的接口,此时<strong>import该模块的就不需要<code>{ }</code></strong> 括起来了,如下:</p>
-<p><strong>但是一定要注意,如果不是export default接口,那么导入该接口的时候,必须通过import <code>{ }</code>的方式</strong>(这个小坑踩了好几次)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 第一组</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">crc32</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 输出</span></div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">import</span> crc32 <span class="keyword">from</span> <span class="string">'crc32'</span>; <span class="comment">// 输入</span></div><div class="line"></div><div class="line"><span class="comment">// 第二组</span></div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">crc32</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 输出</span></div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">import</span> &#123;crc32&#125; <span class="keyword">from</span> <span class="string">'crc32'</span>; <span class="comment">// 输入</span></div></pre></td></tr></table></figure>
-<p><strong>export default </strong> 也可以默认导出任何数据类型</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;<span class="attr">userData</span> : <span class="literal">null</span> , <span class="attr">msg</span> : <span class="string">"login"</span>&#125;</div></pre></td></tr></table></figure>
-<p><code>export default</code>命令用于指定模块的默认输出。显然，一个模块只能有一个默认输出，因此<code>export default</code>命令只能使用一次。所以，<code>import</code>命令后面才不用加大括号，因为只可能对应一个方法。</p>
-<p>正是因为<code>export default</code>命令其实只是输出一个叫做<code>default</code>的变量，所以它后面不能跟变量声明语句。</p>
-<p>2.2 import </p>
-<p>import命令接受一堆大括号,用于引出模块中的接口,from后面接的是模块的路径,可以是相对路径,也可以是绝对路径,如果是模块标识,需要进行配置,告诉浏览器引擎如何加载该模块中的接口;</p>
-<ul>
-<li>import命令具有声明提升功能,会提升到整个模块的头部</li>
-<li>import命令是静态执行的,不能使用变量和表达式</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">foo();</div><div class="line"></div><div class="line"><span class="keyword">import</span> &#123; foo &#125; <span class="keyword">from</span> <span class="string">'my_module'</span>;</div></pre></td></tr></table></figure>
-<p>上面的代码不会报错，因为<code>import</code>的执行早于<code>foo</code>的调用。这种行为的本质是，<code>import</code>命令是编译阶段执行的，在代码运行之前。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 报错</span></div><div class="line"><span class="keyword">import</span> &#123; <span class="string">'f'</span> + <span class="string">'oo'</span> &#125; <span class="keyword">from</span> <span class="string">'my_module'</span>;</div><div class="line"></div><div class="line"><span class="comment">// 报错</span></div><div class="line"><span class="keyword">let</span> <span class="built_in">module</span> = <span class="string">'my_module'</span>;</div><div class="line"><span class="keyword">import</span> &#123; foo &#125; <span class="keyword">from</span> <span class="built_in">module</span>;</div><div class="line"></div><div class="line"><span class="comment">// 报错</span></div><div class="line"><span class="keyword">if</span> (x === <span class="number">1</span>) &#123;</div><div class="line">  <span class="keyword">import</span> &#123; foo &#125; <span class="keyword">from</span> <span class="string">'module1'</span>;</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  <span class="keyword">import</span> &#123; foo &#125; <span class="keyword">from</span> <span class="string">'module2'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>由于<code>import</code>是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2058,7 +2042,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">190</span>
+                <span class="site-state-item-count">194</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2080,7 +2064,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-count">89</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

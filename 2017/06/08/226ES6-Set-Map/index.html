@@ -1,0 +1,765 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="set map," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="最近一直在忙react项目,好久没写博客了,需要用到immutable数据,这里先预热下map和set数据
+1 Set数据结构,是ES6的新的数据结构,该数据结构类似于数组,但是和数组不同的一点就是,数组中可以有相同的成员,但是Set数据结构不允许数据成员有一样的,Set数据结构的成员都是唯一的.有序且不可重复的列表
+1Set(4) &amp;#123;&amp;quot;car&amp;quot;, &amp;quot;bub">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6 Set Map">
+<meta property="og:url" content="http://yoursite.com/2017/06/08/226ES6-Set-Map/index.html">
+<meta property="og:site_name" content="JiM-W">
+<meta property="og:description" content="最近一直在忙react项目,好久没写博客了,需要用到immutable数据,这里先预热下map和set数据
+1 Set数据结构,是ES6的新的数据结构,该数据结构类似于数组,但是和数组不同的一点就是,数组中可以有相同的成员,但是Set数据结构不允许数据成员有一样的,Set数据结构的成员都是唯一的.有序且不可重复的列表
+1Set(4) &amp;#123;&amp;quot;car&amp;quot;, &amp;quot;bub">
+<meta property="og:updated_time" content="2017-06-09T04:03:09.511Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ES6 Set Map">
+<meta name="twitter:description" content="最近一直在忙react项目,好久没写博客了,需要用到immutable数据,这里先预热下map和set数据
+1 Set数据结构,是ES6的新的数据结构,该数据结构类似于数组,但是和数组不同的一点就是,数组中可以有相同的成员,但是Set数据结构不允许数据成员有一样的,Set数据结构的成员都是唯一的.有序且不可重复的列表
+1Set(4) &amp;#123;&amp;quot;car&amp;quot;, &amp;quot;bub">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/08/226ES6-Set-Map/"/>
+
+
+
+
+
+  <title> ES6 Set Map | JiM-W </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiM-W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep Moving</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/08/226ES6-Set-Map/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ES6 Set Map
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-08T12:36:00+08:00">
+                2017-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index">
+                    <span itemprop="name">ES6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近一直在忙react项目,好久没写博客了,需要用到immutable数据,这里先预热下map和set数据</p>
+<h3 id="1-Set数据结构-是ES6的新的数据结构-该数据结构类似于数组-但是和数组不同的一点就是-数组中可以有相同的成员-但是Set数据结构不允许数据成员有一样的-Set数据结构的成员都是唯一的"><a href="#1-Set数据结构-是ES6的新的数据结构-该数据结构类似于数组-但是和数组不同的一点就是-数组中可以有相同的成员-但是Set数据结构不允许数据成员有一样的-Set数据结构的成员都是唯一的" class="headerlink" title="1 Set数据结构,是ES6的新的数据结构,该数据结构类似于数组,但是和数组不同的一点就是,数组中可以有相同的成员,但是Set数据结构不允许数据成员有一样的,Set数据结构的成员都是唯一的."></a>1 Set数据结构,是ES6的新的数据结构,该数据结构类似于数组,但是和数组不同的一点就是,数组中可以有相同的成员,但是Set数据结构不允许数据成员有一样的,Set数据结构的成员都是唯一的.</h3><p>有序且不可重复的列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Set(4) &#123;&quot;car&quot;, &quot;buble&quot;, &quot;dog&quot;, &quot;name&quot;&#125;</div></pre></td></tr></table></figure>
+<p>Set是一个构造函数,可以用来生成set数据结构,生成的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var set1 = new Set()</div><div class="line">console.log(set);</div><div class="line">var set2 = new Set([1,2,3,4,4]) //这里的4最终在Set数据结构中只存在一项</div></pre></td></tr></table></figure>
+<p><strong>Set构造函数可以直接接受一个数组作为参数,然后将该数组初始化为Set数据结构,但是不能接受一个对象作为参数,会报错</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">name</span>:<span class="string">'Jhon'</span>,<span class="attr">age</span>:<span class="string">'13'</span>&#125;</div><div class="line"><span class="keyword">var</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>(obj)</div><div class="line"><span class="built_in">console</span>.log(set) <span class="comment">//报错</span></div></pre></td></tr></table></figure>
+<p>1.1 Set数据结构的属性和方法,通过输出我们在控制台可以看到Set构造函数原型链上的所有的API </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">-size          输出Set数据结构的成员个数</div><div class="line">-add(value)    向Set数据实例添加成员,返回Set数据结构,可以进行链式操作</div><div class="line">-clear()       删除Set数据结构中所有的成员,没有返回值</div><div class="line">-delete(value) 删除Set数据结构中某一个成员,返回布尔值,表示是否删除成功</div><div class="line">-has(value)    判断Set数据结构中是否包括某个成员,返回布尔值,表示是否包括某个成员</div></pre></td></tr></table></figure>
+<p>对于我们常用的数组去重,这里就有了更好的实现方法</p>
+<p>这里需要明确Array.from() 方法的使用,该方法接受</p>
+<ul>
+<li>类数组对象:拥有一个length属性和若干索引属性的任意对象</li>
+<li>可遍历对象:比如Map 和Set 数据结构</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">数组去重的更加简单的方式</div><div class="line">var s = new Set([1,2,3,5,5])</div><div class="line">console.log(Array.from(s))</div></pre></td></tr></table></figure>
+<p>1.2 Set数据结构的遍历方法(Set数据结构可以理解为键名和键值是相同的)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-keys     返回遍历器对象(由于Set数据结构没有键名,只有键值,或者说键名和键值一样)所以keys和values方法行为完全一致</div><div class="line">-values          (这个是Set数据结构默认遍历器接口,for-of循环)</div><div class="line">-entries         返回遍历器对象</div><div class="line">-forEach         没有返回值,对每个成员执行操作</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="string">'car'</span>,<span class="string">'buble'</span>,<span class="string">'dog'</span>])</div><div class="line">set.add(<span class="string">'name'</span>)</div><div class="line"><span class="built_in">console</span>.log(set)</div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i <span class="keyword">of</span> set)&#123;  <span class="comment">//Set结构实例默认可遍历,默认遍历器生成函数是values方法</span></div><div class="line">  <span class="built_in">console</span>.log(i);  <span class="comment">//car bubble dog name </span></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'setForeach====='</span>)</div><div class="line">set.forEach(<span class="function">(<span class="params">value,key</span>)=&gt;</span><span class="built_in">console</span>.log(value,key))</div><div class="line"><span class="comment">/*</span></div><div class="line">car  car </div><div class="line">bubble bubble </div><div class="line">dog dog </div><div class="line">name name </div><div class="line">**/</div></pre></td></tr></table></figure>
+<h3 id="2-Map数据结构-是ES6的新的数据结构-该数据结构类似于对象-也是键值对的集合-但是和对象不同的一点就是-对象中的中键名只能是字符串-但是Map数据结构的键名可以是任何数据类型-包括对象和数组"><a href="#2-Map数据结构-是ES6的新的数据结构-该数据结构类似于对象-也是键值对的集合-但是和对象不同的一点就是-对象中的中键名只能是字符串-但是Map数据结构的键名可以是任何数据类型-包括对象和数组" class="headerlink" title="2 Map数据结构,是ES6的新的数据结构,该数据结构类似于对象,也是键值对的集合,但是和对象不同的一点就是,对象中的中键名只能是字符串,但是Map数据结构的键名可以是任何数据类型,包括对象和数组"></a>2 Map数据结构,是ES6的新的数据结构,该数据结构类似于对象,也是键值对的集合,但是和对象不同的一点就是,对象中的中键名只能是字符串,但是Map数据结构的键名可以是任何数据类型,包括对象和数组</h3><p>键值对集合,对应于Object,Map对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Map(2) &#123;&quot;a&quot; =&gt; 1, &quot;b&quot; =&gt; 2&#125;</div></pre></td></tr></table></figure>
+<p>所以这里需要注意的是Map数据结构的键名如果是复杂数据类型,那么判断键名是否一致的根本比较方式是判断的键名的内存地址,也就是说<code>{ }</code> 和 <code>{ }</code> 这两个键名代表的是不同的键名.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">name</span>:<span class="string">'Jhon'</span>,<span class="attr">age</span>:<span class="string">'13'</span>&#125;</div><div class="line"><span class="keyword">var</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>()</div><div class="line"><span class="built_in">console</span>.log(map)</div><div class="line">map.set(obj,<span class="string">'hello Map'</span>)  <span class="comment">//对象作为键名</span></div><div class="line"><span class="built_in">console</span>.log(map.get(obj))</div></pre></td></tr></table></figure>
+<p>Map是一个构造函数,用来生成一个Map结构的数据对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var map = new Map()</div><div class="line">console.log(map)</div></pre></td></tr></table></figure>
+<p>1.1 Map数据结构的属性和方法,通过输出我们在控制台可以看到Set构造函数原型链上的所有的API </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">-set(key,value)      给Map数据结构设置键值对,返回Map实例,所以可以进行链式调用,如果包含该键名,则会更新</div><div class="line">-get(key)			获取Map数据结构键名对应的键值,如果找不到则返回undefined</div><div class="line">-has(key)            判断Map数据结构是否包含某个键名,返回布尔类型值</div><div class="line">-delete(key)		删除Map数据结构某个key,如果成功删除则返回ture,删除失败返回false</div><div class="line">-clear()             方法清除所有成员,没有返回值</div></pre></td></tr></table></figure>
+<p>1.2 Map数据结构的遍历</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-keys()  -values()  返回键名的遍历器 和键值的遍历器</div><div class="line">-entries()          返回键名和键值组成的遍历器(Map数据默认遍历器接口就是这个 for-of )</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">name</span>:<span class="string">'Jhon'</span>,<span class="attr">age</span>:<span class="string">'13'</span>&#125;</div><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span> ]</div><div class="line"></div><div class="line"><span class="keyword">var</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>()</div><div class="line"><span class="built_in">console</span>.log(map)</div><div class="line">map.set(obj,<span class="string">'hello Map'</span>)</div><div class="line">map.set(<span class="string">'heh'</span>,<span class="string">"hahahahh"</span>)</div><div class="line"><span class="built_in">console</span>.log(map.set(obj,<span class="string">'hello Map'</span>))</div><div class="line"><span class="built_in">console</span>.log(map.get(obj))</div><div class="line"><span class="built_in">console</span>.log(map.has(obj))</div><div class="line"><span class="built_in">console</span>.log(map.get(obj))</div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">of</span> map.keys())&#123;</div><div class="line">  <span class="built_in">console</span>.log(key)</div><div class="line">&#125;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">of</span> map.values())&#123;</div><div class="line">  <span class="built_in">console</span>.log(key)</div><div class="line">&#125;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">of</span> map.entries())&#123;</div><div class="line">  <span class="built_in">console</span>.log(key)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>1.3 Map构造函数接受的参数:原生数据结构具有Iterator接口,比如数组,类数组对象,Map和Set数据</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>([</div><div class="line">  [<span class="string">'F'</span>, <span class="string">'no'</span>],</div><div class="line">  [<span class="string">'T'</span>,  <span class="string">'yes'</span>],</div><div class="line">]);</div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">of</span> map.keys()) &#123;</div><div class="line">  <span class="built_in">console</span>.log(key);</div><div class="line">&#125;</div><div class="line"><span class="comment">// "F"</span></div><div class="line"><span class="comment">// "T"</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> value <span class="keyword">of</span> map.values()) &#123;</div><div class="line">  <span class="built_in">console</span>.log(value);</div><div class="line">&#125;</div><div class="line"><span class="comment">// "no"</span></div><div class="line"><span class="comment">// "yes"</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> map.entries()) &#123;</div><div class="line">  <span class="built_in">console</span>.log(item[<span class="number">0</span>], item[<span class="number">1</span>]);</div><div class="line">&#125;</div><div class="line"><span class="comment">// "F" "no"</span></div><div class="line"><span class="comment">// "T" "yes"</span></div><div class="line"></div><div class="line"><span class="comment">// 或者</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> [key, value] <span class="keyword">of</span> map.entries()) &#123;</div><div class="line">  <span class="built_in">console</span>.log(key, value);</div><div class="line">&#125;</div><div class="line"><span class="comment">// "F" "no"</span></div><div class="line"><span class="comment">// "T" "yes"</span></div><div class="line"></div><div class="line"><span class="comment">// 等同于使用map.entries()</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> [key, value] <span class="keyword">of</span> map) &#123;</div><div class="line">  <span class="built_in">console</span>.log(key, value);</div><div class="line">&#125;</div><div class="line"><span class="comment">// "F" "no"</span></div><div class="line"><span class="comment">// "T" "yes"</span></div></pre></td></tr></table></figure>
+<p>1.4 Map数据结构转化为数组,通过使用 <code>...</code> 扩展运算符,数组转化为Map结构,可以作为Map构造函数参数直接传入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>([</div><div class="line">  [<span class="number">1</span>, <span class="string">'one'</span>],</div><div class="line">  [<span class="number">2</span>, <span class="string">'two'</span>],</div><div class="line">  [<span class="number">3</span>, <span class="string">'three'</span>],</div><div class="line">]);</div><div class="line"></div><div class="line">[...map.keys()]</div><div class="line"><span class="comment">// [1, 2, 3]</span></div><div class="line"></div><div class="line">[...map.values()]</div><div class="line"><span class="comment">// ['one', 'two', 'three']</span></div><div class="line"></div><div class="line">[...map.entries()]</div><div class="line"><span class="comment">// [[1,'one'], [2, 'two'], [3, 'three']]</span></div><div class="line"></div><div class="line">[...map]</div><div class="line"><span class="comment">// [[1,'one'], [2, 'two'], [3, 'three']]</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/set-map/" rel="tag"># set map</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/24/225Redux-thunk源码/" rel="next" title="Redux thunk源码">
+                <i class="fa fa-chevron-left"></i> Redux thunk源码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/08/227ES6-Iterator/" rel="prev" title="ES6 Iterator">
+                ES6 Iterator <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="JiM-W" />
+          <p class="site-author-name" itemprop="name">JiM-W</p>
+           
+              <p class="site-description motion-element" itemprop="description">keep fighting！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">194</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Set数据结构-是ES6的新的数据结构-该数据结构类似于数组-但是和数组不同的一点就是-数组中可以有相同的成员-但是Set数据结构不允许数据成员有一样的-Set数据结构的成员都是唯一的"><span class="nav-number">1.</span> <span class="nav-text">1 Set数据结构,是ES6的新的数据结构,该数据结构类似于数组,但是和数组不同的一点就是,数组中可以有相同的成员,但是Set数据结构不允许数据成员有一样的,Set数据结构的成员都是唯一的.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Map数据结构-是ES6的新的数据结构-该数据结构类似于对象-也是键值对的集合-但是和对象不同的一点就是-对象中的中键名只能是字符串-但是Map数据结构的键名可以是任何数据类型-包括对象和数组"><span class="nav-number">2.</span> <span class="nav-text">2 Map数据结构,是ES6的新的数据结构,该数据结构类似于对象,也是键值对的集合,但是和对象不同的一点就是,对象中的中键名只能是字符串,但是Map数据结构的键名可以是任何数据类型,包括对象和数组</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiM-W</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
