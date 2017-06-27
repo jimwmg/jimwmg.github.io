@@ -270,6 +270,178 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/20/230fetch请求(promise的封装)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/20/230fetch请求(promise的封装)/" itemprop="url">
+                  fetch请求(promise的封装)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T12:36:00+08:00">
+                2017-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index">
+                    <span itemprop="name">ES6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-一般的fetch用法"><a href="#1-一般的fetch用法" class="headerlink" title="1 一般的fetch用法"></a>1 一般的fetch用法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">fetch(url,option).then(<span class="function"><span class="params">response</span>=&gt;</span>&#123;</div><div class="line">  <span class="comment">//handle HTTP response</span></div><div class="line">&#125;).then(<span class="function"><span class="params">error</span>=&gt;</span>&#123;</div><div class="line">  <span class="comment">//handle HTTP error</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>具体的栗子如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">fetch(url, &#123; <span class="comment">//option</span></div><div class="line">  method: <span class="string">"POST"</span>,</div><div class="line">  <span class="attr">body</span>: <span class="built_in">JSON</span>.stringify(data),</div><div class="line">  <span class="attr">headers</span>: &#123;</div><div class="line">    <span class="string">"Content-Type"</span>: <span class="string">"application/json"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">credentials</span>: <span class="string">"same-origin"</span></div><div class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</div><div class="line">  response.status     <span class="comment">//=&gt; number 100–599</span></div><div class="line">  response.statusText <span class="comment">//=&gt; String</span></div><div class="line">  response.headers    <span class="comment">//=&gt; Headers</span></div><div class="line">  response.url        <span class="comment">//=&gt; String</span></div><div class="line"></div><div class="line">  <span class="keyword">return</span> response.text()</div><div class="line">&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</div><div class="line">  error.message <span class="comment">//=&gt; String</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h2 id="2-参数解析"><a href="#2-参数解析" class="headerlink" title="2 参数解析"></a>2 参数解析</h2><h3 id="url-地址-‘-path’"><a href="#url-地址-‘-path’" class="headerlink" title="url 地址: ‘./path’"></a>url 地址: ‘./path’</h3><h3 id="option"><a href="#option" class="headerlink" title="option :"></a>option :</h3><ul>
+<li><code>method</code> (String) - HTTP request method. Default: <code>&quot;GET&quot;</code></li>
+<li><code>body</code> (String, <a href="https://github.github.io/fetch/#request-body" target="_blank" rel="external">body types</a>) - HTTP request body</li>
+<li><code>headers</code> (Object, <a href="https://github.github.io/fetch/#Headers" target="_blank" rel="external">Headers</a>) - Default: <code>{}</code></li>
+<li><code>credentials</code> (String) - Authentication credentials mode. Default: <code>&quot;omit&quot;``&quot;omit&quot;</code> - don’t include authentication credentials (e.g. cookies) in the request<code>&quot;same-origin&quot;</code> - include credentials in requests to the same site<code>&quot;include&quot;</code> - include credentials in requests to all sites</li>
+</ul>
+<h3 id="Response"><a href="#Response" class="headerlink" title="Response"></a>Response</h3><p>Response represents a HTTP response from the server. Typically a Response is not constructed manually, but is available as argument to the resolved promise callback.</p>
+<h4 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h4><ul>
+<li><code>status</code> (number) - HTTP response code in the 100–599 range</li>
+<li><code>statusText</code> (String) - Status text as reported by the server, e.g. “Unauthorized”</li>
+<li><code>ok</code> (boolean) - True if <code>status</code> is HTTP 2xx</li>
+<li><code>headers</code> (<a href="https://github.github.io/fetch/#Headers" target="_blank" rel="external">Headers</a>)</li>
+<li><code>url</code> (String)</li>
+</ul>
+<h4 id="Body-methods-注意每个方法返回的都是一个Promise对象"><a href="#Body-methods-注意每个方法返回的都是一个Promise对象" class="headerlink" title="Body methods 注意每个方法返回的都是一个Promise对象,"></a>Body methods 注意每个方法返回的都是一个Promise对象,</h4><p>Each of the methods to access the response body returns a Promise that will be resolved when the associated data type is ready.</p>
+<ul>
+<li><code>text()</code> - yields the response text as String</li>
+<li><code>json()</code> - <strong>yields the result of <code>JSON.parse(responseText)</code></strong></li>
+<li><code>blob()</code> - yields a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob" target="_blank" rel="external">Blob</a></li>
+<li><code>arrayBuffer()</code> - yields an <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" target="_blank" rel="external">ArrayBuffer</a></li>
+<li><code>formData()</code> - yields <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData" target="_blank" rel="external">FormData</a> that can be forwarded to another request</li>
+</ul>
+<h4 id="Other-response-methods"><a href="#Other-response-methods" class="headerlink" title="Other response methods"></a>Other response methods</h4><ul>
+<li><code>clone()</code></li>
+<li><code>Response.error()</code></li>
+<li><code>Response.redirect()</code></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/15/229ES6-Promise源码分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2140,191 +2312,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/16/219React-router/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/16/219React-router/" itemprop="url">
-                  React-router
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-16T12:36:00+08:00">
-                2017-05-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/react/" itemprop="url" rel="index">
-                    <span itemprop="name">react</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>以下是我结合官方文档的学习笔记,文末有官方文档的链接.</p>
-<h3 id="1-react-router中一个属性exact-的使用-默认是true-详见API文档解析"><a href="#1-react-router中一个属性exact-的使用-默认是true-详见API文档解析" class="headerlink" title="1 react-router中一个属性exact 的使用,默认是true,详见API文档解析"></a>1 react-router中一个属性<code>exact</code> 的使用,默认是true,详见API文档解析</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> BasicExample = <span class="function"><span class="params">()</span> =&gt;</span> (</div><div class="line">  &lt;Router&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">      &lt;ul&gt;</div><div class="line">        &lt;li&gt;&lt;Link to="/"&gt;Home&lt;/Link&gt;&lt;/li&gt;</div><div class="line">        &lt;li&gt;&lt;Link to="/about"&gt;About&lt;/Link&gt;&lt;/li&gt;</div><div class="line">        &lt;li&gt;&lt;Link to="/topics"&gt;Topics&lt;/Link&gt;&lt;/li&gt;</div><div class="line">      &lt;/ul&gt;</div><div class="line"></div><div class="line">      &lt;hr/&gt;</div><div class="line"></div><div class="line">      &lt;Route exact path="/" component=&#123;Home&#125;/&gt;</div><div class="line">      &lt;Route path="/about" component=&#123;About&#125;/&gt;</div><div class="line">      &lt;Route path="/topics" component=&#123;Topics&#125;/&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/Router&gt;</div><div class="line">)</div></pre></td></tr></table></figure>
-<p>如上,当 URL is <code>/about</code> <code>/</code>  <code>/about</code>两者都会render </p>
-<p>如下所示,当url是 <code>/repo</code> 的时候  Repo 和RepoTest两者也是都会渲染.当然也可以通过设置exact属性进行精确匹配.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;Router&gt;</div><div class="line">   &lt;div&gt;</div><div class="line">     &lt;ul&gt;</div><div class="line">       &lt;li&gt;</div><div class="line">         &lt;Link to=&apos;/about&apos;&gt;About&lt;/Link&gt;</div><div class="line">       &lt;/li&gt;</div><div class="line">       &lt;li&gt;</div><div class="line">         &lt;Link to=&apos;./repo&apos;&gt;Repo&lt;/Link&gt;</div><div class="line">       &lt;/li&gt;</div><div class="line">       &lt;li&gt;</div><div class="line">         &lt;Link to=&apos;./repo/test&apos;&gt;RepoTest&lt;/Link&gt;</div><div class="line">       &lt;/li&gt;</div><div class="line">     &lt;/ul&gt;</div><div class="line">     &lt;Route exact path=&apos;/&apos; render=&#123;()=&gt;(&lt;div&gt;Welcome&lt;/div&gt;)&#125;&gt;&lt;/Route&gt;</div><div class="line">     &lt;Route path=&apos;/repo&apos; component=&#123;Repo&#125;&gt; &lt;/Route&gt;</div><div class="line">     &lt;Route path=&apos;/repo/test&apos; component=&#123;RepoTest&#125;&gt;&lt;/Route&gt;</div><div class="line">   </div><div class="line">   &lt;/div&gt;</div><div class="line"> &lt;/Router&gt;</div></pre></td></tr></table></figure>
-<h3 id="2-match对象"><a href="#2-match对象" class="headerlink" title="2 match对象"></a>2 match对象</h3><p>其中path属性值就是Route组件的path属性值,url是根据地址栏动态解析的,params是解析URL地址的时候params对象</p>
-<p>match对象是实时生成的,当url地址不同 的时候,match对象也会跟着变化,大家可以多点击几次,看下math对象所有的属性是什么值.</p>
-<p>当url地址栏匹配到Route对应的路径的时候,组件中的match对象才存在,否则为null </p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  BrowserRouter <span class="keyword">as</span> Router,</div><div class="line">  Route,</div><div class="line">  Link</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> CustomLinkExample = <span class="function"><span class="params">()</span> =&gt;</span> (</div><div class="line">  &lt;Router&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">      &lt;OldSchoolMenuLink activeOnlyWhenExact=&#123;true&#125; to="/" label="Home"/&gt;</div><div class="line">      &lt;OldSchoolMenuLink to="/about" label="About"/&gt;</div><div class="line">      &lt;hr/&gt;</div><div class="line">      &lt;Route exact path="/" component=&#123;Home&#125;/&gt;</div><div class="line">      &lt;Route path="/about" component=&#123;About&#125;/&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/Router&gt;</div><div class="line">)</div><div class="line"></div><div class="line">const OldSchoolMenuLink = (&#123; label, to, activeOnlyWhenExact &#125;) =&gt; (</div><div class="line">  &lt;Route path=&#123;to&#125; exact=&#123;activeOnlyWhenExact&#125; children=&#123;(&#123; match &#125;) =&gt; &#123;</div><div class="line">    console.log(match);//对于官网的demo做了如下改动,当url路径为 / 的时候,第一个OldSchoolMenuLink组件返回的Route对象children函数中match对象存在,而第二个OldSchoolMenuLink组件返回的Route组件中的children函数中却没有match对象,为null </div><div class="line">    return (&lt;div className=&#123;match ? 'active' : ''&#125;&gt;</div><div class="line">      &#123;match ? '&gt; ' : ''&#125;&lt;Link to=&#123;to&#125;&gt;&#123;label&#125;&lt;/Link&gt;</div><div class="line">    &lt;/div&gt;)</div><div class="line">  &#125;</div><div class="line">    </div><div class="line">  &#125;/&gt;</div><div class="line">)</div><div class="line"></div><div class="line">const Home = () =&gt; (</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;h2&gt;Home&lt;/h2&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">)</div><div class="line"></div><div class="line">const About = () =&gt; (</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;h2&gt;About&lt;/h2&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">)</div><div class="line"></div><div class="line">export default CustomLinkExample</div></pre></td></tr></table></figure>
-<p>A <code>match</code> object contains information about how a <code>&lt;Route path&gt;</code> matched the URL. <code>match</code> objects contain the following properties:</p>
-<ul>
-<li><code>params</code> - (object) Key/value pairs parsed from the URL corresponding to the dynamic segments of the path<ul>
-<li>key值是  <code>:id</code> 之类的变量名  value 是即时匹配到的路径<strong>字符串</strong></li>
-</ul>
-</li>
-<li><code>isExact</code> - (boolean) <code>true</code> if the entire URL was matched (no trailing characters)</li>
-<li><code>path</code> - (string) The path pattern used to match. Useful for building nested <code>&lt;Route&gt;</code>s</li>
-<li><code>url</code> - (string) The matched portion of the URL. Useful for building nested <code>&lt;Link&gt;</code>s</li>
-</ul>
-<p>You’ll have access <code>match</code> objects in various places:</p>
-<ul>
-<li><a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/Route.md#component" target="_blank" rel="external">Route component</a> as <code>this.props.match</code></li>
-<li><a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/Route.md#render-func" target="_blank" rel="external">Route render</a> as <code>({ match }) =&gt; ()</code></li>
-<li><a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/Route.md#children-func" target="_blank" rel="external">Route children</a> as <code>({ match }) =&gt; ()</code></li>
-<li><a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/withRouter.md" target="_blank" rel="external">withRouter</a> as <code>this.props.match</code></li>
-<li><a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/matchPath.md" target="_blank" rel="external">matchPath</a> as the return value</li>
-</ul>
-<p>If a Route does not have a <code>path</code>, and therefore always matches, you’ll get the closest parent match. Same goes for <code>withRouter</code>.</p>
-<p><code>Route</code>组件要渲染的组件component,通过Router可以向该组件传递match对象;对于官网的demo我做了一些改动,方便理解</p>
-<p>通过点击不同的链接,观察地址栏和控制台的输出,应该可以有一个基础的认识.</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  BrowserRouter <span class="keyword">as</span> Router,</div><div class="line">  Route,</div><div class="line">  Link</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(Route);</div><div class="line"><span class="built_in">console</span>.log(<span class="xml"><span class="tag">&lt;<span class="name">Route</span>/&gt;</span></span>);</div><div class="line"></div><div class="line"><span class="keyword">const</span> Home = <span class="function"><span class="params">()</span>=&gt;</span>(</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>this is my Home<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">const</span> About = <span class="function"><span class="params">()</span>=&gt;</span>(</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>this is about handsome me<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment">// const Topics = ()=&gt;(</span></div><div class="line"><span class="comment">//   &lt;div&gt;</span></div><div class="line"><span class="comment">//     &lt;h2&gt;this is all Topics&lt;/h2&gt;</span></div><div class="line">  </div><div class="line"><span class="comment">//   &lt;/div&gt;</span></div><div class="line"><span class="comment">// )</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> Topic = <span class="function">(<span class="params">&#123; match &#125;</span>) =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Topic'</span>,match);<span class="comment">//改动1 </span></div><div class="line">  <span class="keyword">return</span> (</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><div class="line">     <span class="tag">&lt;<span class="name">h3</span>&gt;</span>&#123;match.params.topicId&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  )</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">const</span> Topics = <span class="function">(<span class="params">&#123;match&#125;</span>)=&gt;</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Topics'</span>,match);<span class="comment">//改动2 </span></div><div class="line">  <span class="keyword">return</span> (</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><div class="line">      <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Topics<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span> &gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">&#123;</span>`$&#123;<span class="attr">match.url</span>&#125;/<span class="attr">rendering</span>`&#125;&gt;</span>Rendering with React<span class="tag">&lt;/<span class="name">Link</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">&#123;</span>`$&#123;<span class="attr">match.url</span>&#125;/<span class="attr">components</span>`&#125;&gt;</span>Components<span class="tag">&lt;/<span class="name">Link</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">&#123;</span>`$&#123;<span class="attr">match.url</span>&#125;/<span class="attr">porps</span>`&#125;&gt;</span>props<span class="tag">&lt;/<span class="name">Link</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&#123;</span>`$&#123;<span class="attr">match.url</span>&#125;/<span class="attr">:topicId</span>`&#125; <span class="attr">component</span>=<span class="string">&#123;Topic&#125;</span>&gt;</span><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">Route</span> <span class="attr">exact</span> <span class="attr">path</span>=<span class="string">&#123;match.url&#125;</span> <span class="attr">render</span>=<span class="string">&#123;()</span>=&gt;</span>(<span class="tag">&lt;<span class="name">h3</span>&gt;</span>please select a topic<span class="tag">&lt;/<span class="name">h3</span>&gt;</span>)&#125;&gt;<span class="tag">&lt;/<span class="name">Route</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  )</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> BasicExample = <span class="function"><span class="params">()</span>=&gt;</span>(</div><div class="line"> &lt;Router&gt;</div><div class="line">   &lt;div&gt; </div><div class="line">    &lt;ul&gt;</div><div class="line">      &lt;li&gt;</div><div class="line">        &lt;Link to='/'&gt;Home&lt;/Link&gt;</div><div class="line">      &lt;/li&gt;</div><div class="line">      &lt;li&gt;</div><div class="line">        &lt;Link to='/about'&gt;About&lt;/Link&gt;</div><div class="line">      &lt;/li&gt;</div><div class="line">      &lt;li&gt;</div><div class="line">        &lt;Link to='/topics'&gt;Topics&lt;/Link&gt;</div><div class="line">      &lt;/li&gt;</div><div class="line"></div><div class="line">      &lt;hr/&gt;</div><div class="line"></div><div class="line">      &lt;Route path='/' component=&#123;Home&#125;/&gt;</div><div class="line">      &lt;Route path='/about' component=&#123;About&#125;/&gt;</div><div class="line">      &lt;Route path='/topics' component=&#123;Topics&#125;/&gt;</div><div class="line">    &lt;/ul&gt;</div><div class="line">  </div><div class="line">  &lt;/div&gt;</div><div class="line"> </div><div class="line"> &lt;/Router&gt;</div><div class="line">)</div><div class="line"></div><div class="line">export default BasicExample</div></pre></td></tr></table></figure>
-<h3 id="3-Router中的组件的props对象"><a href="#3-Router中的组件的props对象" class="headerlink" title="3 Router中的组件的props对象"></a>3 Router中的组件的props对象</h3><p>一般情况下,我们的组件的props属性直接通过定义可以取到,如下所示,可以通过props获取name属性的值</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(props)</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello &#123;props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></div><div class="line">&#125;</div><div class="line">&lt;Welcome name = <span class="string">'Jhon'</span>/&gt;</div></pre></td></tr></table></figure>
-<p>当一个组件作为Route的component属性的值的时候,此时组件中的属性会多了location  history match这三个对象</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> &#123;</div><div class="line">  BrowserRouter <span class="keyword">as</span> Router,</div><div class="line">  Route,</div><div class="line">  Link</div><div class="line">&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> ParamsExample = <span class="function"><span class="params">()</span> =&gt;</span> (</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">Router</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Accounts<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">"/netflix"</span>&gt;</span>Netflix<span class="tag">&lt;/<span class="name">Link</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">"/zillow-group"</span>&gt;</span>Zillow Group<span class="tag">&lt;/<span class="name">Link</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">"/yahoo"</span>&gt;</span>Yahoo<span class="tag">&lt;/<span class="name">Link</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">"/modus-create"</span>&gt;</span>Modus Create<span class="tag">&lt;/<span class="name">Link</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"></div><div class="line">      <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">"/:id"</span> <span class="attr">component</span>=<span class="string">&#123;Child&#125;/</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">Router</span>&gt;</span></div><div class="line">)</div><div class="line">//改动官网的demo,便于理解</div><div class="line">const Child = (props) =&gt; &#123;</div><div class="line">  console.log(props);//此时props对象包括 &#123;location ,match,history&#125;</div><div class="line">  return (</div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">h3</span>&gt;</span>ID: &#123;props.match.params.id&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">     <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  )</div><div class="line">  </div><div class="line">&#125;</div><div class="line">export default ParamsExample</div></pre></td></tr></table></figure>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//官方源代码如下,两者达到的效果是一样的</span></div><div class="line"><span class="keyword">const</span> Child = <span class="function">(<span class="params">&#123; match &#125;</span>) =&gt;</span> (</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>ID: &#123;match.params.id&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">)</div><div class="line"><span class="comment">//这里用到了ES6中对象的解构赋值</span></div></pre></td></tr></table></figure>
-<h3 id="3-withRouter-Redict"><a href="#3-withRouter-Redict" class="headerlink" title="3 withRouter Redict"></a>3 withRouter Redict</h3><p>对象的解构赋值,前面仅仅是一个标记,后面才是变量</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="keyword">var</span> name = <span class="string">'Jhon'</span></div><div class="line">  <span class="keyword">const</span> &#123;<span class="attr">com</span>:COM&#125; = &#123;<span class="attr">com</span>:name&#125; ;</div><div class="line">  <span class="built_in">console</span>.log(COM);<span class="comment">//Jhon</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>源码如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> withRouter = <span class="function"><span class="keyword">function</span> <span class="title">withRouter</span>(<span class="params">Component</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> C = <span class="function"><span class="keyword">function</span> <span class="title">C</span>(<span class="params">props</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> wrappedComponentRef = props.wrappedComponentRef,</div><div class="line">        remainingProps = _objectWithoutProperties(props, [<span class="string">'wrappedComponentRef'</span>]);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> _react2.default.createElement(_Route2.default, &#123; <span class="attr">render</span>: <span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params">routeComponentProps</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> _react2.default.createElement(Component, _extends(&#123;&#125;, remainingProps, routeComponentProps, &#123; <span class="attr">ref</span>: wrappedComponentRef &#125;));</div><div class="line">      &#125; &#125;);</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  C.displayName = <span class="string">'withRouter('</span> + (Component.displayName || Component.name) + <span class="string">')'</span>;</div><div class="line">  C.WrappedComponent = Component;</div><div class="line">  C.propTypes = &#123;</div><div class="line">    <span class="attr">wrappedComponentRef</span>: _propTypes2.default.func</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> (<span class="number">0</span>, _hoistNonReactStatics2.default)(C, Component);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">exports.default = withRouter;</div></pre></td></tr></table></figure>
-<p>学习了这么几天,我算是明白了.自己还是原来的自己,这么多年来一直没变.遇到问题总是刚正面,有时候确实很浪费时间和精力,其实有时候多看一些,多了解一些再去正面硬刚这些源码和问题,可能效率会更高.</p>
-<p><a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/Route.md" target="_blank" rel="external">react-routerAPI文档解析</a></p>
-<p><a href="https://reacttraining.com/react-router/web/example/basic" target="_blank" rel="external">官方文档</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2374,7 +2361,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">194</span>
+                <span class="site-state-item-count">195</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2396,7 +2383,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">90</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -270,6 +270,179 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/10/43-jQuery核心及源码分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiM-W">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiM-W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/10/43-jQuery核心及源码分析/" itemprop="url">
+                  jQuery核心
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-10T12:36:00+08:00">
+                2016-07-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/jQuery/" itemprop="url" rel="index">
+                    <span itemprop="name">jQuery</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>jQuery核心</p>
+<p>一 对象访问</p>
+<p>1 each(callback)方法：定义 $(“selector”).each(callback),为每一个匹配到的元素作为<strong>上下文</strong> 执行callback函数；</p>
+<ul>
+<li>首先这是一个循环，会给所有匹配到的DOM元素执行callback函数；</li>
+<li>每次执行传递进来的callback函数的时候， 函数中的this关键字都指向不同的元素(注意this指的是DOM对象，而不是jquery对象，$(this)可以返回jquery对象)</li>
+<li>每次执行函数的时候，都会给函数传递一个当前执行函数的元素在所有匹配到的元素集合中的所处位置作为参数(从0开始的整形)</li>
+<li>如果callback中   return:false ,将停止循环；返回 true 将继续执行循环函数</li>
+</ul>
+<p>2 get(index)方法，将匹配到的jquery对象作为DOM对象返回：定义 $(“selector”).get(index),可以返回第几个DOM元素</p>
+<ul>
+<li>如果不传参数  $(“selector”).get(),那么将返回所有匹配到的DOM元素集合；</li>
+<li>如果传递参数 $(“selector”).get(n)那么将返回匹配到的第n个DOM元素；</li>
+</ul>
+<p>3 length属性和size()方法  $(“selector”).length  ,\$(“selector”).size()  将返回匹配到的所DOM元素的个数；</p>
+<p>4 context属性和selector属性 $(“selector”).context 返回DOM元素被选中的上下文  ，\$(“selector”).selector  返回选择器；</p>
+<p>5 $(‘selector’).index() :如果不传参数，那么返回匹配元素在其同辈元素中的位置</p>
+<p>二 核心函数 </p>
+<p>1 jQuery(“selector”,[context])  :选择器  在context中查找元素 ，不仅仅可以匹配到页面中的DOM元素，还可以匹配到script等，如下栗子</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">id</span>=<span class="string">"jq"</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.2.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"> code here </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">$("#jq"):获取唯一id的script (第一个)   $("script") :获取页面中所有的script,此语境下可以获取两个;返回的同样是jQuery对象那个，然后也可以用jQuery的方法。</div></pre></td></tr></table></figure>
+<p>2 jQuery(html) :可以创建元素  $(“</p><p>通过jquery动态创建元素</p>“);<p></p>
+<p>3 jQuery(function(){  }) :文档就绪执行函数</p>
+<p>4 $(“button”).click(function () { $(“div”).each(function (index, domEle) {   // domEle == this   $(domEle).css(“backgroundColor”, “yellow”);    if ($(this).is(“#stop”)) {   $(“span”).text(“Stopped at div index #” + index);   return false;   } });});</p>
+<p>三 : each(callback) 函数的每次循环都会向函数传入一个index元素位置参数的理解:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">        <span class="selector-tag">div</span>&#123;</div><div class="line">            <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#000</span>;</div><div class="line">            <span class="attribute">height</span>: <span class="number">50px</span>;</div><div class="line">            <span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">            <span class="attribute">margin</span>: <span class="number">0</span> auto;</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span>Change colors<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"stop"</span>&gt;</span>Stop here<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery-1.12.2.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        $(<span class="string">"button"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">           $(<span class="string">"div"</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params">index,DOM</span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">                <span class="built_in">console</span>.log(index+DOM);</div><div class="line">           &#125;)</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>each(callback)中的回调函数中有两个参数，一个是 代表元素当前位置的整形数值，从0开始；一个是当前的DOM元素。(注意不是jQuery对象)</p>
+<p>四     <strong>$</strong>   或者  <strong>jQuery</strong>  (注意不是jquery)  是顶级对象.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">console.log($)  console.log(jQuery)  结果是一样的;</div></pre></td></tr></table></figure>
+<p>注意区分 $.each(obj,callbakc)需要传入两个参数，一个对象，一个函数;\$(“selector”).each(callback),只需要传入一个函数即可; callback函数中也会传入两个参数，第一个是当前元素的索引位置(从0开始计)，第二个是当前DOM元素。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log($.each);<span class="comment">//结果如下</span></div><div class="line">each: <span class="function"><span class="keyword">function</span>(<span class="params"> obj, callback </span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> length, i = <span class="number">0</span>;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> ( isArrayLike( obj ) ) &#123;</div><div class="line">    length = obj.length;</div><div class="line">    <span class="keyword">for</span> ( ; i &lt; length; i++ ) &#123;</div><div class="line">      <span class="keyword">if</span> ( callback.call( obj[ i ], i, obj[ i ] ) === <span class="literal">false</span> ) &#123;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">for</span> ( i <span class="keyword">in</span> obj ) &#123;</div><div class="line">      <span class="keyword">if</span> ( callback.call( obj[ i ], i, obj[ i ] ) === <span class="literal">false</span> ) &#123;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log($(<span class="string">"selector"</span>).each) <span class="comment">//结果如下</span></div><div class="line">each: <span class="function"><span class="keyword">function</span>(<span class="params"> callback </span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> jQuery.each( <span class="keyword">this</span>, callback );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/08/14-HTML5的全屏API拖拽API/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1738,166 +1911,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/08/48-less程序化编译CSS/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JiM-W">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JiM-W">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/08/48-less程序化编译CSS/" itemprop="url">
-                  less
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-08T12:36:00+08:00">
-                2016-06-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/less/" itemprop="url" rel="index">
-                    <span itemprop="name">less</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="less程序化编译CSS"><a href="#less程序化编译CSS" class="headerlink" title="less程序化编译CSS"></a>less程序化编译CSS</h2><h3 id="1-语法-定义变量，LESS-允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。"><a href="#1-语法-定义变量，LESS-允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。" class="headerlink" title="1 语法:定义变量，LESS 允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。"></a>1 语法:定义变量，LESS 允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*语法：@变量名: 值*/</span></div><div class="line"><span class="variable">@mainColor :</span> red ;</div><div class="line"><span class="selector-tag">div</span> &#123;</div><div class="line">   <span class="attribute">color</span>:<span class="variable">@mainColor</span> ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="2-Mixin-混入-功能对用开发者来说并不陌生，很多动态语言都支持-Mixin（混入）特性，它是多重继承的一种实现，在-LESS-中，混入是指在一个-CLASS-中引入另外一个已经定义的-CLASS，就像在当前-CLASS-中增加一个属性一样。"><a href="#2-Mixin-混入-功能对用开发者来说并不陌生，很多动态语言都支持-Mixin（混入）特性，它是多重继承的一种实现，在-LESS-中，混入是指在一个-CLASS-中引入另外一个已经定义的-CLASS，就像在当前-CLASS-中增加一个属性一样。" class="headerlink" title="2 Mixin 混入:功能对用开发者来说并不陌生，很多动态语言都支持 Mixin（混入）特性，它是多重继承的一种实现，在 LESS 中，混入是指在一个 CLASS 中引入另外一个已经定义的 CLASS，就像在当前 CLASS 中增加一个属性一样。"></a>2 Mixin 混入:功能对用开发者来说并不陌生，很多动态语言都支持 Mixin（混入）特性，它是多重继承的一种实现，在 LESS 中，混入是指在一个 CLASS 中引入另外一个已经定义的 CLASS，就像在当前 CLASS 中增加一个属性一样。</h3><ul>
-<li>样式混入</li>
-</ul>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.red</span> &#123;</div><div class="line">  	<span class="attribute">color </span>: red ;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.border</span> &#123;</div><div class="line">  	<span class="attribute">border</span>:<span class="number">2px</span> solid <span class="number">#000</span> ;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.mixin-class</span> &#123;</div><div class="line">  	<span class="selector-class">.red</span>();</div><div class="line">  	<span class="selector-class">.border</span>();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>函数混入(变量必须要有默认值:如果后面的代码用到了该变量，否则会提示undefined)</li>
-</ul>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.red</span>(<span class="variable">@color</span>:red)&#123;</div><div class="line">  	<span class="attribute">color </span>: <span class="variable">@color</span> ;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.border</span>(<span class="variable">@color</span>:<span class="number">#ccc</span>,<span class="variable">@width</span>:<span class="number">3px</span>)&#123;</div><div class="line">  	<span class="attribute">border </span>: <span class="variable">@width</span> solid <span class="variable">@color</span> ;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.mixin-func</span> &#123;</div><div class="line">  	<span class="selector-class">.red</span>(skyblue);</div><div class="line">  	<span class="selector-class">.border</span>(<span class="number">#666</span>,<span class="number">10px</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="3-嵌套-在我们书写标准-CSS-的时候，遇到多层的元素嵌套这种情况时，我们要么采用从外到内的选择器嵌套定义，要么采用给特定元素加-CLASS-或-ID-的方式”"><a href="#3-嵌套-在我们书写标准-CSS-的时候，遇到多层的元素嵌套这种情况时，我们要么采用从外到内的选择器嵌套定义，要么采用给特定元素加-CLASS-或-ID-的方式”" class="headerlink" title="3 嵌套:在我们书写标准 CSS 的时候，遇到多层的元素嵌套这种情况时，我们要么采用从外到内的选择器嵌套定义，要么采用给特定元素加 CLASS 或 ID 的方式”"></a>3 嵌套:在我们书写标准 CSS 的时候，遇到多层的元素嵌套这种情况时，我们要么采用从外到内的选择器嵌套定义，要么采用给特定元素加 CLASS 或 ID 的方式”</h3><p>比如以下这段html的嵌套书写</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"column"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">""</span>/&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"column"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">""</span>/&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"column"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">""</span>/&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>css样式如下:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">1000px</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">80px</span>;</div><div class="line">  	<span class="attribute">position</span>:relative;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span> &#123;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span>&gt;<span class="selector-class">.column</span> &#123;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">33.333%</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">  	<span class="attribute">border</span>:<span class="number">2px</span> solid <span class="number">#000</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">/*后代选择器*/</span></div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span>&gt;<span class="selector-class">.column</span> <span class="selector-tag">h3</span> &#123;</div><div class="line">  	<span class="attribute">margin</span>:<span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span>&gt;<span class="selector-class">.column</span> <span class="selector-tag">a</span> &#123;</div><div class="line">  	<span class="attribute">dispaly</span>:block;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">  	<span class="attribute">text-decoration</span>:none;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.container</span>&gt;<span class="selector-class">.row</span>&gt;<span class="selector-class">.column</span> <span class="selector-tag">a</span> : <span class="selector-tag">hover</span> &#123;</div><div class="line">  	<span class="attribute">color</span>:<span class="number">#dddddd</span>;</div><div class="line">  	<span class="attribute">background-color</span>:<span class="number">#ccc</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>less编译如下(注意伪类需要加  &amp;:伪类 )</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span> &#123;</div><div class="line">  	<span class="attribute">width</span>:<span class="number">1000px</span>;</div><div class="line">  	<span class="attribute">height</span>:<span class="number">80px</span>;</div><div class="line">  	<span class="attribute">position</span>:relative;</div><div class="line">  	<span class="selector-class">.row</span> &#123;</div><div class="line">      	<span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">  		<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">    	<span class="selector-class">.column</span> &#123;</div><div class="line">             <span class="attribute">width</span>:<span class="number">33.333%</span>;</div><div class="line">  			<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">  			<span class="attribute">border</span>:<span class="number">2px</span> solid <span class="number">#000</span>;</div><div class="line">      		<span class="selector-tag">h3</span> &#123;</div><div class="line">              	<span class="attribute">margin</span>:<span class="number">0</span>;</div><div class="line">  			&#125;</div><div class="line">      		<span class="selector-tag">a</span> &#123;</div><div class="line">              	 <span class="attribute">dispaly</span>:block;</div><div class="line">  				<span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">  				<span class="attribute">height</span>:<span class="number">100%</span>;</div><div class="line">  				<span class="attribute">text-decoration</span>:none;</div><div class="line">      		&#125;</div><div class="line">      <span class="comment">/*&amp;:伪类*/</span></div><div class="line">      		<span class="selector-tag">&amp;</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">              	 <span class="attribute">color</span>:<span class="number">#dddddd</span>;</div><div class="line">  				<span class="attribute">background-color</span>:<span class="number">#ccc</span>;</div><div class="line">      		&#125;</div><div class="line">  		&#125;</div><div class="line">  	&#125;			</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>注意伪类选择符：E:hover  E : link  E :first-child </p>
-<h3 id="4-Import导入-可以使我们的样式编译模块化-这个思想很重呀，模块化的编程会使我们的维护特别简单。"><a href="#4-Import导入-可以使我们的样式编译模块化-这个思想很重呀，模块化的编程会使我们的维护特别简单。" class="headerlink" title="4 Import导入:可以使我们的样式编译模块化,这个思想很重呀，模块化的编程会使我们的维护特别简单。"></a>4 Import导入:可以使我们的样式编译模块化,这个思想很重呀，模块化的编程会使我们的维护特别简单。</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@import</span> <span class="string">"lessFileName"</span>;</div></pre></td></tr></table></figure>
-<h3 id="5-Less-cmd命令符"><a href="#5-Less-cmd命令符" class="headerlink" title="5 Less  cmd命令符"></a>5 Less  cmd命令符</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lessc -v :查看less文件的版本;</div></pre></td></tr></table></figure>
-<h3 id="6-在less文件中，-注释同样可以在css中出现，而-注释只会在less中出现，不会再编译的css中出现。"><a href="#6-在less文件中，-注释同样可以在css中出现，而-注释只会在less中出现，不会再编译的css中出现。" class="headerlink" title="6 在less文件中，/**/  注释同样可以在css中出现，而 //  注释只会在less中出现，不会再编译的css中出现。"></a>6 在less文件中，/**/  注释同样可以在css中出现，而 //  注释只会在less中出现，不会再编译的css中出现。</h3>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/08/15-javascript 常用API总结：/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2169,7 +2182,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">194</span>
+                <span class="site-state-item-count">195</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2191,7 +2204,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">90</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
